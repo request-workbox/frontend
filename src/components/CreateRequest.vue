@@ -79,7 +79,6 @@ export default {
     display: flex;
     flex-direction: column;
     height: 50%;
-    margin: 15px 5px 15px 15px;
     padding: 5px;
     width: 10%;
     background: rgba(29, 30, 33, 1);

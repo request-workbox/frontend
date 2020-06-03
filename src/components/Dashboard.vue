@@ -1,20 +1,20 @@
 <template>
   <div id="container">
     <CreateRequest />
-    <EditRequest />
+    <CreateRequestBeta />
   </div>
   
 </template>
 
 <script>
 import CreateRequest from './CreateRequest'
-import EditRequest from './EditRequest'
+import CreateRequestBeta from './CreateRequestBeta'
 
 export default {
   name: 'Dashboard',
   components: {
     CreateRequest,
-    EditRequest,
+    CreateRequestBeta
   }
 }
 </script>
