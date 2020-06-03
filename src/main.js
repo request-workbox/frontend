@@ -21,7 +21,7 @@ import attachCognitoModule from '@vuetify/vuex-cognito-module'
 /**
  * Install vue-router
  * **/
-import CreateRequest from './components/CreateRequest'
+import Dashboard from './components/Dashboard'
 Vue.use(VueRouter)
 const router = new VueRouter({
   mode: 'history',
@@ -29,7 +29,7 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      component: CreateRequest,
+      component: Dashboard,
       props: true,
     },
   ],
