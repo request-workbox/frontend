@@ -1,20 +1,20 @@
 <template>
   <div id="container">
     <Request />
-    <WorkflowList />
+    <Workflow />
   </div>
   
 </template>
 
 <script>
 import Request from './Request'
-import WorkflowList from './WorkflowList'
+import Workflow from './Workflow'
 
 export default {
   name: 'Dashboard',
   components: {
     Request,
-    WorkflowList,
+    Workflow,
   }
 }
 </script>

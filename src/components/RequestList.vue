@@ -42,7 +42,7 @@
 
     <div class="paper paper-dark">
       <div class="create-button-container">
-        <div class="create-button">Create New</div>
+        <div class="create-button">Create Request</div>
       </div>
     </div>
   </div>
@@ -92,9 +92,9 @@
   margin: 10px 0;
 }
 .create-button {
-  background: #008d71;
+  background: #2261ef;
   font-weight: 600;
-  font-family: "Raleway", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 0.8em;
   color: white;
 
