@@ -1,13 +1,6 @@
 <template>
   <div id="template-container">
     <div class="paper paper-light">
-      <p class="label">Protocol</p>
-      <div class="button-group button-group-small">
-        <div class="button button-left button-active">HTTP</div>
-        <div class="button button-right">HTTPS</div>
-      </div>
-    </div>
-    <div class="paper paper-light">
       <p class="label">Method</p>
       <div class="button-group button-group-medium">
         <div class="button button-left">GET</div>
@@ -62,6 +55,11 @@
 }
 .paper-light {
   background: #137bf4;
+}
+.paper-grow {
+  flex-grow: 1;
+  overflow: auto;
+  white-space: nowrap;
 }
 
 .label {

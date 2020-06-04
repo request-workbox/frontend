@@ -3,6 +3,7 @@
     <RequestList />
     <RequestDetails />
     <RequestTemplate />
+    <RequestOptions />
   </div>
   
 </template>
@@ -11,6 +12,7 @@
 import RequestList from './RequestList'
 import RequestDetails from './RequestDetails'
 import RequestTemplate from './RequestTemplate'
+import RequestOptions from './RequestOptions'
 
 export default {
   name: 'Dashboard',
@@ -18,6 +20,7 @@ export default {
     RequestList,
     RequestDetails,
     RequestTemplate,
+    RequestOptions,
   }
 }
 </script>
