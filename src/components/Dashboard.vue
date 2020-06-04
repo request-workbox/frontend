@@ -1,26 +1,20 @@
 <template>
   <div id="container">
-    <RequestList />
-    <RequestDetails />
-    <RequestTemplate />
-    <RequestOptions />
+    <Request />
+    <WorkflowList />
   </div>
   
 </template>
 
 <script>
-import RequestList from './RequestList'
-import RequestDetails from './RequestDetails'
-import RequestTemplate from './RequestTemplate'
-import RequestOptions from './RequestOptions'
+import Request from './Request'
+import WorkflowList from './WorkflowList'
 
 export default {
   name: 'Dashboard',
   components: {
-    RequestList,
-    RequestDetails,
-    RequestTemplate,
-    RequestOptions,
+    Request,
+    WorkflowList,
   }
 }
 </script>
@@ -33,6 +27,7 @@ export default {
     right: 0;
     position: absolute;
     display: flex;
+    flex-direction: column;
     background: rgba(29, 30, 33, 1);
 }
 </style>
