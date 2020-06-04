@@ -3,8 +3,6 @@
     <div class="paper paper-dark">
       <p class="label">Request title</p>
       <input type="text" class="request-title" />
-
-      
     </div>
 
     <div class="paper paper-dark">

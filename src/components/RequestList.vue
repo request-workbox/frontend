@@ -159,7 +159,7 @@
   padding: 6px 0 0 10px;
   margin: 0;
   text-transform: uppercase;
-  color: white;
+  color: #99cffe;
 }
 .detail-footer-text {
   font-weight: 600;

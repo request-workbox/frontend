@@ -2,6 +2,7 @@
   <div id="container">
     <RequestList />
     <RequestDetails />
+    <RequestTemplate />
   </div>
   
 </template>
@@ -9,12 +10,14 @@
 <script>
 import RequestList from './RequestList'
 import RequestDetails from './RequestDetails'
+import RequestTemplate from './RequestTemplate'
 
 export default {
   name: 'Dashboard',
   components: {
     RequestList,
     RequestDetails,
+    RequestTemplate,
   }
 }
 </script>
