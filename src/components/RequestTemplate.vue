@@ -26,8 +26,9 @@
         <div class="button button-window">Body</div>
       </div>
       <div class="input-group">
+        <input type="checkbox" class="">
         <input type="text" class="input input-window input-window-selected" placeholder="Key">
-       <input type="text" class="input input-window input-window-selected" placeholder="Context">
+       <input type="text" class="input input-window input-window-selected" placeholder="Value/Fallback">
       </div>
     </div>
   </div>
@@ -122,12 +123,6 @@
 
   cursor: pointer;
 }
-.input-rount-bottom-left {
-  border-radius: 0 0 0 4px;
-}
-.input-rount-bottom-right {
-  border-radius: 0 0 4px 0;
-}
 .button-active {
   background: #4caf50;
   color: white;
@@ -154,6 +149,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  background:#fbc94c;
 }
 .input {
   color: #888888;
@@ -162,8 +158,6 @@
   font-family: "Roboto", sans-serif;
   font-size: 0.65em;
 
-  text-transform: uppercase;
-
   background: #050023;
 
   width: 100%;
@@ -171,8 +165,6 @@
   text-align: left;
 
   padding: 3px 3px;
-
-  cursor: pointer;
 
   border-width: 1px;
   border-style: solid;

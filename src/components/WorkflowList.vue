@@ -3,12 +3,12 @@
       <div class="paper paper-light">
       <div class="detail-header">
         <p class="detail-header-text">Workflow</p>
-        <p class="detail-header-text detail-header-detail">Chain requests</p>
+        <p class="detail-header-text detail-header-detail">Chain tasks</p>
       </div>
     </div>
 
     <div class="paper paper-dark">
-      <p class="detail-header-text">Requests</p>
+      <p class="detail-header-text">Workflows</p>
     </div>
 
     <div class="paper paper-dark paper-grow">
@@ -150,11 +150,11 @@
   margin: 10px 0;
 }
 .create-button {
-  background: #2261ef;
+  background: #b3daff;
   font-weight: 600;
   font-family: "Roboto", sans-serif;
   font-size: 0.8em;
-  color: white;
+  color: #000000;
 
   width: 80%;
   padding: 5px;

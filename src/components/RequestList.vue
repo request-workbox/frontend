@@ -92,11 +92,11 @@
   margin: 10px 0;
 }
 .create-button {
-  background: #2261ef;
+  background: #b3daff;
   font-weight: 600;
   font-family: "Roboto", sans-serif;
   font-size: 0.8em;
-  color: white;
+  color: #000000;
 
   width: 80%;
   padding: 5px;

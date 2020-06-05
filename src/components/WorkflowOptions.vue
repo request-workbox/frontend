@@ -12,7 +12,7 @@
      <div class="paper paper-dark">
       <p class="label">Task Timeout</p>
       <input type="text" class="input-timeout" />
-      <p class="label">Repeat Task Per Result Path</p>
+      <p class="label">Repeat Task Per Task Path</p>
       <input type="text" class="input-timeout" />
     </div>
 
