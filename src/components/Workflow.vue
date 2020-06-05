@@ -15,7 +15,7 @@ import WorkflowContext from './WorkflowContext'
 import WorkflowDetails from './WorkflowDetails'
 
 export default {
-  name: 'Request',
+  name: 'Workflow',
   components: {
     WorkflowList,
     WorkflowOptions,

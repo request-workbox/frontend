@@ -2,6 +2,7 @@
   <div id="container">
     <Request />
     <Workflow />
+    <Instance />
   </div>
   
 </template>
@@ -9,12 +10,14 @@
 <script>
 import Request from './Request'
 import Workflow from './Workflow'
+import Instance from './Instance'
 
 export default {
   name: 'Dashboard',
   components: {
     Request,
     Workflow,
+    Instance,
   }
 }
 </script>
@@ -22,9 +25,9 @@ export default {
 <style lang="scss">
 #container {
     top: 0;
-    bottom:0;
     left: 0;
     right: 0;
+    height: auto;
     position: absolute;
     display: flex;
     flex-direction: column;
