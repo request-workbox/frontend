@@ -3,6 +3,7 @@
     <WorkflowList />
     <WorkflowOptions />
     <WorkflowContext />
+    <WorkflowDetails />
   </div>
   
 </template>
@@ -11,6 +12,7 @@
 import WorkflowList from './WorkflowList'
 import WorkflowOptions from './WorkflowOptions'
 import WorkflowContext from './WorkflowContext'
+import WorkflowDetails from './WorkflowDetails'
 
 export default {
   name: 'Request',
@@ -18,6 +20,7 @@ export default {
     WorkflowList,
     WorkflowOptions,
     WorkflowContext,
+    WorkflowDetails,
   }
 }
 </script>
