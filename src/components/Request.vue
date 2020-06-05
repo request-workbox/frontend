@@ -1,6 +1,5 @@
 <template>
   <div id="request-container">
-    <RequestList />
     <RequestDetails />
     <RequestTemplate />
     <RequestOptions />
@@ -9,7 +8,6 @@
 </template>
 
 <script>
-import RequestList from './RequestList'
 import RequestDetails from './RequestDetails'
 import RequestTemplate from './RequestTemplate'
 import RequestOptions from './RequestOptions'
@@ -17,7 +15,6 @@ import RequestOptions from './RequestOptions'
 export default {
   name: 'Request',
   components: {
-    RequestList,
     RequestDetails,
     RequestTemplate,
     RequestOptions,
