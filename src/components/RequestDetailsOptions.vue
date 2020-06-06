@@ -1,5 +1,5 @@
 <template>
-  <div id="options-container">
+  <div id="requestoptionssettings-container">
     <div class="paper paper-light">
       <p class="label">Permissions</p>
       <p class="label label-dark">Request Accessible By</p>
@@ -79,12 +79,11 @@
 </template>
 
 <style lang="scss" scoped>
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&family=Roboto:wght@400;500&display=swap");
-
-#options-container {
+#requestoptionssettings-container {
   height: 415px;
-  width: 500px;
+  width: 100%;
   background: #0059c1;
+  // background: #137bf4;
   display: flex;
   flex-direction: column;
   align-items: center;

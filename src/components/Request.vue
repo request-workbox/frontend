@@ -1,23 +1,20 @@
 <template>
   <div id="request-container">
+    <RequestList />
     <RequestDetails />
-    <RequestTemplate />
-    <RequestOptions />
   </div>
   
 </template>
 
 <script>
+import RequestList from './RequestList'
 import RequestDetails from './RequestDetails'
-import RequestTemplate from './RequestTemplate'
-import RequestOptions from './RequestOptions'
 
 export default {
   name: 'Request',
   components: {
+    RequestList,
     RequestDetails,
-    RequestTemplate,
-    RequestOptions,
   }
 }
 </script>
@@ -25,6 +22,12 @@ export default {
 <style lang="scss">
 #request-container {
   display: flex;
-  flex-direction:row;
+  flex-direction:column;
+  align-items: flex-start;
+
+  // background: #1b59c2;
+  // background: #0059c1;
+  
+  padding: 15px 0 0 15px;
 }
 </style>

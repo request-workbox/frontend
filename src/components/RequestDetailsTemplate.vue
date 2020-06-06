@@ -1,8 +1,8 @@
 <template>
-  <div id="template-container">
+  <div id="requestdetailstemplate-container">
     <div class="paper paper-light">
       <p class="label">Method</p>
-      <div class="button-group button-group-medium">
+      <div class="button-group">
         <div class="button button-left">GET</div>
         <div class="button button-active">POST</div>
         <div class="button">PUT</div>
@@ -37,9 +37,9 @@
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&family=Roboto:wght@400;500&display=swap");
 
-#template-container {
+#requestdetailstemplate-container {
   height: 415px;
-  width: 500px;
+  width: 100%;
   background: #0059c1;
   display: flex;
   flex-direction: column;
