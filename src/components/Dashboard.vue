@@ -2,7 +2,6 @@
   <div id="container">
     <Request />
     <Workflow />
-    <Instance />
   </div>
   
 </template>
@@ -10,14 +9,12 @@
 <script>
 import Request from './Request'
 import Workflow from './Workflow'
-import Instance from './Instance'
 
 export default {
   name: 'Dashboard',
   components: {
     Request,
     Workflow,
-    Instance,
   }
 }
 </script>

@@ -7,16 +7,15 @@
     </div>
 
     <div class="requestdetailsaction-container">
-      <div class="requestdetailslink requestdetailslink-active">Template</div>
-      <div class="requestdetailslink">Settings</div>
-      <div class="requestdetailslink">Transformers</div>
-      <div class="requestdetailslink">Permissions</div>
+      <div class="requestdetailslink requestdetailslink-active" v-on:click="selectedAction = 'Template'">Template</div>
+      <div class="requestdetailslink" v-on:click="selectedAction = 'Settings'">Settings</div>
+      <div class="requestdetailslink" v-on:click="selectedAction = 'Transformers'">Transformers</div>
+      <div class="requestdetailslink" v-on:click="selectedAction = 'Permissions'">Permissions</div>
     </div>
 
-    <RequestTemplate />
-    <RequestSettings />
-    <RequestTransformers />
-    <RequestPermissions />
+      <keep-alive>
+        <component :is="`Request${selectedAction}`"></component>
+      </keep-alive>
 
   </div>
 </template>
@@ -29,6 +28,11 @@ import RequestPermissions from './RequestPermissions'
 
 export default {
   name: "RequestDetails",
+  data: function() {
+    return {
+      selectedAction: 'Template'
+    }
+  },
   components: {
     RequestTemplate,
     RequestSettings,

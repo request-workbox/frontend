@@ -1,21 +1,21 @@
 <template>
   <div id="sidebar">
-    <AppDetail />
-    <User />
+    <SidebarDetail />
+    <SidebarUser />
     <SidebarNav />
   </div>
 </template>
 
 <script>
-import User from "./User";
-import AppDetail from "./AppDetail";
+import SidebarUser from "./SidebarUser";
+import SidebarDetail from "./SidebarDetail";
 import SidebarNav from './SidebarNav'
 
 export default {
   name: "Sidebar",
   components: {
-    User,
-    AppDetail,
+    SidebarUser,
+    SidebarDetail,
     SidebarNav
   }
 };

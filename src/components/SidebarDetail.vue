@@ -1,11 +1,11 @@
 <template>
-  <div id="appdetail-container">
+  <div id="sidebardetail-container">
     <p class="heading">Application</p>
   </div>
 </template>
 
 <style lang="scss" scoped>
-#appdetail-container {
+#sidebardetail-container {
   color: #d9e8f6;
 
   font-family: "Lato", sans-serif;

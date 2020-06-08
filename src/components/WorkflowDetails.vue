@@ -7,12 +7,13 @@
     </div>
 
     <div class="workflowdetailsaction-container">
-      <div class="workflowdetailslink workflowdetailslink-active">Template</div>
-      <div class="workflowdetailslink">Settings</div>
+      <div class="workflowdetailslink workflowdetailslink-active" v-on:click="selectedAction = 'Template'">Template</div>
+      <div class="workflowdetailslink" v-on:click="selectedAction = 'Settings'">Settings</div>
     </div>
 
-    <WorkflowTemplate />
-    <WorkflowSettings />
+    <keep-alive>
+        <component :is="`Workflow${selectedAction}`"></component>
+      </keep-alive>
 
   </div>
 </template>
@@ -22,7 +23,12 @@ import WorkflowTemplate from "./WorkflowTemplate";
 import WorkflowSettings from "./WorkflowSettings";
 
 export default {
-  name: "workflowDetails",
+  name: "WorkflowDetails",
+  data: function() {
+    return {
+      selectedAction: 'Template'
+    }
+  },
   components: {
     WorkflowTemplate,
     WorkflowSettings,

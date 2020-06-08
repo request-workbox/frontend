@@ -21,15 +21,22 @@ import attachCognitoModule from '@vuetify/vuex-cognito-module'
 /**
  * Install vue-router
  * **/
-import Dashboard from './components/Dashboard'
+// import Dashboard from './components/Dashboard'
+import Request from './components/Request'
+import Workflow from './components/Workflow'
 Vue.use(VueRouter)
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
-      component: Dashboard,
+      path: '/requests',
+      component: Request,
+      props: true,
+    },
+    {
+      path: '/workflows',
+      component: Workflow,
       props: true,
     },
   ],

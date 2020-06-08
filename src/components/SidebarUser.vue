@@ -1,5 +1,5 @@
 <template>
-  <div id="user-container">
+  <div id="sidebaruser-container">
     <div class="paper">
       <p class="label">Team</p>
       <select class="select">
@@ -14,7 +14,7 @@
 </template>
 
 <style lang="scss" scoped>
-#user-container {
+#sidebaruser-container {
   color: white;
 
   font-family: "Lato", sans-serif;
