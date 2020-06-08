@@ -1,9 +1,25 @@
 <template>
   <div id="workflowcontext-container">
     <div class="paper paper-dark paper-grow">
-      <p class="label">Context</p>
+      <p class="label">Task Name</p>
       <div class="input-group">
-        <input type="text" class="input input-window input-window-selected" placeholder="Key" disabled />
+        <input type="text" class="input input-window input-window-selected" value="Timeout" disabled />
+        <input
+          type="text"
+          class="input input-window input-window-selected"
+          value="30"
+        />
+      </div>
+      <div class="input-group">
+        <input type="text" class="input input-window input-window-selected" value="Repeat Path" disabled />
+        <input
+          type="text"
+          class="input input-window input-window-selected"
+          value="getDogPhoto.results"
+        />
+      </div>
+      <div class="input-group">
+        <input type="text" class="input input-window input-window-selected" placeholder="Key" />
         <input
           type="text"
           class="input input-window input-window-selected"
@@ -15,16 +31,22 @@
 </template>
 
 <style lang="scss" scoped>
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
 
 #workflowcontext-container {
-  height: 250px;
-  width: 250px;
+  height: 315px;
+  width: 100%;
+  max-width: 750px;
+
   background: #0059c1;
+
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  border-radius: 5px;
+  
+  // padding: 15px 15px;
+  // margin: 15px;
 }
 
 .paper {

@@ -1,8 +1,6 @@
 <template>
   <div id="workflow-container">
     <WorkflowList />
-    <WorkflowOptions />
-    <WorkflowContext />
     <WorkflowDetails />
   </div>
   
@@ -10,16 +8,12 @@
 
 <script>
 import WorkflowList from './WorkflowList'
-import WorkflowOptions from './WorkflowOptions'
-import WorkflowContext from './WorkflowContext'
 import WorkflowDetails from './WorkflowDetails'
 
 export default {
   name: 'Workflow',
   components: {
     WorkflowList,
-    WorkflowOptions,
-    WorkflowContext,
     WorkflowDetails,
   }
 }
@@ -28,6 +22,12 @@ export default {
 <style lang="scss">
 #workflow-container {
   display: flex;
-  flex-direction:row;
+  flex-direction:column;
+  align-items: flex-start;
+
+  background: #04012e;
+  // background: #0059c1;
+  
+  // padding: 15px 0 0 15px;
 }
 </style>
