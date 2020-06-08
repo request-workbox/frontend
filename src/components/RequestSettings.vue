@@ -15,7 +15,7 @@
       <input type="text" class="request-title request-title-error" />
     </div>
 
-    <div class="paper paper-light">
+    <!-- <div class="paper paper-light">
       <p class="label">Active State</p>
       <div class="button-group">
         <div class="button button-left button-active">Active</div>
@@ -38,7 +38,7 @@
         <div class="button button-center">Response</div>
         <div class="button button-right">Task</div>
       </div>
-    </div>
+    </div> -->
 
     <div class="paper paper-dark">
       <p class="label">Description</p>
@@ -61,8 +61,8 @@
 
   border-radius: 5px;
   
-  padding: 15px 15px;
-  margin: 15px;
+  // padding: 15px 15px;
+  // margin: 15px;
 }
 
 .paper {

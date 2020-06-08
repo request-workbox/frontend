@@ -33,32 +33,37 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
 
 .sidebar {
-  display: inline-block;
+  display: block;
   position: fixed;
 
   top: 0;
-  bottom: 0;
   left: 0;
+  bottom: 0;
 
   height: 100%;
-  width: 200px;
+  width: 250px;
 
   background: #04012e;
 
   z-index: 3;
 }
 .content {
-  display: inline-block;
-  position: absolute;
+  display: block;
+  position: fixed;
 
   top: 0;
-  left: 200px;
   right: 0;
+  bottom: 0;
+  left: 0;
 
-  height: auto;
+  height: 100%;
+  width: auto;
 
   background:#04012e;
 
+  margin-left: 250px;
+
+  overflow: auto;
 }
 
 

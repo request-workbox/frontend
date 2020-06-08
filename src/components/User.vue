@@ -1,6 +1,6 @@
 <template>
   <div id="user-container">
-    <div class="paper paper-light">
+    <div class="paper">
       <p class="label">Team</p>
       <select class="select">
         <option class="option">Personal Team</option>

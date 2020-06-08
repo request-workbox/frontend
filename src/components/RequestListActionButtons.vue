@@ -40,7 +40,7 @@
     display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-start;
 
   background:#04012e;
 }

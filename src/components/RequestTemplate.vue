@@ -1,20 +1,17 @@
 <template>
   <div id="requesttemplate-container">
-    <div class="paper paper-light">
-      <p class="label">Method</p>
-      <div class="button-group">
-        <div class="button button-left">GET</div>
-        <div class="button button-active">POST</div>
-        <div class="button">PUT</div>
-        <div class="button">PATCH</div>
-        <div class="button">UPDATE</div>
-        <div class="button button-right">DELETE</div>
-      </div>
-    </div>
-
     <div class="paper paper-dark paper-round">
       <p class="label">URL</p>
       <input type="text" class="url" />
+    </div>
+
+    <div class="paper paper-light">
+      <p class="label">Method</p>
+      <select class="select">
+        <option class="option">GET</option>
+        <option class="option">Tasks from my project</option>
+        <option class="option">No other tasks</option>
+      </select>
     </div>
 
     <div class="paper paper-light paper-square-bottom paper-grow">
@@ -41,16 +38,17 @@
   height: 415px;
   width: 100%;
   max-width: 750px;
-  display:inline-block;
+
   background: #0059c1;
+
   display: flex;
   flex-direction: column;
   align-items: center;
 
   border-radius: 5px;
   
-  padding: 15px 15px;
-  margin: 15px;
+  // padding: 15px 15px;
+  // margin: 15px;
 }
 .paper {
   width: 97%;
@@ -81,6 +79,9 @@
 
   padding: 5px 0 0 5px;
   margin: 0;
+}
+.label-dark {
+  color: #04012e;
 }
 
 .url {
@@ -205,6 +206,19 @@
   max-width: 85%;
 }
 
+
+
+.select {
+  background: #04012e;
+  color: white;
+  border-radius: 5px;
+  padding: 2px;
+  border-color: transparent;
+  margin: 5px 0 10px 5px;
+}
+.select:focus {
+  outline: none;
+}
 
 
 </style>

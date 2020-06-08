@@ -42,7 +42,7 @@ export default {
 #requestdetails-container {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
+  // flex-wrap: wrap;
 
   width: 100%;
   // max-width: 1200px;
