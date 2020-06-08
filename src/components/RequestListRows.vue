@@ -1,7 +1,7 @@
 <template>
   <div id="requestlistrows-container">
     <div class="paper paper-dark">
-      <p class="label">Request List</p>
+      <p class="label">List</p>
       <div class="input-group">
         <input type="text" class="input small" placeholder="Method" disabled value="GET" />
         <input type="text" class="input small" placeholder="Request Name" disabled value="Get Cat Photo" />

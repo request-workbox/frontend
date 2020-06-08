@@ -1,5 +1,6 @@
 <template>
   <div id="requestlist-container">
+      <RequestListActionButtons />
       <RequestListRows />
   </div>
   
@@ -7,10 +8,13 @@
 
 <script>
 import RequestListRows from './RequestListRows'
+import RequestListActionButtons from './RequestListActionButtons'
+
 export default {
   name: 'RequestList',
   components: {
     RequestListRows,
+    RequestListActionButtons,
   }
 }
 </script>
@@ -18,7 +22,7 @@ export default {
 <style lang="scss">
 #requestlist-container {
   display: flex;
-  flex-direction:row;
+  flex-direction:column;
   width: 100%;
 }
 </style>

@@ -2,10 +2,10 @@
   <div id="appbarnav-container">
     <div class="paper paper-dark">
       <div class="scrollmenu-header">
-        <div class="scrollmenu-title scrollmenu-title-active">Requests</div>
+        <!-- <div class="scrollmenu-title scrollmenu-title-active">Requests</div>
         <div class="scrollmenu-title">Transform Requests</div>
         <div class="scrollmenu-title">Transform Responses</div>
-        <div class="scrollmenu-title">Transform Tasks</div>
+        <div class="scrollmenu-title">Transform Tasks</div> -->
       </div>
     </div>
   </div>
@@ -16,7 +16,6 @@
 #appbarnav-container {
   height: 60px;
   width: 100%;
-  background: #0059c1;
   display: flex;
   flex-direction: column;
   align-items: center;

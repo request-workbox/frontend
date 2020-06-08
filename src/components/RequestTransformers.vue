@@ -1,30 +1,7 @@
 <template>
-  <div id="requestoptionssettings-container">
-    <div class="paper paper-light">
-      <p class="label">Permissions</p>
-      <p class="label label-dark">Request Accessible By</p>
-      <select class="select">
-        <option class="option">Any task</option>
-        <option class="option">Tasks from my project</option>
-        <option class="option">No other tasks</option>
-      </select>
-      <p class="label label-dark">Result Accessible By</p>
-      <select class="select">
-        <option class="option">Any task</option>
-        <option class="option">Tasks from my project</option>
-        <option class="option">No other tasks</option>
-      </select>
-    </div>
+  <div id="requesttransformers-container">
 
-    <div class="paper paper-dark">
-      <p class="label">Request Accessible As</p>
-      <input type="text" class="result" />
-      <div class="spacer"></div>
-      <p class="label">Result Accessible As</p>
-      <input type="text" class="result" />
-    </div>
-
-    <div class="paper paper-light paper-square-bottom paper-grow">
+    <div class="paper paper-light paper-square-bottom">
       <p class="label">Request Transformers</p>
       <div class="input-group">
         <div class="input-action">⬆</div>
@@ -79,14 +56,20 @@
 </template>
 
 <style lang="scss" scoped>
-#requestoptionssettings-container {
-  height: 415px;
+#requesttransformers-container {
+  height: auto;
   width: 100%;
+  max-width: 550px;
   background: #0059c1;
   // background: #137bf4;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  border-radius: 5px;
+  
+  padding: 15px 15px;
+  margin: 15px;
 }
 .paper {
   width: 97%;

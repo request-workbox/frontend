@@ -64,7 +64,7 @@
   color: #b3daff;
 //   background: #039aff;
 
-  width: 100%;
+  width: 85%;
 
   text-align: left;
   text-transform: none;

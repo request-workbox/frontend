@@ -25,9 +25,9 @@ export default {
   flex-direction:column;
   align-items: flex-start;
 
-  // background: #1b59c2;
+  background: #04012e;
   // background: #0059c1;
   
-  padding: 15px 0 0 15px;
+  // padding: 15px 0 0 15px;
 }
 </style>

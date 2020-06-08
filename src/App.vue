@@ -44,6 +44,8 @@ export default {
   width: 200px;
 
   background: #04012e;
+
+  z-index: 3;
 }
 .content {
   display: inline-block;
@@ -55,6 +57,24 @@ export default {
 
   height: auto;
 
-  background: #04012e;
+  background:#04012e;
+
 }
+
+
+.appbar {
+  display: block;
+  position: fixed;
+
+  width: 100%;
+
+  z-index: 2;
+}
+.view {
+  margin-top: 60px;
+
+  z-index: 1;
+}
+
+
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div id="requestdetailstemplate-container">
+  <div id="requesttemplate-container">
     <div class="paper paper-light">
       <p class="label">Method</p>
       <div class="button-group">
@@ -37,13 +37,20 @@
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&family=Roboto:wght@400;500&display=swap");
 
-#requestdetailstemplate-container {
+#requesttemplate-container {
   height: 415px;
   width: 100%;
+  max-width: 750px;
+  display:inline-block;
   background: #0059c1;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  border-radius: 5px;
+  
+  padding: 15px 15px;
+  margin: 15px;
 }
 .paper {
   width: 97%;

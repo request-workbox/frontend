@@ -1,5 +1,5 @@
 <template>
-  <div id="requestdetailsstate-container">
+  <div id="requestsettings-container">
     <div class="paper paper-dark">
       <p class="label">Request title</p>
       <input type="text" class="request-title" />
@@ -15,7 +15,7 @@
       <input type="text" class="request-title request-title-error" />
     </div>
 
-    <!-- <div class="paper paper-light">
+    <div class="paper paper-light">
       <p class="label">Active State</p>
       <div class="button-group">
         <div class="button button-left button-active">Active</div>
@@ -38,36 +38,31 @@
         <div class="button button-center">Response</div>
         <div class="button button-right">Task</div>
       </div>
-    </div> -->
+    </div>
 
     <div class="paper paper-dark">
       <p class="label">Description</p>
       <textarea class="request-description"></textarea>
     </div>
 
-    <RequestDetailsOptions />
-
   </div>
 </template>
 
-<script>
-import RequestDetailsOptions from "./RequestDetailsOptions";
-
-export default {
-  components: {
-    RequestDetailsOptions,
-  }
-}
-</script>
-
 <style lang="scss" scoped>
-#requestdetailsstate-container {
+#requestsettings-container {
   height: auto;
   width: 100%;
+  max-width: 550px;
+  display:inline-block;
   background: #0059c1;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  border-radius: 5px;
+  
+  padding: 15px 15px;
+  margin: 15px;
 }
 
 .paper {
