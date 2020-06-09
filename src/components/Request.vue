@@ -1,224 +1,50 @@
 <template>
   <div id="request-container">
-    <div class="row row-border-bottom">
-      <div class="column column-full-width">
-        <div class="row">
-          <div class="column">
-            <input type="text" value="Project Name" />
-          </div>
-          <div class="column text-button">Share</div>
-          <div class="column text-button">Team</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row row-border-bottom">
-      <div class="column">
-        <div class="row">
-          <div class="column text-button">File</div>
-          <div class="column text-button">Edit</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row row-border-bottom">
-      <div class="column">
-        <div class="row">
-          <div class="column">
-            <input type="text" value="Search" />
-          </div>
-        </div>
-      </div>
-      <div class="column">
-        <div class="row">
-          <div class="column text-button">Prev</div>
-          <div class="column text">20 / 400</div>
-          <div class="column text-button">Next</div>
-        </div>
-      </div>
-      <div class="column">
-        <div class="row">
-          <div class="column filter-button filter-button-active">Public</div>
-          <div class="column filter-button">Private</div>
-        </div>
-      </div>
-      <div class="column">
-        <div class="row">
-          <div class="column filter-button filter-button-active">Active</div>
-          <div class="column filter-button">Deleted</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row row-border-bottom">
-      <div class="column column-full-width">
-        <div class="row">
-          <div class="column column-full-width">
-            <input type="text" />
-          </div>
-          <div class="column column-full-width">
-            <input type="text" />
-          </div>
-          <div class="column column-full-width">
-            <input type="text" />
-          </div>
-          <div class="column column-full-width">
-            <input type="text" />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row row-border-bottom">
-      <div class="column">
-        <div class="row">
-          <div class="column tiny-button">Create New</div>
-          <div class="column tiny-button">Save Changes</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row row-border-bottom">
-      <div class="column column-full-width">
-        <div class="row row-justify-between">
-          <div class="column section-header">Request Name</div>
-          <div class="column text">Last Edited</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row row-border-bottom">
-      <div class="column">
-        <div class="row">
-          <div class="column">Select Method</div>
-          <div class="column">URL</div>
-        </div>
-      </div>
-      <div class="column">
-        <div class="row">
-          <div class="column button">Test Request</div>
-        </div>
-      </div>
-      <div class="column">
-        <div class="row">
-          <div class="column button">Save</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row row-justify-between row-border-bottom">
-      <div class="column">
-        <div class="row">
-          <div class="column tab-button tab-button-active">Parameters</div>
-          <div class="column tab-button">Query</div>
-          <div class="column tab-button">Headers</div>
-          <div class="column tab-button">Cookies</div>
-          <div class="column tab-button">Body</div>
-          <div class="column tab-button">Details</div>
-          <div class="column tab-button">Plugins</div>
-          <div class="column tab-button">Permissions</div>
-        </div>
-      </div>
-      <div class="column">
-        <div class="row">
-          <div class="column text-button">Code</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row row-border-bottom">
-      <div class="column">
-        <div class="row">
-          <div class="column section-header">Parameters</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row row-border-bottom">
-      <div class="column column-full-width">
-        <div class="row">
-          <div class="column column-full-width">
-            <input type="text" />
-          </div>
-          <div class="column column-full-width">
-            <input type="text" />
-          </div>
-          <div class="column column-full-width">
-            <input type="text" />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row row-border-bottom">
-      <div class="column">
-        <div class="row">
-          <div class="column section-header">Response</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row row-justify-between row-border-bottom">
-      <div class="column">
-        <div class="row">
-          <div class="column tab-button tab-button-active">Body</div>
-          <div class="column tab-button">Cookies</div>
-          <div class="column tab-button">Headers</div>
-          <div class="column tab-button">Cookies</div>
-          <div class="column tab-button">Body</div>
-          <div class="column tab-button">Details</div>
-          <div class="column tab-button">Plugins</div>
-          <div class="column tab-button">Permissions</div>
-        </div>
-      </div>
-      <div class="column">
-        <div class="row">
-          <div class="column">
-            <div class="row">
-              <div class="column text">Status</div>
-              <div class="column text">Time</div>
-              <div class="column text">Size</div>
-            </div>
-          </div>
-          <div class="column">
-            <div class="row">
-              <div class="column text-button">Save Response</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row row-border-bottom">
-      <div class="column column-full-width">
-        <div class="row">
-          <div class="column column-full-width">
-            <input type="text" />
-          </div>
-          <div class="column column-full-width">
-            <input type="text" />
-          </div>
-          <div class="column column-full-width">
-            <input type="text" />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row row-border-bottom">
-      <div class="column">
-        <div class="row">
-          <div class="column section-header">Footer</div>
-        </div>
-      </div>
-    </div>
+    <RequestProject />    
+    <RequestMenu />
+    <RequestTableToolbar />
+    <RequestTable />
+    <RequestActionToolbar />
+    <RequestDetails />
+    <RequestTemplateToolbar />
+    <RequestOptionsToolbar />
+    <RequestOptions />
+    <RequestResponseToolbar />
+    <RequestResponse />
+    <RequestFooter />
   </div>
 </template>
 
 <script>
+import RequestProject from './RequestProject'
+import RequestMenu from './RequestMenu'
+import RequestTableToolbar from './RequestTableToolbar'
+import RequestTable from './RequestTable'
+import RequestActionToolbar from './RequestActionToolbar'
+import RequestDetails from './RequestDetails'
+import RequestTemplateToolbar from './RequestTemplateToolbar'
+import RequestOptionsToolbar from './RequestOptionsToolbar'
+import RequestOptions from './RequestOptions'
+import RequestResponseToolbar from './RequestResponseToolbar'
+import RequestResponse from './RequestResponse'
+import RequestFooter from './RequestFooter'
+
 export default {
   name: "Request",
-  components: {}
+  components: {
+    RequestProject,
+    RequestMenu,
+    RequestTableToolbar,
+    RequestTable,
+    RequestActionToolbar,
+    RequestDetails,
+    RequestTemplateToolbar,
+    RequestOptionsToolbar,
+    RequestOptions,
+    RequestResponseToolbar,
+    RequestResponse,
+    RequestFooter
+  }
 };
 </script>
 
@@ -245,6 +71,9 @@ div {
   border-bottom-color: #d1d1d1;
   border-bottom-style: solid;
   border-bottom-width: 1px;
+}
+.row-dark {
+  background:#f9f9f9;
 }
 .row-justify-between {
   justify-content: space-between;
