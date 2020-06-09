@@ -2,10 +2,8 @@
   <div id="appbarnav-container">
     <div class="paper paper-dark">
       <div class="scrollmenu-header">
-        <!-- <div class="scrollmenu-title scrollmenu-title-active">Requests</div>
-        <div class="scrollmenu-title">Transform Requests</div>
-        <div class="scrollmenu-title">Transform Responses</div>
-        <div class="scrollmenu-title">Transform Tasks</div> -->
+        <!-- <div class="scrollmenu-title scrollmenu-title-active">Application</div>
+        <div class="scrollmenu-title">App</div> -->
       </div>
     </div>
   </div>
@@ -28,7 +26,7 @@
   background: #04002d;
 }
 .paper-light {
-  background: #137bf4;;
+  background: #f5f5f5;
 }
 
 .scrollmenu-header {
@@ -55,8 +53,7 @@
   text-transform: uppercase;
 
   font-weight: 700;
-  font-family: "Lato", sans-serif;
-  font-size: 0.8em;
+  font-size: 0.95em;
   color: white;
 
   cursor: pointer;

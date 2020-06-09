@@ -28,9 +28,13 @@ export default {
 </script>
 
 <style lang="scss">
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
+
+#app {
+  font-family: "Roboto", sans-serif;
+  // font-family: "Open Sans", sans-serif;
+}
 
 .sidebar {
   display: block;
@@ -43,9 +47,11 @@ export default {
   height: 100%;
   width: 250px;
 
-  background: #04012e;
+  background: #04002d;
 
   z-index: 3;
+
+  padding: 0;
 }
 .content {
   display: block;
@@ -59,11 +65,12 @@ export default {
   height: 100%;
   width: auto;
 
-  background:#04012e;
-
   margin-left: 250px;
 
   overflow: auto;
+
+  padding: 0;
+
 }
 
 
