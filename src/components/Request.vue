@@ -1,6 +1,6 @@
 <template>
   <div id="request-container">
-    <RequestProject />    
+    <RequestProject />
     <RequestMenu />
     <RequestTableToolbar />
     <RequestTable />
@@ -12,14 +12,14 @@
 </template>
 
 <script>
-import RequestProject from './RequestProject'
-import RequestMenu from './RequestMenu'
-import RequestTableToolbar from './RequestTableToolbar'
-import RequestTable from './RequestTable'
-import RequestDetails from './RequestDetails'
-import RequestOptionsToolbar from './RequestOptionsToolbar'
-import RequestOptions from './RequestOptions'
-import RequestFooter from './RequestFooter'
+import RequestProject from "./RequestProject";
+import RequestMenu from "./RequestMenu";
+import RequestTableToolbar from "./RequestTableToolbar";
+import RequestTable from "./RequestTable";
+import RequestDetails from "./RequestDetails";
+import RequestOptionsToolbar from "./RequestOptionsToolbar";
+import RequestOptions from "./RequestOptions";
+import RequestFooter from "./RequestFooter";
 
 export default {
   name: "Request",
@@ -38,7 +38,7 @@ export default {
 
 <style lang="scss">
 div {
-  color:#202124;
+  color: #202124;
 }
 
 #request-container {
@@ -68,7 +68,7 @@ div {
   border-bottom-width: 1px;
 }
 .row-dark {
-  background:#f9f9f9;
+  background: #f9f9f9;
 }
 .row-justify-between {
   justify-content: space-between;
@@ -83,9 +83,9 @@ div {
   white-space: nowrap;
   overflow: auto;
 
-  font-size:12px;
+  font-size: 12px;
 
-  border-right-color:#d8d8d8;
+  border-right-color: #d8d8d8;
   border-right-style: solid;
   border-right-width: 1px;
 
@@ -93,7 +93,28 @@ div {
 }
 .column-header {
   background: #f9f9f9;
-  color:#8c8c8c;
+  color: #8c8c8c;
+}
+.column-header-text {
+  font-weight: 500;
+}
+.column-checkbox {
+  min-width: 23px;
+}
+.column-input-text {
+  border-width: 0px;
+  width: auto;
+
+  font-weight: 400;
+  font-size: 12px;
+}
+.column-input-text:focus {
+  outline: none !important;
+  border: 1px solid #2196f3;
+  border-radius: 2px;
+}
+.column-10 {
+  width: 10%;
 }
 .column-grow {
   flex-grow: 1;
@@ -113,12 +134,12 @@ div {
 
 .button {
   background: #0075d2;
-    color: white;
-    cursor: pointer;
-    font-size: 12px;
-    padding: 10px;
-    border-radius: 2px;
-    margin: 0;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 10px;
+  border-radius: 2px;
+  margin: 0;
 }
 .button:hover {
   background: #f1f1f1;
@@ -126,30 +147,28 @@ div {
 
 .tiny-button {
   background: grey;
-    color: white;
-    cursor: pointer;
-    font-size: 10px;
-    padding: 4px 12px;
-    border-radius: 2px;
-    margin: 0 15px 0 0;
+  color: white;
+  cursor: pointer;
+  font-size: 10px;
+  padding: 4px 12px;
+  border-radius: 2px;
+  margin: 0 15px 0 0;
 }
 .tiny-button:hover {
   background: #f1f1f1;
 }
 
-
-
 .filter-button {
-  background: rgb(245,245,245);
+  background: rgb(245, 245, 245);
   padding: 5px;
-  font-size:10px;
+  font-size: 10px;
   font-weight: 400;
   text-transform: uppercase;
 
-  cursor:pointer;
+  cursor: pointer;
 }
 .filter-button-active {
-  background: rgb(207,207,207);
+  background: rgb(207, 207, 207);
   font-weight: 700;
 }
 .filter-button-left {
@@ -160,34 +179,30 @@ div {
 }
 
 .section-header {
-  font-weight:600;
-  letter-spacing: .2;
+  font-weight: 600;
+  letter-spacing: 0.2;
 }
 
 .text {
-  font-weight:400;
+  font-weight: 400;
   font-size: 10px;
 }
 
-
-
 .input-text {
-  font-size:15px;
-  border:none;
+  font-size: 15px;
+  border: none;
   padding: 0 5px 5px 5px;
-  cursor:pointer;
+  cursor: pointer;
 }
 .input-hover {
   border-style: solid;
   border-width: 1px;
   border-color: transparent;
-  cursor:pointer;
+  cursor: pointer;
 }
 .input-hover:hover {
   border-color: #efefef;
 }
-
-
 
 .spacer {
   width: 15px;

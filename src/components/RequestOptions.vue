@@ -2,26 +2,26 @@
     <div class="row">
       <div class="column column-full-width">
         <div class="row row-border-bottom">
-          <div class="column column-data column-header">
-            <input type="checkbox" disabled>
+          <div class="column column-data column-header-text column-checkbox">
+            <input type="checkbox" id="options-header-checkbox" disabled>
           </div>
-          <div class="column column-data column-header">
+          <div class="column column-data column-header-text column-10" id="options-header-1">
+            Heading 1
+          </div>
+          <div class="column column-data column-header-text column-grow" id="options-header-2">
             Heading 2
-          </div>
-          <div class="column column-data column-header column-grow">
-            Heading 3
           </div>
         </div>
 
         <div class="row row-border-bottom">
-          <div class="column column-data">
-            <input type="checkbox">
+          <div class="column column-data column-checkbox">
+            <input type="checkbox" id="options-data-checkbox">
           </div>
-          <div class="column column-data">
-            Heading 2
+          <div class="column column-data column-10">
+            <input type="text" placeholder="Value 1" class="column-input-text" id="options-data-1">
           </div>
           <div class="column column-data column-grow">
-            Heading 3
+            <input type="text" placeholder="Value 2" class="column-input-text" id="options-data-2">
           </div>
         </div>
       </div>
