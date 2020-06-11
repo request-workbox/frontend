@@ -28,7 +28,7 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/requests',
+      path: '/projects/:projectid/requests',
       component: Request,
     },
   ],
@@ -36,12 +36,14 @@ const router = new VueRouter({
 /**
 * Install vuex
 * **/
-import authenticationModule from './shared/plugins/storage/authentication'
+import authenticationModule from './shared/plugins/modules/authentication'
+import requestModule from './shared/plugins/modules/request'
 Vue.use(vuex)
 const store = new vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   modules: {
     authentication: authenticationModule,
+    request: requestModule,
   }
 })
 /**
