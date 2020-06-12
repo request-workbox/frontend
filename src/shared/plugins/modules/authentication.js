@@ -83,11 +83,11 @@ export default {
         }
     },
     actions: {
-        async loginUser({ commit, state, dispatch }) {
+        async loginUser({ commit, state, dispatch }, { username, password }) {
             try {
                 await dispatch('cognito/signInUser', {
-                    username: state.login.username, 
-                    password: state.login.password1
+                    username: username, 
+                    password: password
                 }, { root: true })
                 commit('clearFields')
             } catch (err) {

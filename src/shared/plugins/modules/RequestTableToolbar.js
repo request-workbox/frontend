@@ -1,8 +1,7 @@
 const state = () => ({
-    currentPage: '',
-    totalPages: '',
-    filterVisibilityBy: '',
-    filterActiveStateBy: '',
+    currentPage: 0,
+    totalPages: 0,
+    filterBy: 'active',
 })
 
 const getters = {
@@ -10,7 +9,10 @@ const getters = {
 }
 
 const actions = {
-
+    async updateAction({ commit, state }, { projectName }) {
+        console.log('new name', projectName)
+        await Promise.resolve()
+    }
 }
 
 const mutations = {

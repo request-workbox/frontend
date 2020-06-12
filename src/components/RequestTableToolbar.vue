@@ -20,17 +20,13 @@
       <div class="column spacer"></div>
       <div class="column">
         <div class="row">
-          <div class="column filter-button filter-button-left filter-button-active" id="table-toolbar-filter-public">Public</div>
-          <div class="column filter-button filter-button-right" id="table-toolbar-filter-private">Private</div>
+          <div class="column filter-button filter-button-left filter-button-active" id="table-toolbar-filter-active">Active</div>
+          <div class="column filter-button" id="table-toolbar-filter-deleted">Deleted</div>
+          <div class="column filter-button filter-button-right" id="table-toolbar-filter-all">All</div>
         </div>
       </div>
       <div class="column spacer"></div>
-      <div class="column">
-        <div class="row">
-          <div class="column filter-button filter-button-left filter-button-active" id="table-toolbar-filter-active">Active</div>
-          <div class="column filter-button filter-button-right" id="table-toolbar-filter-deleted">Deleted</div>
-        </div>
-      </div>
+      <div class="column text-button" id="table-toolbar-refresh">Refresh</div>
     </div>
 </template>
 

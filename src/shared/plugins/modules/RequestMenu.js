@@ -7,10 +7,7 @@ const getters = {
 }
 
 const actions = {
-    createNewRequest: function() {
-
-    },
-    saveChanges: function () {
+    newRequest: function() {
 
     },
     createWorkflow: function () {

@@ -3,20 +3,12 @@ import RequestMenu from '@/components/RequestMenu.vue'
 
 describe('RequestMenu.vue - Renders buttons', () => {
 
-    it('renders new button', () => {
-        const msg = 'New'
+    it('renders new request button', () => {
+        const msg = 'New Request'
         const wrapper = shallowMount(RequestMenu, {
             propsData: {}
         })
-        expect(wrapper.find('#menu-new-button').text()).toMatch(msg)
-    })
-
-    it('renders save changes', () => {
-        const msg = 'Save Changes'
-        const wrapper = shallowMount(RequestMenu, {
-            propsData: {}
-        })
-        expect(wrapper.find('#menu-save-changes').text()).toMatch(msg)
+        expect(wrapper.find('#menu-new-request').text()).toMatch(msg)
     })
 
     it('renders create workflow', () => {

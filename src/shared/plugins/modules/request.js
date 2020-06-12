@@ -1,4 +1,5 @@
 import requestProject from './RequestProject'
+import requestTableToolbar from './RequestTableToolbar'
 
 const state = () => ({
 
@@ -24,6 +25,7 @@ export default {
     actions,
     mutations,
     modules: {
-        requestProject
+        requestProject,
+        requestTableToolbar,
     }
 }

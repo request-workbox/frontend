@@ -30,23 +30,6 @@ describe('RequestTableToolbar.vue - Renders buttons', () => {
     expect(wrapper.find('#table-toolbar-pagination').text()).toMatch(msg)
   })
 
-  it('renders filter public button', () => {
-    const msg = 'Public'
-    const wrapper = shallowMount(RequestTableToolbar, {
-      propsData: {}
-    })
-    expect(wrapper.find('#table-toolbar-filter-public').text()).toMatch(msg)
-    
-  })
-
-  it('renders filter private button', () => {
-    const msg = 'Private'
-    const wrapper = shallowMount(RequestTableToolbar, {
-      propsData: {}
-    })
-    expect(wrapper.find('#table-toolbar-filter-private').text()).toMatch(msg)
-  })
-
   it('renders filter active button', () => {
     const msg = 'Active'
     const wrapper = shallowMount(RequestTableToolbar, {
@@ -61,6 +44,14 @@ describe('RequestTableToolbar.vue - Renders buttons', () => {
       propsData: {}
     })
     expect(wrapper.find('#table-toolbar-filter-deleted').text()).toMatch(msg)
+  })
+
+  it('renders filter all button', () => {
+    const msg = 'All'
+    const wrapper = shallowMount(RequestTableToolbar, {
+      propsData: {}
+    })
+    expect(wrapper.find('#table-toolbar-filter-all').text()).toMatch(msg)
   })
 
 })
