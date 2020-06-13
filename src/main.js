@@ -28,8 +28,9 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/projects/:projectid/requests',
+      path: '/projects/:projectId/requests',
       component: Request,
+      props: true,
     },
   ],
 })

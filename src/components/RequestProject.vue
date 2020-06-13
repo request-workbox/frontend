@@ -24,7 +24,7 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'RequestProject',
-  props: ['projectName'],
+  props: ['projectId','projectName'],
   data: function() {
     return {
       editing: false,
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     ...mapActions('request/requestProject', [
-      'updateAction',
+      'updateProjectName',
     ]),
     focusInEvent: function(event) {
       this.editing = false
@@ -44,7 +44,7 @@ export default {
     focusOutEvent: async function(event) {
       if (!this.editing) return;
       this.updatedProjectName = event.target.value;
-      await this.updateAction({projectName: this.updatedProjectName})
+      await this.updateProjectName({projectName: this.updatedProjectName, projectId: this.projectId })
     },
   }
 }

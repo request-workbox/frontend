@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 const state = () => ({
 
 })
@@ -7,17 +9,34 @@ const getters = {
 }
 
 const actions = {
-    newRequest: function() {
-
+    async newRequest({ commit, state, rootState }, { projectId }) {
+        const requestUrl = `${rootState.request.apiUrl}/new-request`
+        const requestBody = { projectId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        return request.data._id
     },
-    createWorkflow: function () {
-
+    async newWorkflow({ commit, state, rootState }, { requestId }) {
+        const requestUrl = `${rootState.request.apiUrl}/new-workflow`
+        const requestBody = { requestId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        return request.data._id
     },
-    addToWorkflow: function () {
-
+    async newProject({ commit, state, rootState }) {
+        const requestUrl = `${rootState.request.apiUrl}/new-project`
+        const request = await Vue.$axios.post(requestUrl)
+        return request.data._id
     },
-    testRequest: function () {
-
+    // async addToWorkflow({ commit, state, rootState }, { requestId, workflowId }) {
+    //     const requestUrl = `${rootState.request.apiUrl}/add-to-workflow`
+    //     const requestBody = { requestId, workflowId }
+    //     const request = await Vue.$axios.post(requestUrl, requestBody)
+    //     return request.data._id
+    // },
+    async testRequest({ commit, state, rootState }, { requestId }) {
+        const requestUrl = `${rootState.request.apiUrl}/test-request`
+        const requestBody = { requestId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        return request.data._id
     },
 }
 
@@ -32,3 +51,6 @@ export default {
     actions,
     mutations
 }
+
+
+// status, statusText, data

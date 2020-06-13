@@ -1,5 +1,8 @@
+import Vue from 'vue'
+
 const state = () => ({
     projectName: '',
+    projectId: '',
 })
 
 const getters = {
@@ -7,14 +10,29 @@ const getters = {
 }
 
 const actions = {
-    async updateAction({ commit, state }, { projectName }) {
-        console.log('new name', projectName)
-        await Promise.resolve()
-    }
+    async getProjectName({ commit, state, rootState }, { projectId }) {
+        const requestUrl = `${rootState.request.apiUrl}/get-project-name`
+        const requestBody = { projectId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        const projectName = request.data.projectName
+        commit('changeProjectId', { projectId })
+        commit('changeProjectName', { projectName })
+    },
+    async updateProjectName({ commit, state, rootState }, { projectId, projectName }) {
+        const requestUrl = `${rootState.request.apiUrl}/update-project-name`
+        const requestBody = { projectId, projectName }
+        await Vue.$axios.post(requestUrl, requestBody)
+        commit('changeProjectName', { projectName })
+    },
 }
 
 const mutations = {
-
+    changeProjectId(state, { projectId }) {
+        state.projectId = projectId
+    },
+    changeProjectName(state, { projectName }) {
+        state.projectName = projectName
+    },
 }
 
 export default {

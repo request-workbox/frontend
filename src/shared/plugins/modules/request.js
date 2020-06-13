@@ -1,8 +1,9 @@
 import requestProject from './RequestProject'
-import requestTableToolbar from './RequestTableToolbar'
+import requestMenu from './RequestMenu'
+import requestTable from './RequestTable'
 
 const state = () => ({
-
+    apiUrl: 'http://localhost:3001'
 })
 
 const getters = {
@@ -26,6 +27,7 @@ export default {
     mutations,
     modules: {
         requestProject,
-        requestTableToolbar,
+        requestMenu,
+        requestTable,
     }
 }

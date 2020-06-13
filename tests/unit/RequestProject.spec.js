@@ -72,7 +72,7 @@ describe('RequestProject.vue - Input responds to async events', () => {
 
   beforeEach(() => {
     actions = {
-      updateAction: jest.fn(),
+      updateProjectName: jest.fn(),
     }
     const requestProject = {
       namespaced: true,
@@ -93,10 +93,11 @@ describe('RequestProject.vue - Input responds to async events', () => {
 
   it('focusout event dispatches action', async () => {
     const projectName = 'Project Name'
+    const projectId = 'Project Id'
     const wrapper = shallowMount(RequestProject, {
       store,
       localVue,
-      propsData: { projectName }
+      propsData: { projectName, projectId }
     })
 
     const updatedProjectName = `${projectName}1`
@@ -106,7 +107,7 @@ describe('RequestProject.vue - Input responds to async events', () => {
     await input.trigger('focusout')
 
     expect(wrapper.vm.$data.updatedProjectName).toBe(updatedProjectName)
-    expect(actions.updateAction).toHaveBeenCalled()
+    expect(actions.updateProjectName).toHaveBeenCalled()
   })
 
 })
