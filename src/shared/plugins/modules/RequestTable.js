@@ -8,9 +8,7 @@ const state = () => ({
     
     filter: 'active',
 
-    allRequests: [
-        { url: 'a' },
-    ],
+    allRequests: [{ isActive: false }],
 
     requestId: '',
 

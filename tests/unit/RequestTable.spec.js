@@ -4,7 +4,7 @@ import RequestTable from '@/components/RequestTable.vue'
 describe('RequestTable.vue - Renders table headers', () => {
 
   it('renders table header 1', () => {
-    const msg = 'Heading 1'
+    const msg = 'Method'
     const wrapper = shallowMount(RequestTable, {
       propsData: { }
     })
@@ -12,7 +12,7 @@ describe('RequestTable.vue - Renders table headers', () => {
   })
 
   it('renders table header 2', () => {
-    const msg = 'Heading 2'
+    const msg = 'Protocol'
     const wrapper = shallowMount(RequestTable, {
       propsData: {}
     })
@@ -20,7 +20,7 @@ describe('RequestTable.vue - Renders table headers', () => {
   })
 
   it('renders table header 3', () => {
-    const msg = 'Heading 3'
+    const msg = 'Name'
     const wrapper = shallowMount(RequestTable, {
       propsData: {}
     })
@@ -28,7 +28,7 @@ describe('RequestTable.vue - Renders table headers', () => {
   })
 
   it('renders table header 4', () => {
-    const msg = 'Heading 4'
+    const msg = 'Url'
     const wrapper = shallowMount(RequestTable, {
       propsData: {}
     })
@@ -40,7 +40,7 @@ describe('RequestTable.vue - Renders table headers', () => {
 describe('RequestTable.vue - Renders table data', () => {
 
   it('renders table data 1', () => {
-    const msg = 'Value 1'
+    const msg = 'GET'
     const wrapper = shallowMount(RequestTable, {
       propsData: {}
     })
@@ -48,7 +48,7 @@ describe('RequestTable.vue - Renders table data', () => {
   })
 
   it('renders table data 2', () => {
-    const msg = 'Value 2'
+    const msg = 'HTTPS'
     const wrapper = shallowMount(RequestTable, {
       propsData: {}
     })
@@ -56,7 +56,7 @@ describe('RequestTable.vue - Renders table data', () => {
   })
 
   it('renders table data 3', () => {
-    const msg = 'Value 3'
+    const msg = 'API'
     const wrapper = shallowMount(RequestTable, {
       propsData: {}
     })
@@ -64,7 +64,7 @@ describe('RequestTable.vue - Renders table data', () => {
   })
 
   it('renders table data 4', () => {
-    const msg = 'Value 4'
+    const msg = 'https://api.com'
     const wrapper = shallowMount(RequestTable, {
       propsData: {}
     })

@@ -3,7 +3,7 @@ import requestMenu from './RequestMenu'
 import requestTable from './RequestTable'
 
 const state = () => ({
-    apiUrl: 'http://localhost:3001'
+    apiUrl: 'http://localhost:3000'
 })
 
 const getters = {
