@@ -8,7 +8,7 @@ const state = () => ({
     
     filter: 'active',
 
-    allRequests: [{ isActive: false }],
+    allRequests: [],
 
     requestId: '',
 
@@ -66,12 +66,10 @@ const actions = {
         commit('incrementPage')
     },
     async getRequests({ commit, state, getters, rootState }, { projectId }) {
-        console.log('getting requests')
         const requestUrl = `${rootState.request.apiUrl}/get-requests`
         const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
-        console.log(request.data)
-        return request.data
+        commit('replaceRequests', { requests: request.data })
     }
 }
 
@@ -90,6 +88,9 @@ const mutations = {
     resetPage(state) {
         state.page = 0
     },
+    replaceRequests(state, { requests }) {
+        state.allRequests = requests
+    }
 }
 
 export default {

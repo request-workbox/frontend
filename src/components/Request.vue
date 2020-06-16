@@ -51,11 +51,6 @@ export default {
     ...mapActions('request/requestProject', ['getProjectName']),
     ...mapActions('request/requestTable', ['getRequests']),
     init: function() {
-      console.log('requesting project name')
-      console.log('requesting project requests')
-
-      console.log(this.projectId)
-
       this.getProjectName({ projectId: this.projectId })
       this.getRequests({ projectId: this.projectId })
     }

@@ -20,16 +20,18 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'RequestProject',
-  props: ['projectId','projectName'],
   data: function() {
     return {
       editing: false,
       updatedProjectName: '',
     }
+  },
+  computed: {
+    ...mapState('request/requestProject', ['projectName']),
   },
   methods: {
     ...mapActions('request/requestProject', [
