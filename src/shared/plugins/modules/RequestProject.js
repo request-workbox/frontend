@@ -18,9 +18,9 @@ const actions = {
         commit('changeProjectId', { projectId })
         commit('changeProjectName', { projectName })
     },
-    async updateProjectName({ commit, state, rootState }, { projectId, projectName }) {
+    async updateProjectName({ commit, state, rootState }, { projectName }) {
         const requestUrl = `${rootState.request.apiUrl}/update-project-name`
-        const requestBody = { projectId, projectName }
+        const requestBody = { projectId: state.projectId, projectName }
         await Vue.$axios.post(requestUrl, requestBody)
         commit('changeProjectName', { projectName })
     },

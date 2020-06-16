@@ -65,6 +65,14 @@ const actions = {
         if (getters.currentPage() === getters.totalPages()) return
         commit('incrementPage')
     },
+    async getRequests({ commit, state, getters, rootState }, { projectId }) {
+        console.log('getting requests')
+        const requestUrl = `${rootState.request.apiUrl}/get-requests`
+        const requestBody = { projectId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        console.log(request.data)
+        return request.data
+    }
 }
 
 const mutations = {

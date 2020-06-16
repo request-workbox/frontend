@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import { mapActions, mapMutations } from 'vuex'
+
 import RequestLogin from './RequestLogin'
 import RequestProject from "./RequestProject";
 import RequestMenu from "./RequestMenu";
@@ -25,6 +27,7 @@ import RequestFooter from "./RequestFooter";
 
 export default {
   name: "Request",
+  props: ['projectId'],
   components: {
     RequestLogin,
     RequestProject,
@@ -35,6 +38,27 @@ export default {
     RequestOptionsToolbar,
     RequestOptions,
     RequestFooter
+  },
+  mounted: function() {
+    this.init()
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.init()
+    return next()
+  },
+  methods: {
+    ...mapMutations('request/requestProject', ['changeUrlProjectId']),
+    ...mapActions('request/requestProject', ['getProjectName']),
+    ...mapActions('request/requestTable', ['getRequests']),
+    init: function() {
+      console.log('requesting project name')
+      console.log('requesting project requests')
+
+      console.log(this.projectId)
+
+      this.getProjectName({ projectId: this.projectId })
+      this.getRequests({ projectId: this.projectId })
+    }
   }
 };
 </script>
