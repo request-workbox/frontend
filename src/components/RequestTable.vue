@@ -16,7 +16,13 @@
       </div>
 
       <template v-if="allRequests.length > 0">
-        <div v-for="(request) in viewableRequests()" v-bind:key="request._id" class="row row-border-bottom">
+        <div
+          v-for="(request) in viewableRequests()"
+          v-bind:key="request._id"
+          class="row row-border-bottom table-row-selectable"
+          v-bind:class="{ 'table-row-selected': rowIsActive(request) }"
+          v-on:click="selectOrDeselectRow(request)"
+        >
           <div class="column column-data column-10" id="table-data-1">{{ request.method }}</div>
           <div class="column column-data column-10" id="table-data-2">{{ request.protocol }}</div>
           <div class="column column-data column-10" id="table-data-3">{{ request.name }}</div>
@@ -28,13 +34,20 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
   name: "RequestTable",
   computed: {
-    ...mapState("request/requestTable", ["allRequests"]),
-    ...mapGetters('request/requestTable', ['viewableRequests'])
+    ...mapState("request/requestTable", ["allRequests", "requestId"]),
+    ...mapGetters("request/requestTable", ["viewableRequests"])
+  },
+  methods: {
+    ...mapActions("request/requestTable", ["selectOrDeselectRow"]),
+    rowIsActive: function(request) {
+      if (request._id === this.requestId) return true;
+      else return false;
+    }
   }
 };
 </script>

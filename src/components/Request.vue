@@ -95,6 +95,12 @@ div {
 .row-justify-between {
   justify-content: space-between;
 }
+.table-row-selected {
+  background: #e7e7e7;
+}
+.table-row-selectable {
+  cursor: pointer;
+}
 .column {
   height: 100%;
 }

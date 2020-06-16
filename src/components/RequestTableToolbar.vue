@@ -48,7 +48,7 @@
       </div>
     </div>
     <div class="column spacer"></div>
-    <div class="column text-button" id="table-toolbar-refresh">Refresh</div>
+    <div class="column text-button" id="table-toolbar-refresh" v-on:click="getRequests()">Refresh</div>
   </div>
 </template>
 
@@ -59,17 +59,21 @@ import { mapFields } from "vuex-map-fields";
 export default {
   name: "RequestTableToolbar",
   computed: {
-    ...mapState('request/requestTable', ['filter']),
+    ...mapState("request/requestTable", ["filter"]),
     ...mapGetters("request/requestTable", ["pagination"]),
     ...mapFields("request/requestTable", ["searchTerm"])
   },
   methods: {
-    ...mapActions("request/requestTable", ["previousPage", "nextPage"]),
-    ...mapMutations("request/requestTable", ["changeFilter", 'resetPage']),
+    ...mapActions("request/requestTable", [
+      "previousPage",
+      "nextPage",
+      "getRequests"
+    ]),
+    ...mapMutations("request/requestTable", ["changeFilter", "resetPage"]),
     filterIsActive: function(filterButton) {
       if (filterButton === this.filter) return true;
       else return false;
-    },
+    }
   }
 };
 </script>

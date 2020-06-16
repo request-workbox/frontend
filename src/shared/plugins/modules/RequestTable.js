@@ -10,6 +10,8 @@ const state = () => ({
 
     allRequests: [],
 
+    requestDetails: {},
+
     requestId: '',
 
     searchTerm: '',
@@ -17,6 +19,9 @@ const state = () => ({
 
 const getters = {
     getField,
+    selectedRequest: (state, getters) => () => {
+        return state.requestDetails[state.requestId]
+    },
     currentPage: (state, getters) => () => {
         return (getters.totalPages() === 0) ? 0 : state.page + 1
     },
@@ -30,10 +35,10 @@ const getters = {
     requestsByFilter: (state, getters) => () => {
         return _.filter(state.allRequests, (request) => {
             if (state.filter === 'active') {
-                if (request.isActive) return true
+                if (request.active) return true
                 else return false
             } else if (state.filter === 'deleted') {
-                if (!request.isActive) return true
+                if (!request.active) return true
                 else return false
             } else {
                 return true
@@ -65,11 +70,24 @@ const actions = {
         if (getters.currentPage() === getters.totalPages()) return
         commit('incrementPage')
     },
-    async getRequests({ commit, state, getters, rootState }, { projectId }) {
+    async getRequests({ commit, state, getters, rootState }, payload) {
+        const projectId = (payload && payload.projectId) ? payload.projectId : rootState.request.requestProject.projectId
         const requestUrl = `${rootState.request.apiUrl}/get-requests`
         const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('replaceRequests', { requests: request.data })
+        commit('resetPage')
+    },
+    async selectOrDeselectRow({ commit, state, getters, rootState }, { _id }) {
+        if (state.requestId === _id) {
+            commit('changeRequestId', { requestId: ''})
+        } else {
+            commit('changeRequestId', { requestId: _id })
+            const requestUrl = `${rootState.request.apiUrl}/get-request-details`
+            const requestBody = { requestId: _id }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
+            commit('updateRequestDetails', request.data)
+        }
     }
 }
 
@@ -90,6 +108,12 @@ const mutations = {
     },
     replaceRequests(state, { requests }) {
         state.allRequests = requests
+    },
+    changeRequestId(state, { requestId }) {
+        state.requestId = requestId
+    },
+    updateRequestDetails(state, payload) {
+        state.requestDetails = { ...state.requestDetails, [payload._id]: payload }
     }
 }
 

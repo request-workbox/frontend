@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-const appUrl = process.env.VUE_APP_URL
+const appUrl = process.env.VUE_APP_APP_URL
 
 const state = () => ({
 
