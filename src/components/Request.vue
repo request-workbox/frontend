@@ -159,6 +159,9 @@ div {
 .text-button:hover {
   background: #f1f1f1;
 }
+.text-button-selected {
+  background: #f1f1f1;
+}
 
 .button {
   background: #0075d2;
