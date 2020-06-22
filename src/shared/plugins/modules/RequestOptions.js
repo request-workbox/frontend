@@ -1,22 +1,23 @@
 const state = () => ({
-    parameters: [],
-    query: [],
-    headers: [],
-    cookies: [],
-    body: [],
+    option: 'parameters',
+    // parameters: [],
+    // query: [],
+    // headers: [],
+    // cookies: [],
+    // body: [],
 
-    requestAvailableTo: '',
-    responseAvailableTo: '',
+    // requestAvailableTo: '',
+    // responseAvailableTo: '',
 
-    requestAvailableAs: '',
-    responseAvailableAs: '',
+    // requestAvailableAs: '',
+    // responseAvailableAs: '',
 
-    plugins: [],
+    // plugins: [],
 
-    requestName: '',
-    description: '',
-    successCodes: '',
-    errorCodes: '',
+    // requestName: '',
+    // description: '',
+    // successCodes: '',
+    // errorCodes: '',
 })
 
 const getters = {
@@ -28,7 +29,9 @@ const actions = {
 }
 
 const mutations = {
-
+    changeOption(state, payload) {
+        state.option = payload
+    },
 }
 
 export default {

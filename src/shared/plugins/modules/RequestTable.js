@@ -15,8 +15,6 @@ const state = () => ({
     requestId: '',
 
     searchTerm: '',
-
-    option: 'parameters',
 })
 
 const getters = {
@@ -116,9 +114,6 @@ const mutations = {
     },
     updateRequestDetails(state, payload) {
         state.requestDetails = { ...state.requestDetails, [payload._id]: payload }
-    },
-    changeOption(state, payload) {
-        state.option = payload
     },
 }
 
