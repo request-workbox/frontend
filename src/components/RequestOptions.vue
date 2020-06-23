@@ -10,6 +10,7 @@ import _ from 'lodash'
 import RequestOptionsParameters from './RequestOptionsParameters' 
 import RequestOptionsQuery from './RequestOptionsQuery' 
 import RequestOptionsHeaders from './RequestOptionsHeaders' 
+import RequestOptionsCookies from './RequestOptionsCookies' 
 
 export default {
   name:'RequestOptions',
@@ -17,6 +18,7 @@ export default {
     RequestOptionsParameters,
     RequestOptionsQuery,
     RequestOptionsHeaders,
+    RequestOptionsCookies,
   },
   computed: {
     ...mapState('request/requestOptions', [
