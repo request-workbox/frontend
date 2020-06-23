@@ -9,12 +9,14 @@ import _ from 'lodash'
 
 import RequestOptionsParameters from './RequestOptionsParameters' 
 import RequestOptionsQuery from './RequestOptionsQuery' 
+import RequestOptionsHeaders from './RequestOptionsHeaders' 
 
 export default {
   name:'RequestOptions',
   components: {
     RequestOptionsParameters,
     RequestOptionsQuery,
+    RequestOptionsHeaders,
   },
   computed: {
     ...mapState('request/requestOptions', [

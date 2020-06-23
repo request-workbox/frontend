@@ -4,6 +4,7 @@ import requestTable from './RequestTable'
 import requestOptions from './RequestOptions'
 import requestOptionsParameters from './RequestOptionsParameters'
 import requestOptionsQuery from './RequestOptionsQuery'
+import requestOptionsHeaders from './RequestOptionsHeaders'
 
 const state = () => ({
     apiUrl: 'http://localhost:3000'
@@ -35,5 +36,6 @@ export default {
         requestOptions,
         requestOptionsParameters,
         requestOptionsQuery,
+        requestOptionsHeaders,
     }
 }
