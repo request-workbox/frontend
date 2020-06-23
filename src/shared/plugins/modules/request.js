@@ -2,6 +2,7 @@ import requestProject from './RequestProject'
 import requestMenu from './RequestMenu'
 import requestTable from './RequestTable'
 import requestOptions from './RequestOptions'
+import requestOptionsParameters from './RequestOptionsParameters'
 
 const state = () => ({
     apiUrl: 'http://localhost:3000'
@@ -31,5 +32,6 @@ export default {
         requestMenu,
         requestTable,
         requestOptions,
+        requestOptionsParameters,
     }
 }
