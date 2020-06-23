@@ -1,13 +1,13 @@
 <template>
   <div class="row">
     <div class="column column-full-width">
-      <!-- <div class="row row-border-bottom">
-        <div class="column column-data column-header-text column-checkbox">
+      <div class="row row-border-bottom">
+        <!-- <div class="column column-data column-header-text column-checkbox">
           <input type="checkbox" id="options-header-checkbox" disabled />
-        </div>
-        <div class="column column-data column-header-text column-20" id="options-header-1"></div>
-        <div class="column column-data column-header-text column-grow" id="options-header-2"></div>
-      </div> -->
+        </div> -->
+        <div class="column column-data column-header-text column-20" id="options-header-1">Detail</div>
+        <div class="column column-data column-header-text column-grow" id="options-header-2">Detail Value</div>
+      </div>
 
       <div class="row row-border-bottom" v-for="value in this.details" :key="value._id">
         <!-- <div class="column column-data column-checkbox">

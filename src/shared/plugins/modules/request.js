@@ -10,6 +10,7 @@ import requestOptionsBody from './RequestOptionsBody'
 import requestOptionsUrl from './RequestOptionsUrl'
 import requestOptionsPermissions from './RequestOptionsPermissions'
 import requestOptionsDetails from './RequestOptionsDetails'
+import requestOptionsPlugins from './RequestOptionsPlugins'
 
 const state = () => ({
     apiUrl: 'http://localhost:3000'
@@ -47,5 +48,6 @@ export default {
         requestOptionsUrl,
         requestOptionsPermissions,
         requestOptionsDetails,
+        requestOptionsPlugins,
     }
 }

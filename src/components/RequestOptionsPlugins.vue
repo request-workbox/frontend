@@ -5,11 +5,11 @@
         <!-- <div class="column column-data column-header-text column-checkbox">
           <input type="checkbox" id="options-header-checkbox" disabled />
         </div> -->
-        <div class="column column-data column-header-text column-20" id="options-header-1">Permission</div>
-        <div class="column column-data column-header-text column-grow" id="options-header-2">Permission Value</div>
+        <div class="column column-data column-header-text column-20" id="options-header-1">Plugin Type</div>
+        <div class="column column-data column-header-text column-grow" id="options-header-2">Plugin Name</div>
       </div>
 
-      <div class="row row-border-bottom" v-for="value in this.permissions" :key="value._id">
+      <div class="row row-border-bottom" v-for="value in this.plugins" :key="value._id">
         <!-- <div class="column column-data column-checkbox">
           <input type="checkbox" id="options-data-checkbox" />
         </div> -->
@@ -19,7 +19,6 @@
             placeholder="Key"
             class="column-input-text"
             :value="value.key"
-            disabled
           />
         </div>
         <div class="column column-data column-grow">
@@ -39,9 +38,9 @@
 import { mapState } from "vuex";
 
 export default {
-  name: "RequestOptionsPermissions",
+  name: "RequestOptionsPlugins",
   computed: {
-    ...mapState("request/requestOptionsPermissions", ["permissions"])
+    ...mapState("request/requestOptionsPlugins", ["plugins"])
   }
 };
 </script>

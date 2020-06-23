@@ -15,6 +15,7 @@ import RequestOptionsBody from './RequestOptionsBody'
 import RequestOptionsUrl from './RequestOptionsUrl' 
 import RequestOptionsPermissions from './RequestOptionsPermissions' 
 import RequestOptionsDetails from './RequestOptionsDetails' 
+import RequestOptionsPlugins from './RequestOptionsPlugins' 
 
 export default {
   name:'RequestOptions',
@@ -27,6 +28,7 @@ export default {
     RequestOptionsUrl,
     RequestOptionsPermissions,
     RequestOptionsDetails,
+    RequestOptionsPlugins,
   },
   computed: {
     ...mapState('request/requestOptions', [
