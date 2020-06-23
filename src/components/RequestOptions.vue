@@ -11,6 +11,7 @@ import RequestOptionsParameters from './RequestOptionsParameters'
 import RequestOptionsQuery from './RequestOptionsQuery' 
 import RequestOptionsHeaders from './RequestOptionsHeaders' 
 import RequestOptionsCookies from './RequestOptionsCookies' 
+import RequestOptionsBody from './RequestOptionsBody' 
 
 export default {
   name:'RequestOptions',
@@ -19,6 +20,7 @@ export default {
     RequestOptionsQuery,
     RequestOptionsHeaders,
     RequestOptionsCookies,
+    RequestOptionsBody,
   },
   computed: {
     ...mapState('request/requestOptions', [
