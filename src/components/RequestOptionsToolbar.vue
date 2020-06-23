@@ -2,6 +2,7 @@
     <div class="row row-justify-between row-border-bottom row-dark">
       <div class="column">
         <div class="row">
+          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('url')}" v-on:click="changeOption('url')" id="request-options-url">URL</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('parameters')}" v-on:click="changeOption('parameters')" id="request-options-parameters">Parameters</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('query')}" v-on:click="changeOption('query')" id="request-options-query">Query</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('headers')}" v-on:click="changeOption('headers')" id="request-options-headers">Headers</div>

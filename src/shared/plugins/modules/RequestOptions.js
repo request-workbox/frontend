@@ -1,5 +1,5 @@
 const state = () => ({
-    option: 'parameters',
+    option: 'url',
     // parameters: [],
     // query: [],
     // headers: [],

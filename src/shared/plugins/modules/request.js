@@ -7,6 +7,7 @@ import requestOptionsQuery from './RequestOptionsQuery'
 import requestOptionsHeaders from './RequestOptionsHeaders'
 import requestOptionsCookies from './RequestOptionsCookies'
 import requestOptionsBody from './RequestOptionsBody'
+import requestOptionsUrl from './RequestOptionsUrl'
 
 const state = () => ({
     apiUrl: 'http://localhost:3000'
@@ -41,5 +42,6 @@ export default {
         requestOptionsHeaders,
         requestOptionsCookies,
         requestOptionsBody,
+        requestOptionsUrl,
     }
 }
