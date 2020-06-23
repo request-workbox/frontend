@@ -144,6 +144,9 @@ div {
 .column-10 {
   width: 10%;
 }
+.column-20 {
+  width: 20%;
+}
 .column-grow {
   flex-grow: 1;
 }
