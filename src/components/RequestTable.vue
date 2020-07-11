@@ -23,10 +23,10 @@
           v-bind:class="{ 'table-row-selected': rowIsActive(request) }"
           v-on:click="selectOrDeselectRow(request)"
         >
-          <div class="column column-data column-10" id="table-data-1">{{ request.method }}</div>
-          <div class="column column-data column-10" id="table-data-2">{{ request.protocol }}</div>
-          <div class="column column-data column-10" id="table-data-3">{{ request.name }}</div>
-          <div class="column column-data column-grow" id="table-data-4">{{ request.url }}</div>
+          <div class="column column-data column-10" id="table-data-1">{{ request.url.method }}</div>
+          <div class="column column-data column-10" id="table-data-2">{{ request.url.protocol }}</div>
+          <div class="column column-data column-10" id="table-data-3">{{ request.url.name }}</div>
+          <div class="column column-data column-grow" id="table-data-4">{{ request.url.url }}</div>
         </div>
       </template>
     </div>
