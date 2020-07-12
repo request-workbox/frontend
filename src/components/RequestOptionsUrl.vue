@@ -39,7 +39,6 @@ export default {
     ...mapState("request/requestTable", ['requestDetails']),
   },
   methods: {
-    ...mapActions('request/requestTable', ['updateUrl']),
     ...mapMutations('request/requestTable', ['editRequestDetail']),
     edit: function(type, key, event) {
       this.editRequestDetail({type, key, value: event.target.value})

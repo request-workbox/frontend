@@ -145,12 +145,25 @@ const mutations = {
     updateRequestDetails(state, payload) {
         state.requestDetails = { ...payload }
     },
-    updateUrl(state, payload) {
-        state.requestDetails.url[payload.key] = payload.value
-    },
     editRequestDetail(state, payload) {
         state.editing = true
         state.requestDetails[payload.type][payload.key] = payload.value
+    },
+    editRequestDetailKey(state, payload) {
+        state.editing = true
+        _.each(state.requestDetails[payload.type], (obj) => {
+            if (obj._id === payload.key) {
+                obj.key = payload.value
+            }
+        })
+    },
+    editRequestDetailValue(state, payload) {
+        state.editing = true
+        _.each(state.requestDetails[payload.type], (obj) => {
+            if (obj._id === payload.key) {
+                obj.value = payload.value
+            }
+        })
     },
     stopEditing(state) {
         state.editing = false

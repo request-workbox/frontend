@@ -19,6 +19,7 @@
             placeholder="Key"
             class="column-input-text"
             :value="value.key"
+            v-on:input="editKey('parameters', value._id, $event)"
           />
         </div>
         <div class="column column-data column-grow">
@@ -27,6 +28,7 @@
             placeholder="Value"
             class="column-input-text"
             :value="value.value"
+            v-on:input="editValue('parameters', value._id, $event)"
           />
         </div>
       </div>
@@ -35,12 +37,21 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   name: "RequestOptionsParameters",
   computed: {
     ...mapState("request/requestTable", ["requestDetails"])
-  }
+  },
+  methods: {
+    ...mapMutations('request/requestTable', ['editRequestDetailKey', 'editRequestDetailValue']),
+    editKey: function(type, key, event) {
+      this.editRequestDetailKey({type, key, value: event.target.value})
+    },
+    editValue: function(type, key, event) {
+      this.editRequestDetailValue({type, key, value: event.target.value})
+    },
+  },
 };
 </script>
