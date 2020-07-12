@@ -14,7 +14,7 @@
         <div class="row">
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('permissions')}" v-on:click="changeOption('permissions')" id="request-options-permissions">Permissions</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('plugins')}" v-on:click="changeOption('plugins')" id="request-options-plugins">Plugins</div>
-          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('details')}" v-on:click="changeOption('details')" id="request-options-details">Details</div>
+          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('settings')}" v-on:click="changeOption('settings')" id="request-options-settings">Settings</div>
         </div>
       </div>
     </div>
