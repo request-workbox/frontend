@@ -20,7 +20,7 @@ const state = () => ({
 const getters = {
     getField,
     selectedRequest: (state, getters) => () => {
-        return state.requestDetails[state.requestId]
+        return state.requestDetails
     },
     currentPage: (state, getters) => () => {
         return (getters.totalPages() === 0) ? 0 : state.page + 1
@@ -81,6 +81,7 @@ const actions = {
     async selectOrDeselectRow({ commit, state, getters, rootState }, { _id }) {
         if (state.requestId === _id) {
             commit('changeRequestId', { requestId: ''})
+            commit('updateRequestDetails', {})
         } else {
             commit('changeRequestId', { requestId: _id })
             const requestUrl = `${rootState.request.apiUrl}/get-request-details`
@@ -113,7 +114,7 @@ const mutations = {
         state.requestId = requestId
     },
     updateRequestDetails(state, payload) {
-        state.requestDetails = { ...state.requestDetails, [payload._id]: payload }
+        state.requestDetails = { ...payload }
     },
 }
 

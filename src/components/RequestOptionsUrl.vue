@@ -9,7 +9,7 @@
         <div class="column column-data column-header-text column-grow" id="options-header-2">Value</div>
       </div>
 
-      <div class="row row-border-bottom" v-for="value in this.url" :key="value._id">
+      <div class="row row-border-bottom" v-for="(value, key) in this.requestDetails.url" :key="key">
         <div class="column column-data column-checkbox">
           <input type="checkbox" id="options-data-checkbox" />
         </div>
@@ -18,7 +18,7 @@
             type="text"
             placeholder="Key"
             class="column-input-text"
-            :value="value.key"
+            :value="key"
             disabled
           />
         </div>
@@ -27,7 +27,7 @@
             type="text"
             placeholder="Value"
             class="column-input-text"
-            :value="value.value"
+            :value="value"
           />
         </div>
       </div>
@@ -41,7 +41,7 @@ import { mapState } from "vuex";
 export default {
   name: "RequestOptionsUrl",
   computed: {
-    ...mapState("request/requestOptionsUrl", ["url"])
+    ...mapState("request/requestTable", ['requestDetails'])
   }
 };
 </script>

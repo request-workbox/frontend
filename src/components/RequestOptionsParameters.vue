@@ -9,9 +9,9 @@
         <div class="column column-data column-header-text column-grow" id="options-header-2">Value</div>
       </div>
 
-      <div class="row row-border-bottom" v-for="value in this.parameters" :key="value._id">
+      <div class="row row-border-bottom" v-for="value in this.requestDetails.parameters" :key="value._id">
         <div class="column column-data column-checkbox">
-          <input type="checkbox" id="options-data-checkbox" />
+          <input type="checkbox" id="options-data-checkbox" :checked="value.acceptInput" />
         </div>
         <div class="column column-data column-10">
           <input
@@ -40,7 +40,7 @@ import { mapState } from "vuex";
 export default {
   name: "RequestOptionsParameters",
   computed: {
-    ...mapState("request/requestOptionsParameters", ["parameters"])
+    ...mapState("request/requestTable", ["requestDetails"])
   }
 };
 </script>
