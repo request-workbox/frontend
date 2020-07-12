@@ -1,23 +1,5 @@
 const state = () => ({
     option: 'url',
-    // parameters: [],
-    // query: [],
-    // headers: [],
-    // cookies: [],
-    // body: [],
-
-    // requestAvailableTo: '',
-    // responseAvailableTo: '',
-
-    // requestAvailableAs: '',
-    // responseAvailableAs: '',
-
-    // plugins: [],
-
-    // requestName: '',
-    // description: '',
-    // successCodes: '',
-    // errorCodes: '',
 })
 
 const getters = {

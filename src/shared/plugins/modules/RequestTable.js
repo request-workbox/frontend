@@ -119,6 +119,13 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('stopEditing')
     },
+    async addRequestDetailItem({ commit, state, getters, rootState }) {
+        const requestDetailOption = rootState.request.requestOptions.option
+        const requestUrl = `${rootState.request.apiUrl}/add-request-detail-item`
+        const requestBody = { _id: state.requestId, requestDetailOption: requestDetailOption }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('updateRequestDetailItem', { requestDetailOption, item: request.data })
+    }
 }
 
 const mutations = {
@@ -164,6 +171,9 @@ const mutations = {
                 obj.value = payload.value
             }
         })
+    },
+    updateRequestDetailItem(state, payload) {
+        state.requestDetails[payload.requestDetailOption].push(payload.item)
     },
     stopEditing(state) {
         state.editing = false
