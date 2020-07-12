@@ -2,7 +2,7 @@
     <div class="row row-border-bottom row-dark">
       <div class="column column-full-width">
         <div class="row row-justify-between">
-          <div class="column section-header" id="request-details-name">{{ requestId() }}</div>
+          <div class="column section-header" id="request-details-name">{{ requestName() }}</div>
           <div class="column text" id="request-details-last-edited">{{ requestLastEdited() }}</div>
         </div>
       </div>
@@ -18,11 +18,11 @@ export default {
     ...mapGetters('request/requestTable', ['selectedRequest']),
   },
   methods: {
-    requestId: function() {
+    requestName: function() {
       const requestDetails = this.selectedRequest()
 
-      if (!requestDetails._id) return ''
-      return requestDetails._id
+      if (!requestDetails.url || !requestDetails.url.name) return ''
+      return requestDetails.url.name
     },
     requestLastEdited: function() {
       const requestDetails = this.selectedRequest()

@@ -2,23 +2,17 @@
   <div class="row">
     <div class="column column-full-width">
       <div class="row row-border-bottom">
-        <div class="column column-data column-header-text column-checkbox">
-          <input type="checkbox" id="options-header-checkbox" disabled />
-        </div>
         <div class="column column-data column-header-text column-10" id="options-header-1">Key</div>
         <div class="column column-data column-header-text column-grow" id="options-header-2">Value</div>
       </div>
 
       <div class="row row-border-bottom" v-for="(value, key) in this.requestDetails.url" :key="key">
-        <div class="column column-data column-checkbox">
-          <input type="checkbox" id="options-data-checkbox" />
-        </div>
         <div class="column column-data column-10">
           <input
             type="text"
             placeholder="Key"
             class="column-input-text"
-            :value="key"
+            :value="key | capitalize"
             disabled
           />
         </div>
@@ -28,6 +22,7 @@
             placeholder="Value"
             class="column-input-text"
             :value="value"
+            v-on:input="edit('url', key, $event)"
           />
         </div>
       </div>
@@ -36,12 +31,25 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
   name: "RequestOptionsUrl",
   computed: {
-    ...mapState("request/requestTable", ['requestDetails'])
+    ...mapState("request/requestTable", ['requestDetails']),
+  },
+  methods: {
+    ...mapActions('request/requestTable', ['updateUrl']),
+    ...mapMutations('request/requestTable', ['editRequestDetail']),
+    edit: function(type, key, event) {
+      this.editRequestDetail({type, key, value: event.target.value})
+    }
+  },
+  filters: {
+    capitalize: function (key) {
+      if (!key) return ''
+      return key.charAt(0).toUpperCase() + key.slice(1)
+    }
   }
 };
 </script>

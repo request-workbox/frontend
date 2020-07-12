@@ -7,6 +7,7 @@
     <RequestTable />
     <RequestDetails />
     <RequestOptionsToolbar />
+    <RequestOptionsActions />
     <RequestOptions />
     <RequestFooter />
   </div>
@@ -22,6 +23,7 @@ import RequestTableToolbar from "./RequestTableToolbar";
 import RequestTable from "./RequestTable";
 import RequestDetails from "./RequestDetails";
 import RequestOptionsToolbar from "./RequestOptionsToolbar";
+import RequestOptionsActions from './RequestOptionsActions';
 import RequestOptions from "./RequestOptions";
 import RequestFooter from "./RequestFooter";
 
@@ -36,6 +38,7 @@ export default {
     RequestTable,
     RequestDetails,
     RequestOptionsToolbar,
+    RequestOptionsActions,
     RequestOptions,
     RequestFooter
   },
@@ -131,7 +134,7 @@ div {
 }
 .column-input-text {
   border-width: 0px;
-  width: auto;
+  width: 98%;
 
   font-weight: 400;
   font-size: 12px;

@@ -15,6 +15,8 @@ const state = () => ({
     requestId: '',
 
     searchTerm: '',
+
+    editing: false,
 })
 
 const getters = {
@@ -89,7 +91,34 @@ const actions = {
             const request = await Vue.$axios.post(requestUrl, requestBody)
             commit('updateRequestDetails', request.data)
         }
-    }
+    },
+    async updateUrl({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${rootState.request.apiUrl}/update-request-url`
+        const requestBody = {
+            requestId: payload._id,
+            key: payload.key,
+            value: payload.value
+        }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('updateUrl', requestBody)
+    },
+    async cancelChanges({ commit, state, getters, rootState }) {
+        if (!state.editing) return;
+
+        const requestUrl = `${rootState.request.apiUrl}/get-request-details`
+        const requestBody = { requestId: state.requestId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('updateRequestDetails', request.data)
+        commit('stopEditing')
+    },
+    async saveChanges({ commit, state, getters, rootState }) {
+        if (!state.editing) return;
+
+        const requestUrl = `${rootState.request.apiUrl}/save-changes`
+        const requestBody = state.requestDetails
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('stopEditing')
+    },
 }
 
 const mutations = {
@@ -116,6 +145,16 @@ const mutations = {
     updateRequestDetails(state, payload) {
         state.requestDetails = { ...payload }
     },
+    updateUrl(state, payload) {
+        state.requestDetails.url[payload.key] = payload.value
+    },
+    editRequestDetail(state, payload) {
+        state.editing = true
+        state.requestDetails[payload.type][payload.key] = payload.value
+    },
+    stopEditing(state) {
+        state.editing = false
+    }
 }
 
 export default {
