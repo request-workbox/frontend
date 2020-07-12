@@ -129,8 +129,14 @@ div {
 .column-header-text {
   font-weight: 500;
 }
+.column-group-header {
+  background:#ececec !important;
+}
 .column-checkbox {
   min-width: 23px;
+}
+.column-input-select {
+  font-size: 1em;
 }
 .column-input-text {
   border-width: 0px;

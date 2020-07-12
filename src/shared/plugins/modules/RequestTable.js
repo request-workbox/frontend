@@ -92,16 +92,6 @@ const actions = {
             commit('updateRequestDetails', request.data)
         }
     },
-    async updateUrl({ commit, state, getters, rootState }, payload) {
-        const requestUrl = `${rootState.request.apiUrl}/update-request-url`
-        const requestBody = {
-            requestId: payload._id,
-            key: payload.key,
-            value: payload.value
-        }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('updateUrl', requestBody)
-    },
     async cancelChanges({ commit, state, getters, rootState }) {
         if (!state.editing) return;
 
