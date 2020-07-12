@@ -181,6 +181,14 @@ const mutations = {
             }
         })
     },
+    editRequestDetailAcceptInput(state, payload) {
+        state.editing = true
+        _.each(state.requestDetails[payload.type], (obj) => {
+            if (obj._id === payload.key) {
+                obj.acceptInput = payload.value
+            }
+        })
+    },
     updateRequestDetailItem(state, payload) {
         state.requestDetails[payload.requestDetailOption].push(payload.item)
     },

@@ -11,7 +11,7 @@
 
       <div class="row row-border-bottom" v-for="value in this.requestDetails.cookies" :key="value._id">
         <div class="column column-data column-checkbox">
-          <input type="checkbox" id="options-data-checkbox" :checked="value.acceptInput" />
+          <input type="checkbox" id="options-data-checkbox" :checked="value.acceptInput" v-on:input="editAcceptInput('cookies', value._id, $event)" />
         </div>
         <div class="column column-data column-10">
           <input
@@ -48,13 +48,16 @@ export default {
     ...mapState("request/requestTable", ["requestDetails"])
   },
   methods: {
-    ...mapMutations('request/requestTable', ['editRequestDetailKey', 'editRequestDetailValue']),
+    ...mapMutations('request/requestTable', ['editRequestDetailKey', 'editRequestDetailValue','editRequestDetailAcceptInput']),
     ...mapActions('request/requestTable', ['deleteRequestDetailItem']),
     editKey: function(type, key, event) {
       this.editRequestDetailKey({type, key, value: event.target.value})
     },
     editValue: function(type, key, event) {
       this.editRequestDetailValue({type, key, value: event.target.value})
+    },
+    editAcceptInput: function(type, key, event) {
+      this.editRequestDetailAcceptInput({type, key, value: event.target.checked})
     },
   },
 };
