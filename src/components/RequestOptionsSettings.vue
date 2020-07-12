@@ -28,7 +28,7 @@
         </div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.requestDetails._id">
+      <div class="row row-border-bottom" v-if="this.requestDetails._id && this.requestDetails.requestSettings.requestType === 'adapter'">
         <div class="column column-data column-20">
           <input
             type="text"

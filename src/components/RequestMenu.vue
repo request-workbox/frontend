@@ -2,7 +2,8 @@
     <div class="row row-border-bottom">
       <div class="column">
         <div class="row">
-          <div class="column text-button" id="menu-new-request" v-on:click="newRequest({ projectId })">New Request</div>
+          <div class="column text-button" id="menu-new-request" v-on:click="newRequest({ projectId, adapter: false })">New Request</div>
+          <div class="column text-button" id="menu-new-adapter" v-on:click="newRequest({ projectId, adapter: true })">New Adapter</div>
           <div class="column text-button" id="menu-new-workflow" v-on:click="newWorkflow({ requestId })">New Workflow</div>
           <div class="column text-button" id="menu-new-project" v-on:click="newProject()">New Project</div>
           <!-- <div class="column text-button" id="menu-add-to-workflow" v-on:click="addToWorkflow">Add to Workflow</div> -->
