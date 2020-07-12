@@ -125,7 +125,16 @@ const actions = {
         const requestBody = { _id: state.requestId, requestDetailOption: requestDetailOption }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('updateRequestDetailItem', { requestDetailOption, item: request.data })
-    }
+    },
+    async deleteRequestDetailItem({ commit, state, getters, rootState }, payload) {
+        const requestDetailOption = rootState.request.requestOptions.option
+        const requestId = state.requestId
+        const requestDetailItemId = payload._id
+        const requestUrl = `${rootState.request.apiUrl}/delete-request-detail-item`
+        const requestBody = { _id: requestId, requestDetailOption, requestDetailItemId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('removeRequestDetailItem', { requestDetailOption, requestDetailItemId })
+    },
 }
 
 const mutations = {
@@ -174,6 +183,12 @@ const mutations = {
     },
     updateRequestDetailItem(state, payload) {
         state.requestDetails[payload.requestDetailOption].push(payload.item)
+    },
+    removeRequestDetailItem(state, payload) {
+        state.requestDetails[payload.requestDetailOption] = _.filter(state.requestDetails[payload.requestDetailOption], (obj) => {
+            if (obj._id === payload.requestDetailItemId) return false;
+            else return true;
+        })
     },
     stopEditing(state) {
         state.editing = false

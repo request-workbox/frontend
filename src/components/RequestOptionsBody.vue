@@ -31,13 +31,16 @@
             v-on:input="editValue('body', value._id, $event)"
           />
         </div>
+        <div class="column column-data text-button" v-on:click="deleteRequestDetailItem(value)">
+          Delete
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "RequestOptionsBody",
@@ -46,6 +49,7 @@ export default {
   },
   methods: {
     ...mapMutations('request/requestTable', ['editRequestDetailKey', 'editRequestDetailValue']),
+    ...mapActions('request/requestTable', ['deleteRequestDetailItem']),
     editKey: function(type, key, event) {
       this.editRequestDetailKey({type, key, value: event.target.value})
     },
