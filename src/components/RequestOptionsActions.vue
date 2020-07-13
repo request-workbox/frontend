@@ -26,11 +26,11 @@
           <div class="row">
             <div
             class="column text-button action"
-            v-on:click="addRequestAdapter"
+            v-on:click="addAdapter({type: 'requestAdapters'})"
           >Add Request Adapter</div>
           <div
             class="column text-button action"
-            v-on:click="addResponseAdapter"
+            v-on:click="addAdapter({type: 'responseAdapters'})"
           >Add Response Adapter</div>
           </div>
           
@@ -50,7 +50,7 @@ export default {
     ...mapState('request/requestOptions', ['option'])
   },
   methods: {
-    ...mapActions("request/requestTable", ["cancelChanges", 'saveChanges', 'addRequestDetailItem']),
+    ...mapActions("request/requestTable", ["cancelChanges", 'saveChanges', 'addRequestDetailItem', 'addAdapter']),
     allowAddingItem: function() {
       if (!this.requestDetails._id) return false;
 
@@ -64,13 +64,7 @@ export default {
       const allowOptions = ['adapters']
       if (_.includes(allowOptions,this.option)) return true;
       else return false;
-    },
-    addRequestAdapter: function() {
-      console.log('add request adapter')
-    },
-    addResponseAdapter: function() {
-      console.log('add response adapter')
-    },
+    }
   }
 };
 </script>

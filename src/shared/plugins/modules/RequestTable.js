@@ -125,6 +125,18 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('removeRequestDetailItem', { requestDetailOption, requestDetailItemId })
     },
+    async addAdapter({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${rootState.request.apiUrl}/add-adapter`
+        const requestBody = { _id: state.requestId, adapterType: payload.type }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('updateAdapter', { type: payload.type, item: request.data })
+    },
+    async deleteAdapter({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${rootState.request.apiUrl}/delete-adapter`
+        const requestBody = { _id: state.requestId, adapterType: payload.type, adapterId: payload.adapterId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('removeAdapter', { type: payload.type, adapterId: payload.adapterId })
+    },
 }
 
 const mutations = {
@@ -177,6 +189,23 @@ const mutations = {
             if (obj._id === payload.key) {
                 obj.acceptInput = payload.value
             }
+        })
+    },
+    editAdapter(state, payload) {
+        state.editing = true
+        _.each(state.requestDetails[payload.type], (obj) => {
+            if (obj._id === payload._id) {
+                obj[payload.key] = payload.value
+            }
+        })
+    },
+    updateAdapter(state, payload) {
+        state.requestDetails[payload.type].push(payload.item)
+    },
+    removeAdapter(state, payload) {
+        state.requestDetails[payload.type] = _.filter(state.requestDetails[payload.type], (obj) => {
+            if (obj._id === payload.adapterId) return false;
+            else return true;
         })
     },
     updateRequestDetailItem(state, payload) {

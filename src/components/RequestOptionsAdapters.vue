@@ -10,21 +10,21 @@
         <div class="column column-data column-header-text column-grow column-group-header">Request Adapters</div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.requestDetails._id">
+      <div class="row row-border-bottom" v-for="value in this.requestDetails.requestAdapters" :key="value._id">
         <div class="column column-data column-20">
-          <select class="column-input-select column-input-select-grow">
+          <select class="column-input-select column-input-select-grow" :value="value.adapterId">
             <option value="request">Request Adapter</option>
             <option value="adapter">Request Adapter 2</option>
           </select>
         </div>
         <div class="column column-data column-grow">
-          <select class="column-input-select">
+          <select class="column-input-select" :value="value.onAdapterFailure" v-on:input="edit('requestAdapters', value._id, 'onAdapterFailure', $event)">
             <option value="continueWorkflow">Continue Workflow</option>
             <option value="stopWorkflow">Stop Workflow</option>
             <option value="repeatAttempt">Repeat Attempt</option>
           </select>
         </div>
-        <div class="column column-data text-button" v-on:click="removeRequestAdapter()">
+        <div class="column column-data text-button" v-on:click="deleteAdapter({type: 'requestAdapters', adapterId: value._id })">
           Remove
         </div>
       </div>
@@ -33,21 +33,21 @@
         <div class="column column-data column-header-text column-grow column-group-header">Response Adapters</div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.requestDetails._id">
+      <div class="row row-border-bottom" v-for="value in this.requestDetails.responseAdapters" :key="value._id">
         <div class="column column-data column-20">
-          <select class="column-input-select column-input-select-grow">
+          <select class="column-input-select column-input-select-grow" :value="value.adapterId">
             <option value="request">Response Adapter</option>
             <option value="adapter">Response Adapter 2</option>
           </select>
         </div>
         <div class="column column-data column-grow">
-          <select class="column-input-select">
+          <select class="column-input-select" :value="value.onAdapterFailure" v-on:input="edit('responseAdapters', value._id, 'onAdapterFailure', $event)">
             <option value="continueWorkflow">Continue Workflow</option>
             <option value="stopWorkflow">Stop Workflow</option>
             <option value="repeatAttempt">Repeat Attempt</option>
           </select>
         </div>
-        <div class="column column-data text-button" v-on:click="removeResponseAdapter()">
+        <div class="column column-data text-button" v-on:click="deleteAdapter({type: 'responseAdapters', adapterId: value._id })">
           Remove
         </div>
       </div>
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "RequestOptionsAdapters",
@@ -65,6 +65,12 @@ export default {
     ...mapState('request/requestTable', ['requestDetails']),
   },
   methods: {
+    ...mapActions('request/requestTable', ['deleteAdapter']),
+    ...mapMutations('request/requestTable', ['editAdapter']),
+      edit: function(type, _id, key, event) {
+        const edit = { type, _id, key, value: event.target.value }
+        this.editAdapter(edit)
+      },
       removeRequestAdapter: function() {
         console.log('remove request adapter')
       },
