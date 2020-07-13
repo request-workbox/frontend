@@ -22,6 +22,19 @@
             v-on:click="addRequestDetailItem"
           >Add Item</div>
         </div>
+        <div class="column" v-if="allowAddingAdapter()">
+          <div class="row">
+            <div
+            class="column text-button action"
+            v-on:click="addRequestAdapter"
+          >Add Request Adapter</div>
+          <div
+            class="column text-button action"
+            v-on:click="addResponseAdapter"
+          >Add Response Adapter</div>
+          </div>
+          
+        </div>
       </div>
     </div>
   </div>
@@ -44,7 +57,20 @@ export default {
       const allowOptions = ['parameters','query','headers','cookies','body']
       if (_.includes(allowOptions,this.option)) return true;
       else return false;
-    }
+    },
+    allowAddingAdapter: function() {
+      if (!this.requestDetails._id) return false;
+
+      const allowOptions = ['adapters']
+      if (_.includes(allowOptions,this.option)) return true;
+      else return false;
+    },
+    addRequestAdapter: function() {
+      console.log('add request adapter')
+    },
+    addResponseAdapter: function() {
+      console.log('add response adapter')
+    },
   }
 };
 </script>

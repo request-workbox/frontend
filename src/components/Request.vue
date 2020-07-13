@@ -138,6 +138,9 @@ div {
 .column-input-select {
   font-size: 1em;
 }
+.column-input-select-grow {
+  width: 98%;
+}
 .column-input-text {
   border-width: 0px;
   width: 98%;
