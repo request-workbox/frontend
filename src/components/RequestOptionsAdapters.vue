@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row" v-if="componentShouldBeDisplayed()">
     <div class="column column-full-width">
       <div class="row row-border-bottom">
         <div class="column column-data column-header-text column-20" id="options-header-1">Adapter</div>
@@ -12,9 +12,8 @@
 
       <div class="row row-border-bottom" v-for="value in this.requestDetails.requestAdapters" :key="value._id">
         <div class="column column-data column-20">
-          <select class="column-input-select column-input-select-grow" :value="value.adapterId">
-            <option value="request">Request Adapter</option>
-            <option value="adapter">Request Adapter 2</option>
+          <select class="column-input-select column-input-select-grow" :value="value.adapterId" v-on:input="edit('requestAdapters', value._id, 'adapterId', $event)">
+            <option v-for="(adapter) in adapters()" :key="adapter._id" :value="adapter._id">{{adapter.url.name}}</option>
           </select>
         </div>
         <div class="column column-data column-grow">
@@ -35,9 +34,8 @@
 
       <div class="row row-border-bottom" v-for="value in this.requestDetails.responseAdapters" :key="value._id">
         <div class="column column-data column-20">
-          <select class="column-input-select column-input-select-grow" :value="value.adapterId">
-            <option value="request">Response Adapter</option>
-            <option value="adapter">Response Adapter 2</option>
+          <select class="column-input-select column-input-select-grow" :value="value.adapterId" v-on:input="edit('responseAdapters', value._id, 'adapterId', $event)">
+            <option v-for="(adapter) in adapters()" :key="adapter._id" :value="adapter._id">{{adapter.url.name}}</option>
           </select>
         </div>
         <div class="column column-data column-grow">
@@ -57,26 +55,36 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 
 export default {
   name: "RequestOptionsAdapters",
   computed: {
     ...mapState('request/requestTable', ['requestDetails']),
+    ...mapGetters('request/requestTable', ['adapters'])
   },
   methods: {
     ...mapActions('request/requestTable', ['deleteAdapter']),
     ...mapMutations('request/requestTable', ['editAdapter']),
-      edit: function(type, _id, key, event) {
-        const edit = { type, _id, key, value: event.target.value }
-        this.editAdapter(edit)
-      },
-      removeRequestAdapter: function() {
-        console.log('remove request adapter')
-      },
-      removeResponseAdapter: function() {
-        console.log('remove response adapter')
-      },
+    edit: function(type, _id, key, event) {
+      const edit = { type, _id, key, value: event.target.value }
+      this.editAdapter(edit)
+    },
+    removeRequestAdapter: function() {
+      console.log('remove request adapter')
+    },
+    removeResponseAdapter: function() {
+      console.log('remove response adapter')
+    },
+    componentShouldBeDisplayed: function() {
+      if (!this.requestDetails || !this.requestDetails.requestSettings) return true;
+
+      if (this.requestDetails.requestSettings.requestType === 'adapter') {
+        return false;
+      } else {
+        return true;
+      }
     }
+  }
 };
 </script>

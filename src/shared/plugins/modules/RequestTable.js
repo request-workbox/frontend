@@ -61,6 +61,17 @@ const getters = {
     viewableRequests: (state, getters) => () => {
         return getters.chunkedRequests()[state.page]
     },
+
+    adapters: (state, getters) => () => {
+        return _.filter(state.allRequests, (request) => {
+            if (request.active) {
+                if (request.requestSettings.requestType === 'adapter') return true;
+                else return false;
+            } else {
+                return false
+            }
+        })
+    },
 }
 
 const actions = {
@@ -80,16 +91,13 @@ const actions = {
         commit('replaceRequests', { requests: request.data })
         commit('resetPage')
     },
-    async selectOrDeselectRow({ commit, state, getters, rootState }, { _id }) {
-        if (state.requestId === _id) {
+    async selectOrDeselectRow({ commit, state, getters, rootState }, request) {
+        if (state.requestId === request._id) {
             commit('changeRequestId', { requestId: ''})
             commit('updateRequestDetails', {})
         } else {
-            commit('changeRequestId', { requestId: _id })
-            const requestUrl = `${rootState.request.apiUrl}/get-request-details`
-            const requestBody = { requestId: _id }
-            const request = await Vue.$axios.post(requestUrl, requestBody)
-            commit('updateRequestDetails', request.data)
+            commit('changeRequestId', { requestId: request._id })
+            commit('updateRequestDetails', request)
         }
     },
     async cancelChanges({ commit, state, getters, rootState }) {
@@ -161,7 +169,7 @@ const mutations = {
         state.requestId = requestId
     },
     updateRequestDetails(state, payload) {
-        state.requestDetails = { ...payload }
+        state.requestDetails = JSON.parse(JSON.stringify(payload))
     },
     editRequestDetail(state, payload) {
         state.editing = true

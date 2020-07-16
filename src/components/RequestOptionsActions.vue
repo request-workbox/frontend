@@ -61,9 +61,12 @@ export default {
     allowAddingAdapter: function() {
       if (!this.requestDetails._id) return false;
 
-      const allowOptions = ['adapters']
-      if (_.includes(allowOptions,this.option)) return true;
-      else return false;
+      if (this.requestDetails.requestSettings.requestType === 'adapter') {
+        return false
+      } else {
+        if (this.option === 'adapters') return true;
+        else return false;
+      }
     }
   }
 };
