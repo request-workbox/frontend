@@ -94,13 +94,13 @@ export default {
                 console.log(err)
             }
         },
-        async signupUser({ commit, state, dispatch, rootState }) {
+        async signupUser({ commit, state, dispatch, rootState },{ username, password }) {
             try {
                 const newUser = await dispatch('cognito/registerUser', {
-                    username: state.signup.username,
-                    password: state.signup.password1,
+                    username: username,
+                    password: password,
                     attributes: {
-                        email: state.signup.email
+                        email: 'newuser@email.com'
                     }
                 }, { root: true })
                 commit('clearFields')

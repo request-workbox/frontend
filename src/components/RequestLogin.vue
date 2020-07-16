@@ -17,6 +17,7 @@
             v-model="password" />
           </div>
           <div class="column text-button" id="login-button" v-on:click="login">Login</div>
+          <!-- <div class="column text-button" id="login-button" v-on:click="register">Login</div> -->
         </div>
       </div>
     </div>
@@ -36,9 +37,13 @@ export default {
   methods: {
     ...mapActions('authentication', [
       'loginUser',
+      'signupUser'
     ]),
     login: function() {
       this.loginUser({ username: this.username, password: this.password })
+    },
+    register: function() {
+      this.signupUser({ username: this.username, password: this.password })
     }
   }
 }
