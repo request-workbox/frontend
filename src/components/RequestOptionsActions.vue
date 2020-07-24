@@ -7,30 +7,30 @@
             <div
               class="column text-button action"
               v-bind:class="{ disabled: !this.editing }"
-              v-on:click="cancelChanges"
+              v-on:click="cancelChangesAction"
             >Cancel</div>
             <div
               class="column text-button action"
               v-bind:class="{ disabled: !this.editing }"
-              v-on:click="saveChanges"
+              v-on:click="saveChangesAction"
             >Save Changes</div>
           </div>
         </div>
         <div class="column" v-if="allowAddingItem()">
           <div
             class="column text-button action"
-            v-on:click="addRequestDetailItem"
+            v-on:click="addRequestDetailItemAction"
           >Add Item</div>
         </div>
         <div class="column" v-if="allowAddingAdapter()">
           <div class="row">
             <div
             class="column text-button action"
-            v-on:click="addAdapter({type: 'requestAdapters'})"
+            v-on:click="addAdapter({type: 'requestAdapters', requestId: this.selectedRequest()._id})"
           >Add Request Adapter</div>
           <div
             class="column text-button action"
-            v-on:click="addAdapter({type: 'responseAdapters'})"
+            v-on:click="addAdapter({type: 'responseAdapters', requestId: this.selectedRequest()._id})"
           >Add Response Adapter</div>
           </div>
           
@@ -41,32 +41,42 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
   name: "RequestOptionsActions",
   computed: {
-    ...mapState("request/requestTable", ["editing", 'requestDetails']),
+    ...mapGetters('request/requestTable', ['selectedRequest']),
+    ...mapState("request/requestTable", ["editing"]),
     ...mapState('request/requestOptions', ['option'])
   },
   methods: {
     ...mapActions("request/requestTable", ["cancelChanges", 'saveChanges', 'addRequestDetailItem', 'addAdapter']),
     allowAddingItem: function() {
-      if (!this.requestDetails._id) return false;
+      if (!this.selectedRequest()._id) return false;
 
       const allowOptions = ['parameters','query','headers','cookies','body']
       if (_.includes(allowOptions,this.option)) return true;
       else return false;
     },
     allowAddingAdapter: function() {
-      if (!this.requestDetails._id) return false;
+      if (!this.selectedRequest()._id) return false;
 
-      if (this.requestDetails.requestSettings.requestType === 'adapter') {
+      if (this.selectedRequest().requestSettings.requestType === 'adapter') {
         return false
       } else {
         if (this.option === 'adapters') return true;
         else return false;
       }
+    },
+    cancelChangesAction: async function() {
+      await this.cancelChanges({ _id: this.selectedRequest()._id })
+    },
+    saveChangesAction: async function() {
+      await this.saveChanges(this.selectedRequest())
+    },
+    addRequestDetailItemAction: async function() {
+      await this.addRequestDetailItem({_id: this.selectedRequest()._id, option: this.option })
     }
   }
 };

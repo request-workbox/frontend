@@ -6,7 +6,7 @@
         <div class="column column-data column-header-text column-grow" id="options-header-2">Value</div>
       </div>
 
-      <div class="row row-border-bottom" v-for="(value, key) in this.requestDetails.url" :key="key">
+      <div class="row row-border-bottom" v-for="(value, key) in this.selectedRequest().url" :key="key">
         <div class="column column-data column-10">
           <input
             type="text"
@@ -31,17 +31,17 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from "vuex";
+import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
 
 export default {
   name: "RequestOptionsUrl",
   computed: {
-    ...mapState("request/requestTable", ['requestDetails']),
+    ...mapGetters("request/requestTable", ['selectedRequest']),
   },
   methods: {
     ...mapMutations('request/requestTable', ['editRequestDetail']),
     edit: function(type, key, event) {
-      this.editRequestDetail({type, key, value: event.target.value})
+      this.editRequestDetail({type, key, value: event.target.value, requestId: this.selectedRequest()._id})
     }
   },
   filters: {

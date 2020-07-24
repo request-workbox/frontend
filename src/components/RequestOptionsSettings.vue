@@ -10,7 +10,7 @@
         <div class="column column-data column-header-text column-grow column-group-header">Type</div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.requestDetails._id">
+      <div class="row row-border-bottom" v-if="this.selectedRequest()._id">
         <div class="column column-data column-20">
           <input
             type="text"
@@ -21,14 +21,14 @@
           />
         </div>
         <div class="column column-data column-grow">
-          <select class="column-input-select" :value="this.requestDetails.requestSettings.requestType" disabled>
+          <select class="column-input-select" :value="this.selectedRequest().requestSettings.requestType" disabled>
             <option value="request">Request</option>
             <option value="adapter">Adapter</option>
           </select>
         </div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.requestDetails._id && this.requestDetails.requestSettings.requestType === 'adapter'">
+      <div class="row row-border-bottom" v-if="this.selectedRequest()._id && this.selectedRequest().requestSettings.requestType === 'adapter'">
         <div class="column column-data column-20">
           <input
             type="text"
@@ -39,7 +39,7 @@
           />
         </div>
         <div class="column column-data column-grow">
-          <select class="column-input-select" :value="this.requestDetails.requestSettings.adapterType" v-on:input="edit('requestSettings', 'adapterType', $event)">
+          <select class="column-input-select" :value="this.selectedRequest().requestSettings.adapterType" v-on:input="edit('requestSettings', 'adapterType', $event)">
             <option value="request">Request</option>
             <option value="response">Response</option>
             <option value="task">Task</option>
@@ -52,17 +52,17 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapGetters } from "vuex";
 
 export default {
   name: "RequestOptionsSettings",
   computed: {
-    ...mapState("request/requestTable", ["requestDetails"])
+    ...mapGetters("request/requestTable", ["selectedRequest"])
   },
   methods: {
     ...mapMutations('request/requestTable', ['editRequestDetail']),
     edit: function(type, key, event) {
-      this.editRequestDetail({type, key, value: event.target.value})
+      this.editRequestDetail({type, key, value: event.target.value, requestId: this.selectedRequest()._id})
     }
   }
 };

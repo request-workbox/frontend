@@ -26,7 +26,7 @@ export default {
   name: 'RequestOptionsToolbar',
   computed: {
     ...mapState('request/requestOptions', ['option']),
-    ...mapState('request/requestTable', ['requestDetails']),
+    ...mapGetters('request/requestTable', ['selectedRequest']),
   },
   methods: {
     ...mapMutations('request/requestOptions', ['changeOption']),
@@ -34,9 +34,9 @@ export default {
       return (option === this.option) ? true : false
     },
     optionShouldBeDisplayed: function(option) {
-      if (!this.requestDetails || !this.requestDetails.requestSettings) return true;
+      if (!this.selectedRequest() || !this.selectedRequest().requestSettings) return true;
 
-      if (this.requestDetails.requestSettings.requestType === 'adapter') {
+      if (this.selectedRequest().requestSettings.requestType === 'adapter') {
         return false;
       } else {
         return true;

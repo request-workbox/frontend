@@ -9,7 +9,7 @@
         <div class="column column-data column-header-text column-grow" id="options-header-2">Value</div>
       </div>
 
-      <div class="row row-border-bottom" v-for="value in this.requestDetails.headers" :key="value._id">
+      <div class="row row-border-bottom" v-for="value in this.selectedRequest().headers" :key="value._id">
         <div class="column column-data column-checkbox">
           <input type="checkbox" id="options-data-checkbox" :checked="value.acceptInput" v-on:input="editAcceptInput('headers', value._id, $event)" />
         </div>
@@ -31,7 +31,7 @@
             v-on:input="editValue('headers', value._id, $event)"
           />
         </div>
-        <div class="column column-data text-button" v-on:click="deleteRequestDetailItem(value)">
+        <div class="column column-data text-button" v-on:click="deleteRequestDetailItemAction(value)">
           Delete
         </div>
       </div>
@@ -40,25 +40,28 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 
 export default {
   name: "RequestOptionsHeaders",
   computed: {
-    ...mapState("request/requestTable", ["requestDetails"])
+    ...mapGetters("request/requestTable", ["selectedRequest"])
   },
   methods: {
     ...mapMutations('request/requestTable', ['editRequestDetailKey', 'editRequestDetailValue', 'editRequestDetailAcceptInput']),
     ...mapActions('request/requestTable', ['deleteRequestDetailItem']),
     editKey: function(type, key, event) {
-      this.editRequestDetailKey({type, key, value: event.target.value})
+      this.editRequestDetailKey({type, key, value: event.target.value, requestId: this.selectedRequest()._id})
     },
     editValue: function(type, key, event) {
-      this.editRequestDetailValue({type, key, value: event.target.value})
+      this.editRequestDetailValue({type, key, value: event.target.value, requestId: this.selectedRequest()._id})
     },
     editAcceptInput: function(type, key, event) {
-      this.editRequestDetailAcceptInput({type, key, value: event.target.checked})
+      this.editRequestDetailAcceptInput({type, key, value: event.target.checked, requestId: this.selectedRequest()._id})
     },
+    deleteRequestDetailItemAction: function(value) {
+      this.deleteRequestDetailItem({ detailItem: value, requestId: this.selectedRequest()._id, option: 'headers'})
+    }
   },
 };
 </script>
