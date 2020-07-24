@@ -15,6 +15,8 @@ const state = () => ({
     searchTerm: '',
 
     editing: false,
+
+    option: 'url',
 })
 
 const getters = {
@@ -95,6 +97,8 @@ const actions = {
         commit('resetPage')
     },
     async selectOrDeselectRow({ commit, state, getters, rootState }, request) {
+        if (state.editing) return;
+
         if (state.requestId === request._id) {
             commit('changeRequestId', { requestId: '' })
         } else {
@@ -156,6 +160,11 @@ const mutations = {
     },
     incrementPage(state) {
         state.page++
+    },
+    changeOption(state, payload) {
+        if (state.editing) return;
+        
+        state.option = payload
     },
     changeFilter(state, { filter }) {
         state.filter = filter

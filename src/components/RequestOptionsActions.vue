@@ -48,7 +48,7 @@ export default {
   computed: {
     ...mapGetters('request/requestTable', ['selectedRequest']),
     ...mapState("request/requestTable", ["editing"]),
-    ...mapState('request/requestOptions', ['option'])
+    ...mapState('request/requestTable', ['option'])
   },
   methods: {
     ...mapActions("request/requestTable", ["cancelChanges", 'saveChanges', 'addRequestDetailItem', 'addAdapter']),
