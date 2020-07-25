@@ -23,7 +23,7 @@
             <option value="repeatAttempt">Repeat Attempt</option>
           </select>
         </div>
-        <div class="column column-data text-button" v-on:click="deleteAdapter({type: 'requestAdapters', adapterId: value._id, requestId: this.selectedRequest()._id })">
+        <div class="column column-data text-button" v-on:click="deleteAdapterAction('requestAdapters', value._id )">
           Remove
         </div>
       </div>
@@ -45,7 +45,7 @@
             <option value="repeatAttempt">Repeat Attempt</option>
           </select>
         </div>
-        <div class="column column-data text-button" v-on:click="deleteAdapter({type: 'responseAdapters', adapterId: value._id, requestId: this.selectedRequest()._id })">
+        <div class="column column-data text-button" v-on:click="deleteAdapterAction('responseAdapters', value._id )">
           Remove
         </div>
       </div>
@@ -82,6 +82,9 @@ export default {
       } else {
         return true;
       }
+    },
+    deleteAdapterAction: function(type, adapterId) {
+      this.deleteAdapter({type: type, adapterId: adapterId, requestId: this.selectedRequest()._id })
     }
   }
 };

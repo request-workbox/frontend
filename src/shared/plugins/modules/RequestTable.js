@@ -242,7 +242,7 @@ const mutations = {
         _.each(state.allRequests, (request) => {
             if (request._id === payload.requestId) {
                 _.each(request[payload.type], (obj) => {
-                    if (obj._id === payload.key) {
+                    if (obj._id === payload._id) {
                         obj[payload.key] = payload.value
                     }
                 })

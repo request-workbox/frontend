@@ -26,11 +26,11 @@
           <div class="row">
             <div
             class="column text-button action"
-            v-on:click="addAdapter({type: 'requestAdapters', requestId: this.selectedRequest()._id})"
+            v-on:click="addAdapterAction('requestAdapters')"
           >Add Request Adapter</div>
           <div
             class="column text-button action"
-            v-on:click="addAdapter({type: 'responseAdapters', requestId: this.selectedRequest()._id})"
+            v-on:click="addAdapterAction('responseAdapters')"
           >Add Response Adapter</div>
           </div>
           
@@ -77,6 +77,9 @@ export default {
     },
     addRequestDetailItemAction: async function() {
       await this.addRequestDetailItem({_id: this.selectedRequest()._id, option: this.option })
+    },
+    addAdapterAction: async function(type) {
+      await this.addAdapter({type, requestId: this.selectedRequest()._id})
     }
   }
 };
