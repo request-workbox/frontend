@@ -31,7 +31,7 @@
             v-on:input="editValue('parameters', value._id, $event)"
           />
         </div>
-        <div class="column column-data text-button" v-on:click="deleteRequestDetailItem({ detailItem: value, requestId: this.selectedRequest()._id, option: 'parameters'})">
+        <div class="column column-data text-button" v-on:click="deleteRequestDetailItemAction(value)">
           Delete
         </div>
       </div>
@@ -59,6 +59,9 @@ export default {
     editAcceptInput: function(type, key, event) {
       this.editRequestDetailAcceptInput({type, key, value: event.target.checked, requestId: this.selectedRequest()._id})
     },
+    deleteRequestDetailItemAction: function(value) {
+      this.deleteRequestDetailItem({ detailItem: value, requestId: this.selectedRequest()._id, option: 'parameters'})
+    }
   },
 };
 </script>
