@@ -39,12 +39,14 @@ const router = new VueRouter({
 * **/
 import authenticationModule from './shared/plugins/modules/authentication'
 import requestModule from './shared/plugins/modules/request'
+import projectModule from './shared/plugins/modules/project'
 Vue.use(vuex)
 const store = new vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   modules: {
     authentication: authenticationModule,
     request: requestModule,
+    project: projectModule,
   }
 })
 /**

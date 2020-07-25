@@ -1,7 +1,7 @@
 <template>
   <div id="request-container">
     <!-- <RequestLogin /> -->
-    <RequestProject />
+    <ProjectInfo />
     <RequestMenu />
     <RequestTableToolbar />
     <RequestTable />
@@ -17,7 +17,7 @@
 import { mapActions, mapMutations } from 'vuex'
 
 import RequestLogin from './RequestLogin'
-import RequestProject from "./RequestProject";
+import ProjectInfo from "./ProjectInfo";
 import RequestMenu from "./RequestMenu";
 import RequestTableToolbar from "./RequestTableToolbar";
 import RequestTable from "./RequestTable";
@@ -32,7 +32,7 @@ export default {
   props: ['projectId'],
   components: {
     RequestLogin,
-    RequestProject,
+    ProjectInfo,
     RequestMenu,
     RequestTableToolbar,
     RequestTable,
@@ -50,8 +50,9 @@ export default {
     return next()
   },
   methods: {
-    ...mapMutations('request/requestProject', ['changeUrlProjectId']),
-    ...mapActions('request/requestProject', ['getProjectName']),
+    ...mapMutations('project/projectInfo', ['changeUrlProjectId']),
+    ...mapActions('project/projectInfo', ['getProjectName']),
+    
     ...mapActions('request/requestTable', ['getRequests']),
     init: function() {
       this.getProjectName({ projectId: this.projectId })

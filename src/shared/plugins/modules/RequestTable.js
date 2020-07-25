@@ -89,7 +89,7 @@ const actions = {
         commit('incrementPage')
     },
     async getRequests({ commit, state, getters, rootState }, payload) {
-        const projectId = (payload && payload.projectId) ? payload.projectId : rootState.request.requestProject.projectId
+        const projectId = (payload && payload.projectId) ? payload.projectId : rootState.project.projectInfo.projectId
         const requestUrl = `${rootState.request.apiUrl}/get-requests`
         const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)

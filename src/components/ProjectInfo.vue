@@ -23,7 +23,7 @@
 import { mapActions, mapState } from 'vuex'
 
 export default {
-  name: 'RequestProject',
+  name: 'ProjectInfo',
   data: function() {
     return {
       editing: false,
@@ -31,10 +31,10 @@ export default {
     }
   },
   computed: {
-    ...mapState('request/requestProject', ['projectName']),
+    ...mapState('project/projectInfo', ['projectName']),
   },
   methods: {
-    ...mapActions('request/requestProject', [
+    ...mapActions('project/projectInfo', [
       'updateProjectName',
     ]),
     focusInEvent: function(event) {

@@ -1,5 +1,4 @@
-import requestMenu from './RequestMenu'
-import requestTable from './RequestTable'
+import projectInfo from './ProjectInfo'
 
 const state = () => ({
     apiUrl: 'http://localhost:3000'
@@ -25,7 +24,6 @@ export default {
     actions,
     mutations,
     modules: {
-        requestMenu,
-        requestTable,
+        projectInfo,
     }
 }
