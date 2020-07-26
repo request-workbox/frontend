@@ -32,7 +32,7 @@ export default {
     RequestOptionsAdapters
   },
   computed: {
-    ...mapState("request/requestTable", ["option"]),
+    ...mapState("table/tableTools", ["option"]),
     upperFirstOption: function() {
       return _.upperFirst(this.option);
     }

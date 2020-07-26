@@ -15,7 +15,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'RequestDetails',
   computed: {
-    ...mapGetters('request/requestTable', ['selectedRequest']),
+    ...mapGetters('table/tableTools', ['selectedRequest']),
   },
   methods: {
     requestName: function() {

@@ -48,7 +48,7 @@
       </div>
     </div>
     <div class="column spacer"></div>
-    <div class="column text-button" id="table-toolbar-refresh" v-on:click="getRequests()">Refresh</div>
+    <div class="column text-button" id="table-toolbar-refresh">Refresh</div>
   </div>
 </template>
 
@@ -57,19 +57,18 @@ import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 import { mapFields } from "vuex-map-fields";
 
 export default {
-  name: "RequestTableToolbar",
+  name: "TableToolbar",
   computed: {
-    ...mapState("request/requestTable", ["filter"]),
-    ...mapGetters("request/requestTable", ["pagination"]),
-    ...mapFields("request/requestTable", ["searchTerm"])
+    ...mapState("table/tableTools", ["filter"]),
+    ...mapGetters("table/tableTools", ["pagination"]),
+    ...mapFields("table/tableTools", ["searchTerm"])
   },
   methods: {
-    ...mapActions("request/requestTable", [
+    ...mapActions("table/tableTools", [
       "previousPage",
       "nextPage",
-      "getRequests"
     ]),
-    ...mapMutations("request/requestTable", ["changeFilter", "resetPage"]),
+    ...mapMutations("table/tableTools", ["changeFilter", "resetPage"]),
     filterIsActive: function(filterButton) {
       if (filterButton === this.filter) return true;
       else return false;

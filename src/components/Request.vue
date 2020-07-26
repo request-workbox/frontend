@@ -3,8 +3,8 @@
     <!-- <RequestLogin /> -->
     <ProjectInfo />
     <RequestMenu />
-    <RequestTableToolbar />
-    <RequestTable />
+    <TableToolbar />
+    <Table />
     <RequestDetails />
     <RequestOptionsToolbar />
     <RequestOptionsActions />
@@ -19,8 +19,8 @@ import { mapActions, mapMutations } from 'vuex'
 import RequestLogin from './RequestLogin'
 import ProjectInfo from "./ProjectInfo";
 import RequestMenu from "./RequestMenu";
-import RequestTableToolbar from "./RequestTableToolbar";
-import RequestTable from "./RequestTable";
+import TableToolbar from "./TableToolbar";
+import Table from "./Table";
 import RequestDetails from "./RequestDetails";
 import RequestOptionsToolbar from "./RequestOptionsToolbar";
 import RequestOptionsActions from './RequestOptionsActions';
@@ -34,8 +34,8 @@ export default {
     RequestLogin,
     ProjectInfo,
     RequestMenu,
-    RequestTableToolbar,
-    RequestTable,
+    TableToolbar,
+    Table,
     RequestDetails,
     RequestOptionsToolbar,
     RequestOptionsActions,
@@ -53,7 +53,7 @@ export default {
     ...mapMutations('project/projectInfo', ['changeUrlProjectId']),
     ...mapActions('project/projectInfo', ['getProjectName']),
     
-    ...mapActions('request/requestTable', ['getRequests']),
+    ...mapActions('table/tableTools', ['getRequests']),
     init: function() {
       this.getProjectName({ projectId: this.projectId })
       this.getRequests({ projectId: this.projectId })

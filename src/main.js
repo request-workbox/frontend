@@ -22,6 +22,8 @@ import attachCognitoModule from '@vuetify/vuex-cognito-module'
  * Install vue-router
  * **/
 import Request from './components/Request'
+import Workflow from './components/Workflow'
+
 Vue.use(VueRouter)
 const router = new VueRouter({
   mode: 'history',
@@ -32,6 +34,11 @@ const router = new VueRouter({
       component: Request,
       props: true,
     },
+    {
+      path: '/projects/:projectId/workflows',
+      component: Workflow,
+      props: true,
+    },
   ],
 })
 /**
@@ -40,6 +47,7 @@ const router = new VueRouter({
 import authenticationModule from './shared/plugins/modules/authentication'
 import requestModule from './shared/plugins/modules/request'
 import projectModule from './shared/plugins/modules/project'
+import tableModule from './shared/plugins/modules/table'
 Vue.use(vuex)
 const store = new vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
@@ -47,6 +55,7 @@ const store = new vuex.Store({
     authentication: authenticationModule,
     request: requestModule,
     project: projectModule,
+    table: tableModule
   }
 })
 /**

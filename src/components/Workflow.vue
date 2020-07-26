@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import { mapMutations, mapActions } from 'vuex'
+
 import ProjectInfo from "./ProjectInfo";
 
 export default {
@@ -21,11 +23,8 @@ export default {
     methods: {
         ...mapMutations('project/projectInfo', ['changeUrlProjectId']),
         ...mapActions('project/projectInfo', ['getProjectName']),
-
-        ...mapActions('request/requestTable', ['getRequests']),
         init: function() {
-        this.getProjectName({ projectId: this.projectId })
-        this.getRequests({ projectId: this.projectId })
+            this.getProjectName({ projectId: this.projectId })
         }
     }
 }

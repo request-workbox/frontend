@@ -1,4 +1,4 @@
-import requestMenu from './RequestMenu'
+import tableTools from './TableTools'
 
 const state = () => ({
     apiUrl: 'http://localhost:3000'
@@ -24,6 +24,6 @@ export default {
     actions,
     mutations,
     modules: {
-        requestMenu,
+        tableTools,
     }
 }

@@ -45,11 +45,11 @@ import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 export default {
   name: "RequestOptionsCookies",
   computed: {
-    ...mapGetters("request/requestTable", ["selectedRequest"])
+    ...mapGetters("table/tableTools", ["selectedRequest"])
   },
   methods: {
-    ...mapMutations('request/requestTable', ['editRequestDetailKey', 'editRequestDetailValue','editRequestDetailAcceptInput']),
-    ...mapActions('request/requestTable', ['deleteRequestDetailItem']),
+    ...mapMutations('table/tableTools', ['editRequestDetailKey', 'editRequestDetailValue','editRequestDetailAcceptInput']),
+    ...mapActions('table/tableTools', ['deleteRequestDetailItem']),
     editKey: function(type, key, event) {
       this.editRequestDetailKey({type, key, value: event.target.value, requestId: this.selectedRequest()._id})
     },

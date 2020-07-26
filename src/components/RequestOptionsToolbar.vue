@@ -25,11 +25,11 @@ import { mapState, mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'RequestOptionsToolbar',
   computed: {
-    ...mapState('request/requestTable', ['option']),
-    ...mapGetters('request/requestTable', ['selectedRequest']),
+    ...mapState('table/tableTools', ['option']),
+    ...mapGetters('table/tableTools', ['selectedRequest']),
   },
   methods: {
-    ...mapMutations('request/requestTable', ['changeOption']),
+    ...mapMutations('table/tableTools', ['changeOption']),
     optionIsSelected: function(option) { 
       return (option === this.option) ? true : false
     },

@@ -8,25 +8,25 @@
         <div class="column column-data column-header column-grow" id="table-header-4">Url</div>
       </div>
 
-      <div v-if="allRequests.length === 0" class="row row-border-bottom">
+      <div v-if="allData.length === 0" class="row row-border-bottom">
         <div class="column column-data column-10" id="table-data-1">GET</div>
         <div class="column column-data column-10" id="table-data-2">HTTPS</div>
         <div class="column column-data column-10" id="table-data-3">API</div>
         <div class="column column-data column-grow" id="table-data-4">https://api.com</div>
       </div>
 
-      <template v-if="allRequests.length > 0">
+      <template v-if="allData.length > 0">
         <div
-          v-for="(request) in viewableRequests()"
-          v-bind:key="request._id"
+          v-for="(data) in viewableData()"
+          v-bind:key="data._id"
           class="row row-border-bottom table-row-selectable"
-          v-bind:class="{ 'table-row-selected': rowIsActive(request) }"
-          v-on:click="selectOrDeselectRow(request)"
+          v-bind:class="{ 'table-row-selected': rowIsActive(data) }"
+          v-on:click="selectOrDeselectRow(data)"
         >
-          <div class="column column-data column-10" id="table-data-1">{{ request.url.method }}</div>
-          <div class="column column-data column-10" id="table-data-2">{{ request.url.protocol }}</div>
-          <div class="column column-data column-10" id="table-data-3">{{ request.url.name }}</div>
-          <div class="column column-data column-grow" id="table-data-4">{{ request.url.url }}</div>
+          <div class="column column-data column-10" id="table-data-1">{{ data.url.method }}</div>
+          <div class="column column-data column-10" id="table-data-2">{{ data.url.protocol }}</div>
+          <div class="column column-data column-10" id="table-data-3">{{ data.url.name }}</div>
+          <div class="column column-data column-grow" id="table-data-4">{{ data.url.url }}</div>
         </div>
       </template>
     </div>
@@ -37,15 +37,15 @@
 import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
-  name: "RequestTable",
+  name: "Table",
   computed: {
-    ...mapState("request/requestTable", ["allRequests", "requestId"]),
-    ...mapGetters("request/requestTable", ["viewableRequests"])
+    ...mapState("table/tableTools", ["allData", "requestId"]),
+    ...mapGetters("table/tableTools", ["viewableData"])
   },
   methods: {
-    ...mapActions("request/requestTable", ["selectOrDeselectRow"]),
-    rowIsActive: function(request) {
-      if (request._id === this.requestId) return true;
+    ...mapActions("table/tableTools", ["selectOrDeselectRow"]),
+    rowIsActive: function(data) {
+      if (data._id === this.requestId) return true;
       else return false;
     }
   }

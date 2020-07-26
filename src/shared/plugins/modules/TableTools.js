@@ -3,74 +3,67 @@ import { getField, updateField } from 'vuex-map-fields'
 import _ from 'lodash'
 
 const state = () => ({
+    selectedId: '',
+
     numberOfRows: 5,
-    page: 0,
-
-    filter: 'active',
-
-    allRequests: [],
-
-    requestId: '',
-
     searchTerm: '',
-
+    filter: 'active',
+    allData: [],
+    page: 0,
     editing: false,
-
     option: 'url',
 })
 
 const getters = {
     getField,
-    selectedRequest: (state, getters) => () => {
-        if (state.requestId === '') return {}
-
-        return _.filter(state.allRequests, (request) => {
-            if (request._id === state.requestId) return true;
-            else return false;
-        })[0]
+    pagination: (state, getters) => () => {
+        return `${getters.currentPage()} / ${getters.totalPages()}`
     },
     currentPage: (state, getters) => () => {
         return (getters.totalPages() === 0) ? 0 : state.page + 1
     },
     totalPages: (state, getters) => () => {
-        return getters.chunkedRequests().length
+        return getters.chunkedData().length
     },
-    pagination: (state, getters) => () => {
-        return `${getters.currentPage()} / ${getters.totalPages()}`
-    },
-
-    requestsByFilter: (state, getters) => () => {
-        return _.filter(state.allRequests, (request) => {
+    dataByFilter: (state, getters) => () => {
+        return _.filter(state.allData, (data) => {
             if (state.filter === 'active') {
-                if (request.active) return true
+                if (data.active) return true
                 else return false
             } else if (state.filter === 'deleted') {
-                if (!request.active) return true
+                if (!data.active) return true
                 else return false
             } else {
                 return true
             }
         })
     },
-    requestsBySearchTerm: (state, getters) => () => {
-        return _.filter(getters.requestsByFilter(), (request) => {
+    dataBySearchTerm: (state, getters) => () => {
+        return _.filter(getters.dataByFilter(), (data) => {
             if (state.searchTerm === '') return true
 
-            if (_.includes(request.url, state.searchTerm)) return true;
+            if (_.includes(data.url, state.searchTerm)) return true;
             else return false;
         })
     },
-    chunkedRequests: (state, getters) => () => {
-        return _.chunk(getters.requestsBySearchTerm(), state.numberOfRows)
+    chunkedData: (state, getters) => () => {
+        return _.chunk(getters.dataBySearchTerm(), state.numberOfRows)
     },
-    viewableRequests: (state, getters) => () => {
-        return getters.chunkedRequests()[state.page]
+    viewableData: (state, getters) => () => {
+        return getters.chunkedData()[state.page]
     },
+    selectedRequest: (state, getters, rootState) => () => {
+        if (state.selectedId === '') return {}
 
-    adapters: (state, getters) => () => {
-        return _.filter(state.allRequests, (request) => {
-            if (request.active) {
-                if (request.requestSettings.requestType === 'adapter') return true;
+        return _.filter(state.allData, (data) => {
+            if (data._id === state.selectedId) return true;
+            else return false;
+        })[0]
+    },
+    adapters: (state, getters, rootState) => () => {
+        return _.filter(state.allData, (data) => {
+            if (data.active) {
+                if (data.requestSettings.requestType === 'adapter') return true;
                 else return false;
             } else {
                 return false
@@ -88,22 +81,24 @@ const actions = {
         if (getters.currentPage() === getters.totalPages()) return
         commit('incrementPage')
     },
+    async selectOrDeselectRow({ commit, state, getters, rootState }, data) {
+        if (state.editing) return;
+
+        if (state.selectedId === data._id) {
+            commit('changeSelectedId', { selectedId: '' })
+        } else {
+            commit('changeSelectedId', { selectedId: data._id })
+        }
+    },
+
+    // requests
     async getRequests({ commit, state, getters, rootState }, payload) {
         const projectId = (payload && payload.projectId) ? payload.projectId : rootState.project.projectInfo.projectId
         const requestUrl = `${rootState.request.apiUrl}/get-requests`
         const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('replaceRequests', { requests: request.data })
+        commit('replaceAllData', { data: request.data })
         commit('resetPage')
-    },
-    async selectOrDeselectRow({ commit, state, getters, rootState }, request) {
-        if (state.editing) return;
-
-        if (state.requestId === request._id) {
-            commit('changeRequestId', { requestId: '' })
-        } else {
-            commit('changeRequestId', { requestId: request._id })
-        }
     },
     async cancelChanges({ commit, state, getters, rootState }, { _id }) {
         if (!state.editing) return;
@@ -155,6 +150,16 @@ const actions = {
 
 const mutations = {
     updateField,
+    resetPage(state) {
+        state.page = 0
+    },
+    changeFilter(state, { filter }) {
+        state.filter = filter
+        state.page = 0
+    },
+    stopEditing(state) {
+        state.editing = false
+    },
     decrementPage(state) {
         state.page--
     },
@@ -166,24 +171,17 @@ const mutations = {
         
         state.option = payload
     },
-    changeFilter(state, { filter }) {
-        state.filter = filter
-        state.page = 0
+    replaceAllData(state, { data }) {
+        state.allData = data
     },
-    resetPage(state) {
-        state.page = 0
-    },
-    replaceRequests(state, { requests }) {
-        state.allRequests = requests
-    },
-    changeRequestId(state, { requestId }) {
-        state.requestId = requestId
+    changeSelectedId(state, { selectedId }) {
+        state.selectedId = selectedId
     },
     updateRequestDetails(state, payload) {
-        _.each(state.allRequests, (request) => {
-            if (request._id === payload._id) {
-                _.each(request, (value, key) => {
-                    request[key] = payload[key]
+        _.each(state.allData, (data) => {
+            if (data._id === payload._id) {
+                _.each(data, (value, key) => {
+                    data[key] = payload[key]
                 })
             }
         })
@@ -191,18 +189,18 @@ const mutations = {
     editRequestDetail(state, payload) {
         state.editing = true
 
-        _.each(state.allRequests, (request) => {
-            if (request._id === payload.requestId) {
-                request[payload.type][payload.key] = payload.value
+        _.each(state.allData, (data) => {
+            if (data._id === payload.requestId) {
+                data[payload.type][payload.key] = payload.value
             }
         })
     },
     editRequestDetailKey(state, payload) {
         state.editing = true
 
-        _.each(state.allRequests, (request) => {
-            if (request._id === payload.requestId) {
-                _.each(request[payload.type], (obj) => {
+        _.each(state.allData, (data) => {
+            if (data._id === payload.requestId) {
+                _.each(data[payload.type], (obj) => {
                     if (obj._id === payload.key) {
                         obj.key = payload.value
                     }
@@ -213,9 +211,9 @@ const mutations = {
     editRequestDetailValue(state, payload) {
         state.editing = true
 
-        _.each(state.allRequests, (request) => {
-            if (request._id === payload.requestId) {
-                _.each(request[payload.type], (obj) => {
+        _.each(state.allData, (data) => {
+            if (data._id === payload.requestId) {
+                _.each(data[payload.type], (obj) => {
                     if (obj._id === payload.key) {
                         obj.value = payload.value
                     }
@@ -226,9 +224,9 @@ const mutations = {
     editRequestDetailAcceptInput(state, payload) {
         state.editing = true
 
-        _.each(state.allRequests, (request) => {
-            if (request._id === payload.requestId) {
-                _.each(request[payload.type], (obj) => {
+        _.each(state.allData, (data) => {
+            if (data._id === payload.requestId) {
+                _.each(data[payload.type], (obj) => {
                     if (obj._id === payload.key) {
                         obj.acceptInput = payload.value
                     }
@@ -239,9 +237,9 @@ const mutations = {
     editAdapter(state, payload) {
         state.editing = true
 
-        _.each(state.allRequests, (request) => {
-            if (request._id === payload.requestId) {
-                _.each(request[payload.type], (obj) => {
+        _.each(state.allData, (data) => {
+            if (data._id === payload.requestId) {
+                _.each(data[payload.type], (obj) => {
                     if (obj._id === payload._id) {
                         obj[payload.key] = payload.value
                     }
@@ -250,17 +248,17 @@ const mutations = {
         })
     },
     updateAdapter(state, payload) {
-        _.each(state.allRequests, (request) => {
-            if (request._id === payload.requestId) {
-                request[payload.type].push(payload.item)
+        _.each(state.allData, (data) => {
+            if (data._id === payload.requestId) {
+                data[payload.type].push(payload.item)
             }
         })
 
     },
     removeAdapter(state, payload) {
-        _.each(state.allRequests, (request) => {
-            if (request._id === payload.requestId) {
-                request[payload.type] = _.filter(request[payload.type], (obj) => {
+        _.each(state.allData, (data) => {
+            if (data._id === payload.requestId) {
+                data[payload.type] = _.filter(data[payload.type], (obj) => {
                     if (obj._id === payload.adapterId) return false;
                     else return true;
                 })
@@ -268,26 +266,23 @@ const mutations = {
         })
     },
     updateRequestDetailItem(state, payload) {
-        _.each(state.allRequests, (request) => {
-            if (request._id === payload.requestId) {
-                request[payload.requestDetailOption].push(payload.item)
+        _.each(state.allData, (data) => {
+            if (data._id === payload.requestId) {
+                data[payload.requestDetailOption].push(payload.item)
             }
         })
 
     },
     removeRequestDetailItem(state, payload) {
-        _.each(state.allRequests, (request) => {
-            if (request._id === payload.requestId) {
-                request[payload.requestDetailOption] = _.filter(request[payload.requestDetailOption], (obj) => {
+        _.each(state.allData, (data) => {
+            if (data._id === payload.requestId) {
+                data[payload.requestDetailOption] = _.filter(data[payload.requestDetailOption], (obj) => {
                     if (obj._id === payload.requestDetailItemId) return false;
                     else return true;
                 })
             }
         })
     },
-    stopEditing(state) {
-        state.editing = false
-    }
 }
 
 export default {
@@ -295,5 +290,5 @@ export default {
     state,
     getters,
     actions,
-    mutations
+    mutations,
 }
