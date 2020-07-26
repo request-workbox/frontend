@@ -38,60 +38,9 @@ body {
 
 #app {
   font-family: "Roboto", sans-serif;
-  // font-family: "Open Sans", sans-serif;
 }
 
-// .sidebar {
-//   display: block;
-//   position: fixed;
-
-//   top: 0;
-//   left: 0;
-//   bottom: 0;
-
-//   height: 100%;
-//   width: 250px;
-
-//   background: #04002d;
-
-//   z-index: 3;
-
-//   padding: 0;
-// }
-// .content {
-//   display: block;
-//   position: fixed;
-
-//   top: 0;
-//   right: 0;
-//   bottom: 0;
-//   left: 0;
-
-//   height: 100%;
-//   width: auto;
-
-//   margin-left: 250px;
-
-//   overflow: auto;
-
-//   padding: 0;
-
-// }
-
-
-// .appbar {
-//   display: block;
-//   position: fixed;
-
-//   width: 100%;
-
-//   z-index: 2;
-// }
-// .view {
-//   margin-top: 60px;
-
-//   z-index: 1;
-// }
+@import './src/styles/main';
 
 
 </style>
