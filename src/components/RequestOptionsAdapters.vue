@@ -63,16 +63,10 @@ export default {
     ...mapGetters('table', ['adapters', 'selectedData'])
   },
   methods: {
-    ...mapActions('table', ['deleteAdapter']),
-    ...mapMutations('table', ['editAdapter']),
+    ...mapActions('table', ['deleteRequestAdapter']),
+    ...mapMutations('table', ['editRequestAdapter']),
     edit: function(type, _id, key, event) {
-      this.editAdapter({ type, _id, key, value: event.target.value, requestId: this.selectedData()._id })
-    },
-    removeRequestAdapter: function() {
-      console.log('remove request adapter')
-    },
-    removeResponseAdapter: function() {
-      console.log('remove response adapter')
+      this.editRequestAdapter({ type, _id, key, value: event.target.value, requestId: this.selectedData()._id })
     },
     componentShouldBeDisplayed: function() {
       if (!this.selectedData() || !this.selectedData().requestSettings) return true;
@@ -84,7 +78,7 @@ export default {
       }
     },
     deleteAdapterAction: function(type, adapterId) {
-      this.deleteAdapter({type: type, adapterId: adapterId, requestId: this.selectedData()._id })
+      this.deleteRequestAdapter({type: type, adapterId: adapterId, requestId: this.selectedData()._id })
     }
   }
 };

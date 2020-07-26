@@ -28,8 +28,10 @@ export default {
   methods: {
     ...mapMutations("project", ["changeUrlProjectId"]),
     ...mapActions("project", ["getProjectName"]),
+    ...mapActions('table',['getWorkflows']),
     init: function () {
       this.getProjectName({ projectId: this.projectId });
+      this.getWorkflows({ projectId: this.projectId });
     },
   },
 };

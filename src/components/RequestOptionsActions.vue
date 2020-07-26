@@ -51,7 +51,7 @@ export default {
     ...mapState('table', ['option'])
   },
   methods: {
-    ...mapActions("table", ["cancelChanges", 'saveChanges', 'addRequestDetailItem', 'addAdapter']),
+    ...mapActions("table", ["cancelRequestChanges", 'saveRequestChanges', 'addRequestDetailItem', 'addRequestAdapter']),
     allowAddingItem: function() {
       if (!this.selectedData()._id) return false;
 
@@ -70,16 +70,16 @@ export default {
       }
     },
     cancelChangesAction: async function() {
-      await this.cancelChanges({ _id: this.selectedData()._id })
+      await this.cancelRequestChanges({ _id: this.selectedData()._id })
     },
     saveChangesAction: async function() {
-      await this.saveChanges(this.selectedData())
+      await this.saveRequestChanges(this.selectedData())
     },
     addRequestDetailItemAction: async function() {
       await this.addRequestDetailItem({_id: this.selectedData()._id, option: this.option })
     },
     addAdapterAction: async function(type) {
-      await this.addAdapter({type, requestId: this.selectedData()._id})
+      await this.addRequestAdapter({type, requestId: this.selectedData()._id})
     }
   }
 };

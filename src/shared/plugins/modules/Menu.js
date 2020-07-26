@@ -11,8 +11,7 @@ const getters = {
 }
 
 const actions = {
-    async newRequest({ commit, state, rootState }, { adapter }) {
-        const { projectId } = rootState.project.projectInfo
+    async newRequest({ commit, state, rootState }, { adapter, projectId }) {
         const requestUrl = `${state.apiUrl}/new-request`
         const requestBody = { projectId, adapter }
         const request = await Vue.$axios.post(requestUrl, requestBody)
