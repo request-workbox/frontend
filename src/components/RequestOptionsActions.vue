@@ -46,23 +46,23 @@ import { mapState, mapActions, mapGetters } from "vuex";
 export default {
   name: "RequestOptionsActions",
   computed: {
-    ...mapGetters('table/tableTools', ['selectedRequest']),
+    ...mapGetters('table/tableTools', ['selectedData']),
     ...mapState("table/tableTools", ["editing"]),
     ...mapState('table/tableTools', ['option'])
   },
   methods: {
     ...mapActions("table/tableTools", ["cancelChanges", 'saveChanges', 'addRequestDetailItem', 'addAdapter']),
     allowAddingItem: function() {
-      if (!this.selectedRequest()._id) return false;
+      if (!this.selectedData()._id) return false;
 
       const allowOptions = ['parameters','query','headers','cookies','body']
       if (_.includes(allowOptions,this.option)) return true;
       else return false;
     },
     allowAddingAdapter: function() {
-      if (!this.selectedRequest()._id) return false;
+      if (!this.selectedData()._id) return false;
 
-      if (this.selectedRequest().requestSettings.requestType === 'adapter') {
+      if (this.selectedData().requestSettings.requestType === 'adapter') {
         return false
       } else {
         if (this.option === 'adapters') return true;
@@ -70,16 +70,16 @@ export default {
       }
     },
     cancelChangesAction: async function() {
-      await this.cancelChanges({ _id: this.selectedRequest()._id })
+      await this.cancelChanges({ _id: this.selectedData()._id })
     },
     saveChangesAction: async function() {
-      await this.saveChanges(this.selectedRequest())
+      await this.saveChanges(this.selectedData())
     },
     addRequestDetailItemAction: async function() {
-      await this.addRequestDetailItem({_id: this.selectedRequest()._id, option: this.option })
+      await this.addRequestDetailItem({_id: this.selectedData()._id, option: this.option })
     },
     addAdapterAction: async function(type) {
-      await this.addAdapter({type, requestId: this.selectedRequest()._id})
+      await this.addAdapter({type, requestId: this.selectedData()._id})
     }
   }
 };

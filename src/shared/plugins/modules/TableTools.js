@@ -16,6 +16,8 @@ const state = () => ({
 
 const getters = {
     getField,
+
+    // GENERAL GETTERS
     pagination: (state, getters) => () => {
         return `${getters.currentPage()} / ${getters.totalPages()}`
     },
@@ -42,7 +44,7 @@ const getters = {
         return _.filter(getters.dataByFilter(), (data) => {
             if (state.searchTerm === '') return true
 
-            if (_.includes(data.url, state.searchTerm)) return true;
+            if (_.includes(data.url.url, state.searchTerm)) return true;
             else return false;
         })
     },
@@ -52,7 +54,7 @@ const getters = {
     viewableData: (state, getters) => () => {
         return getters.chunkedData()[state.page]
     },
-    selectedRequest: (state, getters, rootState) => () => {
+    selectedData: (state, getters, rootState) => () => {
         if (state.selectedId === '') return {}
 
         return _.filter(state.allData, (data) => {
@@ -60,6 +62,8 @@ const getters = {
             else return false;
         })[0]
     },
+
+    // REQUEST GETTERS
     adapters: (state, getters, rootState) => () => {
         return _.filter(state.allData, (data) => {
             if (data.active) {
@@ -73,6 +77,7 @@ const getters = {
 }
 
 const actions = {
+    // GENERAL ACTIONS
     previousPage({ commit, state, getters, rootState }) {
         if (getters.currentPage() <= 1) return
         commit('decrementPage')
@@ -91,7 +96,7 @@ const actions = {
         }
     },
 
-    // requests
+    // REQUEST ACTIONS
     async getRequests({ commit, state, getters, rootState }, payload) {
         const projectId = (payload && payload.projectId) ? payload.projectId : rootState.project.projectInfo.projectId
         const requestUrl = `${rootState.request.apiUrl}/get-requests`
@@ -150,6 +155,8 @@ const actions = {
 
 const mutations = {
     updateField,
+
+    // GENERAL MUTATIONS
     resetPage(state) {
         state.page = 0
     },
@@ -177,6 +184,8 @@ const mutations = {
     changeSelectedId(state, { selectedId }) {
         state.selectedId = selectedId
     },
+
+    // REQUEST MUTATIONS
     updateRequestDetails(state, payload) {
         _.each(state.allData, (data) => {
             if (data._id === payload._id) {

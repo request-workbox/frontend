@@ -15,17 +15,17 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'RequestDetails',
   computed: {
-    ...mapGetters('table/tableTools', ['selectedRequest']),
+    ...mapGetters('table/tableTools', ['selectedData']),
   },
   methods: {
     requestName: function() {
-      const requestDetails = this.selectedRequest()
+      const requestDetails = this.selectedData()
 
       if (!requestDetails.url || !requestDetails.url.name) return ''
       return requestDetails.url.name
     },
     requestLastEdited: function() {
-      const requestDetails = this.selectedRequest()
+      const requestDetails = this.selectedData()
 
       if (!requestDetails.updatedAt) return ''
       return `Last edited: ${moment(requestDetails.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}`

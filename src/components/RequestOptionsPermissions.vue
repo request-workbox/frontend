@@ -10,7 +10,7 @@
         <div class="column column-data column-header-text column-grow column-group-header">Request</div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.selectedRequest()._id">
+      <div class="row row-border-bottom" v-if="this.selectedData()._id">
         <div class="column column-data column-20">
           <input
             type="text"
@@ -25,13 +25,13 @@
             type="text"
             placeholder="Value"
             class="column-input-text"
-            :value="this.selectedRequest().taskPermissions.requestAvailableAs"
+            :value="this.selectedData().taskPermissions.requestAvailableAs"
             v-on:input="edit('taskPermissions', 'requestAvailableAs', $event)"
           />
         </div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.selectedRequest()._id">
+      <div class="row row-border-bottom" v-if="this.selectedData()._id">
         <div class="column column-data column-20">
           <input
             type="text"
@@ -42,7 +42,7 @@
           />
         </div>
         <div class="column column-data column-grow">
-          <select class="column-input-select" :value="this.selectedRequest().taskPermissions.requestAvailableTo" v-on:input="edit('taskPermissions', 'requestAvailableTo', $event)">
+          <select class="column-input-select" :value="this.selectedData().taskPermissions.requestAvailableTo" v-on:input="edit('taskPermissions', 'requestAvailableTo', $event)">
             <option value="any">Any Workflow Task</option>
             <option value="project">Any Workflow Task From This Project</option>
             <option value="none">No Other Task</option>
@@ -54,7 +54,7 @@
         <div class="column column-data column-header-text column-grow column-group-header">Response</div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.selectedRequest()._id">
+      <div class="row row-border-bottom" v-if="this.selectedData()._id">
         <div class="column column-data column-20">
           <input
             type="text"
@@ -69,13 +69,13 @@
             type="text"
             placeholder="Value"
             class="column-input-text"
-            :value="this.selectedRequest().taskPermissions.responseAvailableAs"
+            :value="this.selectedData().taskPermissions.responseAvailableAs"
             v-on:input="edit('taskPermissions', 'responseAvailableAs', $event)"
           />
         </div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.selectedRequest()._id">
+      <div class="row row-border-bottom" v-if="this.selectedData()._id">
         <div class="column column-data column-20">
           <input
             type="text"
@@ -86,7 +86,7 @@
           />
         </div>
         <div class="column column-data column-grow">
-          <select class="column-input-select" :value="this.selectedRequest().taskPermissions.responseAvailableTo" v-on:input="edit('taskPermissions', 'responseAvailableTo', $event)">
+          <select class="column-input-select" :value="this.selectedData().taskPermissions.responseAvailableTo" v-on:input="edit('taskPermissions', 'responseAvailableTo', $event)">
             <option value="any">Any Workflow Task</option>
             <option value="project">Any Workflow Task From This Project</option>
             <option value="none">No Other Task</option>
@@ -104,12 +104,12 @@ import { mapState, mapMutations, mapGetters } from "vuex";
 export default {
   name: "RequestOptionsPermissions",
   computed: {
-    ...mapGetters("table/tableTools", ["selectedRequest"])
+    ...mapGetters("table/tableTools", ["selectedData"])
   },
   methods: {
     ...mapMutations('table/tableTools', ['editRequestDetail']),
     edit: function(type, key, event) {
-      this.editRequestDetail({type, key, value: event.target.value, requestId: this.selectedRequest()._id})
+      this.editRequestDetail({type, key, value: event.target.value, requestId: this.selectedData()._id})
     }
   }
 };

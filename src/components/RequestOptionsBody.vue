@@ -9,7 +9,7 @@
         <div class="column column-data column-header-text column-grow" id="options-header-2">Value</div>
       </div>
 
-      <div class="row row-border-bottom" v-for="value in this.selectedRequest().body" :key="value._id">
+      <div class="row row-border-bottom" v-for="value in this.selectedData().body" :key="value._id">
         <div class="column column-data column-checkbox">
           <input type="checkbox" id="options-data-checkbox" :checked="value.acceptInput" v-on:input="editAcceptInput('body', value._id, $event)"/>
         </div>
@@ -45,22 +45,22 @@ import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 export default {
   name: "RequestOptionsBody",
   computed: {
-    ...mapGetters("table/tableTools", ["selectedRequest"]),
+    ...mapGetters("table/tableTools", ["selectedData"]),
   },
   methods: {
     ...mapMutations('table/tableTools', ['editRequestDetailKey', 'editRequestDetailValue','editRequestDetailAcceptInput']),
     ...mapActions('table/tableTools', ['deleteRequestDetailItem']),
     editKey: function(type, key, event) {
-      this.editRequestDetailKey({type, key, value: event.target.value, requestId: this.selectedRequest()._id})
+      this.editRequestDetailKey({type, key, value: event.target.value, requestId: this.selectedData()._id})
     },
     editValue: function(type, key, event) {
-      this.editRequestDetailValue({type, key, value: event.target.value, requestId: this.selectedRequest()._id})
+      this.editRequestDetailValue({type, key, value: event.target.value, requestId: this.selectedData()._id})
     },
     editAcceptInput: function(type, key, event) {
-      this.editRequestDetailAcceptInput({type, key, value: event.target.checked, requestId: this.selectedRequest()._id})
+      this.editRequestDetailAcceptInput({type, key, value: event.target.checked, requestId: this.selectedData()._id})
     },
     deleteRequestDetailItemAction: function(value) {
-      this.deleteRequestDetailItem({ detailItem: value, requestId: this.selectedRequest()._id, option: 'body'})
+      this.deleteRequestDetailItem({ detailItem: value, requestId: this.selectedData()._id, option: 'body'})
     }
   },
 };

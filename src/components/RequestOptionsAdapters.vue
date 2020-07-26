@@ -10,7 +10,7 @@
         <div class="column column-data column-header-text column-grow column-group-header">Request Adapters</div>
       </div>
 
-      <div class="row row-border-bottom" v-for="value in this.selectedRequest().requestAdapters" :key="value._id">
+      <div class="row row-border-bottom" v-for="value in this.selectedData().requestAdapters" :key="value._id">
         <div class="column column-data column-20">
           <select class="column-input-select column-input-select-grow" :value="value.adapterId" v-on:input="edit('requestAdapters', value._id, 'adapterId', $event)">
             <option v-for="(adapter) in adapters()" :key="adapter._id" :value="adapter._id">{{adapter.url.name}}</option>
@@ -32,7 +32,7 @@
         <div class="column column-data column-header-text column-grow column-group-header">Response Adapters</div>
       </div>
 
-      <div class="row row-border-bottom" v-for="value in this.selectedRequest().responseAdapters" :key="value._id">
+      <div class="row row-border-bottom" v-for="value in this.selectedData().responseAdapters" :key="value._id">
         <div class="column column-data column-20">
           <select class="column-input-select column-input-select-grow" :value="value.adapterId" v-on:input="edit('responseAdapters', value._id, 'adapterId', $event)">
             <option v-for="(adapter) in adapters()" :key="adapter._id" :value="adapter._id">{{adapter.url.name}}</option>
@@ -60,13 +60,13 @@ import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 export default {
   name: "RequestOptionsAdapters",
   computed: {
-    ...mapGetters('table/tableTools', ['adapters', 'selectedRequest'])
+    ...mapGetters('table/tableTools', ['adapters', 'selectedData'])
   },
   methods: {
     ...mapActions('table/tableTools', ['deleteAdapter']),
     ...mapMutations('table/tableTools', ['editAdapter']),
     edit: function(type, _id, key, event) {
-      this.editAdapter({ type, _id, key, value: event.target.value, requestId: this.selectedRequest()._id })
+      this.editAdapter({ type, _id, key, value: event.target.value, requestId: this.selectedData()._id })
     },
     removeRequestAdapter: function() {
       console.log('remove request adapter')
@@ -75,16 +75,16 @@ export default {
       console.log('remove response adapter')
     },
     componentShouldBeDisplayed: function() {
-      if (!this.selectedRequest() || !this.selectedRequest().requestSettings) return true;
+      if (!this.selectedData() || !this.selectedData().requestSettings) return true;
 
-      if (this.selectedRequest().requestSettings.requestType === 'adapter') {
+      if (this.selectedData().requestSettings.requestType === 'adapter') {
         return false;
       } else {
         return true;
       }
     },
     deleteAdapterAction: function(type, adapterId) {
-      this.deleteAdapter({type: type, adapterId: adapterId, requestId: this.selectedRequest()._id })
+      this.deleteAdapter({type: type, adapterId: adapterId, requestId: this.selectedData()._id })
     }
   }
 };
