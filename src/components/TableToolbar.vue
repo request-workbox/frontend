@@ -59,16 +59,16 @@ import { mapFields } from "vuex-map-fields";
 export default {
   name: "TableToolbar",
   computed: {
-    ...mapState("table/tableTools", ["filter"]),
-    ...mapGetters("table/tableTools", ["pagination"]),
-    ...mapFields("table/tableTools", ["searchTerm"])
+    ...mapState("table", ["filter"]),
+    ...mapGetters("table", ["pagination"]),
+    ...mapFields("table", ["searchTerm"])
   },
   methods: {
-    ...mapActions("table/tableTools", [
+    ...mapActions("table", [
       "previousPage",
       "nextPage",
     ]),
-    ...mapMutations("table/tableTools", ["changeFilter", "resetPage"]),
+    ...mapMutations("table", ["changeFilter", "resetPage"]),
     filterIsActive: function(filterButton) {
       if (filterButton === this.filter) return true;
       else return false;

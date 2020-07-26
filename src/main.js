@@ -45,7 +45,7 @@ const router = new VueRouter({
 * Install vuex
 * **/
 import authenticationModule from './shared/plugins/modules/authentication'
-import requestModule from './shared/plugins/modules/Request'
+import menuModule from './shared/plugins/modules/Menu'
 import projectModule from './shared/plugins/modules/Project'
 import tableModule from './shared/plugins/modules/Table'
 Vue.use(vuex)
@@ -53,7 +53,7 @@ const store = new vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   modules: {
     authentication: authenticationModule,
-    request: requestModule,
+    menu: menuModule,
     project: projectModule,
     table: tableModule
   }

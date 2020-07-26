@@ -45,11 +45,11 @@ import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 export default {
   name: "RequestOptionsQuery",
   computed: {
-    ...mapGetters("table/tableTools", ["selectedData"])
+    ...mapGetters("table", ["selectedData"])
   },
   methods: {
-    ...mapMutations('table/tableTools', ['editRequestDetailKey', 'editRequestDetailValue', 'editRequestDetailAcceptInput']),
-    ...mapActions('table/tableTools', ['deleteRequestDetailItem']),
+    ...mapMutations('table', ['editRequestDetailKey', 'editRequestDetailValue', 'editRequestDetailAcceptInput']),
+    ...mapActions('table', ['deleteRequestDetailItem']),
     editKey: function(type, key, event) {
       this.editRequestDetailKey({type, key, value: event.target.value, requestId: this.selectedData()._id})
     },

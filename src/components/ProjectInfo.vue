@@ -31,10 +31,10 @@ export default {
     }
   },
   computed: {
-    ...mapState('project/projectInfo', ['projectName']),
+    ...mapState('project', ['projectName']),
   },
   methods: {
-    ...mapActions('project/projectInfo', [
+    ...mapActions('project', [
       'updateProjectName',
     ]),
     focusInEvent: function(event) {

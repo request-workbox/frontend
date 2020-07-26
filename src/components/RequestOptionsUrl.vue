@@ -36,10 +36,10 @@ import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
 export default {
   name: "RequestOptionsUrl",
   computed: {
-    ...mapGetters("table/tableTools", ['selectedData']),
+    ...mapGetters("table", ['selectedData']),
   },
   methods: {
-    ...mapMutations('table/tableTools', ['editRequestDetail']),
+    ...mapMutations('table', ['editRequestDetail']),
     edit: function(type, key, event) {
       this.editRequestDetail({type, key, value: event.target.value, requestId: this.selectedData()._id})
     }

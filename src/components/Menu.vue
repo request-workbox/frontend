@@ -17,10 +17,10 @@
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'RequestMenu',
+  name: 'Menu',
   props: ['projectId'],
   methods: {
-    ...mapActions('request/requestMenu', [
+    ...mapActions('menu', [
       'newRequest',
       'newWorkflow',
       'newProject',

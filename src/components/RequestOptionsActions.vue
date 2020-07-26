@@ -46,12 +46,12 @@ import { mapState, mapActions, mapGetters } from "vuex";
 export default {
   name: "RequestOptionsActions",
   computed: {
-    ...mapGetters('table/tableTools', ['selectedData']),
-    ...mapState("table/tableTools", ["editing"]),
-    ...mapState('table/tableTools', ['option'])
+    ...mapGetters('table', ['selectedData']),
+    ...mapState("table", ["editing"]),
+    ...mapState('table', ['option'])
   },
   methods: {
-    ...mapActions("table/tableTools", ["cancelChanges", 'saveChanges', 'addRequestDetailItem', 'addAdapter']),
+    ...mapActions("table", ["cancelChanges", 'saveChanges', 'addRequestDetailItem', 'addAdapter']),
     allowAddingItem: function() {
       if (!this.selectedData()._id) return false;
 

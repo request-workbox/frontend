@@ -21,8 +21,8 @@ export default {
         return next()
     },
     methods: {
-        ...mapMutations('project/projectInfo', ['changeUrlProjectId']),
-        ...mapActions('project/projectInfo', ['getProjectName']),
+        ...mapMutations('project', ['changeUrlProjectId']),
+        ...mapActions('project', ['getProjectName']),
         init: function() {
             this.getProjectName({ projectId: this.projectId })
         }

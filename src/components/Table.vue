@@ -39,11 +39,11 @@ import { mapState, mapGetters, mapActions } from "vuex";
 export default {
   name: "Table",
   computed: {
-    ...mapState("table/tableTools", ["allData", "selectedId"]),
-    ...mapGetters("table/tableTools", ["viewableData"])
+    ...mapState("table", ["allData", "selectedId"]),
+    ...mapGetters("table", ["viewableData"])
   },
   methods: {
-    ...mapActions("table/tableTools", ["selectOrDeselectRow"]),
+    ...mapActions("table", ["selectOrDeselectRow"]),
     rowIsActive: function(data) {
       if (data._id === this.selectedId) return true;
       else return false;
