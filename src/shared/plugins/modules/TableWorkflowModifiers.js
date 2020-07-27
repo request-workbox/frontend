@@ -14,9 +14,8 @@ const actions = {
         const requestUrl = `${state.apiUrl}/get-workflows`
         const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
-        console.log(request)
-        // commit('replaceAllData', { data: request.data })
-        // commit('resetPage')
+        commit('replaceAllData', { data: request.data })
+        commit('resetPage')
     },
 }
 
