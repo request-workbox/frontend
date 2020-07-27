@@ -21,6 +21,7 @@ import attachCognitoModule from '@vuetify/vuex-cognito-module'
 /**
  * Install vue-router
  * **/
+import Project from './components/Project'
 import Request from './components/Request'
 import Workflow from './components/Workflow'
 
@@ -29,6 +30,11 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
+    {
+      path: '/projects',
+      name: 'Projects',
+      component: Project,
+    },
     {
       path: '/projects/:projectId/requests',
       name: 'Requests',

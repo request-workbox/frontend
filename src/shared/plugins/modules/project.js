@@ -5,6 +5,8 @@ const state = () => ({
 
     projectName: '',
     projectId: '',
+
+    projects: []
 })
 
 const getters = {
@@ -26,6 +28,11 @@ const actions = {
         await Vue.$axios.post(requestUrl, requestBody)
         commit('changeProjectName', { projectName })
     },
+    async getProjects({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${state.apiUrl}/get-projects`
+        const request = await Vue.$axios.post(requestUrl)
+        commit('changeProjects', request.data)
+    },
 }
 
 const mutations = {
@@ -35,6 +42,9 @@ const mutations = {
     changeProjectName(state, { projectName }) {
         state.projectName = projectName
     },
+    changeProjects(state, payload) {
+        state.projects = payload
+    }
 }
 
 export default {
