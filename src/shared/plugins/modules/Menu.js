@@ -15,13 +15,13 @@ const actions = {
         const requestUrl = `${state.apiUrl}/new-request`
         const requestBody = { projectId, adapter }
         const request = await Vue.$axios.post(requestUrl, requestBody)
-        location.reload()
+        location.assign(`/projects/${projectId}/requests`)
     },
     async newWorkflow({ commit, state, rootState }, { projectId }) {
         const requestUrl = `${state.apiUrl}/new-workflow`
         const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
-        location.reload()
+        location.assign(`/projects/${projectId}/workflows`)
     },
     async newProject({ commit, state, rootState }) {
         const requestUrl = `${state.apiUrl}/new-project`

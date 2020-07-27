@@ -4,36 +4,55 @@
       <div class="row row-border-bottom">
         <div class="column column-data column-header-text column-20">Project Id</div>
         <div class="column column-data column-header-text column-grow">Project Name</div>
+        <div class="column column-data column-header-text column-20">Date Created</div>
       </div>
 
-      <div class="row row-border-bottom project-row" v-for="(project) in projects" :key="project._id">
+      <div class="row row-border-bottom project-row" v-bind:class="{'project-row-selected':shouldBeSelected(project._id)}" v-for="(project) in projects" :key="project._id" v-on:click="selectProjectAction(project._id)">
         <div class="column column-data column-20">{{ project._id }}</div>
         <div class="column column-data column-grow">{{ project.name }}</div>
-        <div class="column column-data text-button" v-on:click="navigateToRoute('requests', project._id)">Requests</div>
-        <div class="column column-data text-button" v-on:click="navigateToRoute('workflows', project._id)">Workflows</div>
+        <div class="column column-data column-20">{{ projectCreatedAt(project.createdAt) }}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import moment from 'moment-timezone'
+import { mapState, mapMutations } from "vuex";
 
 export default {
   name: "ProjectList",
   computed: {
-    ...mapState("project", ["projects"]),
+    ...mapState("project", ["projects",'projectId']),
   },
   methods: {
+    ...mapMutations('project', ['changeProjectId']),
     navigateToRoute: function(route, projectId) {
       location.assign(`/projects/${projectId}/${route}`)
+    },
+    selectProjectAction: function(projectId) {
+      this.changeProjectId({ projectId: projectId })
+    },
+    shouldBeSelected: function(projectId) {
+      if (projectId === this.projectId) return true;
+      else return false;
+    },
+    projectCreatedAt: function(createdAt) {
+      if (!createdAt) return ''
+      return `${moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}`
     }
   }
 };
 </script>
 
 <style lang="scss">
+.project-row {
+  cursor:pointer;
+}
 .project-row:hover {
+  background: #ececec;
+}
+.project-row-selected {
   background: #ececec;
 }
 </style>

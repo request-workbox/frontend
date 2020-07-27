@@ -33,8 +33,8 @@ export default {
       if (action === 'newProject') {
         return true
       } else {
-        if (this.$route.name === 'Projects') return false
-        else return true
+        if (this.projectId !== '') return true;
+        else return false;
       }
     },
     newRequestAction: function(isAdapter) {

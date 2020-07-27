@@ -24,6 +24,8 @@ export default {
         return true
       } else if (this.$route.name === 'Workflows' && route === 'workflows') {
         return true
+      } else if (this.$route.name === 'Projects' && route == 'projects') {
+        return true
       } else {
         return false
       }
@@ -31,9 +33,9 @@ export default {
     shouldBeShown: function(route) {
       if (route === 'projects') {
         return true
-      } else if (route === 'requests' || route === 'workflows') {
-        if (this.$route.name !== 'Projects') return true
-        else return false
+      } else {
+        if (this.projectId !== '') return true;
+        else return false;
       }
     },
     navigateToRoute: function(route) {
