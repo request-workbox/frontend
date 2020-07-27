@@ -1,6 +1,7 @@
 <template>
   <div id="request-container">
     <!-- <RequestLogin /> -->
+    <Nav />
     <ProjectInfo />
     <Menu />
     <TableToolbar />
@@ -17,6 +18,7 @@
 import { mapActions, mapMutations } from 'vuex'
 
 import RequestLogin from './RequestLogin'
+import Nav from './Nav'
 import ProjectInfo from "./ProjectInfo";
 import Menu from "./Menu";
 import TableToolbar from "./TableToolbar";
@@ -32,6 +34,7 @@ export default {
   props: ['projectId'],
   components: {
     RequestLogin,
+    Nav,
     ProjectInfo,
     Menu,
     TableToolbar,

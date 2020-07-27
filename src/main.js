@@ -31,11 +31,13 @@ const router = new VueRouter({
   routes: [
     {
       path: '/projects/:projectId/requests',
+      name: 'Requests',
       component: Request,
       props: true,
     },
     {
       path: '/projects/:projectId/workflows',
+      name: 'Workflows',
       component: Workflow,
       props: true,
     },

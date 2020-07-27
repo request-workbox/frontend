@@ -1,0 +1,40 @@
+<template>
+    <div class="row row-border-bottom">
+      <div class="column column-full-width">
+        <div class="row">
+          <div class="column text-button" v-bind:class="{ 'text-button-selected':shouldBeSelected('projects') }" v-on:click="navigateToRoute('projects')">Projects</div>
+          <div class="column text-button" v-bind:class="{ 'text-button-selected':shouldBeSelected('requests') }" v-on:click="navigateToRoute('requests')">Requests</div>
+          <div class="column text-button" v-bind:class="{ 'text-button-selected':shouldBeSelected('workflows') }" v-on:click="navigateToRoute('workflows')">Workflows</div>
+        </div>
+      </div>
+    </div>
+</template>
+
+<script>
+import { mapActions, mapState } from 'vuex'
+
+export default {
+  name: 'Nav',
+  computed: {
+    ...mapState('project', ['projectId']),
+  },
+  methods: {
+    shouldBeSelected: function(route) {
+      if (this.$route.name === 'Requests' && route === 'requests') {
+        return true
+      } else if (this.$route.name === 'Workflows' && route === 'workflows') {
+        return true
+      } else {
+        return false
+      }
+    },
+    navigateToRoute: function(route) {
+      if (route === 'requests') {
+        location.assign(`/projects/${this.projectId}/requests`)
+      } else if (route === 'workflows') {
+        location.assign(`/projects/${this.projectId}/workflows`)
+      }
+    }
+  }
+}
+</script>

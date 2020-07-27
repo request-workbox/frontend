@@ -1,22 +1,31 @@
 <template>
   <div id="workflow-container">
+    <Nav />
     <ProjectInfo />
     <Menu />
+    <TableToolbar />
+    <Table />
   </div>
 </template>
 
 <script>
 import { mapMutations, mapActions } from "vuex";
 
+import Nav from './Nav'
 import ProjectInfo from "./ProjectInfo";
 import Menu from "./Menu";
+import TableToolbar from "./TableToolbar";
+import Table from "./Table";
 
 export default {
   name: "Workflow",
   props: ["projectId"],
   components: {
+    Nav,
     ProjectInfo,
     Menu,
+    TableToolbar,
+    Table,
   },
   mounted: function () {
     this.init();
