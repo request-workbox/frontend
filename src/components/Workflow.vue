@@ -5,6 +5,7 @@
     <Menu />
     <TableToolbar />
     <Table />
+    <TableDetails />
   </div>
 </template>
 
@@ -16,6 +17,7 @@ import ProjectInfo from "./ProjectInfo";
 import Menu from "./Menu";
 import TableToolbar from "./TableToolbar";
 import Table from "./Table";
+import TableDetails from "./TableDetails";
 
 export default {
   name: "Workflow",
@@ -26,6 +28,7 @@ export default {
     Menu,
     TableToolbar,
     Table,
+    TableDetails
   },
   mounted: function () {
     this.init();

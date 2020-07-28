@@ -6,7 +6,7 @@
     <Menu />
     <TableToolbar />
     <Table />
-    <RequestDetails />
+    <TableDetails />
     <RequestOptionsToolbar />
     <RequestOptionsActions />
     <RequestOptions />
@@ -23,7 +23,7 @@ import ProjectInfo from "./ProjectInfo";
 import Menu from "./Menu";
 import TableToolbar from "./TableToolbar";
 import Table from "./Table";
-import RequestDetails from "./RequestDetails";
+import TableDetails from "./TableDetails";
 import RequestOptionsToolbar from "./RequestOptionsToolbar";
 import RequestOptionsActions from './RequestOptionsActions';
 import RequestOptions from "./RequestOptions";
@@ -39,7 +39,7 @@ export default {
     Menu,
     TableToolbar,
     Table,
-    RequestDetails,
+    TableDetails,
     RequestOptionsToolbar,
     RequestOptionsActions,
     RequestOptions,

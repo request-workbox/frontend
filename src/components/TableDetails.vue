@@ -1,9 +1,12 @@
 <template>
     <div class="row row-border-bottom row-dark">
       <div class="column column-full-width">
-        <div class="row row-justify-between">
+        <div class="row row-justify-between" v-if="this.$route.name === 'Requests'">
           <div class="column section-header" id="request-details-name">{{ requestName() }}</div>
           <div class="column text" id="request-details-last-edited">{{ requestLastEdited() }}</div>
+        </div>
+        <div class="row row-justify-between" v-if="this.$route.name === 'Workflows'">
+          <div class="column section-header" id="request-details-name">{{ workflowName() }}</div>
         </div>
       </div>
     </div>
@@ -13,7 +16,7 @@
 import moment from 'moment-timezone'
 import { mapGetters } from 'vuex'
 export default {
-  name: 'RequestDetails',
+  name: 'TableDetails',
   computed: {
     ...mapGetters('table', ['selectedData']),
   },
@@ -29,6 +32,12 @@ export default {
 
       if (!requestDetails.updatedAt) return ''
       return `Last edited: ${moment(requestDetails.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}`
+    },
+    workflowName: function() {
+      const workflow = this.selectedData()
+
+      if (!workflow.name) return ''
+      return workflow.name
     },
   }
 }
