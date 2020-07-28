@@ -33,7 +33,7 @@ const actions = {
         const requestUrl = `${state.apiUrl}/get-request-details`
         const requestBody = { requestId: _id }
         const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('updateRequestDetails', request.data)
+        commit('updateRequest', request.data)
         commit('stopEditing')
     },
     async saveRequestChanges({ commit, state, getters, rootState }, request) {
@@ -77,7 +77,7 @@ const actions = {
 
 const mutations = {
     // REQUEST MUTATIONS
-    updateRequestDetails(state, payload) {
+    updateRequest(state, payload) {
         _.each(state.allData, (data) => {
             if (data._id === payload._id) {
                 _.each(data, (value, key) => {

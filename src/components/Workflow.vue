@@ -7,6 +7,7 @@
     <Table />
     <TableDetails />
     <TableOptionsToolbar />
+    <WorkflowOptionsActions />
     <WorkflowOptions />
   </div>
 </template>
@@ -21,6 +22,7 @@ import TableToolbar from "./TableToolbar";
 import Table from "./Table";
 import TableDetails from "./TableDetails";
 import TableOptionsToolbar from "./TableOptionsToolbar";
+import WorkflowOptionsActions from './WorkflowOptionsActions';
 import WorkflowOptions from './WorkflowOptions';
 
 export default {
@@ -34,6 +36,7 @@ export default {
     Table,
     TableDetails,
     TableOptionsToolbar,
+    WorkflowOptionsActions,
     WorkflowOptions
   },
   mounted: function () {

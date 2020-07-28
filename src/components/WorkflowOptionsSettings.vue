@@ -26,7 +26,7 @@
             placeholder="Value"
             class="column-input-text"
             :value="this.selectedData().name"
-            v-on:input="edit('name', key, $event)"
+            v-on:input="editWorkflowDetailAction('name', $event)"
           />
         </div>
       </div>
@@ -48,7 +48,7 @@
           />
         </div>
         <div class="column column-data column-grow">
-          <select class="column-input-select" :value="this.selectedData().timeout">
+          <select class="column-input-select" :value="this.selectedData().timeout" v-on:input="editWorkflowDetailAction('timeout', $event)">
             <option value="30seconds">30 Seconds</option>
             <option value="60seconds">60 Seconds</option>
           </select>
@@ -66,7 +66,7 @@
           />
         </div>
         <div class="column column-data column-grow">
-          <select class="column-input-select" :value="this.selectedData().onTimeout" v-on:input="edit('onTimeout', 'adapterType', $event)">
+          <select class="column-input-select" :value="this.selectedData().onTimeout" v-on:input="editWorkflowDetailAction('onTimeout', $event)">
             <option value="stop">Stop</option>
             <option value="send200Continue">Send 200 and Continue</option>
             <option value="send500Continue">Send 500 and Continue</option>
@@ -88,8 +88,8 @@ export default {
   },
   methods: {
     ...mapMutations('table', ['editWorkflowDetail']),
-    edit: function(type, key, event) {
-      this.editWorkflowDetail({type, key, value: event.target.value, requestId: this.selectedData()._id})
+    editWorkflowDetailAction: function(key, event) {
+      this.editWorkflowDetail({key, value: event.target.value, workflowId: this.selectedData()._id})
     }
   }
 };
