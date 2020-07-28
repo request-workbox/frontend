@@ -7,30 +7,30 @@
             <div
               class="column text-button action"
               v-bind:class="{ disabled: !this.editing }"
-              v-on:click="cancelChangesAction"
+              v-on:click="cancelRequestChangesAction"
             >Cancel</div>
             <div
               class="column text-button action"
               v-bind:class="{ disabled: !this.editing }"
-              v-on:click="saveChangesAction"
+              v-on:click="saveRequestChangesAction"
             >Save Changes</div>
           </div>
         </div>
-        <div class="column" v-if="allowAddingItem()">
+        <div class="column" v-if="allowAddingRequestItem()">
           <div
             class="column text-button action"
             v-on:click="addRequestDetailItemAction"
           >Add Item</div>
         </div>
-        <div class="column" v-if="allowAddingAdapter()">
+        <div class="column" v-if="allowAddingRequestAdapter()">
           <div class="row">
             <div
             class="column text-button action"
-            v-on:click="addAdapterAction('requestAdapters')"
+            v-on:click="addRequestAdapterAction('requestAdapters')"
           >Add Request Adapter</div>
           <div
             class="column text-button action"
-            v-on:click="addAdapterAction('responseAdapters')"
+            v-on:click="addRequestAdapterAction('responseAdapters')"
           >Add Response Adapter</div>
           </div>
           
@@ -52,14 +52,14 @@ export default {
   },
   methods: {
     ...mapActions("table", ["cancelRequestChanges", 'saveRequestChanges', 'addRequestDetailItem', 'addRequestAdapter']),
-    allowAddingItem: function() {
+    allowAddingRequestItem: function() {
       if (!this.selectedData()._id) return false;
 
       const allowOptions = ['parameters','query','headers','cookies','body']
       if (_.includes(allowOptions,this.option)) return true;
       else return false;
     },
-    allowAddingAdapter: function() {
+    allowAddingRequestAdapter: function() {
       if (!this.selectedData()._id) return false;
 
       if (this.selectedData().requestSettings.requestType === 'adapter') {
@@ -69,16 +69,16 @@ export default {
         else return false;
       }
     },
-    cancelChangesAction: async function() {
+    cancelRequestChangesAction: async function() {
       await this.cancelRequestChanges({ _id: this.selectedData()._id })
     },
-    saveChangesAction: async function() {
+    saveRequestChangesAction: async function() {
       await this.saveRequestChanges(this.selectedData())
     },
     addRequestDetailItemAction: async function() {
       await this.addRequestDetailItem({_id: this.selectedData()._id, option: this.option })
     },
-    addAdapterAction: async function(type) {
+    addRequestAdapterAction: async function(type) {
       await this.addRequestAdapter({type, requestId: this.selectedData()._id})
     }
   }
