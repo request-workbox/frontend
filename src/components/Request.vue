@@ -7,7 +7,7 @@
     <TableToolbar />
     <Table />
     <TableDetails />
-    <RequestOptionsToolbar />
+    <TableOptionsToolbar />
     <RequestOptionsActions />
     <RequestOptions />
     <RequestFooter />
@@ -24,7 +24,7 @@ import Menu from "./Menu";
 import TableToolbar from "./TableToolbar";
 import Table from "./Table";
 import TableDetails from "./TableDetails";
-import RequestOptionsToolbar from "./RequestOptionsToolbar";
+import TableOptionsToolbar from "./TableOptionsToolbar";
 import RequestOptionsActions from './RequestOptionsActions';
 import RequestOptions from "./RequestOptions";
 import RequestFooter from "./RequestFooter";
@@ -40,7 +40,7 @@ export default {
     TableToolbar,
     Table,
     TableDetails,
-    RequestOptionsToolbar,
+    TableOptionsToolbar,
     RequestOptionsActions,
     RequestOptions,
     RequestFooter
