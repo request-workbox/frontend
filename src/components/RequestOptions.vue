@@ -1,6 +1,6 @@
 <template>
   <keep-alive>
-    <component :is="`RequestOptions${upperFirstOption}`"></component>
+    <component :is="`RequestOptions${upperFirstOption}`" v-if="this.option !== ''"></component>
   </keep-alive>
 </template>
 

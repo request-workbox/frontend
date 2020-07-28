@@ -53,6 +53,7 @@ export default {
     return next()
   },
   methods: {
+    ...mapMutations('table',['changeOption']),
     ...mapMutations('project', ['changeUrlProjectId']),
     ...mapActions('project', ['getProjectName']),
     
@@ -60,6 +61,7 @@ export default {
     init: function() {
       this.getProjectName({ projectId: this.projectId })
       this.getRequests({ projectId: this.projectId })
+      this.changeOption('url');
     }
   }
 };

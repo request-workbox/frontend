@@ -16,7 +16,7 @@ const state = () => ({
     allData: [],
     page: 0,
     editing: false,
-    option: 'url',
+    option: '',
 })
 
 const getters = {

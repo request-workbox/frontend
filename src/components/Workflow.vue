@@ -7,6 +7,7 @@
     <Table />
     <TableDetails />
     <TableOptionsToolbar />
+    <WorkflowOptions />
   </div>
 </template>
 
@@ -20,6 +21,7 @@ import TableToolbar from "./TableToolbar";
 import Table from "./Table";
 import TableDetails from "./TableDetails";
 import TableOptionsToolbar from "./TableOptionsToolbar";
+import WorkflowOptions from './WorkflowOptions';
 
 export default {
   name: "Workflow",
@@ -31,7 +33,8 @@ export default {
     TableToolbar,
     Table,
     TableDetails,
-    TableOptionsToolbar
+    TableOptionsToolbar,
+    WorkflowOptions
   },
   mounted: function () {
     this.init();
@@ -41,12 +44,14 @@ export default {
     return next();
   },
   methods: {
+    ...mapMutations('table',['changeOption']),
     ...mapMutations("project", ["changeUrlProjectId"]),
     ...mapActions("project", ["getProjectName"]),
     ...mapActions('table',['getWorkflows']),
     init: function () {
       this.getProjectName({ projectId: this.projectId });
       this.getWorkflows({ projectId: this.projectId });
+      this.changeOption('settings');
     },
   },
 };
