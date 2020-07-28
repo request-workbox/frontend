@@ -7,6 +7,33 @@
       </div>
 
       <div class="row row-border-bottom">
+        <div class="column column-data column-header-text column-grow column-group-header">Description</div>
+      </div>
+
+      <div class="row row-border-bottom" v-if="this.selectedData()._id">
+        <div class="column column-data column-20">
+          <input
+            type="text"
+            placeholder="Key"
+            class="column-input-text"
+            value="Name"
+            disabled
+          />
+        </div>
+        <div class="column column-data column-grow">
+          <input
+            type="text"
+            placeholder="Value"
+            class="column-input-text"
+            :value="this.selectedData().name"
+            v-on:input="edit('name', key, $event)"
+          />
+        </div>
+      </div>
+
+
+
+      <div class="row row-border-bottom">
         <div class="column column-data column-header-text column-grow column-group-header">Timeout</div>
       </div>
 
@@ -16,14 +43,14 @@
             type="text"
             placeholder="Key"
             class="column-input-text"
-            value="Timeout"
+            value="Timeout Length"
             disabled
           />
         </div>
         <div class="column column-data column-grow">
           <select class="column-input-select" :value="this.selectedData().timeout">
-            <option value="30">30</option>
-            <option value="60">60</option>
+            <option value="30seconds">30 Seconds</option>
+            <option value="60seconds">60 Seconds</option>
           </select>
         </div>
       </div>
@@ -34,15 +61,15 @@
             type="text"
             placeholder="Key"
             class="column-input-text"
-            value="On Timeout"
+            value="Timeout Action"
             disabled
           />
         </div>
         <div class="column column-data column-grow">
           <select class="column-input-select" :value="this.selectedData().onTimeout" v-on:input="edit('onTimeout', 'adapterType', $event)">
             <option value="stop">Stop</option>
-            <option value="send200Continue">Send 200 and continue</option>
-            <option value="send500Continue">Send 500 and continue</option>
+            <option value="send200Continue">Send 200 and Continue</option>
+            <option value="send500Continue">Send 500 and Continue</option>
           </select>
         </div>
       </div>

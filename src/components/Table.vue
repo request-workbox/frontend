@@ -44,7 +44,7 @@
         <div class="column column-data column-20" id="table-data-1">Workflow Name</div>
         <div class="column column-data column-20" id="table-data-4">4 Tasks</div>
         <div class="column column-data column-20" id="table-data-2">30 Seconds</div>
-        <div class="column column-data column-grow" id="table-data-3">Send 200 and Continue</div>
+        <div class="column column-data column-grow" id="table-data-3">Stop</div>
       </div>
 
       <template v-if="allData.length > 0">
@@ -56,9 +56,9 @@
           v-on:click="selectOrDeselectRow(data)"
         >
           <div class="column column-data column-20" id="table-data-1">{{ data.name }}</div>
-          <div class="column column-data column-20" id="table-data-2">{{ data.active }}</div>
-          <div class="column column-data column-20" id="table-data-3">{{ data.timeout }}</div>
-          <div class="column column-data column-grow" id="table-data-4">{{ data.onTimeout }}</div>
+          <div class="column column-data column-20" id="table-data-2">{{ numberOfWorkflowTasks(data) }}</div>
+          <div class="column column-data column-20" id="table-data-3">{{ friendlyWorkflowTimeout(data) }}</div>
+          <div class="column column-data column-grow" id="table-data-4">{{ friendlyWorkflowTimeoutAction(data) }}</div>
         </div>
       </template>
     </div>
@@ -67,6 +67,7 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
+import _ from 'lodash'
 
 export default {
   name: "Table",
@@ -83,6 +84,33 @@ export default {
       if (data._id === this.selectedId) return true;
       else return false;
     },
+    numberOfWorkflowTasks: function(data) {
+      if (!data.tasks || !_.size(data.tasks)) return '0 Tasks'
+      return `${_.size(data.tasks)} Tasks`
+    },
+    friendlyWorkflowTimeout: function(data) {
+      if (!data.timeout) return '30 Seconds'
+
+      if (data.timeout === '30seconds') {
+        return '30 Seconds'
+      }
+      if (data.timeout === '60seconds') {
+        return '60 Seconds'
+      }
+    },
+    friendlyWorkflowTimeoutAction: function(data) {
+      if (!data.onTimeout) return 'Stop'
+
+      if (data.onTimeout === 'stop') {
+        return 'Stop'
+      }
+      if (data.onTimeout === 'send200Continue') {
+        return 'Send 200 and Continue'
+      }
+      if (data.onTimeout === 'send500Continue') {
+        return 'Send 500 and Continue'
+      }
+    }
   },
 };
 </script>
