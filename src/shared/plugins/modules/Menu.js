@@ -29,6 +29,12 @@ const actions = {
         const projectId = request.data._id
         location.assign(`/projects/${projectId}/requests`)
     },
+    async newEnvironment({ commit, state, rootState }) {
+        const requestUrl = `${state.apiUrl}/new-environment`
+        const request = await Vue.$axios.post(requestUrl)
+        const projectId = request.data._id
+        location.assign(`/projects/${projectId}/environment`)
+    },
     // async addToWorkflow({ commit, state, rootState }, { requestId, workflowId }) {
     //     const requestUrl = `${state.apiUrl}/add-to-workflow`
     //     const requestBody = { requestId, workflowId }

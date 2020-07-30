@@ -8,6 +8,9 @@
         <div class="row row-justify-between" v-if="this.$route.name === 'Workflows'">
           <div class="column section-header" id="request-details-name">{{ workflowName() }}</div>
         </div>
+        <div class="row row-justify-between" v-if="this.$route.name === 'Environments'">
+          <div class="column section-header">{{ environmentName() }}</div>
+        </div>
       </div>
     </div>
 </template>
@@ -38,6 +41,12 @@ export default {
 
       if (!workflow.name) return ''
       return workflow.name
+    },
+    environmentName: function() {
+      const environment = this.selectedData()
+
+      if (!environment.name) return ''
+      return environment.name
     },
   }
 }

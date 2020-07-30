@@ -24,6 +24,7 @@ import attachCognitoModule from '@vuetify/vuex-cognito-module'
 import Project from './components/Project'
 import Request from './components/Request'
 import Workflow from './components/Workflow'
+import Environment from './components/Environment'
 
 Vue.use(VueRouter)
 const router = new VueRouter({
@@ -45,6 +46,12 @@ const router = new VueRouter({
       path: '/projects/:projectId/workflows',
       name: 'Workflows',
       component: Workflow,
+      props: true,
+    },
+    {
+      path: '/projects/:projectId/environments',
+      name: 'Environments',
+      component: Environment,
       props: true,
     },
   ],

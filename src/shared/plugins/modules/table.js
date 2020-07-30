@@ -4,6 +4,7 @@ import _ from 'lodash'
 
 import TableRequestModifiers from './TableRequestModifiers'
 import TableWorkflowModifiers from './TableWorkflowModifiers'
+import TableEnvironmentModifiers from './TableEnvironmentModifiers'
 
 const state = () => ({
     apiUrl: 'http://localhost:3000',
@@ -70,7 +71,8 @@ const getters = {
 
     // REQUEST GETTERS
     ...TableRequestModifiers.getters,
-    ...TableWorkflowModifiers.getters
+    ...TableWorkflowModifiers.getters,
+    ...TableEnvironmentModifiers.getters
 }
 
 const actions = {
@@ -95,7 +97,8 @@ const actions = {
 
     // REQUEST ACTIONS
     ...TableRequestModifiers.actions,
-    ...TableWorkflowModifiers.actions
+    ...TableWorkflowModifiers.actions,
+    ...TableEnvironmentModifiers.actions
 }
 
 const mutations = {
@@ -132,7 +135,8 @@ const mutations = {
 
     // REQUEST MUTATIONS
     ...TableRequestModifiers.mutations,
-    ...TableWorkflowModifiers.mutations
+    ...TableWorkflowModifiers.mutations,
+    ...TableEnvironmentModifiers.mutations,
 }
 
 export default {

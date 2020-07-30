@@ -7,7 +7,7 @@
             <div
               class="column text-button action"
               v-bind:class="{ disabled: !this.editing }"
-              v-on:click="cancelWorkflowChangesAction"
+              v-on:click="cancelEnvironmentChangesAction"
             >Cancel</div>
             <div
               class="column text-button action"
@@ -25,19 +25,19 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
-  name: "WorkflowOptionsActions",
+  name: "EnvironmentOptionsActions",
   computed: {
     ...mapGetters('table', ['selectedData']),
     ...mapState("table", ["editing"]),
     ...mapState('table', ['option'])
   },
   methods: {
-    ...mapActions("table", ["cancelWorkflowChanges", 'saveWorkflowChanges']),
-    cancelWorkflowChangesAction: async function() {
-      await this.cancelWorkflowChanges({ _id: this.selectedData()._id })
+    ...mapActions("table", ["cancelEnvironmentChanges", 'saveEnvironmentChanges']),
+    cancelEnvironmentChangesAction: async function() {
+      await this.cancelEnvironmentChanges({ _id: this.selectedData()._id })
     },
     saveWorkflowChangesAction: async function() {
-      await this.saveWorkflowChanges(this.selectedData())
+      await this.saveEnvironmentChanges(this.selectedData())
     },
   }
 };
