@@ -18,6 +18,8 @@ const state = () => ({
     page: 0,
     editing: false,
     option: '',
+
+    environmentsForSelectOptions: []
 })
 
 const getters = {

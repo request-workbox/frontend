@@ -91,7 +91,7 @@
         </div>
         <div class="column column-data column-grow">
           <select class="column-input-select" :value="this.selectedData().environment" v-on:input="editWorkflowDetailAction('environment', $event)">
-            <option value="">Environment</option>
+            <option v-for="(environment) in environments()" :key="environment._id" :value="environment._id">{{ environment.name }}</option>
           </select>
         </div>
       </div>
@@ -106,7 +106,7 @@ import { mapState, mapMutations, mapGetters } from "vuex";
 export default {
   name: "WorkflowOptionsSettings",
   computed: {
-    ...mapGetters("table", ["selectedData"])
+    ...mapGetters("table", ["selectedData",'environments'])
   },
   methods: {
     ...mapMutations('table', ['editWorkflowDetail']),
