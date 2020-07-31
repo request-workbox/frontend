@@ -10,6 +10,7 @@
         </div>
         <div class="row row-justify-between" v-if="this.$route.name === 'Environments'">
           <div class="column section-header">{{ environmentName() }}</div>
+          <div class="column text">{{ environmentCreated() }}</div>
         </div>
       </div>
     </div>
@@ -47,6 +48,12 @@ export default {
 
       if (!environment.name) return ''
       return environment.name
+    },
+    environmentCreated: function() {
+      const environment = this.selectedData()
+
+      if (!environment.createdAt) return ''
+      return `Created: ${moment(environment.createdAt).format('MMMM Do YYYY, h:mm:ss a')}`
     },
   }
 }

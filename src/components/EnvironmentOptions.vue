@@ -8,11 +8,13 @@
 import { mapState } from "vuex";
 import _ from "lodash";
 
+import EnvironmentOptionsSettings from "./EnvironmentOptionsSettings";
 import EnvironmentOptionsData from "./EnvironmentOptionsData";
 
 export default {
   name: "EnvironmentOptions",
   components: {
+    EnvironmentOptionsSettings,
     EnvironmentOptionsData,
   },
   computed: {

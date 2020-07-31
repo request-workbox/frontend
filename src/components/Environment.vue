@@ -54,7 +54,7 @@ export default {
     init: function () {
       this.getProjectName({ projectId: this.projectId });
       this.getEnvironments({ projectId: this.projectId });
-      this.changeOption('data');
+      this.changeOption('settings');
     },
   },
 };

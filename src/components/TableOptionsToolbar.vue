@@ -19,6 +19,7 @@
         </div>
 
         <div class="row" v-if="this.$route.name === 'Environments'">
+          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('settings')}" v-on:click="changeOption('settings')">Settings</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('data')}" v-on:click="changeOption('data')">Data</div>
         </div>
       </div>

@@ -68,15 +68,13 @@
       <div class="row row-border-bottom">
         <div class="column column-data column-header column-20" id="table-header-1">Environment ID</div>
         <div class="column column-data column-header column-20" id="table-header-4">Name</div>
-        <div class="column column-data column-header column-20" id="table-header-2">Keys</div>
-        <div class="column column-data column-header column-grow" id="table-header-3">Date Created</div>
+        <div class="column column-data column-header column-grow" id="table-header-2">Keys</div>
       </div>
 
       <div v-if="allData.length === 0" class="row row-border-bottom">
         <div class="column column-data column-20" id="table-data-1">_id</div>
         <div class="column column-data column-20" id="table-data-4">Environment Name</div>
-        <div class="column column-data column-20" id="table-data-2">4 Keys</div>
-        <div class="column column-data column-grow" id="table-data-3">01-01-01</div>
+        <div class="column column-data column-grow" id="table-data-2">4 Keys</div>
       </div>
 
       <template v-if="allData.length > 0">
@@ -89,8 +87,7 @@
         >
           <div class="column column-data column-20" id="table-data-1">{{ data._id }}</div>
           <div class="column column-data column-20" id="table-data-2">{{ data.name }}</div>
-          <div class="column column-data column-20" id="table-data-3">{{ numberOfEnvironmentKeys(data) }}</div>
-          <div class="column column-data column-grow" id="table-data-4">{{ dateEnvironmentCreated(data) }}</div>
+          <div class="column column-data column-grow" id="table-data-3">{{ numberOfEnvironmentKeys(data) }}</div>
         </div>
       </template>
     </div>
@@ -147,11 +144,6 @@ export default {
       if (!data.data || !_.size(data)) return '0 Keys'
       return `${_.size(data.data)} Keys`
     },
-    dateEnvironmentCreated: function(data) {
-      if (!data.createdAt) return ''
-
-      return data.createdAt
-    }
   },
 };
 </script>
