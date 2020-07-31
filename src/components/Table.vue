@@ -37,7 +37,7 @@
         <div class="column column-data column-header column-20" id="table-header-1">Name</div>
         <div class="column column-data column-header column-20" id="table-header-4">Tasks</div>
         <div class="column column-data column-header column-20" id="table-header-2">Timeout</div>
-        <div class="column column-data column-header column-grow" id="table-header-3">On Timeout</div>
+        <div class="column column-data column-header column-grow" id="table-header-3">On Failure</div>
       </div>
 
       <div v-if="allData.length === 0" class="row row-border-bottom">
@@ -58,7 +58,7 @@
           <div class="column column-data column-20" id="table-data-1">{{ data.name }}</div>
           <div class="column column-data column-20" id="table-data-2">{{ numberOfWorkflowTasks(data) }}</div>
           <div class="column column-data column-20" id="table-data-3">{{ friendlyWorkflowTimeout(data) }}</div>
-          <div class="column column-data column-grow" id="table-data-4">{{ friendlyWorkflowTimeoutAction(data) }}</div>
+          <div class="column column-data column-grow" id="table-data-4">{{ friendlyWorkflowFailureAction(data) }}</div>
         </div>
       </template>
     </div>
@@ -127,16 +127,16 @@ export default {
         return '60 Seconds'
       }
     },
-    friendlyWorkflowTimeoutAction: function(data) {
-      if (!data.onTimeout) return 'Stop'
+    friendlyWorkflowFailureAction: function(data) {
+      if (!data.onFailure) return 'Stop'
 
-      if (data.onTimeout === 'stop') {
+      if (data.onFailure === 'stop') {
         return 'Stop'
       }
-      if (data.onTimeout === 'send200Continue') {
+      if (data.onFailure === 'send200Continue') {
         return 'Send 200 and Continue'
       }
-      if (data.onTimeout === 'send500Continue') {
+      if (data.onFailure === 'send500Continue') {
         return 'Send 500 and Continue'
       }
     },

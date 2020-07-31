@@ -27,6 +27,13 @@ const actions = {
         commit('replaceAllData', { data: request.data })
         commit('resetPage')
     },
+    async getRequestsForSelectOptions({ commit, state, getters, rootState }, payload) {
+        const projectId = (payload && payload.projectId) ? payload.projectId : rootState.project.projectInfo.projectId
+        const requestUrl = `${state.apiUrl}/get-requests`
+        const requestBody = { projectId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('replaceRequestsForSelectOptions', { data: request.data })
+    },
     async cancelRequestChanges({ commit, state, getters, rootState }, { _id }) {
         if (!state.editing) return;
 
@@ -183,6 +190,9 @@ const mutations = {
             }
         })
     },
+    replaceRequestsForSelectOptions(state, payload) {
+        state.requestsForSelectOptions = payload.data
+    }
 }
 
 export default {

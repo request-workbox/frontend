@@ -19,7 +19,8 @@ const state = () => ({
     editing: false,
     option: '',
 
-    environmentsForSelectOptions: []
+    environmentsForSelectOptions: [],
+    requestsForSelectOptions: []
 })
 
 const getters = {

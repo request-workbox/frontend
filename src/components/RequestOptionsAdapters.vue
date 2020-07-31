@@ -3,7 +3,7 @@
     <div class="column column-full-width">
       <div class="row row-border-bottom">
         <div class="column column-data column-header-text column-20" id="options-header-1">Adapter</div>
-        <div class="column column-data column-header-text column-grow" id="options-header-2">On Adapter Failure</div>
+        <div class="column column-data column-header-text column-grow" id="options-header-2">On Failure</div>
       </div>
 
       <div class="row row-border-bottom">
@@ -17,7 +17,7 @@
           </select>
         </div>
         <div class="column column-data column-grow">
-          <select class="column-input-select" :value="value.onAdapterFailure" v-on:input="edit('requestAdapters', value._id, 'onAdapterFailure', $event)">
+          <select class="column-input-select" :value="value.onFailure" v-on:input="edit('requestAdapters', value._id, 'onFailure', $event)">
             <option value="continueWorkflow">Continue Workflow</option>
             <option value="stopWorkflow">Stop Workflow</option>
             <option value="repeatAttempt">Repeat Attempt</option>
@@ -39,7 +39,7 @@
           </select>
         </div>
         <div class="column column-data column-grow">
-          <select class="column-input-select" :value="value.onAdapterFailure" v-on:input="edit('responseAdapters', value._id, 'onAdapterFailure', $event)">
+          <select class="column-input-select" :value="value.onFailure" v-on:input="edit('responseAdapters', value._id, 'onFailure', $event)">
             <option value="continueWorkflow">Continue Workflow</option>
             <option value="stopWorkflow">Stop Workflow</option>
             <option value="repeatAttempt">Repeat Attempt</option>

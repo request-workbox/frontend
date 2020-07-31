@@ -50,11 +50,12 @@ export default {
     ...mapMutations('table',['changeOption']),
     ...mapMutations("project", ["changeUrlProjectId"]),
     ...mapActions("project", ["getProjectName"]),
-    ...mapActions('table',['getWorkflows','getEnvironmentsForSelectOptions']),
+    ...mapActions('table',['getWorkflows','getEnvironmentsForSelectOptions','getRequestsForSelectOptions']),
     init: function () {
       this.getProjectName({ projectId: this.projectId });
       this.getWorkflows({ projectId: this.projectId });
       this.getEnvironmentsForSelectOptions({ projectId: this.projectId })
+      this.getRequestsForSelectOptions({ projectId: this.projectId })
       this.changeOption('settings');
     },
   },
