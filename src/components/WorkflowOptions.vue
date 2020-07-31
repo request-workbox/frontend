@@ -9,11 +9,13 @@ import { mapState } from "vuex";
 import _ from "lodash";
 
 import WorkflowOptionsSettings from "./WorkflowOptionsSettings";
+import WorkflowOptionsTasks from "./WorkflowOptionsTasks";
 
 export default {
   name: "WorkflowOptions",
   components: {
     WorkflowOptionsSettings,
+    WorkflowOptionsTasks
   },
   computed: {
     ...mapState("table", ["option"]),
