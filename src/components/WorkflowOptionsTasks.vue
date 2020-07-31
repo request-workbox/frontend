@@ -2,8 +2,8 @@
   <div class="row">
     <div class="column column-full-width">
       <div class="row row-border-bottom">
-        <div class="column column-data column-header-text column-checkbox">
-          <input type="checkbox" disabled />
+        <div class="column column-data column-header-text column-uparrow-header">
+          <span>▲</span>
         </div>
         <div class="column column-data column-header-text column-20" id="options-header-1">Request</div>
         <div class="column column-data column-header-text column-20" id="options-header-2">Timeout</div>
@@ -12,8 +12,8 @@
       </div>
 
       <div class="row row-border-bottom" v-for="task in this.selectedData().tasks" :key="task._id">
-        <div class="column column-data column-checkbox">
-          <input type="checkbox">
+        <div class="column column-data column-uparrow">
+          <span>▲</span>
         </div>
         <div class="column column-data column-20">
           <select class="column-input-select column-input-select-grow" :value="task.timeout" v-on:input="edit('requestAdapters', value._id, 'adapterId', $event)">

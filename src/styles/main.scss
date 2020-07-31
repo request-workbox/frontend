@@ -71,6 +71,18 @@ div {
   .column-checkbox {
     min-width: 23px;
   }
+  .column-uparrow {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .column-uparrow-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    color: #bdbbbb;
+  }
   .column-input-select {
     font-size: 1em;
   }
