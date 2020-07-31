@@ -10,9 +10,9 @@ const getters = {
 const actions = {
     // ENVIRONMENT ACTIONS
     async getEnvironments({ commit, state, getters, rootState }, payload) {
-        const environmentId = payload.environmentId
+        const projectId = payload.projectId
         const requestUrl = `${state.apiUrl}/get-environments`
-        const requestBody = { environmentId }
+        const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('replaceAllData', { data: request.data })
         commit('resetPage')
@@ -43,6 +43,13 @@ const actions = {
         const requestBody = { _id: environmentId, environmentDetailOption: untrackedPayload.option, environmentDetailItemId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('removeEnvironmentDetailItem', { environmentDetailOption: untrackedPayload.option, environmentDetailItemId, environmentId: environmentId })
+    },
+    async addEnvironmentDetailItem({ commit, state, getters, rootState }, payload) {
+        const untrackedPayload = JSON.parse(JSON.stringify(payload))
+        const requestUrl = `${state.apiUrl}/add-environment-detail-item`
+        const requestBody = { _id: untrackedPayload._id, environmentDetailOption: untrackedPayload.option }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('updateEnvironmentDetailItem', { environmentDetailOption: untrackedPayload.option, item: request.data, environmentId: untrackedPayload._id })
     },
 }
 
@@ -92,14 +99,14 @@ const mutations = {
             }
         })
     },
-    editEnvironmentDetailAcceptInput(state, payload) {
+    editEnvironmentDetailActive(state, payload) {
         state.editing = true
 
         _.each(state.allData, (data) => {
             if (data._id === payload.environmentId) {
                 _.each(data[payload.type], (obj) => {
                     if (obj._id === payload.key) {
-                        obj.acceptInput = payload.value
+                        obj.active = payload.value
                     }
                 })
             }
@@ -114,6 +121,14 @@ const mutations = {
                 })
             }
         })
+    },
+    updateEnvironmentDetailItem(state, payload) {
+        _.each(state.allData, (data) => {
+            if (data._id === payload.environmentId) {
+                data[payload.environmentDetailOption].push(payload.item)
+            }
+        })
+
     },
 }
 

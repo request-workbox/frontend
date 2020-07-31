@@ -16,6 +16,12 @@
             >Save Changes</div>
           </div>
         </div>
+        <div class="column" v-if="allowAddingEnvironmentItem()">
+          <div
+            class="column text-button action"
+            v-on:click="addEnvironmentDetailItemAction"
+          >Add Item</div>
+        </div>
       </div>
     </div>
   </div>
@@ -32,7 +38,17 @@ export default {
     ...mapState('table', ['option'])
   },
   methods: {
-    ...mapActions("table", ["cancelEnvironmentChanges", 'saveEnvironmentChanges']),
+    ...mapActions("table", ["cancelEnvironmentChanges", 'saveEnvironmentChanges','addEnvironmentDetailItem']),
+    allowAddingEnvironmentItem: function() {
+      if (!this.selectedData()._id) return false;
+
+      const allowOptions = ['data']
+      if (_.includes(allowOptions,this.option)) return true;
+      else return false;
+    },
+    addEnvironmentDetailItemAction: async function() {
+      await this.addEnvironmentDetailItem({_id: this.selectedData()._id, option: this.option })
+    },
     cancelEnvironmentChangesAction: async function() {
       await this.cancelEnvironmentChanges({ _id: this.selectedData()._id })
     },

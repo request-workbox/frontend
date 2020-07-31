@@ -79,7 +79,7 @@
         <div class="column column-data column-grow" id="table-data-3">01-01-01</div>
       </div>
 
-      <!-- <template v-if="allData.length > 0">
+      <template v-if="allData.length > 0">
         <div
           v-for="(data) in viewableData()"
           v-bind:key="data._id"
@@ -87,12 +87,12 @@
           v-bind:class="{ 'table-row-selected': rowIsActive(data) }"
           v-on:click="selectOrDeselectRow(data)"
         >
-          <div class="column column-data column-20" id="table-data-1">{{ data.name }}</div>
-          <div class="column column-data column-20" id="table-data-2">{{ numberOfWorkflowTasks(data) }}</div>
-          <div class="column column-data column-20" id="table-data-3">{{ friendlyWorkflowTimeout(data) }}</div>
-          <div class="column column-data column-grow" id="table-data-4">{{ friendlyWorkflowTimeoutAction(data) }}</div>
+          <div class="column column-data column-20" id="table-data-1">{{ data._id }}</div>
+          <div class="column column-data column-20" id="table-data-2">{{ data.name }}</div>
+          <div class="column column-data column-20" id="table-data-3">{{ numberOfEnvironmentKeys(data) }}</div>
+          <div class="column column-data column-grow" id="table-data-4">{{ dateEnvironmentCreated(data) }}</div>
         </div>
-      </template> -->
+      </template>
     </div>
   </div>
 </template>
@@ -142,6 +142,15 @@ export default {
       if (data.onTimeout === 'send500Continue') {
         return 'Send 500 and Continue'
       }
+    },
+    numberOfEnvironmentKeys: function(data) {
+      if (!data.data || !_.size(data)) return '0 Keys'
+      return `${_.size(data.data)} Keys`
+    },
+    dateEnvironmentCreated: function(data) {
+      if (!data.createdAt) return ''
+
+      return data.createdAt
     }
   },
 };

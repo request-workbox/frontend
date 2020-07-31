@@ -11,7 +11,7 @@
 
       <div class="row row-border-bottom" v-for="value in this.selectedData().data" :key="value._id">
         <div class="column column-data column-checkbox">
-          <input type="checkbox" id="options-data-checkbox" :checked="value.acceptInput" v-on:input="editAcceptInput('data', value._id, $event)" />
+          <input type="checkbox" id="options-data-checkbox" :checked="value.active" v-on:input="editActive('data', value._id, $event)" />
         </div>
         <div class="column column-data column-10">
           <input
@@ -56,8 +56,8 @@ export default {
     editValue: function(type, key, event) {
       this.editEnvironmentDetailValue({type, key, value: event.target.value, environmentId: this.selectedData()._id})
     },
-    editAcceptInput: function(type, key, event) {
-      this.editEnvironmentDetailAcceptInput({type, key, value: event.target.checked, environmentId: this.selectedData()._id})
+    editActive: function(type, key, event) {
+      this.editEnvironmentDetailActive({type, key, value: event.target.checked, environmentId: this.selectedData()._id})
     },
     deleteEnvironmentDetailItemAction: function(value) {
       this.deleteEnvironmentDetailItem({ detailItem: value, environmentId: this.selectedData()._id, option: 'data'})

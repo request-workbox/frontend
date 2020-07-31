@@ -74,6 +74,28 @@
         </div>
       </div>
 
+
+      <div class="row row-border-bottom">
+        <div class="column column-data column-header-text column-grow column-group-header">Environment</div>
+      </div>
+
+      <div class="row row-border-bottom" v-if="this.selectedData()._id">
+        <div class="column column-data column-20">
+          <input
+            type="text"
+            placeholder="Key"
+            class="column-input-text"
+            value="Environment"
+            disabled
+          />
+        </div>
+        <div class="column column-data column-grow">
+          <select class="column-input-select" :value="this.selectedData().environment" v-on:input="editWorkflowDetailAction('environment', $event)">
+            <option value="">Environment</option>
+          </select>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
