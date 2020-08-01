@@ -18,7 +18,6 @@ const getters = {
     requestsForSelect: (state, getters, rootState) => () => {
         return _.filter(state.requestsForSelectOptions, (data) => {
             if (data.active) {
-                console.log(data)
                 if (data.requestSettings.requestType === 'adapter') return false;
                 else return true;
             } else {

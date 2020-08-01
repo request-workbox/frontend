@@ -99,6 +99,46 @@ const mutations = {
             }
         })
     },
+    changeTaskPosition(state, payload) {
+        state.editing = true
+        _.each(state.allData, (data) => {
+            if (data._id === payload.workflowId) {
+                // find current position
+                let newPosition;
+                let updatedArraySize;
+                _.each(data.tasks, (obj, key) => {
+                    if (obj._id === payload.taskId) {
+                        newPosition = key - 1
+                    }
+                })
+                // remove task
+                const task  = _.remove(data.tasks, (obj) => {
+                    if (obj._id === payload.taskId) return true;
+                    else return false;
+                })[0]
+                // update task array
+                const updatedTasks = _.filter(data.tasks, (obj) => {
+                    if (obj._id === payload.taskId) return false;
+                    else return true;
+                })
+                // empty tasks
+                data.tasks = []
+                // get current array size
+                updatedArraySize = _.size(updatedTasks)
+                // insert at new position if not last
+                _.each(updatedTasks, (obj, key) => {
+                    if (key === (newPosition)) {
+                        data.tasks.push(task)
+                    }
+                    data.tasks.push(obj)
+                })
+                // insert at new position if last
+                if (newPosition === -1) {
+                    data.tasks.push(task)
+                }
+            }
+        })
+    }
 }
 
 export default {

@@ -12,7 +12,7 @@
       </div>
 
       <div class="row row-border-bottom" v-for="task in this.selectedData().tasks" :key="task._id">
-        <div class="column column-data column-uparrow">
+        <div class="column column-data column-uparrow" v-on:click="changeTaskPositionAction(task._id)">
           <span>▲</span>
         </div>
         <div class="column column-data column-20">
@@ -56,13 +56,16 @@ export default {
     ...mapGetters("table", ["selectedData",'environments','requestsForSelect'])
   },
   methods: {
-    ...mapMutations('table', ['editWorkflowTask']),
+    ...mapMutations('table', ['editWorkflowTask','changeTaskPosition']),
     ...mapActions('table',['deleteWorkflowTask']),
     editWorkflowTaskAction: function(type, _id, key, event) {
       this.editWorkflowTask({ type, _id, key, value: event.target.value, workflowId: this.selectedData()._id })
     },
     deleteWorkflowTaskAction: function(type, taskId) {
       this.deleteWorkflowTask({type: type, taskId: taskId, workflowId: this.selectedData()._id })
+    },
+    changeTaskPositionAction: function(taskId) {
+      this.changeTaskPosition({ taskId, workflowId: this.selectedData()._id })
     }
   }
 };
