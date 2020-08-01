@@ -16,6 +16,12 @@
             >Save Changes</div>
           </div>
         </div>
+        <div class="column" v-if="allowAddingWorkflowTask()">
+          <div
+            class="column text-button action"
+            v-on:click="addWorkflowTaskAction"
+          >Add Task</div>
+        </div>
       </div>
     </div>
   </div>
@@ -32,7 +38,16 @@ export default {
     ...mapState('table', ['option'])
   },
   methods: {
-    ...mapActions("table", ["cancelWorkflowChanges", 'saveWorkflowChanges']),
+    ...mapActions("table", ["cancelWorkflowChanges", 'saveWorkflowChanges','addWorkflowTask']),
+    allowAddingWorkflowTask: function() {
+      if (!this.selectedData()._id) return false;
+
+      if (this.option === 'tasks') return true;
+        else return false;
+    },
+    addWorkflowTaskAction: async function() {
+      await this.addWorkflowTask({ workflowId: this.selectedData()._id})
+    },
     cancelWorkflowChangesAction: async function() {
       await this.cancelWorkflowChanges({ _id: this.selectedData()._id })
     },

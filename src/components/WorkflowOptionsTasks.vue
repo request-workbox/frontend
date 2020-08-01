@@ -16,32 +16,29 @@
           <span>▲</span>
         </div>
         <div class="column column-data column-20">
-          <select class="column-input-select column-input-select-grow" :value="task.timeout" v-on:input="edit('requestAdapters', value._id, 'adapterId', $event)">
+          <select class="column-input-select column-input-select-grow" :value="task.requestId" v-on:input="editWorkflowTaskAction('tasks', task._id, 'requestId', $event)">
+            <option v-for="(request) in requestsForSelect()" :key="request._id" :value="request._id">{{ request.url.name }}</option>
+          </select>
+        </div>
+        <div class="column column-data column-20">
+          <select class="column-input-select column-input-select-grow" :value="task.timeout" v-on:input="editWorkflowTaskAction('tasks', task._id, 'timeout', $event)">
             <option value="30seconds">30 Seconds</option>
             <option value="60seconds">60 Seconds</option>
           </select>
         </div>
         <div class="column column-data column-20">
-          <select class="column-input-select column-input-select-grow" :value="task.timeout" v-on:input="edit('requestAdapters', value._id, 'adapterId', $event)">
-            <option value="30seconds">30 Seconds</option>
-            <option value="60seconds">60 Seconds</option>
-          </select>
-        </div>
-        <div class="column column-data column-20">
-          <select class="column-input-select column-input-select-grow" :value="task.onFailure" v-on:input="edit('requestAdapters', value._id, 'onFailure', $event)">
-            <option value="continueWorkflow">Continue Workflow</option>
-            <option value="stopWorkflow">Stop Workflow</option>
-            <option value="repeatAttempt">Repeat Attempt</option>
+          <select class="column-input-select column-input-select-grow" :value="task.onFailure" v-on:input="editWorkflowTaskAction('tasks', task._id, 'onFailure', $event)">
+            <option value="stop">Stop</option>
+            <option value="send200continue">Send 200 and Continue</option>
+            <option value="send500continue">Send 500 and Continue</option>
           </select>
         </div>
         <div class="column column-data column-grow">
-          <select class="column-input-select column-input-select-grow" :value="task.environment" v-on:input="edit('requestAdapters', value._id, 'environment', $event)">
-            <option value="continueWorkflow">Continue Workflow</option>
-            <option value="stopWorkflow">Stop Workflow</option>
-            <option value="repeatAttempt">Repeat Attempt</option>
+          <select class="column-input-select column-input-select-grow" :value="task.environment" v-on:input="editWorkflowTaskAction('tasks', task._id, 'environment', $event)">
+            <option v-for="(environment) in environments()" :key="environment._id" :value="environment._id">{{ environment.name }}</option>
           </select>
         </div>
-        <div class="column column-data text-button" v-on:click="deleteAdapterAction('requestAdapters', value._id )">
+        <div class="column column-data text-button" v-on:click="deleteWorkflowTaskAction('tasks', task._id )">
           Remove
         </div>
       </div>
@@ -51,17 +48,21 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters } from "vuex";
+import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
 
 export default {
   name: "WorkflowOptionsTasks",
   computed: {
-    ...mapGetters("table", ["selectedData",'environments'])
+    ...mapGetters("table", ["selectedData",'environments','requestsForSelect'])
   },
   methods: {
-    ...mapMutations('table', ['editWorkflowDetail']),
-    editWorkflowDetailAction: function(key, event) {
-      this.editWorkflowDetail({key, value: event.target.value, workflowId: this.selectedData()._id})
+    ...mapMutations('table', ['editWorkflowTask']),
+    ...mapActions('table',['deleteWorkflowTask']),
+    editWorkflowTaskAction: function(type, _id, key, event) {
+      this.editWorkflowTask({ type, _id, key, value: event.target.value, workflowId: this.selectedData()._id })
+    },
+    deleteWorkflowTaskAction: function(type, taskId) {
+      this.deleteWorkflowTask({type: type, taskId: taskId, workflowId: this.selectedData()._id })
     }
   }
 };

@@ -34,6 +34,18 @@ const actions = {
         await Vue.$axios.post(requestUrl, requestBody)
         commit('stopEditing')
     },
+    async addWorkflowTask({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${state.apiUrl}/add-workflow-task`
+        const requestBody = { _id: payload.workflowId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('updateWorkflowTask', { item: request.data, workflowId: payload.workflowId })
+    },
+    async deleteWorkflowTask({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${state.apiUrl}/delete-workflow-task`
+        const requestBody = { _id: payload.workflowId, taskId: payload.taskId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('removeWorkflowTask', { type: payload.type, taskId: payload.taskId, workflowId: payload.workflowId })
+    },
 }
 
 const mutations = {
@@ -55,7 +67,38 @@ const mutations = {
                 data[payload.key] = payload.value
             }
         })
-    }
+    },
+    editWorkflowTask(state, payload) {
+        state.editing = true
+
+        _.each(state.allData, (data) => {
+            if (data._id === payload.workflowId) {
+                _.each(data[payload.type], (obj) => {
+                    if (obj._id === payload._id) {
+                        obj[payload.key] = payload.value
+                    }
+                })
+            }
+        })
+    },
+    updateWorkflowTask(state, payload) {
+        _.each(state.allData, (data) => {
+            if (data._id === payload.workflowId) {
+                data['tasks'].push(payload.item)
+            }
+        })
+
+    },
+    removeWorkflowTask(state, payload) {
+        _.each(state.allData, (data) => {
+            if (data._id === payload.workflowId) {
+                data[payload.type] = _.filter(data[payload.type], (obj) => {
+                    if (obj._id === payload.taskId) return false;
+                    else return true;
+                })
+            }
+        })
+    },
 }
 
 export default {
