@@ -209,7 +209,6 @@ const mutations = {
         _.each(state.allData, (data) => {
             if (data._id === payload.requestId) {
                 _.each(data[payload.type], (obj) => {
-                    console.log(obj)
                     if (obj._id === payload.adapterId) {
                         if (!_.size(obj.inputs)) {
                             obj.inputs = {}
@@ -223,6 +222,46 @@ const mutations = {
             }
         })
     },
+    changeAdapterPosition(state, payload) {
+        state.editing = true
+        _.each(state.allData, (data) => {
+            if (data._id === payload.requestId) {
+                // find current position
+                let newPosition;
+                let updatedArraySize;
+                _.each(data[payload.type], (obj, key) => {
+                    if (obj._id === payload.adapterId) {
+                        newPosition = key - 1
+                    }
+                })
+                // remove adapter
+                const adapter  = _.remove(data[payload.type], (obj) => {
+                    if (obj._id === payload.adapterId) return true;
+                    else return false;
+                })[0]
+                // update adapter array
+                const updatedAdapters = _.filter(data[payload.type], (obj) => {
+                    if (obj._id === payload.adapterId) return false;
+                    else return true;
+                })
+                // empty adapters
+                data[payload.type] = []
+                // get current array size
+                updatedArraySize = _.size(updatedAdapters)
+                // insert at new position if not last
+                _.each(updatedAdapters, (obj, key) => {
+                    if (key === (newPosition)) {
+                        data[payload.type].push(adapter)
+                    }
+                    data[payload.type].push(obj)
+                })
+                // insert at new position if last
+                if (newPosition === -1) {
+                    data[payload.type].push(adapter)
+                }
+            }
+        })
+    }
 }
 
 export default {

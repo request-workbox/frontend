@@ -1,7 +1,10 @@
 <template>
   <div class="row" v-if="componentShouldBeDisplayed()">
     <div class="column column-full-width">
-      <div class="row row-border-bottom">
+      <div class="row row-border-bottom column-group-header">
+        <div class="column column-data column-header-text column-uparrow-header">
+          <span>▲</span>
+        </div>
         <div class="column column-data column-header-text column-20" id="options-header-1">Adapter</div>
         <div class="column column-data column-header-text column-20" id="options-header-2">Timeout</div>
         <div
@@ -14,9 +17,12 @@
         >Environment</div>
       </div>
 
-      <div class="row row-border-bottom">
+      <div class="row row-border-bottom column-group-header">
+        <div class="column column-data column-header-text column-uparrow-header">
+          <span>▲</span>
+        </div>
         <div
-          class="column column-data column-header-text column-grow column-group-header"
+          class="column column-data column-header-text column-grow"
         >Request Adapters</div>
       </div>
 
@@ -25,6 +31,12 @@
         v-for="value in this.selectedData().requestAdapters"
         :key="value._id"
       >
+        <div
+              class="column column-data column-uparrow"
+              v-on:click="changeAdapterPositionAction('requestAdapters', value._id)"
+            >
+              <span>▲</span>
+            </div>
         <div class="column column-data column-20">
           <select
             class="column-input-select column-input-select-grow"
@@ -78,9 +90,12 @@
         >Remove</div>
       </div>
 
-      <div class="row row-border-bottom">
+      <div class="row row-border-bottom column-group-header">
+        <div class="column column-data column-header-text column-uparrow-header">
+          <span>▲</span>
+        </div>
         <div
-          class="column column-data column-header-text column-grow column-group-header"
+          class="column column-data column-header-text column-grow"
         >Response Adapters</div>
       </div>
 
@@ -89,6 +104,12 @@
         v-for="value in this.selectedData().responseAdapters"
         :key="value._id"
       >
+        <div
+              class="column column-data column-uparrow"
+              v-on:click="changeAdapterPositionAction('responseAdapters', value._id)"
+            >
+              <span>▲</span>
+            </div>
         <div class="column column-data column-20">
           <select
             class="column-input-select column-input-select-grow"
@@ -155,7 +176,7 @@ export default {
   },
   methods: {
     ...mapActions("table", ["deleteRequestAdapter"]),
-    ...mapMutations("table", ["editRequestAdapter"]),
+    ...mapMutations("table", ["editRequestAdapter",'changeAdapterPosition']),
     edit: function (type, _id, key, event) {
       this.editRequestAdapter({
         type,
@@ -181,6 +202,9 @@ export default {
         adapterId: adapterId,
         requestId: this.selectedData()._id,
       });
+    },
+    changeAdapterPositionAction: function (type, adapterId) {
+      this.changeAdapterPosition({ type, requestId: this.selectedData()._id, adapterId });
     },
   },
 };
