@@ -21,7 +21,7 @@
       <div class="row row-border-bottom" v-for="task in this.selectedData().tasks" :key="task._id">
         <div class="column column-full-width">
           <!-- Request Settings Row -->
-          <div class="row column-group-header">
+          <div class="row">
             <div
               class="column column-data column-uparrow"
               v-on:click="changeTaskPositionAction(task._id)"

@@ -96,6 +96,31 @@
         </div>
       </div>
 
+      <div class="row row-border-bottom">
+        <div class="column column-data column-header-text column-grow column-group-header">Instance</div>
+      </div>
+
+      <div class="row row-border-bottom" v-if="this.selectedData()._id">
+        <div class="column column-data column-20">
+          <input
+            type="text"
+            placeholder="Key"
+            class="column-input-text"
+            value="API Endpoint"
+            disabled
+          />
+        </div>
+        <div class="column column-data column-grow">
+          <input
+            type="text"
+            placeholder="Key"
+            class="column-input-text"
+            :value="instanceUrl"
+            disabled
+          />
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -106,7 +131,14 @@ import { mapState, mapMutations, mapGetters } from "vuex";
 export default {
   name: "WorkflowOptionsSettings",
   computed: {
-    ...mapGetters("table", ["selectedData",'environments'])
+    ...mapState('table',['apiUrl']),
+    ...mapGetters("table", ["selectedData",'environments']),
+    instanceUrl: function() {
+      if (!this.apiUrl) return ''
+      if (!this.selectedData() || !this.selectedData()._id) return ''
+      
+      return `POST ${this.apiUrl}/start-workflow/${this.selectedData()._id}`
+    }
   },
   methods: {
     ...mapMutations('table', ['editWorkflowDetail']),
