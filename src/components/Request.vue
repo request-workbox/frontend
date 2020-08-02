@@ -57,10 +57,11 @@ export default {
     ...mapMutations('project', ['changeUrlProjectId']),
     ...mapActions('project', ['getProjectName']),
     
-    ...mapActions('table', ['getRequests']),
+    ...mapActions('table', ['getRequests','getEnvironmentsForSelectOptions']),
     init: function() {
       this.getProjectName({ projectId: this.projectId })
       this.getRequests({ projectId: this.projectId })
+      this.getEnvironmentsForSelectOptions({ projectId: this.projectId })
       this.changeOption('url');
     }
   }

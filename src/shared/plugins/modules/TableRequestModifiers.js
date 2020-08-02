@@ -202,7 +202,27 @@ const mutations = {
     },
     replaceRequestsForSelectOptions(state, payload) {
         state.requestsForSelectOptions = payload.data
-    }
+    },
+    editAdapterInput(state, payload) {
+        state.editing = true
+
+        _.each(state.allData, (data) => {
+            if (data._id === payload.requestId) {
+                _.each(data[payload.type], (obj) => {
+                    console.log(obj)
+                    if (obj._id === payload.adapterId) {
+                        if (!_.size(obj.inputs)) {
+                            obj.inputs = {}
+                        }
+                        if (!_.size(obj.inputs[payload.input])) {
+                            obj.inputs[payload.input] = {}
+                        }
+                        obj.inputs[payload.input][payload.inputKey] = payload.value
+                    }
+                })
+            }
+        })
+    },
 }
 
 export default {

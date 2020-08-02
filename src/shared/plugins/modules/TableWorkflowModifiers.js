@@ -86,7 +86,6 @@ const mutations = {
 
         _.each(state.allData, (data) => {
             if (data._id === payload.workflowId) {
-                console.log(data.tasks)
                 _.each(data.tasks, (taskObj) => {
                     if (taskObj._id === payload.taskId) {
                         if (!_.size(taskObj.inputs)) {
