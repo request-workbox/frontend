@@ -81,6 +81,26 @@ const mutations = {
             }
         })
     },
+    editWorkflowTaskInput(state, payload) {
+        state.editing = true
+
+        _.each(state.allData, (data) => {
+            if (data._id === payload.workflowId) {
+                console.log(data.tasks)
+                _.each(data.tasks, (taskObj) => {
+                    if (taskObj._id === payload.taskId) {
+                        if (!_.size(taskObj.inputs)) {
+                            taskObj.inputs = {}
+                        }
+                        if (!_.size(taskObj.inputs[payload.input])) {
+                            taskObj.inputs[payload.input] = {}
+                        }
+                        taskObj.inputs[payload.input][payload.inputKey] = payload.value
+                    }
+                })
+            }
+        })
+    },
     updateWorkflowTask(state, payload) {
         _.each(state.allData, (data) => {
             if (data._id === payload.workflowId) {
