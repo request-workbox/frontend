@@ -121,12 +121,25 @@
         </div>
       </div>
 
+      <div class="row row-border-bottom" v-if="this.selectedData()._id">
+        <div class="column column-data column-20">
+          <input
+            type="text"
+            placeholder="Key"
+            class="column-input-text"
+            value="Manual Start"
+            disabled
+          />
+        </div>
+        <div class="column text-button action" v-on:click="startInstanceAction">Start Instance</div>
+      </div>
+
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters } from "vuex";
+import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
 
 export default {
   name: "WorkflowOptionsSettings",
@@ -142,8 +155,12 @@ export default {
   },
   methods: {
     ...mapMutations('table', ['editWorkflowDetail']),
+    ...mapActions('table',['startInstance']),
     editWorkflowDetailAction: function(key, event) {
       this.editWorkflowDetail({key, value: event.target.value, workflowId: this.selectedData()._id})
+    },
+    startInstanceAction: function() {
+      this.startInstance(this.selectedData()._id)
     }
   }
 };
