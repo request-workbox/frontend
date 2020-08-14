@@ -54,7 +54,6 @@ export default {
   },
   methods: {
     ...mapMutations('table',['changeOption']),
-    ...mapMutations('project', ['changeUrlProjectId']),
     ...mapActions('project', ['getProjectName']),
     
     ...mapActions('table', ['getRequests','getEnvironmentsForSelectOptions']),

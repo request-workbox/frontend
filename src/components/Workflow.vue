@@ -48,7 +48,6 @@ export default {
   },
   methods: {
     ...mapMutations('table',['changeOption']),
-    ...mapMutations("project", ["changeUrlProjectId"]),
     ...mapActions("project", ["getProjectName"]),
     ...mapActions('table',['getWorkflows','getEnvironmentsForSelectOptions','getRequestsForSelectOptions']),
     init: function () {

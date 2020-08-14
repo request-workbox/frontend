@@ -25,6 +25,7 @@ import Project from './components/Project'
 import Request from './components/Request'
 import Workflow from './components/Workflow'
 import Environment from './components/Environment'
+import Statistic from './components/Statistic'
 
 Vue.use(VueRouter)
 const router = new VueRouter({
@@ -52,6 +53,12 @@ const router = new VueRouter({
       path: '/projects/:projectId/environments',
       name: 'Environments',
       component: Environment,
+      props: true,
+    },
+    {
+      path: '/projects/:projectId/statistics',
+      name: 'Statistics',
+      component: Statistic,
       props: true,
     },
   ],

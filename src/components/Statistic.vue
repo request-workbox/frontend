@@ -1,5 +1,5 @@
 <template>
-  <div id="environment-container">
+  <div id="statistic-container">
     <Nav />
     <ProjectInfo />
     <Menu />
@@ -7,8 +7,7 @@
     <Table />
     <TableDetails />
     <TableOptionsToolbar />
-    <EnvironmentOptionsActions />
-    <EnvironmentOptions />
+    <StatisticOptions />
   </div>
 </template>
 
@@ -22,11 +21,10 @@ import TableToolbar from "./TableToolbar";
 import Table from "./Table";
 import TableDetails from "./TableDetails";
 import TableOptionsToolbar from "./TableOptionsToolbar";
-import EnvironmentOptionsActions from './EnvironmentOptionsActions';
-import EnvironmentOptions from './EnvironmentOptions';
+import StatisticOptions from './StatisticOptions'
 
 export default {
-  name: "Environment",
+  name: "Statistic",
   props: ["projectId"],
   components: {
     Nav,
@@ -36,8 +34,7 @@ export default {
     Table,
     TableDetails,
     TableOptionsToolbar,
-    EnvironmentOptionsActions,
-    EnvironmentOptions
+    StatisticOptions,
   },
   mounted: function () {
     this.init();
@@ -49,18 +46,18 @@ export default {
   methods: {
     ...mapMutations('table',['changeOption']),
     ...mapActions("project", ["getProjectName"]),
-    ...mapActions('table',['getEnvironments']),
+    ...mapActions('table',['getInstances']),
     init: function () {
       this.getProjectName({ projectId: this.projectId });
-      this.getEnvironments({ projectId: this.projectId });
-      this.changeOption('settings');
+      this.getInstances({ projectId: this.projectId });
+      this.changeOption('details');
     },
   },
 };
 </script>
 
 <style lang="scss">
-#environment-container {
+#statistic-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;

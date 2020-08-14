@@ -5,6 +5,7 @@ import _ from 'lodash'
 import TableRequestModifiers from './TableRequestModifiers'
 import TableWorkflowModifiers from './TableWorkflowModifiers'
 import TableEnvironmentModifiers from './TableEnvironmentModifiers'
+import TableStatisticModifiers from './TableStatisticModifiers'
 
 const state = () => ({
     apiUrl: 'http://localhost:3000',
@@ -75,7 +76,8 @@ const getters = {
     // REQUEST GETTERS
     ...TableRequestModifiers.getters,
     ...TableWorkflowModifiers.getters,
-    ...TableEnvironmentModifiers.getters
+    ...TableEnvironmentModifiers.getters,
+    ...TableStatisticModifiers.getters,
 }
 
 const actions = {
@@ -88,20 +90,28 @@ const actions = {
         if (getters.currentPage() === getters.totalPages()) return
         commit('incrementPage')
     },
-    async selectOrDeselectRow({ commit, state, getters, rootState }, data) {
+    async selectOrDeselectRow({ commit, state, getters, dispatch, rootState }, data) {
         if (state.editing) return;
 
         if (state.selectedId === data._id) {
             commit('changeSelectedId', { selectedId: '' })
         } else {
             commit('changeSelectedId', { selectedId: data._id })
+
+            if (state.option === 'details') {
+                const selectedData = getters['selectedData']()
+                if (!selectedData.statistics) {
+                    dispatch('getStatistics', { instanceId: data._id })
+                }
+            }
         }
     },
 
     // REQUEST ACTIONS
     ...TableRequestModifiers.actions,
     ...TableWorkflowModifiers.actions,
-    ...TableEnvironmentModifiers.actions
+    ...TableEnvironmentModifiers.actions,
+    ...TableStatisticModifiers.actions,
 }
 
 const mutations = {
@@ -140,6 +150,7 @@ const mutations = {
     ...TableRequestModifiers.mutations,
     ...TableWorkflowModifiers.mutations,
     ...TableEnvironmentModifiers.mutations,
+    ...TableStatisticModifiers.mutations,
 }
 
 export default {
