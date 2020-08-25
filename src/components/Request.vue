@@ -53,11 +53,12 @@ export default {
     return next()
   },
   methods: {
-    ...mapMutations('table',['changeOption']),
+    ...mapMutations('table',['changeOption', 'setCurrentRoute']),
     ...mapActions('project', ['getProjectName']),
     
     ...mapActions('table', ['getRequests','getEnvironmentsForSelectOptions']),
     init: function() {
+      this.setCurrentRoute({ route: this.$route.name })
       this.getProjectName({ projectId: this.projectId })
       this.getRequests({ projectId: this.projectId })
       this.getEnvironmentsForSelectOptions({ projectId: this.projectId })

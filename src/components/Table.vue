@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <!-- Request Table -->
-    <div class="column column-full-width" v-if="currentRoute === 'Requests'">
+    <div class="column column-full-width" v-if="currentRoute === 'Requests' || currentRoute === 'Adapters'">
       <div class="row row-border-bottom">
         <div class="column column-data column-header column-10" id="table-header-1">Method</div>
         <div class="column column-data column-header column-10" id="table-header-2">Protocol</div>

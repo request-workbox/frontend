@@ -1,7 +1,7 @@
 <template>
     <div class="row row-justify-between row-border-bottom row-dark">
       <div class="column">
-        <div class="row" v-if="this.$route.name === 'Requests'">
+        <div class="row" v-if="this.$route.name === 'Requests' || this.$route.name === 'Adapters'">
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('url')}" v-on:click="changeOption('url')">URL</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('parameters')}" v-on:click="changeOption('parameters')">Parameters</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('query')}" v-on:click="changeOption('query')">Query</div>
@@ -46,6 +46,7 @@ export default {
       return (option === this.option) ? true : false
     },
     requestOptionShouldBeDisplayed: function(option) {
+      if (this.$route.name === 'Adapters' && option === 'adapters') return false;
       if (!this.selectedData() || !this.selectedData().requestSettings) return true;
 
       if (this.selectedData().requestSettings.requestType === 'adapter') {

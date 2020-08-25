@@ -44,6 +44,12 @@ const router = new VueRouter({
       props: true,
     },
     {
+      path: '/projects/:projectId/adapters',
+      name: 'Adapters',
+      component: Request,
+      props: true,
+    },
+    {
       path: '/projects/:projectId/workflows',
       name: 'Workflows',
       component: Workflow,

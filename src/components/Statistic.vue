@@ -44,10 +44,11 @@ export default {
     return next();
   },
   methods: {
-    ...mapMutations('table',['changeOption']),
+    ...mapMutations('table',['changeOption','setCurrentRoute']),
     ...mapActions("project", ["getProjectName"]),
     ...mapActions('table',['getInstances']),
     init: function () {
+      this.setCurrentRoute({ route: this.$route.name })
       this.getProjectName({ projectId: this.projectId });
       this.getInstances({ projectId: this.projectId });
       this.changeOption('details');

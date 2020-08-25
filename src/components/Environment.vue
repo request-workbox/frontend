@@ -47,10 +47,11 @@ export default {
     return next();
   },
   methods: {
-    ...mapMutations('table',['changeOption']),
+    ...mapMutations('table',['changeOption','setCurrentRoute']),
     ...mapActions("project", ["getProjectName"]),
     ...mapActions('table',['getEnvironments']),
     init: function () {
+      this.setCurrentRoute({ route: this.$route.name })
       this.getProjectName({ projectId: this.projectId });
       this.getEnvironments({ projectId: this.projectId });
       this.changeOption('settings');
