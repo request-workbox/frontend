@@ -2,13 +2,11 @@
   <div class="row">
     <div class="column column-full-width">
       <div class="row row-border-bottom">
-        <div class="column column-data column-header-text column-20">Project Id</div>
         <div class="column column-data column-header-text column-grow">Project Name</div>
         <div class="column column-data column-header-text column-20">Date Created</div>
       </div>
 
       <div class="row row-border-bottom project-row" v-bind:class="{'project-row-selected':shouldBeSelected(project._id)}" v-for="(project) in viewableData()" :key="project._id" v-on:click="selectProjectAction(project._id)">
-        <div class="column column-data column-20">{{ project._id }}</div>
         <div class="column column-data column-grow">{{ project.name }}</div>
         <div class="column column-data column-20">{{ projectCreatedAt(project.createdAt) }}</div>
       </div>
