@@ -58,8 +58,11 @@ const getters = {
             else return false;
         })
     },
+    reversedData: (state, getters) => () => {
+        return _.reverse(getters.dataBySearchTerm())
+    },
     chunkedData: (state, getters) => () => {
-        return _.chunk(getters.dataBySearchTerm(), state.numberOfRows)
+        return _.chunk(getters.reversedData(), state.numberOfRows)
     },
     viewableData: (state, getters) => () => {
         return getters.chunkedData()[state.page]

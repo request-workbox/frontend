@@ -10,7 +10,12 @@ const state = () => ({
 })
 
 const getters = {
-    
+    filteredData: (state, getters) => () => {
+        return _.filter(state.projects, (project) => true )
+    },
+    viewableData: (state, getters) => () => {
+        return _.reverse(getters.filteredData())
+    },
 }
 
 const actions = {
