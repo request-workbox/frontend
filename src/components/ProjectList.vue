@@ -38,7 +38,7 @@ export default {
     },
     projectCreatedAt: function(createdAt) {
       if (!createdAt) return ''
-      return `${moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}`
+      return `${moment(createdAt).format('M-D-YYYY, h:mm a')}`
     }
   }
 };
