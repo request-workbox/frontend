@@ -12,8 +12,8 @@
             v-on:input="inputEvent"
             v-on:focusout="focusOutEvent"  />
           </div>
-          <div class="column text-button" id="project-share-button">Share</div>
-          <div class="column text-button" id="project-team-button">Team</div>
+          <!-- <div class="column text-button" id="project-share-button">Share</div> -->
+          <!-- <div class="column text-button" id="project-team-button">Team</div> -->
         </div>
       </div>
     </div>

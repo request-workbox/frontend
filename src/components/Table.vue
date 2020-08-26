@@ -9,12 +9,12 @@
         <div class="column column-data column-header column-grow" id="table-header-4">Url</div>
       </div>
 
-      <div v-if="allData.length === 0" class="row row-border-bottom">
+      <!-- <div v-if="allData.length === 0" class="row row-border-bottom">
         <div class="column column-data column-10" id="table-data-1">GET</div>
         <div class="column column-data column-10" id="table-data-2">HTTPS</div>
         <div class="column column-data column-10" id="table-data-3">API</div>
         <div class="column column-data column-grow" id="table-data-4">https://api.com</div>
-      </div>
+      </div> -->
 
       <template v-if="allData.length > 0">
         <div
@@ -40,12 +40,12 @@
         <div class="column column-data column-header column-grow" id="table-header-3">On Failure</div>
       </div>
 
-      <div v-if="allData.length === 0" class="row row-border-bottom">
+      <!-- <div v-if="allData.length === 0" class="row row-border-bottom">
         <div class="column column-data column-20" id="table-data-1">Workflow Name</div>
         <div class="column column-data column-20" id="table-data-4">4 Tasks</div>
         <div class="column column-data column-20" id="table-data-2">30 Seconds</div>
         <div class="column column-data column-grow" id="table-data-3">Stop</div>
-      </div>
+      </div> -->
 
       <template v-if="allData.length > 0">
         <div
@@ -66,16 +66,14 @@
     <!-- Environment Table -->
     <div class="column column-full-width" v-if="currentRoute === 'Environments'">
       <div class="row row-border-bottom">
-        <div class="column column-data column-header column-20" id="table-header-1">Environment ID</div>
         <div class="column column-data column-header column-20" id="table-header-4">Name</div>
         <div class="column column-data column-header column-grow" id="table-header-2">Keys</div>
       </div>
 
-      <div v-if="allData.length === 0" class="row row-border-bottom">
-        <div class="column column-data column-20" id="table-data-1">_id</div>
+      <!-- <div v-if="allData.length === 0" class="row row-border-bottom">
         <div class="column column-data column-20" id="table-data-4">Environment Name</div>
         <div class="column column-data column-grow" id="table-data-2">4 Keys</div>
-      </div>
+      </div> -->
 
       <template v-if="allData.length > 0">
         <div
@@ -85,7 +83,6 @@
           v-bind:class="{ 'table-row-selected': rowIsActive(data) }"
           v-on:click="selectOrDeselectRow(data)"
         >
-          <div class="column column-data column-20" id="table-data-1">{{ data._id }}</div>
           <div class="column column-data column-20" id="table-data-2">{{ data.name }}</div>
           <div class="column column-data column-grow" id="table-data-3">{{ numberOfEnvironmentKeys(data) }}</div>
         </div>
@@ -95,14 +92,13 @@
     <!-- Statistic Table -->
     <div class="column column-full-width" v-if="currentRoute === 'Statistics'">
       <div class="row row-border-bottom">
-        <div class="column column-data column-header column-20" id="table-header-1">Instance ID</div>
-        <div class="column column-data column-header column-20" id="table-header-4">Name</div>
+        <div class="column column-data column-header column-grow">Workflow Name</div>
+        <div class="column column-data column-header column-20">Date</div>
       </div>
 
-      <div v-if="allData.length === 0" class="row row-border-bottom">
-        <div class="column column-data column-20" id="table-data-1">_id</div>
-        <div class="column column-data column-20" id="table-data-4">Instance Name</div>
-      </div>
+      <!-- <div v-if="allData.length === 0" class="row row-border-bottom">
+        <div class="column column-data column-grow" id="table-data-4">Workflow Name</div>
+      </div> -->
 
       <template v-if="allData.length > 0">
         <div
@@ -112,8 +108,8 @@
           v-bind:class="{ 'table-row-selected': rowIsActive(data) }"
           v-on:click="selectOrDeselectRow(data)"
         >
-          <div class="column column-data column-20" id="table-data-1">{{ data._id }}</div>
-          <div class="column column-data column-20" id="table-data-2">{{ data.workflowName }}</div>
+          <div class="column column-data column-grow" id="table-data-2">{{ data.workflowName }}</div>
+          <div class="column column-data column-20" id="table-data-2">{{ statisticCreatedAt(data.createdAt) }}</div>
         </div>
       </template>
     </div>
@@ -122,6 +118,7 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
+import moment from 'moment-timezone'
 import _ from 'lodash'
 
 export default {
@@ -170,6 +167,10 @@ export default {
       if (!data.data || !_.size(data)) return '0 Keys'
       return `${_.size(data.data)} Keys`
     },
+    statisticCreatedAt: function(createdAt) {
+      if (!createdAt) return ''
+      return `${moment(createdAt).format('M-D-YYYY, h:mm a')}`
+    }
   },
 };
 </script>

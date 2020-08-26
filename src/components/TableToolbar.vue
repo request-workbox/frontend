@@ -25,8 +25,8 @@
       </div>
     </div>
     <div class="column spacer"></div>
-    <div class="column" v-if="!this.editing">
-      <div class="row">
+    <div class="column" v-if="this.$route.name !== 'Statistics'">
+      <div class="row" v-if="!this.editing">
         <div
           class="column filter-button filter-button-left"
           v-bind:class="{ 'filter-button-active': filterIsActive('active') }"
