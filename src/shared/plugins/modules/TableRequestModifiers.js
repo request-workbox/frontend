@@ -90,17 +90,39 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('removeRequestAdapter', { type: payload.type, adapterId: payload.adapterId, requestId: payload.requestId })
     },
+    async archiveRequest({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${state.apiUrl}/archive-request`
+        const requestBody = { requestId: payload.requestId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('editRequestToArchive', { requestId: payload.requestId })
+        commit('changeSelectedId', { selectedId: '' })
+    },
+    async restoreRequest({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${state.apiUrl}/restore-request`
+        const requestBody = { requestId: payload.requestId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('editRequestToRestore', { requestId: payload.requestId })
+        commit('changeSelectedId', { selectedId: '' })
+    },
+    async deleteRequest({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${state.apiUrl}/delete-request`
+        const requestBody = { requestId: payload.requestId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        location.reload()
+    },
     async archiveAdapter({ commit, state, getters, rootState }, payload) {
         const requestUrl = `${state.apiUrl}/archive-adapter`
         const requestBody = { adapterId: payload.adapterId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('editAdapterToArchive', { adapterId: payload.adapterId })
+        commit('changeSelectedId', { selectedId: '' })
     },
     async restoreAdapter({ commit, state, getters, rootState }, payload) {
         const requestUrl = `${state.apiUrl}/restore-adapter`
         const requestBody = { adapterId: payload.adapterId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('editAdapterToRestore', { adapterId: payload.adapterId })
+        commit('changeSelectedId', { selectedId: '' })
     },
     async deleteAdapter({ commit, state, getters, rootState }, payload) {
         const requestUrl = `${state.apiUrl}/delete-adapter`
@@ -182,6 +204,22 @@ const mutations = {
             }
         })
     },
+    // request
+    editRequestToArchive(state, payload) {
+        _.each(state.allData, (data) => {
+            if (data._id === payload.requestId) {
+                data.active = false
+            }
+        })
+    },
+    editRequestToRestore(state, payload) {
+        _.each(state.allData, (data) => {
+            if (data._id === payload.requestId) {
+                data.active = true
+            }
+        })
+    },
+    // adapter
     editAdapterToArchive(state, payload) {
         _.each(state.allData, (data) => {
             if (data._id === payload.adapterId) {

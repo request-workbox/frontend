@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="column spacer"></div>
-    <div class="column">
+    <div class="column" v-if="!this.editing">
       <div class="row">
         <div
           class="column filter-button filter-button-left"
@@ -41,11 +41,20 @@
         >Archived</div>
       </div>
     </div>
-    <div class="column spacer"></div>
-    <div class="column text-button" v-on:click="archiveAdapterAction" v-if="filter === 'active'">Archive</div>
-    <div class="column text-button" v-on:click="restoreAdapterAction" v-if="filter === 'archived'">Restore</div>
-    <div class="column spacer"></div>
-    <div class="column text-button" v-on:click="deleteAdapterAction">Delete</div>
+    <template v-if="this.$route.name === 'Requests' && this.selectedId !== '' && !this.editing">
+      <div class="column spacer"></div>
+      <div class="column text-button" v-on:click="archiveRequestAction" v-if="filter === 'active'">Archive Request</div>
+      <div class="column text-button" v-on:click="restoreRequestAction" v-if="filter === 'archived'">Restore Request</div>
+      <div class="column spacer"></div>
+      <div class="column text-button" v-on:click="deleteRequestAction">Delete Request</div>
+    </template>
+    <template v-if="this.$route.name === 'Adapters' && this.selectedId !== '' && !this.editing">
+      <div class="column spacer"></div>
+      <div class="column text-button" v-on:click="archiveAdapterAction" v-if="filter === 'active'">Archive Adapter</div>
+      <div class="column text-button" v-on:click="restoreAdapterAction" v-if="filter === 'archived'">Restore Adapter</div>
+      <div class="column spacer"></div>
+      <div class="column text-button" v-on:click="deleteAdapterAction">Delete Adapter</div>
+    </template>
   </div>
 </template>
 
@@ -56,7 +65,7 @@ import { mapFields } from "vuex-map-fields";
 export default {
   name: "TableToolbar",
   computed: {
-    ...mapState("table", ["filter", 'selectedId']),
+    ...mapState("table", ["filter", 'selectedId', 'editing']),
     ...mapGetters("table", ["pagination"]),
     ...mapFields("table", ["searchTerm"])
   },
@@ -64,15 +73,34 @@ export default {
     ...mapActions("table", [
       "previousPage",
       "nextPage",
+      // requests
+      "archiveRequest",
+      "restoreRequest",
+      "deleteRequest",
+      // adapters
       "archiveAdapter",
       "restoreAdapter",
-      "deleteAdapter"
+      "deleteAdapter",
     ]),
     ...mapMutations("table", ["changeFilter", "resetPage"]),
     filterIsActive: function(filterButton) {
       if (filterButton === this.filter) return true;
       else return false;
     },
+    // requests
+    archiveRequestAction: function() {
+      this.archiveRequest({ requestId: this.selectedId })
+    },
+    restoreRequestAction: function() {
+      this.restoreRequest({ requestId: this.selectedId })
+    },
+    deleteRequestAction: function() {
+      const confirm = window.confirm('Are you sure you want to delete this request?')
+      if (confirm) {
+        this.deleteRequest({ requestId: this.selectedId })
+      }
+    },
+    // adapters
     archiveAdapterAction: function() {
       this.archiveAdapter({ adapterId: this.selectedId })
     },
