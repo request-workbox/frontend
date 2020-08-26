@@ -143,6 +143,7 @@ const mutations = {
     changeFilter(state, { filter }) {
         state.filter = filter
         state.page = 0
+        state.selectedId = ''
     },
     stopEditing(state) {
         state.editing = false

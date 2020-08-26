@@ -55,6 +55,13 @@
       <div class="column spacer"></div>
       <div class="column text-button" v-on:click="deleteAdapterAction">Delete Adapter</div>
     </template>
+    <template v-if="this.$route.name === 'Workflows' && this.selectedId !== '' && !this.editing">
+      <div class="column spacer"></div>
+      <div class="column text-button" v-on:click="archiveWorkflowAction" v-if="filter === 'active'">Archive Workflow</div>
+      <div class="column text-button" v-on:click="restoreWorkflowAction" v-if="filter === 'archived'">Restore Workflow</div>
+      <div class="column spacer"></div>
+      <div class="column text-button" v-on:click="deleteWorkflowAction">Delete Workflow</div>
+    </template>
   </div>
 </template>
 
@@ -81,6 +88,10 @@ export default {
       "archiveAdapter",
       "restoreAdapter",
       "deleteAdapter",
+      // workflows
+      "archiveWorkflow",
+      "restoreWorkflow",
+      "deleteWorkflow",
     ]),
     ...mapMutations("table", ["changeFilter", "resetPage"]),
     filterIsActive: function(filterButton) {
@@ -111,6 +122,19 @@ export default {
       const confirm = window.confirm('Are you sure you want to delete this adapter?')
       if (confirm) {
         this.deleteAdapter({ adapterId: this.selectedId })
+      }
+    },
+    // workflows
+    archiveWorkflowAction: function() {
+      this.archiveWorkflow({ workflowId: this.selectedId })
+    },
+    restoreWorkflowAction: function() {
+      this.restoreWorkflow({ workflowId: this.selectedId })
+    },
+    deleteWorkflowAction: function() {
+      const confirm = window.confirm('Are you sure you want to delete this workflow?')
+      if (confirm) {
+        this.deleteWorkflow({ workflowId: this.selectedId })
       }
     },
   }

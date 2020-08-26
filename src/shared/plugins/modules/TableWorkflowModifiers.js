@@ -52,6 +52,26 @@ const actions = {
         console.log('start instance complete')
         console.log(request)
     },
+    async archiveWorkflow({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${state.apiUrl}/archive-workflow`
+        const requestBody = { workflowId: payload.workflowId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('editWorkflowToArchive', { workflowId: payload.workflowId })
+        commit('changeSelectedId', { selectedId: '' })
+    },
+    async restoreWorkflow({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${state.apiUrl}/restore-workflow`
+        const requestBody = { workflowId: payload.workflowId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('editWorkflowToRestore', { workflowId: payload.workflowId })
+        commit('changeSelectedId', { selectedId: '' })
+    },
+    async deleteWorkflow({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${state.apiUrl}/delete-workflow`
+        const requestBody = { workflowId: payload.workflowId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        location.reload()
+    },
 }
 
 const mutations = {
@@ -121,6 +141,20 @@ const mutations = {
                     if (obj._id === payload.taskId) return false;
                     else return true;
                 })
+            }
+        })
+    },
+    editWorkflowToArchive(state, payload) {
+        _.each(state.allData, (data) => {
+            if (data._id === payload.workflowId) {
+                data.active = false
+            }
+        })
+    },
+    editWorkflowToRestore(state, payload) {
+        _.each(state.allData, (data) => {
+            if (data._id === payload.workflowId) {
+                data.active = true
             }
         })
     },
