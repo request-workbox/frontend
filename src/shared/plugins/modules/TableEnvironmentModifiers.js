@@ -61,6 +61,26 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('updateEnvironmentDetailItem', { environmentDetailOption: untrackedPayload.option, item: request.data, environmentId: untrackedPayload._id })
     },
+    async archiveEnvironment({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${state.apiUrl}/archive-environment`
+        const requestBody = { environmentId: payload.environmentId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('editEnvironmentToArchive', { environmentId: payload.environmentId })
+        commit('changeSelectedId', { selectedId: '' })
+    },
+    async restoreEnvironment({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${state.apiUrl}/restore-environment`
+        const requestBody = { environmentId: payload.environmentId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('editEnvironmentToRestore', { environmentId: payload.environmentId })
+        commit('changeSelectedId', { selectedId: '' })
+    },
+    async deleteEnvironment({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${state.apiUrl}/delete-environment`
+        const requestBody = { environmentId: payload.environmentId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        location.reload()
+    },
 }
 
 const mutations = {
@@ -142,7 +162,21 @@ const mutations = {
     },
     replaceEnvironmentsForSelectOptions(state, payload) {
         state.environmentsForSelectOptions = payload.data
-    }
+    },
+    editEnvironmentToArchive(state, payload) {
+        _.each(state.allData, (data) => {
+            if (data._id === payload.environmentId) {
+                data.active = false
+            }
+        })
+    },
+    editEnvironmentToRestore(state, payload) {
+        _.each(state.allData, (data) => {
+            if (data._id === payload.environmentId) {
+                data.active = true
+            }
+        })
+    },
 }
 
 export default {

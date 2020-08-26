@@ -62,6 +62,13 @@
       <div class="column spacer"></div>
       <div class="column text-button" v-on:click="deleteWorkflowAction">Delete Workflow</div>
     </template>
+    <template v-if="this.$route.name === 'Environments' && this.selectedId !== '' && !this.editing">
+      <div class="column spacer"></div>
+      <div class="column text-button" v-on:click="archiveEnvironmentAction" v-if="filter === 'active'">Archive Environment</div>
+      <div class="column text-button" v-on:click="restoreEnvironmentAction" v-if="filter === 'archived'">Restore Environment</div>
+      <div class="column spacer"></div>
+      <div class="column text-button" v-on:click="deleteEnvironmentAction">Delete Environment</div>
+    </template>
   </div>
 </template>
 
@@ -92,6 +99,10 @@ export default {
       "archiveWorkflow",
       "restoreWorkflow",
       "deleteWorkflow",
+      // environments
+      "archiveEnvironment",
+      "restoreEnvironment",
+      "deleteEnvironment",
     ]),
     ...mapMutations("table", ["changeFilter", "resetPage"]),
     filterIsActive: function(filterButton) {
@@ -135,6 +146,19 @@ export default {
       const confirm = window.confirm('Are you sure you want to delete this workflow?')
       if (confirm) {
         this.deleteWorkflow({ workflowId: this.selectedId })
+      }
+    },
+    // environments
+    archiveEnvironmentAction: function() {
+      this.archiveEnvironment({ environmentId: this.selectedId })
+    },
+    restoreEnvironmentAction: function() {
+      this.restoreEnvironment({ environmentId: this.selectedId })
+    },
+    deleteEnvironmentAction: function() {
+      const confirm = window.confirm('Are you sure you want to delete this workflow?')
+      if (confirm) {
+        this.deleteEnvironment({ environmentId: this.selectedId })
       }
     },
   }
