@@ -90,6 +90,24 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('removeRequestAdapter', { type: payload.type, adapterId: payload.adapterId, requestId: payload.requestId })
     },
+    async archiveAdapter({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${state.apiUrl}/archive-adapter`
+        const requestBody = { adapterId: payload.adapterId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('editAdapterToArchive', { adapterId: payload.adapterId })
+    },
+    async restoreAdapter({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${state.apiUrl}/restore-adapter`
+        const requestBody = { adapterId: payload.adapterId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('editAdapterToRestore', { adapterId: payload.adapterId })
+    },
+    async deleteAdapter({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${state.apiUrl}/delete-adapter`
+        const requestBody = { adapterId: payload.adapterId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        location.reload()
+    },
 }
 
 const mutations = {
@@ -161,6 +179,20 @@ const mutations = {
                         obj[payload.key] = payload.value
                     }
                 })
+            }
+        })
+    },
+    editAdapterToArchive(state, payload) {
+        _.each(state.allData, (data) => {
+            if (data._id === payload.adapterId) {
+                data.active = false
+            }
+        })
+    },
+    editAdapterToRestore(state, payload) {
+        _.each(state.allData, (data) => {
+            if (data._id === payload.adapterId) {
+                data.active = true
             }
         })
     },

@@ -57,11 +57,9 @@ const getters = {
             if (state.filter === 'active') {
                 if (data.active) return true
                 else return false
-            } else if (state.filter === 'deleted') {
+            } else if (state.filter === 'archived') {
                 if (!data.active) return true
                 else return false
-            } else {
-                return true
             }
         })
     },

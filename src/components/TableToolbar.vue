@@ -34,21 +34,18 @@
           v-on:click="changeFilter({ filter: 'active' })"
         >Active</div>
         <div
-          class="column filter-button"
-          v-bind:class="{ 'filter-button-active': filterIsActive('deleted') }"
-          id="table-toolbar-filter-deleted"
-          v-on:click="changeFilter({ filter: 'deleted' })"
-        >Deleted</div>
-        <div
           class="column filter-button filter-button-right"
-          v-bind:class="{ 'filter-button-active': filterIsActive('all') }"
-          id="table-toolbar-filter-all"
-          v-on:click="changeFilter({ filter: 'all' })"
-        >All</div>
+          v-bind:class="{ 'filter-button-active': filterIsActive('archived') }"
+          id="table-toolbar-filter-archived"
+          v-on:click="changeFilter({ filter: 'archived' })"
+        >Archived</div>
       </div>
     </div>
     <div class="column spacer"></div>
-    <div class="column text-button" id="table-toolbar-refresh">Refresh</div>
+    <div class="column text-button" v-on:click="archiveAdapterAction" v-if="filter === 'active'">Archive</div>
+    <div class="column text-button" v-on:click="restoreAdapterAction" v-if="filter === 'archived'">Restore</div>
+    <div class="column spacer"></div>
+    <div class="column text-button" v-on:click="deleteAdapterAction">Delete</div>
   </div>
 </template>
 
@@ -59,7 +56,7 @@ import { mapFields } from "vuex-map-fields";
 export default {
   name: "TableToolbar",
   computed: {
-    ...mapState("table", ["filter"]),
+    ...mapState("table", ["filter", 'selectedId']),
     ...mapGetters("table", ["pagination"]),
     ...mapFields("table", ["searchTerm"])
   },
@@ -67,12 +64,27 @@ export default {
     ...mapActions("table", [
       "previousPage",
       "nextPage",
+      "archiveAdapter",
+      "restoreAdapter",
+      "deleteAdapter"
     ]),
     ...mapMutations("table", ["changeFilter", "resetPage"]),
     filterIsActive: function(filterButton) {
       if (filterButton === this.filter) return true;
       else return false;
-    }
+    },
+    archiveAdapterAction: function() {
+      this.archiveAdapter({ adapterId: this.selectedId })
+    },
+    restoreAdapterAction: function() {
+      this.restoreAdapter({ adapterId: this.selectedId })
+    },
+    deleteAdapterAction: function() {
+      const confirm = window.confirm('Are you sure you want to delete this adapter?')
+      if (confirm) {
+        this.deleteAdapter({ adapterId: this.selectedId })
+      }
+    },
   }
 };
 </script>
