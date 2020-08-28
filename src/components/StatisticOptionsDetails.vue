@@ -2,7 +2,7 @@
   <div class="row">
     <div class="column column-full-width">
 
-    <pre v-for="(stat) in this.selectedData().statistics" :key="stat._id">
+    <pre v-for="(stat) in this.selectedData().stats" :key="stat._id">
     <code>{{ stat }}</code>
     </pre>
 

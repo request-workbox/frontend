@@ -113,13 +113,6 @@ const actions = {
             commit('changeSelectedId', { selectedId: '' })
         } else {
             commit('changeSelectedId', { selectedId: data._id })
-
-            if (state.option === 'details') {
-                const selectedData = getters['selectedData']()
-                if (!selectedData.statistics) {
-                    dispatch('getStatistics', { instanceId: data._id })
-                }
-            }
         }
     },
 
