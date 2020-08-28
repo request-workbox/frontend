@@ -9,6 +9,7 @@
     <TableOptionsToolbar />
     <WorkflowOptionsActions />
     <WorkflowOptions />
+    <SocketFooter />
   </div>
 </template>
 
@@ -24,6 +25,7 @@ import TableDetails from "./TableDetails";
 import TableOptionsToolbar from "./TableOptionsToolbar";
 import WorkflowOptionsActions from './WorkflowOptionsActions';
 import WorkflowOptions from './WorkflowOptions';
+import SocketFooter from './SocketFooter'
 
 export default {
   name: "Workflow",
@@ -37,7 +39,8 @@ export default {
     TableDetails,
     TableOptionsToolbar,
     WorkflowOptionsActions,
-    WorkflowOptions
+    WorkflowOptions,
+    SocketFooter
   },
   mounted: function () {
     this.init();

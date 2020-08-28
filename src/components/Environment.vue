@@ -9,6 +9,7 @@
     <TableOptionsToolbar />
     <EnvironmentOptionsActions />
     <EnvironmentOptions />
+    <SocketFooter />
   </div>
 </template>
 
@@ -24,6 +25,7 @@ import TableDetails from "./TableDetails";
 import TableOptionsToolbar from "./TableOptionsToolbar";
 import EnvironmentOptionsActions from './EnvironmentOptionsActions';
 import EnvironmentOptions from './EnvironmentOptions';
+import SocketFooter from './SocketFooter'
 
 export default {
   name: "Environment",
@@ -37,7 +39,8 @@ export default {
     TableDetails,
     TableOptionsToolbar,
     EnvironmentOptionsActions,
-    EnvironmentOptions
+    EnvironmentOptions,
+    SocketFooter
   },
   mounted: function () {
     this.init();

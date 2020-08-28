@@ -3,6 +3,7 @@
     <Nav />
     <Menu />
     <ProjectList />
+    <SocketFooter />
   </div>
 </template>
 
@@ -12,6 +13,7 @@ import { mapMutations, mapActions } from "vuex";
 import Nav from './Nav'
 import Menu from "./Menu";
 import ProjectList from './ProjectList'
+import SocketFooter from './SocketFooter'
 
 export default {
   name: "Project",
@@ -19,6 +21,7 @@ export default {
     Nav,
     Menu,
     ProjectList,
+    SocketFooter
   },
   mounted: function () {
     this.init();

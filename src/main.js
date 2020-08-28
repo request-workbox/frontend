@@ -99,6 +99,18 @@ attachCognitoModule(store, {
   region: process.env.VUE_APP_AWS_REGION,
 }, 'cognito')
 /**
+ * Import Socket
+ * **/
+import SocketIO from 'socket.io-client'
+import VueSocketIO from 'vue-socket.io'
+/**
+ * Configure Socket
+ * **/
+Vue.use(new VueSocketIO({
+  debug: false,
+  connection: SocketIO(process.env.VUE_APP_API_URL),
+}));
+/**
  * Initialize app
  * **/
 import App from './App.vue'
