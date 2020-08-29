@@ -68,10 +68,8 @@ export default {
       if (_.size(request) === 0) return [];
 
       let inputs = {
-        parameters: [],
         query: [],
         headers: [],
-        cookies: [],
         body: [],
       };
 

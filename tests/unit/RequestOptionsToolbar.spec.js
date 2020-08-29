@@ -3,14 +3,6 @@ import RequestOptionsToolbar from '@/components/RequestOptionsToolbar.vue'
 
 describe('RequestOptionsToolbar.vue - Renders buttons', () => {
 
-    it('renders parameters button', () => {
-        const msg = 'Parameters'
-        const wrapper = shallowMount(RequestOptionsToolbar, {
-            propsData: {}
-        })
-        expect(wrapper.find('#request-options-parameters').text()).toMatch(msg)
-    })
-
     it('renders query button', () => {
         const msg = 'Query'
         const wrapper = shallowMount(RequestOptionsToolbar, {
@@ -25,14 +17,6 @@ describe('RequestOptionsToolbar.vue - Renders buttons', () => {
             propsData: {}
         })
         expect(wrapper.find('#request-options-headers').text()).toMatch(msg)
-    })
-
-    it('renders cookies button', () => {
-        const msg = 'Cookies'
-        const wrapper = shallowMount(RequestOptionsToolbar, {
-            propsData: {}
-        })
-        expect(wrapper.find('#request-options-cookies').text()).toMatch(msg)
     })
 
     it('renders body button', () => {

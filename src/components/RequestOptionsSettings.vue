@@ -42,7 +42,6 @@
           <select class="column-input-select" :value="this.selectedData().requestSettings.adapterType" v-on:input="edit('requestSettings', 'adapterType', $event)">
             <option value="request">Request</option>
             <option value="response">Response</option>
-            <option value="task">Task</option>
           </select>
         </div>
       </div>

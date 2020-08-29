@@ -55,7 +55,7 @@ export default {
     allowAddingRequestItem: function() {
       if (!this.selectedData()._id) return false;
 
-      const allowOptions = ['parameters','query','headers','cookies','body']
+      const allowOptions = ['query','headers','body']
       if (_.includes(allowOptions,this.option)) return true;
       else return false;
     },
