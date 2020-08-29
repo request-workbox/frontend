@@ -31,71 +31,6 @@
         </div>
       </div>
 
-
-
-      <div class="row row-border-bottom">
-        <div class="column column-data column-header-text column-grow column-group-header">Timeout</div>
-      </div>
-
-      <div class="row row-border-bottom" v-if="this.selectedData()._id">
-        <div class="column column-data column-20">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            value="Timeout"
-            disabled
-          />
-        </div>
-        <div class="column column-data column-grow">
-          <select class="column-input-select" :value="this.selectedData().timeout" v-on:input="editWorkflowDetailAction('timeout', $event)">
-            <option value="30seconds">30 Seconds</option>
-            <option value="60seconds">60 Seconds</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row row-border-bottom" v-if="this.selectedData()._id">
-        <div class="column column-data column-20">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            value="On Failure"
-            disabled
-          />
-        </div>
-        <div class="column column-data column-grow">
-          <select class="column-input-select" :value="this.selectedData().onFailure" v-on:input="editWorkflowDetailAction('onFailure', $event)">
-            <option value="stop">Stop</option>
-            <option value="send200Continue">Send 200 and Continue</option>
-            <option value="send500Continue">Send 500 and Continue</option>
-          </select>
-        </div>
-      </div>
-
-
-      <div class="row row-border-bottom">
-        <div class="column column-data column-header-text column-grow column-group-header">Environment</div>
-      </div>
-
-      <div class="row row-border-bottom" v-if="this.selectedData()._id">
-        <div class="column column-data column-20">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            value="Environment"
-            disabled
-          />
-        </div>
-        <div class="column column-data column-grow">
-          <select class="column-input-select" :value="this.selectedData().environment" v-on:input="editWorkflowDetailAction('environment', $event)">
-            <option v-for="(environment) in environments()" :key="environment._id" :value="environment._id">{{ environment.name }}</option>
-          </select>
-        </div>
-      </div>
-
       <div class="row row-border-bottom">
         <div class="column column-data column-header-text column-grow column-group-header">Instance</div>
       </div>
@@ -145,7 +80,7 @@ export default {
   name: "WorkflowOptionsSettings",
   computed: {
     ...mapState('table',['apiUrl']),
-    ...mapGetters("table", ["selectedData",'environments']),
+    ...mapGetters("table", ["selectedData"]),
     instanceUrl: function() {
       if (!this.apiUrl) return ''
       if (!this.selectedData() || !this.selectedData()._id) return ''
