@@ -16,15 +16,25 @@
             disabled
           />
         </div>
-        <div class="column column-data column-grow">
-          <input
-            type="text"
-            placeholder="Value"
-            class="column-input-text"
-            :value="value"
-            v-on:input="edit('url', key, $event)"
-          />
-        </div>
+        <template v-if="key === 'method'">
+          <div class="column column-data column-grow">
+            <select class="column-input-select" :value="value" v-on:input="edit('url', key, $event)">
+              <option value="GET">GET</option>
+              <option value="POST">POST</option>
+            </select>
+          </div>
+        </template>
+        <template v-if="key !== 'method'">
+          <div class="column column-data column-grow">
+            <input
+              type="text"
+              placeholder="Value"
+              class="column-input-text"
+              :value="value"
+              v-on:input="edit('url', key, $event)"
+            />
+          </div>
+        </template>
       </div>
     </div>
   </div>

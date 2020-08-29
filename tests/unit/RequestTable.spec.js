@@ -11,14 +11,6 @@ describe('RequestTable.vue - Renders table headers', () => {
     expect(wrapper.find('#table-header-1').text()).toMatch(msg)
   })
 
-  it('renders table header 2', () => {
-    const msg = 'Protocol'
-    const wrapper = shallowMount(RequestTable, {
-      propsData: {}
-    })
-    expect(wrapper.find('#table-header-2').text()).toMatch(msg)
-  })
-
   it('renders table header 3', () => {
     const msg = 'Name'
     const wrapper = shallowMount(RequestTable, {
