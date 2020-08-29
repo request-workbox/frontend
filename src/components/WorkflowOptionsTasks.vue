@@ -7,11 +7,6 @@
           <span>▲</span>
         </div>
         <div class="column column-data column-header-text column-20" id="options-header-1">Request</div>
-        <div class="column column-data column-header-text column-20" id="options-header-2">Timeout</div>
-        <div
-          class="column column-data column-header-text column-20"
-          id="options-header-2"
-        >On Failure</div>
         <div
           class="column column-data column-header-text column-grow"
           id="options-header-2"
@@ -41,27 +36,6 @@
                 >{{ request.url.name }}</option>
               </select>
             </div>
-            <div class="column column-data column-20">
-              <select
-                class="column-input-select column-input-select-grow"
-                :value="task.timeout"
-                v-on:input="editWorkflowTaskAction('tasks', task._id, 'timeout', $event)"
-              >
-                <option value="30seconds">30 Seconds</option>
-                <option value="60seconds">60 Seconds</option>
-              </select>
-            </div>
-            <div class="column column-data column-20">
-              <select
-                class="column-input-select column-input-select-grow"
-                :value="task.onFailure"
-                v-on:input="editWorkflowTaskAction('tasks', task._id, 'onFailure', $event)"
-              >
-                <option value="stop">Stop</option>
-                <option value="send200continue">Send 200 and Continue</option>
-                <option value="send500continue">Send 500 and Continue</option>
-              </select>
-            </div>
             <div class="column column-data column-grow">
               <select
                 class="column-input-select column-input-select-grow"
@@ -75,6 +49,7 @@
                 >{{ environment.name }}</option>
               </select>
             </div>
+            <div class="column column-data column-grow"></div>
             <div
               class="column column-data text-button"
               v-on:click="deleteWorkflowTaskAction('tasks', task._id )"
