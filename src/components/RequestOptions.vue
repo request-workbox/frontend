@@ -14,7 +14,6 @@ import RequestOptionsHeaders from "./RequestOptionsHeaders";
 import RequestOptionsCookies from "./RequestOptionsCookies";
 import RequestOptionsBody from "./RequestOptionsBody";
 import RequestOptionsUrl from "./RequestOptionsUrl";
-import RequestOptionsPermissions from "./RequestOptionsPermissions";
 import RequestOptionsSettings from "./RequestOptionsSettings";
 import RequestOptionsAdapters from "./RequestOptionsAdapters";
 import RequestOptionsInputs from "./RequestOptionsInputs";
@@ -28,7 +27,6 @@ export default {
     RequestOptionsCookies,
     RequestOptionsBody,
     RequestOptionsUrl,
-    RequestOptionsPermissions,
     RequestOptionsSettings,
     RequestOptionsAdapters,
     RequestOptionsInputs

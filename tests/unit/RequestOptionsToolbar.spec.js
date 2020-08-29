@@ -43,14 +43,6 @@ describe('RequestOptionsToolbar.vue - Renders buttons', () => {
         expect(wrapper.find('#request-options-body').text()).toMatch(msg)
     })
 
-    it('renders permissions button', () => {
-        const msg = 'Permissions'
-        const wrapper = shallowMount(RequestOptionsToolbar, {
-            propsData: {}
-        })
-        expect(wrapper.find('#request-options-permissions').text()).toMatch(msg)
-    })
-
     it('renders plugins button', () => {
         const msg = 'Plugins'
         const wrapper = shallowMount(RequestOptionsToolbar, {
