@@ -48,7 +48,7 @@ export default {
     ...mapGetters("table", ["selectedData"])
   },
   methods: {
-    ...mapMutations('table', ['editEnvironmentDetailKey', 'editEnvironmentDetailValue', 'editEnvironmentDetailAcceptInput']),
+    ...mapMutations('table', ['editEnvironmentDetailKey', 'editEnvironmentDetailValue', 'editEnvironmentDetailActive']),
     ...mapActions('table', ['deleteEnvironmentDetailItem']),
     editKey: function(type, key, event) {
       this.editEnvironmentDetailKey({type, key, value: event.target.value, environmentId: this.selectedData()._id})
