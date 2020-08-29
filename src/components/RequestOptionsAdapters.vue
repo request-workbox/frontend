@@ -6,11 +6,6 @@
           <span>▲</span>
         </div>
         <div class="column column-data column-header-text column-20" id="options-header-1">Adapter</div>
-        <div class="column column-data column-header-text column-20" id="options-header-2">Timeout</div>
-        <div
-          class="column column-data column-header-text column-20"
-          id="options-header-2"
-        >On Failure</div>
         <div
           class="column column-data column-header-text column-grow"
           id="options-header-2"
@@ -53,27 +48,6 @@
         <div class="column column-data column-20">
           <select
             class="column-input-select column-input-select-grow"
-            :value="value.timeout"
-            v-on:input="edit('requestAdapters', value._id, 'timeout', $event)"
-          >
-            <option value="30seconds">30 Seconds</option>
-            <option value="60seconds">60 Seconds</option>
-          </select>
-        </div>
-        <div class="column column-data column-20">
-          <select
-            class="column-input-select column-input-select-grow"
-            :value="value.onFailure"
-            v-on:input="edit('requestAdapters', value._id, 'onFailure', $event)"
-          >
-            <option value="stop">Stop</option>
-            <option value="send200continue">Send 200 and Continue</option>
-            <option value="send500continue">Send 500 and Continue</option>
-          </select>
-        </div>
-        <div class="column column-data column-grow">
-          <select
-            class="column-input-select column-input-select-grow"
             :value="value.environment"
             v-on:input="edit('requestAdapters', value._id, 'environment', $event)"
           >
@@ -84,6 +58,7 @@
             >{{ environment.name }}</option>
           </select>
         </div>
+        <div class="column column-data column-grow"></div>
         <div
           class="column column-data text-button"
           v-on:click="deleteAdapterAction('requestAdapters', value._id )"
@@ -126,27 +101,6 @@
         <div class="column column-data column-20">
           <select
             class="column-input-select column-input-select-grow"
-            :value="value.timeout"
-            v-on:input="edit('responseAdapters', value._id, 'timeout', $event)"
-          >
-            <option value="30seconds">30 Seconds</option>
-            <option value="60seconds">60 Seconds</option>
-          </select>
-        </div>
-        <div class="column column-data column-20">
-          <select
-            class="column-input-select column-input-select-grow"
-            :value="value.onFailure"
-            v-on:input="edit('responseAdapters', value._id, 'onFailure', $event)"
-          >
-            <option value="stop">Stop</option>
-            <option value="send200continue">Send 200 and Continue</option>
-            <option value="send500continue">Send 500 and Continue</option>
-          </select>
-        </div>
-        <div class="column column-data column-grow">
-          <select
-            class="column-input-select column-input-select-grow"
             :value="value.environment"
             v-on:input="edit('responseAdapters', value._id, 'environment', $event)"
           >
@@ -157,6 +111,7 @@
             >{{ environment.name }}</option>
           </select>
         </div>
+        <div class="column column-data column-grow"></div>
         <div
           class="column column-data text-button"
           v-on:click="deleteAdapterAction('responseAdapters', value._id )"
