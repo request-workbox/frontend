@@ -79,6 +79,7 @@
     <!-- Statistic Table -->
     <div class="column column-full-width" v-if="currentRoute === 'Statistics'">
       <div class="row row-border-bottom">
+        <div class="column column-data column-header column-20">Instance</div>
         <div class="column column-data column-header column-grow">Workflow Name</div>
         <div class="column column-data column-header column-20">Date</div>
       </div>
@@ -95,6 +96,7 @@
           v-bind:class="{ 'table-row-selected': rowIsActive(data) }"
           v-on:click="selectOrDeselectRow(data)"
         >
+          <div class="column column-data column-20" id="table-data-2">{{ data._id }}</div>
           <div class="column column-data column-grow" id="table-data-2">{{ data.workflowName }}</div>
           <div class="column column-data column-20" id="table-data-2">{{ statisticCreatedAt(data.createdAt) }}</div>
         </div>
