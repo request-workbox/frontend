@@ -6,8 +6,8 @@
           <div class="column text-button" v-if="shouldBeShown('requests')" v-bind:class="{ 'text-button-selected':shouldBeSelected('requests') }" v-on:click="navigateToRoute('requests')">Requests</div>
           <div class="column text-button" v-if="shouldBeShown('adapters')" v-bind:class="{ 'text-button-selected':shouldBeSelected('adapters') }" v-on:click="navigateToRoute('adapters')">Adapters</div>
           <div class="column text-button" v-if="shouldBeShown('workflows')" v-bind:class="{ 'text-button-selected':shouldBeSelected('workflows') }" v-on:click="navigateToRoute('workflows')">Workflows</div>
-          <div class="column text-button" v-if="shouldBeShown('environments')" v-bind:class="{ 'text-button-selected':shouldBeSelected('environments') }" v-on:click="navigateToRoute('environments')">Environments</div>
           <div class="column text-button" v-if="shouldBeShown('statistics')" v-bind:class="{ 'text-button-selected':shouldBeSelected('statistics') }" v-on:click="navigateToRoute('statistics')">Statistics</div>
+          <div class="column text-button" v-if="shouldBeShown('environments')" v-bind:class="{ 'text-button-selected':shouldBeSelected('environments') }" v-on:click="navigateToRoute('environments')">Environments</div>
         </div>
       </div>
     </div>
