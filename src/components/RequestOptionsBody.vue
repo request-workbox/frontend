@@ -2,17 +2,11 @@
   <div class="row">
     <div class="column column-full-width">
       <div class="row row-border-bottom">
-        <div class="column column-data column-header-text column-checkbox">
-          <input type="checkbox" id="options-header-checkbox" disabled />
-        </div>
         <div class="column column-data column-header-text column-10" id="options-header-1">Key</div>
         <div class="column column-data column-header-text column-grow" id="options-header-2">Value</div>
       </div>
 
       <div class="row row-border-bottom" v-for="value in this.selectedData().body" :key="value._id">
-        <div class="column column-data column-checkbox">
-          <input type="checkbox" id="options-data-checkbox" :checked="value.acceptInput" v-on:input="editAcceptInput('body', value._id, $event)"/>
-        </div>
         <div class="column column-data column-10">
           <input
             type="text"
@@ -48,16 +42,13 @@ export default {
     ...mapGetters("table", ["selectedData"]),
   },
   methods: {
-    ...mapMutations('table', ['editRequestDetailKey', 'editRequestDetailValue','editRequestDetailAcceptInput']),
+    ...mapMutations('table', ['editRequestDetailKey', 'editRequestDetailValue']),
     ...mapActions('table', ['deleteRequestDetailItem']),
     editKey: function(type, key, event) {
       this.editRequestDetailKey({type, key, value: event.target.value, requestId: this.selectedData()._id})
     },
     editValue: function(type, key, event) {
       this.editRequestDetailValue({type, key, value: event.target.value, requestId: this.selectedData()._id})
-    },
-    editAcceptInput: function(type, key, event) {
-      this.editRequestDetailAcceptInput({type, key, value: event.target.checked, requestId: this.selectedData()._id})
     },
     deleteRequestDetailItemAction: function(value) {
       this.deleteRequestDetailItem({ detailItem: value, requestId: this.selectedData()._id, option: 'body'})

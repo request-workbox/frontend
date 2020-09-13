@@ -4,7 +4,6 @@
         <div class="row">
           <div class="column text-button" v-if="shouldBeShown('projects')" v-bind:class="{ 'text-button-selected':shouldBeSelected('projects') }" v-on:click="navigateToRoute('projects')">Projects</div>
           <div class="column text-button" v-if="shouldBeShown('requests')" v-bind:class="{ 'text-button-selected':shouldBeSelected('requests') }" v-on:click="navigateToRoute('requests')">Requests</div>
-          <div class="column text-button" v-if="shouldBeShown('adapters')" v-bind:class="{ 'text-button-selected':shouldBeSelected('adapters') }" v-on:click="navigateToRoute('adapters')">Adapters</div>
           <div class="column text-button" v-if="shouldBeShown('workflows')" v-bind:class="{ 'text-button-selected':shouldBeSelected('workflows') }" v-on:click="navigateToRoute('workflows')">Workflows</div>
           <div class="column text-button" v-if="shouldBeShown('statistics')" v-bind:class="{ 'text-button-selected':shouldBeSelected('statistics') }" v-on:click="navigateToRoute('statistics')">Statistics</div>
           <div class="column text-button" v-if="shouldBeShown('environments')" v-bind:class="{ 'text-button-selected':shouldBeSelected('environments') }" v-on:click="navigateToRoute('environments')">Environments</div>
@@ -24,8 +23,6 @@ export default {
   methods: {
     shouldBeSelected: function(route) {
       if (this.$route.name === 'Requests' && route === 'requests') {
-        return true
-      } else if (this.$route.name === 'Adapters' && route === 'adapters') {
         return true
       } else if (this.$route.name === 'Workflows' && route === 'workflows') {
         return true
@@ -50,8 +47,6 @@ export default {
     navigateToRoute: function(route) {
       if (route === 'requests') {
         location.assign(`/projects/${this.projectId}/requests`)
-      } else if (route === 'adapters') {
-        location.assign(`/projects/${this.projectId}/adapters`)
       } else if (route === 'workflows') {
         location.assign(`/projects/${this.projectId}/workflows`)
       } else if (route === 'environments') {

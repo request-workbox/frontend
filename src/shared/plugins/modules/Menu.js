@@ -11,13 +11,11 @@ const getters = {
 }
 
 const actions = {
-    async newRequest({ commit, state, rootState }, { adapter, projectId }) {
+    async newRequest({ commit, state, rootState }, { projectId }) {
         const requestUrl = `${state.apiUrl}/new-request`
-        const requestBody = { projectId, adapter }
+        const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
-
-        if (adapter) return location.assign(`/projects/${projectId}/adapters`)
-        else return location.assign(`/projects/${projectId}/requests`)
+        return location.assign(`/projects/${projectId}/requests`)
     },
     async newWorkflow({ commit, state, rootState }, { projectId }) {
         const requestUrl = `${state.apiUrl}/new-workflow`

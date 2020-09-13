@@ -39,21 +39,8 @@ const getters = {
     totalPages: (state, getters) => () => {
         return getters.chunkedData().length
     },
-    dataByCurrentRoute: (state, getters) => () => {
-        return _.filter(state.allData, (data) => {
-            if (state.currentRoute === 'Requests') {
-                if (data.requestSettings.requestType === 'request') return true
-                else return false
-            } else if (state.currentRoute === 'Adapters') {
-                if (data.requestSettings.requestType === 'adapter') return true
-                else return false
-            } else {
-                return true
-            }
-        })
-    },
     dataByFilter: (state, getters) => () => {
-        return _.filter(getters.dataByCurrentRoute(), (data) => {
+        return _.filter(state.allData, (data) => {
             if (state.filter === 'active') {
                 if (data.active) return true
                 else return false

@@ -48,13 +48,6 @@
       <div class="column spacer"></div>
       <div class="column text-button" v-on:click="deleteRequestAction">Delete Request</div>
     </template>
-    <template v-if="this.$route.name === 'Adapters' && this.selectedId !== '' && !this.editing">
-      <div class="column spacer"></div>
-      <div class="column text-button" v-on:click="archiveAdapterAction" v-if="filter === 'active'">Archive Adapter</div>
-      <div class="column text-button" v-on:click="restoreAdapterAction" v-if="filter === 'archived'">Restore Adapter</div>
-      <div class="column spacer"></div>
-      <div class="column text-button" v-on:click="deleteAdapterAction">Delete Adapter</div>
-    </template>
     <template v-if="this.$route.name === 'Workflows' && this.selectedId !== '' && !this.editing">
       <div class="column spacer"></div>
       <div class="column text-button" v-on:click="archiveWorkflowAction" v-if="filter === 'active'">Archive Workflow</div>
@@ -91,10 +84,6 @@ export default {
       "archiveRequest",
       "restoreRequest",
       "deleteRequest",
-      // adapters
-      "archiveAdapter",
-      "restoreAdapter",
-      "deleteAdapter",
       // workflows
       "archiveWorkflow",
       "restoreWorkflow",
@@ -120,19 +109,6 @@ export default {
       const confirm = window.confirm('Are you sure you want to delete this request?')
       if (confirm) {
         this.deleteRequest({ requestId: this.selectedId })
-      }
-    },
-    // adapters
-    archiveAdapterAction: function() {
-      this.archiveAdapter({ adapterId: this.selectedId })
-    },
-    restoreAdapterAction: function() {
-      this.restoreAdapter({ adapterId: this.selectedId })
-    },
-    deleteAdapterAction: function() {
-      const confirm = window.confirm('Are you sure you want to delete this adapter?')
-      if (confirm) {
-        this.deleteAdapter({ adapterId: this.selectedId })
       }
     },
     // workflows

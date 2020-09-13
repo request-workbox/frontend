@@ -10,14 +10,12 @@ import _ from "lodash";
 
 import WorkflowOptionsSettings from "./WorkflowOptionsSettings";
 import WorkflowOptionsTasks from "./WorkflowOptionsTasks";
-import WorkflowOptionsInputs from "./WorkflowOptionsInputs";
 
 export default {
   name: "WorkflowOptions",
   components: {
     WorkflowOptionsSettings,
     WorkflowOptionsTasks,
-    WorkflowOptionsInputs
   },
   computed: {
     ...mapState("table", ["option"]),

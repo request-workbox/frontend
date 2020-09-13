@@ -22,19 +22,6 @@
             v-on:click="addRequestDetailItemAction"
           >Add Item</div>
         </div>
-        <div class="column" v-if="allowAddingRequestAdapter()">
-          <div class="row">
-            <div
-            class="column text-button action"
-            v-on:click="addRequestAdapterAction('requestAdapters')"
-          >Add Request Adapter</div>
-          <div
-            class="column text-button action"
-            v-on:click="addRequestAdapterAction('responseAdapters')"
-          >Add Response Adapter</div>
-          </div>
-          
-        </div>
       </div>
     </div>
   </div>
@@ -51,23 +38,13 @@ export default {
     ...mapState('table', ['option'])
   },
   methods: {
-    ...mapActions("table", ["cancelRequestChanges", 'saveRequestChanges', 'addRequestDetailItem', 'addRequestAdapter']),
+    ...mapActions("table", ["cancelRequestChanges", 'saveRequestChanges', 'addRequestDetailItem']),
     allowAddingRequestItem: function() {
       if (!this.selectedData()._id) return false;
 
       const allowOptions = ['query','headers','body']
       if (_.includes(allowOptions,this.option)) return true;
       else return false;
-    },
-    allowAddingRequestAdapter: function() {
-      if (!this.selectedData()._id) return false;
-
-      if (this.selectedData().requestSettings.requestType === 'adapter') {
-        return false
-      } else {
-        if (this.option === 'adapters') return true;
-        else return false;
-      }
     },
     cancelRequestChangesAction: async function() {
       await this.cancelRequestChanges({ _id: this.selectedData()._id })
@@ -78,9 +55,6 @@ export default {
     addRequestDetailItemAction: async function() {
       await this.addRequestDetailItem({_id: this.selectedData()._id, option: this.option })
     },
-    addRequestAdapterAction: async function(type) {
-      await this.addRequestAdapter({type, requestId: this.selectedData()._id})
-    }
   }
 };
 </script>

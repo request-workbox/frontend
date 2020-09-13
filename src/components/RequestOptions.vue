@@ -12,9 +12,6 @@ import RequestOptionsQuery from "./RequestOptionsQuery";
 import RequestOptionsHeaders from "./RequestOptionsHeaders";
 import RequestOptionsBody from "./RequestOptionsBody";
 import RequestOptionsUrl from "./RequestOptionsUrl";
-import RequestOptionsSettings from "./RequestOptionsSettings";
-import RequestOptionsAdapters from "./RequestOptionsAdapters";
-import RequestOptionsInputs from "./RequestOptionsInputs";
 
 export default {
   name: "RequestOptions",
@@ -23,9 +20,6 @@ export default {
     RequestOptionsHeaders,
     RequestOptionsBody,
     RequestOptionsUrl,
-    RequestOptionsSettings,
-    RequestOptionsAdapters,
-    RequestOptionsInputs
   },
   computed: {
     ...mapState("table", ["option"]),
