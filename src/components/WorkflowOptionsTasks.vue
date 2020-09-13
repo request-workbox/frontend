@@ -7,10 +7,6 @@
           <span>▲</span>
         </div>
         <div class="column column-data column-header-text column-20" id="options-header-1">Request</div>
-        <div
-          class="column column-data column-header-text column-grow"
-          id="options-header-2"
-        >Environment</div>
       </div>
 
       <div class="row row-border-bottom" v-for="task in this.selectedData().tasks" :key="task._id">
@@ -36,20 +32,6 @@
                 >{{ request.url.name }}</option>
               </select>
             </div>
-            <div class="column column-data column-grow">
-              <select
-                class="column-input-select column-input-select-grow"
-                :value="task.environment"
-                v-on:input="editWorkflowTaskAction('tasks', task._id, 'environment', $event)"
-              >
-                <option
-                  v-for="(environment) in environments()"
-                  :key="environment._id"
-                  :value="environment._id"
-                >{{ environment.name }}</option>
-              </select>
-            </div>
-            <div class="column column-data column-grow"></div>
             <div
               class="column column-data text-button"
               v-on:click="deleteWorkflowTaskAction('tasks', task._id )"

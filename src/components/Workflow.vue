@@ -52,12 +52,11 @@ export default {
   methods: {
     ...mapMutations('table',['changeOption', 'setCurrentRoute']),
     ...mapActions("project", ["getProjectName"]),
-    ...mapActions('table',['getWorkflows','getEnvironmentsForSelectOptions','getRequestsForSelectOptions']),
+    ...mapActions('table',['getWorkflows','getRequestsForSelectOptions']),
     init: function () {
       this.setCurrentRoute({ route: this.$route.name })
       this.getProjectName({ projectId: this.projectId });
       this.getWorkflows({ projectId: this.projectId });
-      this.getEnvironmentsForSelectOptions({ projectId: this.projectId })
       this.getRequestsForSelectOptions({ projectId: this.projectId })
       this.changeOption('settings');
     },

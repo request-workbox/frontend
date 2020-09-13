@@ -20,7 +20,6 @@ const state = () => ({
     editing: false,
     option: '',
 
-    environmentsForSelectOptions: [],
     requestsForSelectOptions: [],
 
     currentRoute: ''

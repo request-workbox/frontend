@@ -5,9 +5,6 @@ import _ from 'lodash'
 
 const getters = {
     // ENVIRONMENT GETTERS
-    environments: (state, getters, rootState) => () => {
-        return state.environmentsForSelectOptions
-    },
 }
 
 const actions = {
@@ -19,13 +16,6 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('replaceAllData', { data: request.data })
         commit('resetPage')
-    },
-    async getEnvironmentsForSelectOptions({ commit, state, getters, rootState }, payload) {
-        const projectId = payload.projectId
-        const requestUrl = `${state.apiUrl}/get-environments`
-        const requestBody = { projectId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('replaceEnvironmentsForSelectOptions', { data: request.data })
     },
     async cancelEnvironmentChanges({ commit, state, getters, rootState }, { _id }) {
         if (!state.editing) return;
@@ -159,9 +149,6 @@ const mutations = {
             }
         })
 
-    },
-    replaceEnvironmentsForSelectOptions(state, payload) {
-        state.environmentsForSelectOptions = payload.data
     },
     editEnvironmentToArchive(state, payload) {
         _.each(state.allData, (data) => {
