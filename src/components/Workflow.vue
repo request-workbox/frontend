@@ -58,7 +58,7 @@ export default {
       this.getProjectName({ projectId: this.projectId });
       this.getWorkflows({ projectId: this.projectId });
       this.getRequestsForSelectOptions({ projectId: this.projectId })
-      this.changeOption('settings');
+      this.changeOption('instance');
     },
   },
 };

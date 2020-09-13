@@ -6,7 +6,7 @@
         <div class="column column-data column-header-text column-uparrow-header">
           <span>▲</span>
         </div>
-        <div class="column column-data column-header-text column-20" id="options-header-1">Request</div>
+        <div class="column column-data column-header-text column-20" id="options-header-1">Select Request</div>
       </div>
 
       <div class="row row-border-bottom" v-for="task in this.selectedData().tasks" :key="task._id">

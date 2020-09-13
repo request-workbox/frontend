@@ -2,11 +2,6 @@
   <div class="row">
     <div class="column column-full-width">
       <div class="row row-border-bottom">
-        <div class="column column-data column-header-text column-20" id="options-header-1">Setting</div>
-        <div class="column column-data column-header-text column-grow" id="options-header-2">Setting Value</div>
-      </div>
-
-      <div class="row row-border-bottom">
         <div class="column column-data column-header-text column-grow column-group-header">Description</div>
       </div>
 
@@ -77,7 +72,7 @@
 import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
 
 export default {
-  name: "WorkflowOptionsSettings",
+  name: "WorkflowOptionsInstance",
   computed: {
     ...mapState('table',['apiUrl']),
     ...mapGetters("table", ["selectedData"]),

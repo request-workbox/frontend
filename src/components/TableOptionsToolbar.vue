@@ -9,7 +9,7 @@
         </div>
 
         <div class="row" v-if="this.$route.name === 'Workflows'">
-          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('settings')}" v-on:click="changeOption('settings')">Settings</div>
+          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('instance')}" v-on:click="changeOption('instance')">Instance</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('tasks')}" v-on:click="changeOption('tasks')">Tasks</div>
         </div>
 

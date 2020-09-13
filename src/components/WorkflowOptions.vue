@@ -8,13 +8,13 @@
 import { mapState } from "vuex";
 import _ from "lodash";
 
-import WorkflowOptionsSettings from "./WorkflowOptionsSettings";
+import WorkflowOptionsInstance from "./WorkflowOptionsInstance";
 import WorkflowOptionsTasks from "./WorkflowOptionsTasks";
 
 export default {
   name: "WorkflowOptions",
   components: {
-    WorkflowOptionsSettings,
+    WorkflowOptionsInstance,
     WorkflowOptionsTasks,
   },
   computed: {
