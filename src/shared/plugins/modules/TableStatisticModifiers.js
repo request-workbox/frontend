@@ -17,10 +17,32 @@ const actions = {
         commit('replaceAllData', { data: request.data })
         commit('resetPage')
     },
+    async getInstanceDetail({ commit, state, getters, rootState }, payload) {
+        const instanceId = payload.instanceId
+        const requestUrl = `${state.apiUrl}/get-instance-detail`
+        const requestBody = { instanceId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('updateInstanceDetail', { data: request.data, instanceId: instanceId })
+    }, 
 }
 
 const mutations = {
     // STATISTIC MUTATIONS
+    updateInstanceDetail(state, payload) {
+        _.each(state.allData, (instance) => {
+            if (instance._id === payload.instanceId) {
+                instance.stats = _.map(instance.stats, (stat) => {
+                    const statUpdate = _.filter(payload.data, (statUpdate, statUpdateId) => {
+                        if (statUpdateId === stat._id) return true
+                        else return false
+                    })[0]
+                    stat.requestPayload = statUpdate.requestPayload
+                    stat.responsePayload = statUpdate.responsePayload
+                    return stat
+                })
+            }
+        })
+    },
 }
 
 export default {

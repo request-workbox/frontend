@@ -19,9 +19,8 @@
     </div>
 
     <div class="row row-border-bottom" v-if="shouldShowSelectedStat()">
-      <div class="column filter-button filter-button-left filter-button-active">Stats</div>
-      <div class="column filter-button">Request</div>
-      <div class="column filter-button filter-button-right">Response</div>
+      <div class="column text-button action" v-if="!loading" v-on:click="getInstanceDetailAction()">Load Requests / Responses</div>
+      <div class="column text-button action" v-if="loading">Loading...</div>
     </div>
 
     <pre v-if="shouldShowSelectedStat()">
@@ -42,13 +41,26 @@ export default {
   data: function() {
     return {
       selectedStat: {},
-      selectedStatId: ''
+      selectedStatId: '',
+      loading: false,
     }
   },
   computed: {
     ...mapGetters("table", ["selectedData"]),
   },
   methods: {
+    ...mapActions('table', ['getInstanceDetail']),
+    getInstanceDetailAction: async function() {
+      try {
+        this.loading = true
+        await this.getInstanceDetail({instanceId: this.selectedData()._id})
+      } catch(err) {
+        console.log('Error getting instance details')
+      } finally {
+        this.loading = false
+      }
+      
+    },
     statisticCreatedAt: function(createdAt) {
       if (!createdAt) return ''
       return `${moment(createdAt).format('M-D-YYYY, h:mm:ss a')}`
