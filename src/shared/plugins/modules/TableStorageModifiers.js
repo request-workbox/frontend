@@ -17,6 +17,21 @@ const actions = {
         commit('replaceAllData', { data: request.data })
         commit('resetPage')
     },
+    async getStorageDetail({ commit, state, getters, rootState }, { storageId, editStorageValue }) {
+        const requestUrl = `${state.apiUrl}/get-storage-detail`
+        const requestBody = { storageId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        if (editStorageValue) {
+            commit('editStorageValue', { storageId, key: 'storageValue', value: request.data.storageValue })
+        }
+        return { storageValue: request.data.storageValue }
+    },
+    async updateStorageDetail({ commit, state, getters, rootState }, { storageId, storageValue }) {
+        const requestUrl = `${state.apiUrl}/update-storage-detail`
+        const requestBody = { storageId, storageValue }
+        const requestHeaders = { 'Content-Type': 'application/x-www-form-urlencoded' }
+        const request = await Vue.$axios.post(requestUrl, requestBody, requestHeaders)
+    },
     async cancelStorageChanges({ commit, state, getters, rootState }, { _id }) {
         if (!state.editing) return;
 
@@ -70,6 +85,13 @@ const mutations = {
     editStorageDetail(state, payload) {
         state.editing = true
 
+        _.each(state.allData, (data) => {
+            if (data._id === payload.storageId) {
+                data[payload.key] = payload.value
+            }
+        })
+    },
+    editStorageValue(state, payload) {
         _.each(state.allData, (data) => {
             if (data._id === payload.storageId) {
                 data[payload.key] = payload.value
