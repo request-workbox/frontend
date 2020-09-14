@@ -52,7 +52,6 @@ export default {
   computed: {
     ...mapGetters("table", [
       "selectedData",
-      "environments",
       "requestsForSelect",
     ]),
   },

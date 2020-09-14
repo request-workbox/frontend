@@ -6,7 +6,6 @@
           <div class="column text-button" v-if="shouldBeShown('requests')" v-bind:class="{ 'text-button-selected':shouldBeSelected('requests') }" v-on:click="navigateToRoute('requests')">Requests</div>
           <div class="column text-button" v-if="shouldBeShown('workflows')" v-bind:class="{ 'text-button-selected':shouldBeSelected('workflows') }" v-on:click="navigateToRoute('workflows')">Workflows</div>
           <div class="column text-button" v-if="shouldBeShown('statistics')" v-bind:class="{ 'text-button-selected':shouldBeSelected('statistics') }" v-on:click="navigateToRoute('statistics')">Statistics</div>
-          <div class="column text-button" v-if="shouldBeShown('environments')" v-bind:class="{ 'text-button-selected':shouldBeSelected('environments') }" v-on:click="navigateToRoute('environments')">Environments</div>
         </div>
       </div>
     </div>
@@ -28,8 +27,6 @@ export default {
         return true
       } else if (this.$route.name === 'Projects' && route == 'projects') {
         return true
-      } else if (this.$route.name === 'Environments' && route == 'environments') {
-        return true
       } else if (this.$route.name === 'Statistics' && route == 'statistics') {
         return true
       } else {
@@ -49,8 +46,6 @@ export default {
         location.assign(`/projects/${this.projectId}/requests`)
       } else if (route === 'workflows') {
         location.assign(`/projects/${this.projectId}/workflows`)
-      } else if (route === 'environments') {
-        location.assign(`/projects/${this.projectId}/environments`)
       } else if (route === 'statistics') {
         location.assign(`/projects/${this.projectId}/statistics`)
       } else if (route === 'projects') {

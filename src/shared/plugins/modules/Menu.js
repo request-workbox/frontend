@@ -29,24 +29,6 @@ const actions = {
         const projectId = request.data._id
         location.assign(`/projects/${projectId}/requests`)
     },
-    async newEnvironment({ commit, state, rootState }, { projectId }) {
-        const requestUrl = `${state.apiUrl}/new-environment`
-        const requestBody = { projectId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        location.assign(`/projects/${projectId}/environments`)
-    },
-    // async addToWorkflow({ commit, state, rootState }, { requestId, workflowId }) {
-    //     const requestUrl = `${state.apiUrl}/add-to-workflow`
-    //     const requestBody = { requestId, workflowId }
-    //     const request = await Vue.$axios.post(requestUrl, requestBody)
-    //     return request.data._id
-    // },
-    async testRequest({ commit, state, rootState }, { requestId }) {
-        const requestUrl = `${state.apiUrl}/test-request`
-        const requestBody = { requestId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        return request.data._id
-    },
 }
 
 const mutations = {
