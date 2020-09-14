@@ -29,6 +29,12 @@ const actions = {
         const projectId = request.data._id
         location.assign(`/projects/${projectId}/requests`)
     },
+    async newStorage({ commit, state, rootState }, { projectId, storageType }) {
+        const requestUrl = `${state.apiUrl}/new-storage`
+        const requestBody = { projectId, storageType }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        location.assign(`/projects/${projectId}/storage`)
+    },
 }
 
 const mutations = {
@@ -42,6 +48,3 @@ export default {
     actions,
     mutations
 }
-
-
-// status, statusText, data

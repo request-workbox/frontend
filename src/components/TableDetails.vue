@@ -8,6 +8,10 @@
         <div class="row row-justify-between" v-if="this.$route.name === 'Workflows'">
           <div class="column section-header" id="request-details-name">{{ workflowName() }}</div>
         </div>
+        <div class="row row-justify-between" v-if="this.$route.name === 'Storage'">
+          <div class="column section-header" id="storage-details-name">{{ storageName() }}</div>
+          <div class="column text" id="storage-details-last-edited">{{ storageLastEdited() }}</div>
+        </div>
       </div>
     </div>
 </template>
@@ -32,6 +36,18 @@ export default {
 
       if (!requestDetails.updatedAt) return ''
       return `Last edited: ${moment(requestDetails.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}`
+    },
+    storageName: function() {
+      const storageDetails = this.selectedData()
+
+      if (!storageDetails.name) return ''
+      return storageDetails.name
+    },
+    storageLastEdited: function() {
+      const storageDetails = this.selectedData()
+
+      if (!storageDetails.updatedAt) return ''
+      return `Last edited: ${moment(storageDetails.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}`
     },
     workflowName: function() {
       const workflow = this.selectedData()

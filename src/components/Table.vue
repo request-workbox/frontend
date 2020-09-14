@@ -29,6 +29,7 @@
         </div>
       </template>
     </div>
+
     <!-- Workflow Table -->
     <div class="column column-full-width" v-if="currentRoute === 'Workflows'">
       <div class="row row-border-bottom">
@@ -46,6 +47,27 @@
         >
           <div class="column column-data column-20" id="table-data-1">{{ data.name }}</div>
           <div class="column column-data column-20" id="table-data-2">{{ numberOfWorkflowTasks(data) }}</div>
+        </div>
+      </template>
+    </div>
+
+    <!-- Storage Table -->
+    <div class="column column-full-width" v-if="currentRoute === 'Storage'">
+      <div class="row row-border-bottom">
+        <div class="column column-data column-header column-20">Name</div>
+        <div class="column column-data column-header column-20">Storage Type</div>
+      </div>
+
+      <template v-if="allData.length > 0">
+        <div
+          v-for="(data) in viewableData()"
+          v-bind:key="data._id"
+          class="row row-border-bottom table-row-selectable"
+          v-bind:class="{ 'table-row-selected': rowIsActive(data) }"
+          v-on:click="selectOrDeselectRow(data)"
+        >
+          <div class="column column-data column-20">{{ data.name }}</div>
+          <div class="column column-data column-20">{{ storageType(data) }}</div>
         </div>
       </template>
     </div>
@@ -102,6 +124,10 @@ export default {
     numberOfWorkflowTasks: function(data) {
       if (!data.tasks || !_.size(data.tasks)) return '0 Tasks'
       return `${_.size(data.tasks)} Tasks`
+    },
+    storageType: function(data) {
+      if (data.storageType === 'file') return 'File'
+      if (data.storageType === 'text') return 'Text'
     },
     statisticCreatedAt: function(createdAt) {
       if (!createdAt) return ''
