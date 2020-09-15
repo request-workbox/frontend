@@ -55,6 +55,35 @@
         <code>{{ this.selectedData().storageValue }}</code>
       </pre>
 
+      <div class="row row-border-bottom" v-if="this.selectedData()._id && this.selectedData().storageType === 'text'">
+        <div class="column column-data column-20">
+          <input
+            type="text"
+            placeholder="Key"
+            class="column-input-text"
+            value="Text"
+            disabled
+          />
+        </div>
+        <div class="column column-data column-20">
+          <input
+            type="text"
+            placeholder="Storage Value"
+            class="column-input-text"
+            :value="this.selectedData().storageValue"
+            v-on:input="editStorageValueAction('storageValue', $event)"
+          />
+        </div>
+        <div class="column text-button action">
+          <span v-if="!revealing" v-on:click="getStorageDetailAction">Reveal</span>
+          <span v-if="revealing">Loading...</span>
+        </div>
+        <div class="column text-button action">
+          <span v-if="!replacing" v-on:click="updateStorageDetailAction">Update</span>
+          <span v-if="replacing">Updating...</span>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -76,10 +105,13 @@ export default {
     ...mapGetters("table", ["selectedData"]),
   },
   methods: {
-    ...mapMutations('table', ['editStorageDetail']),
+    ...mapMutations('table', ['editStorageDetail','editStorageValue']),
     ...mapActions('table', ['getStorageDetail', 'updateStorageDetail']),
     editStorageDetailAction: function(key, event) {
       this.editStorageDetail({key, value: event.target.value, storageId: this.selectedData()._id})
+    },
+    editStorageValueAction: function(key, event) {
+      this.editStorageValue({key, value: event.target.value, storageId: this.selectedData()._id})
     },
     getStorageDetailAction: async function() {
       try {
@@ -123,10 +155,18 @@ export default {
     updateStorageDetailAction: async function() {
       try {
         this.replacing = true
-        await this.updateStorageDetail({storageId: this.selectedData()._id, storageValue: this.storageValue })
-        location.reload()
+
+        if (this.selectedData().storageType === 'text') {
+          this.storageValue = this.selectedData().storageValue
+          await this.updateStorageDetail({storageId: this.selectedData()._id, storageValue: this.storageValue })
+        } else if (this.selectedData().storageType === 'file') {
+          await this.updateStorageDetail({storageId: this.selectedData()._id, storageValue: this.storageValue })
+          location.reload()
+        }
       } catch(err) {
         console.log(err)
+      } finally {
+        this.replacing = false
       }
     }
   }
