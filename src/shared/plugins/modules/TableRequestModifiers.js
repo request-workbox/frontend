@@ -132,6 +132,19 @@ const mutations = {
             }
         })
     },
+    editRequestDetailValueType(state, payload) {
+        state.editing = true
+
+        _.each(state.allData, (data) => {
+            if (data._id === payload.requestId) {
+                _.each(data[payload.type], (obj) => {
+                    if (obj._id === payload.key) {
+                        obj.valueType = payload.value
+                    }
+                })
+            }
+        })
+    },
     // request
     editRequestToArchive(state, payload) {
         _.each(state.allData, (data) => {

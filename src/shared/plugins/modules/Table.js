@@ -21,6 +21,7 @@ const state = () => ({
     option: '',
 
     requestsForSelectOptions: [],
+    storagesForSelectOptions: [],
 
     currentRoute: ''
 })

@@ -5,6 +5,12 @@ import _ from 'lodash'
 
 const getters = {
     // STORAGE GETTERS
+    storagesForSelect: (state, getters, rootState) => () => {
+        return _.filter(state.storagesForSelectOptions, (data) => {
+            if (data.active) return true;
+            else return false
+        })
+    },
 }
 
 const actions = {
@@ -16,6 +22,13 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('replaceAllData', { data: request.data })
         commit('resetPage')
+    },
+    async getStoragesForSelectOptions({ commit, state, getters, rootState }, payload) {
+        const projectId = payload.projectId
+        const requestUrl = `${state.apiUrl}/get-storages`
+        const requestBody = { projectId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('replaceStoragesForSelectOptions', { data: request.data })
     },
     async getStorageDetail({ commit, state, getters, rootState }, { storageId, editStorageValue }) {
         const requestUrl = `${state.apiUrl}/get-storage-detail`
@@ -111,6 +124,9 @@ const mutations = {
                 data.active = true
             }
         })
+    },
+    replaceStoragesForSelectOptions(state, payload) {
+        state.storagesForSelectOptions = payload.data
     },
 }
 
