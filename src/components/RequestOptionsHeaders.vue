@@ -22,6 +22,7 @@
               <option value="textInput">Text Input</option>
               <option value="storage">Storage</option>
               <option value="runtimeResult">Runtime Result</option>
+              <option value="incomingField">Incoming Field</option>
             </select>
         </div>
         <div class="column column-data column-grow" v-if="value.valueType === 'textInput'">
@@ -45,7 +46,16 @@
         <div class="column column-data column-grow" v-if="value.valueType === 'runtimeResult'">
           <input
             type="text"
-            placeholder="Runtime Result Name"
+            placeholder="Result Name"
+            class="column-input-text"
+            :value="value.value"
+            v-on:input="editValue('headers', value._id, $event)"
+          />
+        </div>
+        <div class="column column-data column-grow" v-if="value.valueType === 'incomingField'">
+          <input
+            type="text"
+            placeholder="Field Name"
             class="column-input-text"
             :value="value.value"
             v-on:input="editValue('headers', value._id, $event)"

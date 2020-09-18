@@ -46,6 +46,8 @@ const actions = {
         const requestBody = request
         await Vue.$axios.post(requestUrl, requestBody)
         commit('stopEditing')
+        // fix headers
+        commit('replaceHeaderSpaces', { requestId: request._id })
     },
     async addRequestDetailItem({ commit, state, getters, rootState }, payload) {
         const untrackedPayload = JSON.parse(JSON.stringify(payload))
@@ -181,6 +183,15 @@ const mutations = {
     replaceRequestsForSelectOptions(state, payload) {
         state.requestsForSelectOptions = payload.data
     },
+    replaceHeaderSpaces(state, payload) {
+        _.each(state.allData, (data) => {
+            if (data._id === payload.requestId) {
+                _.each(data.headers, (headerObj) => {
+                    headerObj.key = headerObj.key.replace(/ /g,'-')
+                })
+            }
+        })
+    }
 }
 
 export default {
