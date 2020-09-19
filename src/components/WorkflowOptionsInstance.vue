@@ -32,36 +32,18 @@
 
       <div class="row row-border-bottom" v-if="this.selectedData()._id">
         <div class="column column-data column-20">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            value="API Endpoint"
-            disabled
-          />
+          <div class="column text-button action action-text-center" v-on:click="startWorkflowAction">Start Workflow</div>
         </div>
-        <div class="column column-data column-grow">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            :value="instanceUrl"
-            disabled
-          />
-        </div>
+        
+        <span class="tiny-text"> {{ startInstanceUrl }}</span>
       </div>
 
       <div class="row row-border-bottom" v-if="this.selectedData()._id">
         <div class="column column-data column-20">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            value="Manual Start"
-            disabled
-          />
+          <div class="column text-button action action-text-center" v-on:click="returnWorkflowAction">Return Workflow</div>
         </div>
-        <div class="column text-button action" v-on:click="startInstanceAction">Start Instance</div>
+        
+        <span class="tiny-text"> {{ returnInstanceUrl }}</span>
       </div>
 
     </div>
@@ -76,22 +58,31 @@ export default {
   computed: {
     ...mapState('table',['apiUrl']),
     ...mapGetters("table", ["selectedData"]),
-    instanceUrl: function() {
+    startInstanceUrl: function() {
       if (!this.apiUrl) return ''
       if (!this.selectedData() || !this.selectedData()._id) return ''
       
       return `POST ${this.apiUrl}/start-workflow/${this.selectedData()._id}`
-    }
+    },
+    returnInstanceUrl: function() {
+      if (!this.apiUrl) return ''
+      if (!this.selectedData() || !this.selectedData()._id) return ''
+      
+      return `POST ${this.apiUrl}/return-workflow/${this.selectedData()._id}`
+    },
   },
   methods: {
     ...mapMutations('table', ['editWorkflowDetail']),
-    ...mapActions('table',['startInstance']),
+    ...mapActions('table',['startWorkflow','returnWorkflow']),
     editWorkflowDetailAction: function(key, event) {
       this.editWorkflowDetail({key, value: event.target.value, workflowId: this.selectedData()._id})
     },
-    startInstanceAction: function() {
-      this.startInstance(this.selectedData()._id)
-    }
+    startWorkflowAction: function() {
+      this.startWorkflow(this.selectedData()._id)
+    },
+    returnWorkflowAction: function() {
+      this.returnWorkflow(this.selectedData()._id)
+    },
   }
 };
 </script>

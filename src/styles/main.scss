@@ -118,6 +118,28 @@ div {
   .column-padded {
     padding: 5px;
   }
+
+  .tiny-text {
+    font-size: 11px;
+    margin: 0 0 0 5px;
+  }
+
+  .action {
+    padding: 4px 12px !important;
+    margin: 4px !important;
+    border-radius: 4px !important;
+    border-color: #e4e4e4;
+    border-style: solid;
+    border-width: 1px;
+  }
+  .action-text-center {
+    text-align: center;
+  }
+  .disabled {
+    cursor: auto !important;
+    background: #e4e4e4 !important;
+    color: #a0a0a0 !important;
+  }
   
   .text-button {
     background: white;

@@ -42,19 +42,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.action {
-  padding: 4px 12px !important;
-  margin: 4px !important;
-  border-radius: 4px !important;
-  border-color: #e4e4e4;
-  border-style: solid;
-  border-width: 1px;
-}
-.disabled {
-  cursor: auto !important;
-  background: #e4e4e4 !important;
-  color: #a0a0a0 !important;
-}
-</style>
