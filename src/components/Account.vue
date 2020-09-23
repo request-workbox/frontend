@@ -1,6 +1,8 @@
 <template>
   <div id="account-container">
     <Nav />
+    <AccountMenu />
+    <AccountBilling />
   </div>
 </template>
 
@@ -8,13 +10,15 @@
 import { mapMutations, mapActions } from "vuex";
 
 import Nav from './Nav'
-import SocketFooter from './SocketFooter'
+import AccountMenu from './AccountMenu'
+import AccountBilling from './AccountBilling'
 
 export default {
   name: "Account",
   components: {
     Nav,
-    SocketFooter
+    AccountMenu,
+    AccountBilling
   },
   mounted: function () {
     this.init();

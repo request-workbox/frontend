@@ -8,6 +8,8 @@
           <div class="column text-button" v-if="shouldBeShown('statistics')" v-bind:class="{ 'text-button-selected':shouldBeSelected('statistics') }" v-on:click="navigateToRoute('statistics')">Statistics</div>
           <div class="column text-button" v-if="shouldBeShown('storage')" v-bind:class="{ 'text-button-selected':shouldBeSelected('storage') }" v-on:click="navigateToRoute('storage')">Storage</div>
           <div class="column text-button" v-if="shouldBeShown('account')" v-bind:class="{ 'text-button-selected':shouldBeSelected('account') }" v-on:click="navigateToRoute('account')">Account</div>
+          <div class="column column-grow"></div>
+          <div class="column text-button">Logout</div>
         </div>
       </div>
     </div>
