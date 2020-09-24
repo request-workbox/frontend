@@ -76,6 +76,8 @@ import authenticationModule from './shared/plugins/modules/authentication'
 import menuModule from './shared/plugins/modules/Menu'
 import projectModule from './shared/plugins/modules/Project'
 import tableModule from './shared/plugins/modules/Table'
+import accountModule from './shared/plugins/modules/Account'
+
 Vue.use(vuex)
 const store = new vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
@@ -83,7 +85,8 @@ const store = new vuex.Store({
     authentication: authenticationModule,
     menu: menuModule,
     project: projectModule,
-    table: tableModule
+    table: tableModule,
+    account: accountModule
   }
 })
 /**

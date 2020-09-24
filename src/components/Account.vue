@@ -2,23 +2,26 @@
   <div id="account-container">
     <Nav />
     <AccountMenu />
-    <AccountBilling />
+    <component :is="`Account${upperFirstOption}`"/>
   </div>
 </template>
 
 <script>
-import { mapMutations, mapActions } from "vuex";
+import { mapMutations, mapActions, mapState } from "vuex";
+import _ from 'lodash'
 
 import Nav from './Nav'
 import AccountMenu from './AccountMenu'
 import AccountBilling from './AccountBilling'
+import AccountUser from './AccountUser'
 
 export default {
   name: "Account",
   components: {
     Nav,
     AccountMenu,
-    AccountBilling
+    AccountBilling,
+    AccountUser
   },
   mounted: function () {
     this.init();
@@ -26,6 +29,12 @@ export default {
   beforeRouteUpdate(to, from, next) {
     this.init();
     return next();
+  },
+  computed: {
+    ...mapState('account', ['option']),
+    upperFirstOption: function() {
+      return _.upperFirst(this.option);
+    }
   },
   methods: {
     ...mapMutations('table', ['setCurrentRoute']),
