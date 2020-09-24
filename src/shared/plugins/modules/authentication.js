@@ -108,7 +108,7 @@ export default {
                 console.log(err)
             }
         },
-        async resetUser({ commit, state, dispatch }) {
+        async resetPassword({ commit, state, dispatch }) {
             try {
                 await dispatch('cognito/forgotPassword', {
                     username: state.reset.username,
