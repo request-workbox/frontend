@@ -20,6 +20,10 @@ export default {
   name: "App",
   mounted: async function() {
     try {
+      if (!this.$route.name) {
+        return location.assign('/projects')
+      }
+      
       await this.$store.dispatch('cognito/fetchSession')
     } catch(err) {
       if (location.pathname !== '/account') {
