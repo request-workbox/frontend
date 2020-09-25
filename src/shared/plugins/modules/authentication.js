@@ -31,27 +31,29 @@ export default {
         updateField,
     },
     actions: {
-        async loginUser({ commit, state, dispatch }, { username, password }) {
+        async loginUser({ commit, state, dispatch }) {
             try {
+                console.log(state.login)
                 await dispatch('cognito/signInUser', {
-                    username: username, 
-                    password: password
+                    username: state.login.username, 
+                    password: state.login.password1
                 }, { root: true })
             } catch (err) {
-                console.log(err)
+                if (err.message) throw new Error(err.message)
+                else throw new Error(err) 
             }
         },
-        async signupUser({ commit, state, dispatch, rootState },{ username, password }) {
+        async signupUser({ commit, state, dispatch, rootState }) {
             try {
                 const newUser = await dispatch('cognito/registerUser', {
-                    username: username,
-                    password: password,
+                    username: state.signup.username,
+                    password: state.signup.password1,
                     attributes: {
-                        email: 'newuser@email.com'
+                        email: state.signup.email
                     }
                 }, { root: true })
             } catch (err) {
-                console.log(err)
+                return err
             }
         },
         async resetPassword({ commit, state, dispatch }) {
@@ -60,26 +62,25 @@ export default {
                     username: state.change.username,
                 }, { root: true })
             } catch (err) {
-                console.log(err)
+                return err
             }
         },
         async changePassword({ commit, state, dispatch }) {
             try {
-                // action to get available connections
                 await dispatch('cognito/changePassword', {
                     username: state.change.username,
                     code: state.change.code,
                     newPassword: state.change.password1,
                 }, { root: true })
             } catch (err) {
-                console.log(err)
+                return err
             }
         },
         async logoutUser({ commit, state, dispatch }) {
             try {
                 await dispatch('cognito/signOut', null, { root: true })
             } catch (err) {
-                console.log(err)
+                throw new Error(err)
             }
         },
         async confirmUser({ commit, state, dispatch }) {
@@ -89,14 +90,14 @@ export default {
                     code: state.confirm.code
                 }, { root: true })
             } catch (err) {
-                console.log(err)
+                return err
             }
         },
         async fetchSession({ commit, state, dispatch }) {
             try {
                 const session = await dispatch('cognito/fetchSession', null, { root: true })
             } catch (err) {
-                console.log(err)
+                return err
             }
         },
     },

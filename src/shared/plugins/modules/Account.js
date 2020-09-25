@@ -5,7 +5,7 @@ const state = () => ({
     apiUrl: 'http://localhost:3000',
 
     option: 'user',
-    userOption: 'signup'
+    userOption: 'login'
 })
 
 const getters = {

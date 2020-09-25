@@ -31,7 +31,7 @@
             <input type="text" class="column-input-text" disabled value="Password">
           </div>
           <div class="column column-data column-grow">
-            <input type="text" v-model="password1" placeholder="Password" autocomplete="new-password" class="column-input-text">
+            <input type="password" v-model="password1" placeholder="Password" autocomplete="new-password" class="column-input-text">
           </div>
       </div>
 
@@ -40,13 +40,14 @@
             <input type="text" class="column-input-text" disabled value="Password">
           </div>
           <div class="column column-data column-grow">
-            <input type="text" v-model="password2" placeholder="Confirm Password" autocomplete="new-password" class="column-input-text">
+            <input type="password" v-model="password2" placeholder="Confirm Password" autocomplete="new-password" class="column-input-text">
           </div>
       </div>
 
       <div class="row row-border-bottom">
         <div class="column column-data column-20">
-          <div class="column text-button action action-text-center">Sign Up</div>
+          <div class="column text-button action action-text-center" v-if="!loading">Sign Up</div>
+          <div class="column text-button action action-text-center" v-if="loading">Signing up...</div>
         </div>
       </div>
 
@@ -60,6 +61,12 @@ import { mapFields } from 'vuex-map-fields';
 
 export default {
   name: 'AccountUserSignUp',
+  data: function() {
+    return {
+      loading: false,
+      message: ''
+    }
+  },
   computed: {
     ...mapFields('authentication', [
       'signup.username',
@@ -67,6 +74,20 @@ export default {
       'signup.password1',
       'signup.password2',
     ]),
+  },
+  methods: {
+    ...mapActions('authentication', [
+      'signupUser'
+    ]),
+    signupUserAction: async function() {
+      try {
+        this.loading = true
+      } catch(err) {
+        console.log('ERR')
+      } finally {
+        this.loading = false
+      }
+    }
   }
 }
 </script>

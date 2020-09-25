@@ -28,7 +28,8 @@
 
       <div class="row row-border-bottom">
         <div class="column column-data column-20">
-          <div class="column text-button action action-text-center">Confirm Sign Up</div>
+          <div class="column text-button action action-text-center" v-if="!loading">Confirm Sign Up</div>
+          <div class="column text-button action action-text-center" v-if="loading">Confirming...</div>
         </div>
       </div>
 
@@ -42,11 +43,31 @@ import { mapFields } from 'vuex-map-fields';
 
 export default {
   name: 'AccountUserConfirm',
+  data: function() {
+    return {
+      loading: false,
+      message: ''
+    }
+  },
   computed: {
     ...mapFields('authentication', [
       'confirm.username',
       'confirm.code',
     ]),
+  },
+  methods: {
+    ...mapActions('authentication', [
+      'confirmUser'
+    ]),
+    confirmUserAction: async function() {
+      try {
+        this.loading = true
+      } catch(err) {
+        console.log('ERR')
+      } finally {
+        this.loading = false
+      }
+    }
   }
 }
 </script>

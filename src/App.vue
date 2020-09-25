@@ -18,6 +18,15 @@
 
 export default {
   name: "App",
+  mounted: async function() {
+    try {
+      await this.$store.dispatch('cognito/fetchSession')
+    } catch(err) {
+      if (location.pathname !== '/account') {
+        location.assign('/account')
+      }
+    }
+  }
 };
 </script>
 

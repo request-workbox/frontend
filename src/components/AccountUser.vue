@@ -2,10 +2,10 @@
   <div class="row">
     <div class="column column-full-width">
       <!-- <AccountUserContactInfo /> -->
-      <AccountUserReset v-if="this.userOption === 'reset'"/>
-      <AccountUserSignUp v-if="this.userOption === 'signup'"/>
-      <AccountUserConfirm v-if="this.userOption === 'confirm'"/>
-      <AccountUserLogIn v-if="this.userOption === 'login'"/>
+      <AccountUserReset v-if="this.userOption === 'reset' && !this.$store.getters['cognito/isLoggedIn']"/>
+      <AccountUserSignUp v-if="this.userOption === 'signup' && !this.$store.getters['cognito/isLoggedIn']"/>
+      <AccountUserConfirm v-if="this.userOption === 'confirm' && !this.$store.getters['cognito/isLoggedIn']"/>
+      <AccountUserLogIn v-if="this.userOption === 'login' && !this.$store.getters['cognito/isLoggedIn']"/>
     </div>
   </div>
 </template>

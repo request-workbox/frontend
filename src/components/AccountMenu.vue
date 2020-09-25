@@ -2,13 +2,13 @@
     <div class="row row-border-bottom">
       <div class="column column-full-width">
         <div class="row">
-          <div class="column text-button" v-on:click="changeAccountOptionAction('billing')" v-bind:class="{'text-button-selected':shouldBeSelected('billing')}">Billing</div>
-          <div class="column text-button" v-if="this.option !=='user'" v-on:click="changeAccountOptionAction('user')" v-bind:class="{'text-button-selected':shouldBeSelected('user')}">User</div>
+          <div class="column text-button" v-if="this.$store.getters['cognito/isLoggedIn']" v-on:click="changeAccountOptionAction('billing')" v-bind:class="{'text-button-selected':shouldBeSelected('billing')}">Billing</div>
+          <div class="column text-button" v-if="this.option !=='user' && !this.$store.getters['cognito/isLoggedIn']" v-on:click="changeAccountOptionAction('user')" v-bind:class="{'text-button-selected':shouldBeSelected('user')}">User</div>
           
-          <div class="column text-button" v-if="this.option !=='billing'" v-on:click="changeAccountUserOptionAction('signup')" v-bind:class="{'text-button-selected':userOptionShouldBeSelected('signup')}">Sign Up</div>
-          <div class="column text-button" v-if="this.option !=='billing'" v-on:click="changeAccountUserOptionAction('confirm')" v-bind:class="{'text-button-selected':userOptionShouldBeSelected('confirm')}">Confirm Sign Up</div>
-          <div class="column text-button" v-if="this.option !=='billing'" v-on:click="changeAccountUserOptionAction('reset')" v-bind:class="{'text-button-selected':userOptionShouldBeSelected('reset')}">Reset Password</div>
-          <div class="column text-button" v-if="this.option !=='billing'" v-on:click="changeAccountUserOptionAction('login')" v-bind:class="{'text-button-selected':userOptionShouldBeSelected('login')}">Log In</div>
+          <div class="column text-button" v-if="this.option !=='billing' && !this.$store.getters['cognito/isLoggedIn']" v-on:click="changeAccountUserOptionAction('login')" v-bind:class="{'text-button-selected':userOptionShouldBeSelected('login')}">Log In</div>
+          <div class="column text-button" v-if="this.option !=='billing' && !this.$store.getters['cognito/isLoggedIn']" v-on:click="changeAccountUserOptionAction('reset')" v-bind:class="{'text-button-selected':userOptionShouldBeSelected('reset')}">Reset Password</div>
+          <div class="column text-button" v-if="this.option !=='billing' && !this.$store.getters['cognito/isLoggedIn']" v-on:click="changeAccountUserOptionAction('signup')" v-bind:class="{'text-button-selected':userOptionShouldBeSelected('signup')}">Sign Up</div>
+          <div class="column text-button" v-if="this.option !=='billing' && !this.$store.getters['cognito/isLoggedIn']" v-on:click="changeAccountUserOptionAction('confirm')" v-bind:class="{'text-button-selected':userOptionShouldBeSelected('confirm')}">Confirm Sign Up</div>
         </div>
       </div>
     </div>

@@ -19,7 +19,8 @@
       
       <div class="row row-border-bottom">
         <div class="column column-data column-20">
-          <div class="column text-button action action-text-center">Send Reset Email</div>
+          <div class="column text-button action action-text-center" v-if="!loadingEmail">Send Reset Email</div>
+          <div class="column text-button action action-text-center" v-if="loadingEmail">Sending...</div>
         </div>
       </div>
 
@@ -28,7 +29,7 @@
             <input type="text" class="column-input-text" disabled value="Password">
           </div>
           <div class="column column-data column-grow">
-            <input type="text" v-model="password1" placeholder="New Password" autocomplete="new-password" class="column-input-text">
+            <input type="password" v-model="password1" placeholder="New Password" autocomplete="new-password" class="column-input-text">
           </div>
       </div>
 
@@ -37,7 +38,7 @@
             <input type="text" class="column-input-text" disabled value="Password">
           </div>
           <div class="column column-data column-grow">
-            <input type="text" v-model="password2" placeholder="Confirm New Password" autocomplete="new-password" class="column-input-text">
+            <input type="password" v-model="password2" placeholder="Confirm New Password" autocomplete="new-password" class="column-input-text">
           </div>
       </div>
 
@@ -52,7 +53,8 @@
 
       <div class="row row-border-bottom">
         <div class="column column-data column-20">
-          <div class="column text-button action action-text-center">Reset</div>
+          <div class="column text-button action action-text-center" v-if="!loadingReset">Reset</div>
+          <div class="column text-button action action-text-center" v-if="loadingReset">Resetting...</div>
         </div>
       </div>
 
@@ -66,6 +68,15 @@ import { mapFields } from 'vuex-map-fields';
 
 export default {
   name: 'AccountUserReset',
+  data: function() {
+    return {
+      loadingEmail: false,
+      loadingReset: false,
+
+      emailMessage: '',
+      resetMessage: '',
+    }
+  },
   computed: {
     ...mapFields('authentication', [
       'change.username',
@@ -73,6 +84,30 @@ export default {
       'change.password2',
       'change.code',
     ]),
+  },
+  methods: {
+    ...mapActions('authentication', [
+      'resetPassword',
+      'changePassword'
+    ]),
+    resetPasswordAction: async function() {
+      try {
+        this.loadingEmail = true
+      } catch(err) {
+        console.log('ERR')
+      } finally {
+        this.loadingEmail = false
+      }
+    },
+    changePasswordAction: async function() {
+      try {
+        this.loadingReset = true
+      } catch(err) {
+        console.log('ERR')
+      } finally {
+        this.loadingReset = false
+      }
+    },
   }
 }
 </script>
