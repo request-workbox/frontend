@@ -12,17 +12,12 @@ export default {
             email: '',
             password1: '',
             password2: '',
-            passwordsMatch: false,
-        },
-        reset: {
-            username: '',
         },
         change: {
             username: '',
             password1: '',
             password2: '',
             code: '',
-            passwordsMatch: false,
         },
         confirm: {
             username: '',
@@ -34,53 +29,6 @@ export default {
     },
     mutations: {
         updateField,
-        validateSignup(state) {
-            state.signup.passwordsMatch = false
-
-            if (state.signup.password1 === state.signup.password2) {
-                if (state.signup.password1 !== '') {
-                    if (state.signup.username !== '') {
-                        if (state.signup.email !== '') {
-                            return state.signup.passwordsMatch = true
-                        }
-                    }
-                }
-            }
-        },
-        validateChange(state) {
-            state.change.passwordsMatch = false
-
-            if (state.change.password1 === state.change.password2) {
-                if (state.change.password1 !== '') {
-                    if (state.change.username !== '') {
-                        if (state.change.code !== '') {
-                            return state.change.passwordsMatch = true
-                        }
-                    }
-                }
-            }
-        },
-        clearFields(state) {
-            state.login.username = ''
-            state.login.password1 = ''
-
-            state.signup.username = ''
-            state.signup.email = ''
-            state.signup.password1 = ''
-            state.signup.password2 = ''
-            state.signup.passwordsMatch = false
-
-            state.reset.username = ''
-
-            state.change.username = ''
-            state.change.password1 = ''
-            state.change.password2 = ''
-            state.change.code = ''
-            state.change.passwordsMatch = false
-
-            state.confirm.username = ''
-            state.confirm.code = ''
-        }
     },
     actions: {
         async loginUser({ commit, state, dispatch }, { username, password }) {
@@ -89,7 +37,6 @@ export default {
                     username: username, 
                     password: password
                 }, { root: true })
-                commit('clearFields')
             } catch (err) {
                 console.log(err)
             }
@@ -103,7 +50,6 @@ export default {
                         email: 'newuser@email.com'
                     }
                 }, { root: true })
-                commit('clearFields')
             } catch (err) {
                 console.log(err)
             }
@@ -111,9 +57,8 @@ export default {
         async resetPassword({ commit, state, dispatch }) {
             try {
                 await dispatch('cognito/forgotPassword', {
-                    username: state.reset.username,
+                    username: state.change.username,
                 }, { root: true })
-                commit('clearFields')
             } catch (err) {
                 console.log(err)
             }
@@ -126,7 +71,6 @@ export default {
                     code: state.change.code,
                     newPassword: state.change.password1,
                 }, { root: true })
-                commit('clearFields')
             } catch (err) {
                 console.log(err)
             }
@@ -134,7 +78,6 @@ export default {
         async logoutUser({ commit, state, dispatch }) {
             try {
                 await dispatch('cognito/signOut', null, { root: true })
-                commit('clearFields')
             } catch (err) {
                 console.log(err)
             }
@@ -145,7 +88,6 @@ export default {
                     username: state.confirm.username,
                     code: state.confirm.code
                 }, { root: true })
-                commit('clearFields')
             } catch (err) {
                 console.log(err)
             }
