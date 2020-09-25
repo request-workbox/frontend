@@ -28,9 +28,10 @@
 
       <div class="row row-border-bottom">
         <div class="column column-data column-20">
-          <div class="column text-button action action-text-center" v-if="!loading">Confirm Sign Up</div>
+          <div class="column text-button action action-text-center" v-if="!loading" v-on:click="confirmUserAction">Confirm Sign Up</div>
           <div class="column text-button action action-text-center" v-if="loading">Confirming...</div>
         </div>
+        <span class="tiny-text tiny-text-spaced">{{ message }}</span>
       </div>
 
     </div>
@@ -62,8 +63,11 @@ export default {
     confirmUserAction: async function() {
       try {
         this.loading = true
+        this.message = ''
+        await this.confirmUser()
+        location.reload()
       } catch(err) {
-        console.log('ERR')
+        this.message = err.message
       } finally {
         this.loading = false
       }

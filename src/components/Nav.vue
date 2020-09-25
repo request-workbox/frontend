@@ -39,7 +39,7 @@ export default {
         await this.logoutUser()
         location.assign('/account')
       } catch(err) {
-        console.log(err)
+        // console.log(err)
       } finally {
         this.loading = false
       }

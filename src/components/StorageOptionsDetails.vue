@@ -118,7 +118,7 @@ export default {
         this.revealing = true
         await this.getStorageDetail({storageId: this.selectedData()._id, editStorageValue: true})
       } catch(err) {
-        console.log(err)
+        // console.log(err)
       } finally {
         this.revealing = false
       }
@@ -135,7 +135,7 @@ export default {
         document.body.appendChild(fileLink);
         fileLink.click();
       } catch(err) {
-        console.log(err)
+        // console.log(err)
       } finally {
         this.downloading = false
       }
@@ -149,7 +149,7 @@ export default {
         };
         reader.readAsBinaryString(this.$refs.file.files[0]);
       } catch(err) {
-        console.log(err)
+        // console.log(err)
       }
     },
     updateStorageDetailAction: async function() {
@@ -164,7 +164,7 @@ export default {
           location.reload()
         }
       } catch(err) {
-        console.log(err)
+        // console.log(err)
       } finally {
         this.replacing = false
       }

@@ -49,12 +49,10 @@ const actions = {
     async startWorkflow({ commit, state, getters, rootState }, workflowId) {
         const requestUrl = `${state.apiUrl}/start-workflow/${workflowId}`
         const request = await Vue.$axios.post(requestUrl)
-        console.log(request)
     },
     async returnWorkflow({ commit, state, getters, rootState }, workflowId) {
         const requestUrl = `${state.apiUrl}/return-workflow/${workflowId}`
         const request = await Vue.$axios.post(requestUrl)
-        console.log(request)
     },
     async archiveWorkflow({ commit, state, getters, rootState }, payload) {
         const requestUrl = `${state.apiUrl}/archive-workflow`

@@ -19,9 +19,10 @@
       
       <div class="row row-border-bottom">
         <div class="column column-data column-20">
-          <div class="column text-button action action-text-center" v-if="!loadingEmail">Send Reset Email</div>
+          <div class="column text-button action action-text-center" v-if="!loadingEmail" v-on:click="resetPasswordAction">Send Reset Email</div>
           <div class="column text-button action action-text-center" v-if="loadingEmail">Sending...</div>
         </div>
+        <span class="tiny-text tiny-text-spaced">{{ emailMessage }}</span>
       </div>
 
       <div class="row row-border-bottom">
@@ -53,9 +54,10 @@
 
       <div class="row row-border-bottom">
         <div class="column column-data column-20">
-          <div class="column text-button action action-text-center" v-if="!loadingReset">Reset</div>
+          <div class="column text-button action action-text-center" v-if="!loadingReset" v-on:click="changePasswordAction">Reset</div>
           <div class="column text-button action action-text-center" v-if="loadingReset">Resetting...</div>
         </div>
+        <span class="tiny-text tiny-text-spaced">{{ resetMessage }}</span>
       </div>
 
     </div>
@@ -92,18 +94,46 @@ export default {
     ]),
     resetPasswordAction: async function() {
       try {
+        this.emailMessage = ''
         this.loadingEmail = true
+        await this.resetPassword()
+        this.emailMessage = 'Please check email and continue with reset.'
       } catch(err) {
-        console.log('ERR')
+        if (err.message === 'Username cannot be empty') {
+          this.emailMessage = 'Username cannot be empty'
+        } else if (err.message === 'Attempt limit exceeded, please try after some time.') {
+          this.emailMessage = 'Attempt limit exceeded, please try after some time.'
+        } else {
+          this.emailMessage = err
+        }
       } finally {
         this.loadingEmail = false
       }
     },
     changePasswordAction: async function() {
       try {
+        this.resetMessage = ''
         this.loadingReset = true
+        await this.changePassword()
+        location.reload()
       } catch(err) {
-        console.log('ERR')
+        if (err.message === 'Please confirm username') {
+          this.resetMessage = 'Please confirm username'
+        } else if (err.message === 'Please confirm password') {
+          this.resetMessage = 'Please confirm password'
+        } else if (err.message === 'Passwords must match') {
+          this.resetMessage = 'Passwords must match'
+        } else if (err.message === 'Code cannot be empty') {
+          this.resetMessage = 'Code cannot be empty'
+        } else if (err.message === 'Invalid verification code provided, please try again.') {
+          this.resetMessage = 'Invalid verification code provided, please try again.'
+        } else if (err.message === 'Invalid code provided, please request a code again.') {
+          this.resetMessage = 'Invalid code provided, please request a code again.'
+        } else if (err.message === 'Attempt limit exceeded, please try after some time.') {
+          this.resetMessage = 'Attempt limit exceeded, please try after some time.'
+        } else {
+          this.resetMessage = err
+        }
       } finally {
         this.loadingReset = false
       }
