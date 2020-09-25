@@ -13,7 +13,7 @@
             <input type="text" class="column-input-text" disabled value="Email">
           </div>
           <div class="column column-data column-grow">
-            <input type="text" placeholder="Email" class="column-input-text">
+            <input type="text" v-model="email" placeholder="Email" autocomplete="email" class="column-input-text">
           </div>
       </div>
 
@@ -22,7 +22,7 @@
             <input type="text" class="column-input-text" disabled value="Username">
           </div>
           <div class="column column-data column-grow">
-            <input type="text" placeholder="Username" class="column-input-text">
+            <input type="text" v-model="username" placeholder="Username" autocomplete="username" class="column-input-text">
           </div>
       </div>
 
@@ -31,7 +31,7 @@
             <input type="text" class="column-input-text" disabled value="Password">
           </div>
           <div class="column column-data column-grow">
-            <input type="text" placeholder="Password" class="column-input-text">
+            <input type="text" v-model="password1" placeholder="Password" autocomplete="new-password" class="column-input-text">
           </div>
       </div>
 
@@ -40,7 +40,7 @@
             <input type="text" class="column-input-text" disabled value="Password">
           </div>
           <div class="column column-data column-grow">
-            <input type="text" placeholder="Confirm Password" class="column-input-text">
+            <input type="text" v-model="password2" placeholder="Confirm Password" autocomplete="new-password" class="column-input-text">
           </div>
       </div>
 
@@ -62,7 +62,10 @@ export default {
   name: 'AccountUserSignUp',
   computed: {
     ...mapFields('authentication', [
-      'signup',
+      'signup.username',
+      'signup.email',
+      'signup.password1',
+      'signup.password2',
     ]),
   }
 }

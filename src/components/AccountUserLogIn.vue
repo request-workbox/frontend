@@ -13,7 +13,7 @@
             <input type="text" class="column-input-text" disabled value="Username">
           </div>
           <div class="column column-data column-grow">
-            <input type="text" placeholder="Username" class="column-input-text">
+            <input type="text" v-model="username" placeholder="Username" autocomplete="username" class="column-input-text">
           </div>
       </div>
 
@@ -22,7 +22,7 @@
             <input type="text" class="column-input-text" disabled value="Password">
           </div>
           <div class="column column-data column-grow">
-            <input type="text" placeholder="Password" class="column-input-text">
+            <input type="text" v-model="password1" placeholder="Password" autocomplete="current-password" class="column-input-text">
           </div>
       </div>
 
@@ -44,7 +44,8 @@ export default {
   name: 'AccountUserLogIn',
   computed: {
     ...mapFields('authentication', [
-      'login',
+      'login.username',
+      'login.password1',
     ]),
   }
 }

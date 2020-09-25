@@ -1,11 +1,11 @@
 <template>
   <div class="row">
     <div class="column column-full-width">
-      <AccountUserContactInfo />
-      <AccountUserReset />
-      <AccountUserSignUp />
-      <AccountUserConfirm />
-      <AccountUserLogIn />
+      <!-- <AccountUserContactInfo /> -->
+      <AccountUserReset v-if="this.userOption === 'reset'"/>
+      <AccountUserSignUp v-if="this.userOption === 'signup'"/>
+      <AccountUserConfirm v-if="this.userOption === 'confirm'"/>
+      <AccountUserLogIn v-if="this.userOption === 'login'"/>
     </div>
   </div>
 </template>
@@ -28,6 +28,11 @@ export default {
     AccountUserSignUp,
     AccountUserConfirm,
     AccountUserLogIn,
+  },
+  computed: {
+    ...mapState('account', [
+      'userOption'
+    ])
   }
 }
 </script>

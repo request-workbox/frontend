@@ -13,7 +13,7 @@
             <input type="text" class="column-input-text" disabled value="Username">
           </div>
           <div class="column column-data column-grow">
-            <input type="text" v-model="change.username" placeholder="Username" class="column-input-text">
+            <input type="text" v-model="username" placeholder="Username" autocomplete="username" class="column-input-text">
           </div>
       </div>
       
@@ -28,7 +28,7 @@
             <input type="text" class="column-input-text" disabled value="Password">
           </div>
           <div class="column column-data column-grow">
-            <input type="text" v-model="change.password1" placeholder="New Password" class="column-input-text">
+            <input type="text" v-model="password1" placeholder="New Password" autocomplete="new-password" class="column-input-text">
           </div>
       </div>
 
@@ -37,7 +37,7 @@
             <input type="text" class="column-input-text" disabled value="Password">
           </div>
           <div class="column column-data column-grow">
-            <input type="text" v-model="change.password2" placeholder="Confirm New Password" class="column-input-text">
+            <input type="text" v-model="password2" placeholder="Confirm New Password" autocomplete="new-password" class="column-input-text">
           </div>
       </div>
 
@@ -46,7 +46,7 @@
             <input type="text" class="column-input-text" disabled value="Reset Code">
           </div>
           <div class="column column-data column-grow">
-            <input type="text" v-model="change.code" placeholder="Enter Reset Code From Reset Email" class="column-input-text">
+            <input type="text" v-model="code" placeholder="Enter Reset Code From Reset Email" autocomplete="one-time-code" class="column-input-text">
           </div>
       </div>
 
@@ -68,7 +68,10 @@ export default {
   name: 'AccountUserReset',
   computed: {
     ...mapFields('authentication', [
-      'change',
+      'change.username',
+      'change.password1',
+      'change.password2',
+      'change.code',
     ]),
   }
 }
