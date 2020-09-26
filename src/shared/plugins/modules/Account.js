@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { getField, updateField } from 'vuex-map-fields';
 
 const state = () => ({
-    apiUrl: 'http://localhost:3000',
+    apiUrl: process.env.VUE_APP_API_URL,
 
     option: 'user',
     userOption: 'login'

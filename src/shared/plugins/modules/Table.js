@@ -8,7 +8,7 @@ import TableStorageModifiers from './TableStorageModifiers'
 import TableStatisticModifiers from './TableStatisticModifiers'
 
 const state = () => ({
-    apiUrl: 'http://localhost:3000',
+    apiUrl: process.env.VUE_APP_API_URL,
 
     selectedId: '',
 

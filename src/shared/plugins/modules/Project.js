@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 const state = () => ({
-    apiUrl: 'http://localhost:3000',
+    apiUrl: process.env.VUE_APP_API_URL,
 
     projectName: '',
     projectId: '',

@@ -3,7 +3,7 @@ import Vue from 'vue'
 const appUrl = process.env.VUE_APP_APP_URL
 
 const state = () => ({
-    apiUrl: 'http://localhost:3000'
+    apiUrl: process.env.VUE_APP_API_URL
 })
 
 const getters = {
