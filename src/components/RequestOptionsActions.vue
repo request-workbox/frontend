@@ -20,7 +20,7 @@
           <div
             class="column text-button action"
             v-on:click="addRequestDetailItemAction"
-          >Add Item</div>
+          >Add Parameter</div>
         </div>
       </div>
     </div>

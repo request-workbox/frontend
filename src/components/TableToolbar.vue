@@ -59,17 +59,35 @@
     </template>
     <template v-if="this.$route.name === 'Workflows' && this.selectedId !== '' && !this.editing">
       <div class="column spacer"></div>
-      <div class="column text-button" v-on:click="archiveWorkflowAction" v-if="filter === 'active'">Archive Workflow</div>
-      <div class="column text-button" v-on:click="restoreWorkflowAction" v-if="filter === 'archived'">Restore Workflow</div>
+      <div class="column text-button text-button-and-logo" v-on:click="archiveWorkflowAction" v-if="filter === 'active'">
+        <img src="/box.svg" alt="">
+        <span>Archive Workflow</span>
+      </div>
+      <div class="column text-button text-button-and-logo" v-on:click="restoreWorkflowAction" v-if="filter === 'archived'">
+        <img src="/file-1.svg" alt="">
+        <span>Restore Workflow</span>
+      </div>
       <div class="column spacer"></div>
-      <div class="column text-button" v-on:click="deleteWorkflowAction">Delete Workflow</div>
+      <div class="column text-button text-button-and-logo" v-on:click="deleteWorkflowAction">
+        <img src="/trash.svg" alt="">
+        <span>Delete Workflow</span>
+      </div>
     </template>
     <template v-if="this.$route.name === 'Storage' && this.selectedId !== '' && !this.editing">
       <div class="column spacer"></div>
-      <div class="column text-button" v-on:click="archiveStorageAction" v-if="filter === 'active'">Archive Storage</div>
-      <div class="column text-button" v-on:click="restoreStorageAction" v-if="filter === 'archived'">Restore Storage</div>
+      <div class="column text-button text-button-and-logo" v-on:click="archiveStorageAction" v-if="filter === 'active'">
+        <img src="/box.svg" alt="">
+        <span>Archive Storage</span>
+      </div>
+      <div class="column text-button text-button-and-logo" v-on:click="restoreStorageAction" v-if="filter === 'archived'">
+        <img src="/file-1.svg" alt="">
+        <span>Restore Storage</span>
+      </div>
       <div class="column spacer"></div>
-      <div class="column text-button" v-on:click="deleteStorageAction">Delete Storage</div>
+      <div class="column text-button text-button-and-logo" v-on:click="deleteStorageAction">
+        <img src="/trash.svg" alt="">
+        <span>Delete Storage</span>
+      </div>
     </template>
   </div>
 </template>

@@ -9,7 +9,10 @@
           <div class="column text-button" v-if="shouldBeShown('statistics') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('statistics') }" v-on:click="navigateToRoute('statistics')">Stats</div>
           <div class="column text-button" v-if="shouldBeShown('account') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('account') }" v-on:click="navigateToRoute('account')">Account</div>
           <div class="column column-grow"></div>
-          <div class="column text-button" v-if="!loading && this.$store.getters['cognito/isLoggedIn']" v-on:click="logoutUserAction">Logout</div>
+          <div class="column text-button text-button-and-logo" v-if="!loading && this.$store.getters['cognito/isLoggedIn']" v-on:click="logoutUserAction">
+            <img src="/user-1.svg" alt="">
+            <span>Logout</span>
+          </div>
           <div class="column text-button" v-if="loading && this.$store.getters['cognito/isLoggedIn']">Logging out...</div>
         </div>
       </div>

@@ -54,8 +54,19 @@ const getters = {
         return _.filter(getters.dataByFilter(), (data) => {
             if (state.searchTerm === '') return true
 
-            if (_.includes(data.url.url, state.searchTerm)) return true;
-            else return false;
+            if (state.currentRoute === 'Requests') {
+                if (_.includes(data.url.name, state.searchTerm) || _.includes(data.url.url, state.searchTerm)) return true;
+                else return false;
+            } else if (state.currentRoute === 'Workflows') {
+                if (_.includes(data.name, state.searchTerm)) return true;
+                else return false;
+            } else if (state.currentRoute === 'Storage') {
+                if (_.includes(data.name, state.searchTerm) || _.includes(data.storageType, state.searchTerm)) return true;
+                else return false;
+            } else if (state.currentRoute === 'Statistics') {
+                if (_.includes(data.workflowName, state.searchTerm)) return true;
+                else return false;
+            }
         })
     },
     reversedData: (state, getters) => () => {
