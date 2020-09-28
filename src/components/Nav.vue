@@ -1,12 +1,12 @@
 <template>
     <div class="row row-border-bottom">
       <div class="column column-full-width">
-        <div class="row">
+        <div class="row" id="nav-row">
           <div class="column text-button" v-if="shouldBeShown('projects') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('projects') }" v-on:click="navigateToRoute('projects')">Projects</div>
           <div class="column text-button" v-if="shouldBeShown('requests') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('requests') }" v-on:click="navigateToRoute('requests')">Requests</div>
           <div class="column text-button" v-if="shouldBeShown('workflows') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('workflows') }" v-on:click="navigateToRoute('workflows')">Workflows</div>
-          <div class="column text-button" v-if="shouldBeShown('statistics') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('statistics') }" v-on:click="navigateToRoute('statistics')">Statistics</div>
           <div class="column text-button" v-if="shouldBeShown('storage') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('storage') }" v-on:click="navigateToRoute('storage')">Storage</div>
+          <div class="column text-button" v-if="shouldBeShown('statistics') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('statistics') }" v-on:click="navigateToRoute('statistics')">Stats</div>
           <div class="column text-button" v-if="shouldBeShown('account') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('account') }" v-on:click="navigateToRoute('account')">Account</div>
           <div class="column column-grow"></div>
           <div class="column text-button" v-if="!loading && this.$store.getters['cognito/isLoggedIn']" v-on:click="logoutUserAction">Logout</div>

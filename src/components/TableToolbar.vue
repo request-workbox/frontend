@@ -43,10 +43,19 @@
     </div>
     <template v-if="this.$route.name === 'Requests' && this.selectedId !== '' && !this.editing">
       <div class="column spacer"></div>
-      <div class="column text-button" v-on:click="archiveRequestAction" v-if="filter === 'active'">Archive Request</div>
-      <div class="column text-button" v-on:click="restoreRequestAction" v-if="filter === 'archived'">Restore Request</div>
+      <div class="column text-button text-button-and-logo" v-on:click="archiveRequestAction" v-if="filter === 'active'">
+        <img src="/box.svg" alt="">
+        <span>Archive Request</span>
+      </div>
+      <div class="column text-button text-button-and-logo" v-on:click="restoreRequestAction" v-if="filter === 'archived'">
+        <img src="/file-1.svg" alt="">
+        <span>Restore Request</span>
+      </div>
       <div class="column spacer"></div>
-      <div class="column text-button" v-on:click="deleteRequestAction">Delete Request</div>
+      <div class="column text-button text-button-and-logo" v-on:click="deleteRequestAction">
+        <img src="/trash.svg" alt="">
+        <span>Delete Request</span>
+      </div>
     </template>
     <template v-if="this.$route.name === 'Workflows' && this.selectedId !== '' && !this.editing">
       <div class="column spacer"></div>

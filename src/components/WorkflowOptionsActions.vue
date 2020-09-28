@@ -20,7 +20,7 @@
           <div
             class="column text-button action"
             v-on:click="addWorkflowTaskAction"
-          >Add Task</div>
+          >Add Request</div>
         </div>
       </div>
     </div>

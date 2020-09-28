@@ -1,7 +1,7 @@
 <template>
-  <div class="row">
+  <div class="row" id="table-row">
     <!-- Request Table -->
-    <div class="column column-full-width" v-if="currentRoute === 'Requests'">
+    <div class="column column-full-width table-row-data" v-if="currentRoute === 'Requests'">
       <div class="row row-border-bottom">
         <div class="column column-data column-header column-10" id="table-header-1">Method</div>
         <div class="column column-data column-header column-10" id="table-header-3">Name</div>
@@ -31,7 +31,7 @@
     </div>
 
     <!-- Workflow Table -->
-    <div class="column column-full-width" v-if="currentRoute === 'Workflows'">
+    <div class="column column-full-width table-row-data" v-if="currentRoute === 'Workflows'">
       <div class="row row-border-bottom">
         <div class="column column-data column-header column-20" id="table-header-1">Name</div>
         <div class="column column-data column-header column-20" id="table-header-4">Tasks</div>
@@ -52,7 +52,7 @@
     </div>
 
     <!-- Storage Table -->
-    <div class="column column-full-width" v-if="currentRoute === 'Storage'">
+    <div class="column column-full-width table-row-data" v-if="currentRoute === 'Storage'">
       <div class="row row-border-bottom">
         <div class="column column-data column-header column-20">Name</div>
         <div class="column column-data column-header column-20">Storage Type</div>
@@ -73,7 +73,7 @@
     </div>
 
     <!-- Statistic Table -->
-    <div class="column column-full-width" v-if="currentRoute === 'Statistics'">
+    <div class="column column-full-width table-row-data" v-if="currentRoute === 'Statistics'">
       <div class="row row-border-bottom">
         <div class="column column-data column-header column-20">Instance</div>
         <div class="column column-data column-header column-grow">Workflow Name</div>

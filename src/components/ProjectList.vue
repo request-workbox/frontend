@@ -43,15 +43,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.project-row {
-  cursor:pointer;
-}
-.project-row:hover {
-  background: #ececec;
-}
-.project-row-selected {
-  background: #ececec;
-}
-</style>

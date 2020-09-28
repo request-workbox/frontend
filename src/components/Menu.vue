@@ -2,11 +2,26 @@
     <div class="row row-border-bottom">
       <div class="column">
         <div class="row">
-          <div class="column text-button" v-if="shouldBeShown('newProject')" id="menu-new-project" v-on:click="newProject()">New Project</div>
-          <div class="column text-button" v-if="shouldBeShown('newRequest')" id="menu-new-request" v-on:click="newRequestAction()">New Request</div>
-          <div class="column text-button" v-if="shouldBeShown('newWorkflow')" id="menu-new-workflow" v-on:click="newWorkflowAction()">New Workflow</div>
-          <div class="column text-button" v-if="shouldBeShown('newStorage')" id="menu-new-storage" v-on:click="newStorageAction('text')">New Text Storage</div>
-          <div class="column text-button" v-if="shouldBeShown('newStorage')" id="menu-new-storage" v-on:click="newStorageAction('file')">New File Storage</div>
+          <div class="column text-button text-button-and-logo" v-if="shouldBeShown('newProject')" id="menu-new-project" v-on:click="newProject()">
+            <img src="/folder.svg" alt="">
+            <span>New Project</span>
+          </div>
+          <div class="column text-button text-button-and-logo" v-if="shouldBeShown('newRequest')" id="menu-new-request" v-on:click="newRequestAction()">
+            <img src="/cursor.svg" alt="">
+            <span>New Request</span>
+          </div>
+          <div class="column text-button text-button-and-logo" v-if="shouldBeShown('newWorkflow')" id="menu-new-workflow" v-on:click="newWorkflowAction()">
+            <img src="/layers.svg" alt="">
+            <span>New Workflow</span>
+          </div>
+          <div class="column text-button text-button-and-logo" v-if="shouldBeShown('newStorage')" id="menu-new-storage" v-on:click="newStorageAction('text')">
+            <img src="/file-2.svg" alt="">
+            <span>New Text Storage</span>
+          </div>
+          <div class="column text-button text-button-and-logo" v-if="shouldBeShown('newStorage')" id="menu-new-storage" v-on:click="newStorageAction('file')">
+            <img src="/file.svg" alt="">
+            <span>New File Storage</span>
+          </div>
         </div>
       </div>
     </div>
