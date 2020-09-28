@@ -2,6 +2,7 @@
     <div class="row row-border-bottom">
       <div class="column column-full-width">
         <div class="row">
+          <div class="column text-button" v-if="this.$store.getters['cognito/isLoggedIn']" v-on:click="changeAccountOptionAction('settings')" v-bind:class="{'text-button-selected':shouldBeSelected('settings')}">Settings</div>
           <div class="column text-button" v-if="this.$store.getters['cognito/isLoggedIn']" v-on:click="changeAccountOptionAction('billing')" v-bind:class="{'text-button-selected':shouldBeSelected('billing')}">Billing</div>
           <div class="column text-button" v-if="this.option !=='user' && !this.$store.getters['cognito/isLoggedIn']" v-on:click="changeAccountOptionAction('user')" v-bind:class="{'text-button-selected':shouldBeSelected('user')}">User</div>
           

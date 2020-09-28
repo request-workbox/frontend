@@ -13,6 +13,7 @@ import _ from 'lodash'
 import Nav from './Nav'
 import AccountMenu from './AccountMenu'
 import AccountBilling from './AccountBilling'
+import AccountSettings from './AccountSettings'
 import AccountUser from './AccountUser'
 
 export default {
@@ -21,7 +22,8 @@ export default {
     Nav,
     AccountMenu,
     AccountBilling,
-    AccountUser
+    AccountSettings,
+    AccountUser,
   },
   mounted: function () {
     this.init();
@@ -44,7 +46,7 @@ export default {
 
       try {
         await this.$store.dispatch('cognito/fetchSession')
-        this.changeAccountOption('billing')
+        this.changeAccountOption('settings')
       } catch(err) {
         this.changeAccountOption('user')
       }
