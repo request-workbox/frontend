@@ -7,6 +7,7 @@
           <div class="column text-button" v-if="shouldBeShown('workflows') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('workflows') }" v-on:click="navigateToRoute('workflows')">Workflows</div>
           <div class="column text-button" v-if="shouldBeShown('storage') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('storage') }" v-on:click="navigateToRoute('storage')">Storage</div>
           <div class="column text-button" v-if="shouldBeShown('statistics') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('statistics') }" v-on:click="navigateToRoute('statistics')">Stats</div>
+          <div class="column text-button" v-if="shouldBeShown('products') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('products') }" v-on:click="navigateToRoute('products')">Products</div>
           <div class="column text-button" v-if="shouldBeShown('account') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('account') }" v-on:click="navigateToRoute('account')">Account</div>
           <div class="column column-grow"></div>
           <div class="column text-button text-button-and-logo" v-if="!loading && this.$store.getters['cognito/isLoggedIn']" v-on:click="logoutUserAction">
@@ -60,6 +61,8 @@ export default {
         return true
       } else if (this.$route.name === 'Account' && route == 'account') {
         return true
+      } else if (this.$route.name === 'Products' && route == 'products') {
+        return true
       } else {
         return false
       }
@@ -81,6 +84,8 @@ export default {
         location.assign(`/projects/${this.projectId}/storage`)
       } else if (route === 'statistics') {
         location.assign(`/projects/${this.projectId}/statistics`)
+      } else if (route === 'products') {
+        location.assign(`/projects/${this.projectId}/products`)
       } else if (route === 'projects') {
         location.assign(`/projects`)
       } else if (route === 'account') {
