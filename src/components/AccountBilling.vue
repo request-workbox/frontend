@@ -18,7 +18,7 @@
         <span class="tiny-text tiny-text-spaced">$1.98</span>
         <div class="column text-button action"><span>Pay Balance</span></div>
         <div class="column column-grow"></div>
-        <span class="tiny-text tiny-text-spaced">Standard requests are billed on the 28th of every month.</span>
+        <span class="tiny-text tiny-text-spaced">Standard requests are billed on the 15th of every month.</span>
       </div>
 
       <div class="row row-border-bottom">
@@ -31,7 +31,7 @@
             type="text"
             placeholder="Key"
             class="column-input-text"
-            value="Credits Remaining"
+            value="Credit Remaining"
             disabled
           />
         </div>

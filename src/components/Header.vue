@@ -9,8 +9,10 @@
               Request Workbox
             </div>
             <div class="column column-grow"></div>
-            <div class="column text-button" id="support-button">Support</div>
+            <div class="column text-button" id="support-button" v-if="!displaySupportEmail" v-on:click="displaySupportEmailAction">Support</div>
+            <div class="column text-button" id="support-button-email" v-if="displaySupportEmail">support@requestworkbox.com</div>
             <div class="column text-button" id="feedback-button" v-on:click="changeDisplayFormAction(true)">Feedback</div>
+            <div class="column text-button" id="docs-button">Docs</div>
           </div>
         </div>
       </div>
@@ -26,6 +28,11 @@ import HeaderFeedback from './HeaderFeedback'
 
 export default {
   name: "Header",
+  data: function() {
+    return {
+      displaySupportEmail: false
+    }
+  },
   components: {
     HeaderFeedback,
   },
@@ -33,6 +40,9 @@ export default {
       ...mapMutations('header', ['changeDisplayForm']),
       changeDisplayFormAction: function(displayForm) {
           this.changeDisplayForm(displayForm)
+      },
+      displaySupportEmailAction: function() {
+        this.displaySupportEmail = true
       }
   }
 };
@@ -48,12 +58,24 @@ export default {
   background: transparent;
   color: white;
 }
+#feedback-button {
+  background: transparent;
+  color: white;
+}
+
+#docs-button {
+  background: transparent;
+  color: white;
+}
+
 #support-button {
   background: transparent;
   color: white;
 }
-#feedback-button {
+
+#support-button-email {
   background: transparent;
   color: white;
+  cursor:text;
 }
 </style>
