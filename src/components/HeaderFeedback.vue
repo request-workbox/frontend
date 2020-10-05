@@ -119,7 +119,7 @@ export default {
 }
 
 #feedback-title-row {
-  background: #57a9ea;
+  background: #011321;
 
   p {
     width: 100%;
