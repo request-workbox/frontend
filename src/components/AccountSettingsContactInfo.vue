@@ -1,9 +1,6 @@
 <template>
   <div class="row">
     <div class="column column-full-width">
-
-      <!-- Contact Information -->
-
       <div class="row row-border-bottom">
         <div class="column column-data column-header-text column-grow column-group-header">Contact Information</div>
       </div>
@@ -18,7 +15,7 @@
             disabled
           />
         </div>
-        <span class="tiny-text tiny-text-spaced">zacharycoss@gmail.com</span>
+        <span class="tiny-text tiny-text-spaced">{{ userAttributeEmail }}</span>
       </div>
 
     </div>
@@ -29,6 +26,11 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'AccountUserContactInfo',
+  name: 'AccountSettingsContactInfo',
+  computed: {
+    userAttributeEmail: function () {
+      return this.$store.getters['cognito/userAttributes']['email']
+    }
+  }
 }
 </script>
