@@ -2,7 +2,7 @@
   <div class="row row-border-top" id="socket-footer">
     <div class="column column-full-width">
       <div class="row row-border-bottom">
-        <div class="column column-data column-grow">Latest Request</div>
+        <div class="column column-data column-grow">{{ statusUpdate }}</div>
       </div>
       <div class="row row-border-bottom">
         <div class="column column-data column-header column-20">Status Code</div>
@@ -32,12 +32,19 @@ import moment from 'moment-timezone'
 
 export default {
   name: 'SocketFooter',
+  data: function() {
+    return {
+      statusUpdate: 'Latest Request',
+      stats: [],
+    }
+  },
   mounted: async function() {
     await this.$store.dispatch('cognito/fetchSession')
 
     const userSub = this.$store.getters['cognito/userSub']
     if (userSub) {
       this.sockets.subscribe(userSub, (stat) => {
+          if (stat.statusUpdate) return this.statusUpdate = stat.status
           if (!_.size(this.stats)) return this.stats.push(stat)
 
           if (stat.instance === this.stats[0].instance) {
@@ -47,11 +54,6 @@ export default {
             this.stats.push(stat)
           }
       });
-    }
-  },
-  data: function() {
-    return {
-      stats: []
     }
   },
   methods: {
