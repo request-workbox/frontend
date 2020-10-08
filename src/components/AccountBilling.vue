@@ -2,7 +2,7 @@
   <div class="row">
     <div class="column column-full-width">
       <div class="row row-border-bottom">
-        <div class="column column-data column-header-text column-grow column-group-header">Standard Requests</div>
+        <div class="column column-data column-header-text column-grow column-group-header">Account Type</div>
       </div>
 
       <div class="row row-border-bottom">
@@ -11,14 +11,24 @@
             type="text"
             placeholder="Key"
             class="column-input-text"
-            value="Total Due"
+            value="Account Type"
             disabled
           />
         </div>
-        <span class="tiny-text tiny-text-spaced">$1.98</span>
-        <div class="column text-button action"><span>Pay Balance</span></div>
+        <div class="column text-button action">
+          <span>Free</span>
+        </div>
+        <div class="column text-button action">
+          <span>Standard</span>
+        </div>
+        <div class="column text-button action">
+          <span>Developer</span>
+        </div>
+        <div class="column text-button action">
+          <span>Professional</span>
+        </div>
         <div class="column column-grow"></div>
-        <span class="tiny-text tiny-text-spaced">Standard requests are billed on the 15th of every month.</span>
+        <span class="tiny-text tiny-text-spaced">Balances are prorated.</span>
       </div>
 
       <div class="row row-border-bottom">
@@ -41,6 +51,29 @@
         <div class="column text-button action"><span>$50</span></div>
         <div class="column column-grow"></div>
         <span class="tiny-text tiny-text-spaced">Credit is required to run premium requests.</span>
+      </div>
+
+      <div class="row row-border-bottom">
+        <div class="column column-data column-header-text column-grow column-group-header">Payment Information</div>
+      </div>
+
+      <div class="row row-border-bottom">
+        <div class="column column-data column-20">
+          <input
+            type="text"
+            placeholder="Key"
+            class="column-input-text"
+            value="Payment Card"
+            disabled
+          />
+        </div>
+        <span class="tiny-text tiny-text-spaced">VISA 4444</span>
+        <div class="column text-button action">
+          <span>Change Card</span>
+        </div>
+        <div class="column text-button action">
+          <span>Remove Card</span>
+        </div>
       </div>
 
     </div>
