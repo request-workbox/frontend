@@ -1,8 +1,8 @@
 <template>
   <div id="product-container">
-    <Nav />
     <ProductMenu />
     <component :is="`Product${upperFirstOption}`"/>
+    <Footer />
   </div>
 </template>
 
@@ -10,17 +10,17 @@
 import { mapMutations, mapActions, mapState } from "vuex";
 import _ from 'lodash'
 
-import Nav from './Nav'
 import ProductMenu from './ProductMenu'
 import ProductDatetime from './ProductDatetime'
+import Footer from './Footer'
 
 export default {
   name: "Product",
   props: ['projectId'],
   components: {
-    Nav,
     ProductMenu,
-    ProductDatetime
+    ProductDatetime,
+    Footer,
   },
   mounted: function () {
     this.init();

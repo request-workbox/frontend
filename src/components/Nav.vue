@@ -1,20 +1,42 @@
 <template>
     <div class="row row-border-bottom">
       <div class="column column-full-width">
+        <div class="column text-button" id="site-header">
+          Request Workbox
+        </div>
         <div class="row" id="nav-row">
-          <div class="column text-button" v-if="shouldBeShown('projects') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('projects') }" v-on:click="navigateToRoute('projects')">Projects</div>
-          <div class="column text-button" v-if="shouldBeShown('requests') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('requests') }" v-on:click="navigateToRoute('requests')">Requests</div>
-          <div class="column text-button" v-if="shouldBeShown('workflows') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('workflows') }" v-on:click="navigateToRoute('workflows')">Workflows</div>
-          <div class="column text-button" v-if="shouldBeShown('storage') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('storage') }" v-on:click="navigateToRoute('storage')">Storage</div>
-          <div class="column text-button" v-if="shouldBeShown('statistics') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('statistics') }" v-on:click="navigateToRoute('statistics')">Stats</div>
-          <div class="column text-button" v-if="shouldBeShown('products') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('products') }" v-on:click="navigateToRoute('products')">Products</div>
-          <div class="column text-button" v-if="shouldBeShown('account') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-selected':shouldBeSelected('account') }" v-on:click="navigateToRoute('account')">Account</div>
-          <div class="column column-grow"></div>
-          <div class="column text-button text-button-and-logo" v-if="!loading && this.$store.getters['cognito/isLoggedIn']" v-on:click="logoutUserAction">
-            <img src="/user-1.svg" alt="">
-            <span>Logout</span>
+          <div class="column text-button-nav">
+            <p class="text-button-nav-text-header">Workbox</p>
           </div>
-          <div class="column text-button" v-if="loading && this.$store.getters['cognito/isLoggedIn']">Logging out...</div>
+          <div class="column text-button-nav" v-if="shouldBeShown('projects') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('projects') }" v-on:click="navigateToRoute('projects')">
+            <p class="text-button-nav-text">Projects</p>
+          </div>
+          <div class="column text-button-nav" v-if="shouldBeShown('requests') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('requests') }" v-on:click="navigateToRoute('requests')">
+            <p class="text-button-nav-text">Requests</p>
+          </div>
+          <div class="column text-button-nav" v-if="shouldBeShown('workflows') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('workflows') }" v-on:click="navigateToRoute('workflows')">
+            <p class="text-button-nav-text">Workflows</p>
+          </div>
+          <div class="column text-button-nav" v-if="shouldBeShown('storage') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('storage') }" v-on:click="navigateToRoute('storage')">
+            <p class="text-button-nav-text">Storage</p>
+          </div>
+          <div class="column text-button-nav" v-if="shouldBeShown('statistics') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('statistics') }" v-on:click="navigateToRoute('statistics')">
+            <p class="text-button-nav-text">Stats</p>
+          </div>
+          <div class="column text-button-nav" v-if="shouldBeShown('products') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('products') }" v-on:click="navigateToRoute('products')">
+            <p class="text-button-nav-text">Products</p>
+          </div>
+          <div class="column text-button-nav">
+            <p class="text-button-nav-text-header">Settings</p>
+          </div>
+          <div class="column text-button-nav" v-if="shouldBeShown('account') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('account') }" v-on:click="navigateToRoute('account')">
+            <p class="text-button-nav-text">Account</p>
+          </div>
+          <div class="column column-grow"></div>
+          <div class="column text-button-nav text-button-and-logo" v-if="!loading && this.$store.getters['cognito/isLoggedIn']" v-on:click="logoutUserAction">
+            <p class="text-button-nav-text">Logout</p>
+          </div>
+          <div class="column text-button-nav" v-if="loading && this.$store.getters['cognito/isLoggedIn']">Logging out...</div>
         </div>
       </div>
     </div>

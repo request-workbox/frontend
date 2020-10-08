@@ -5,7 +5,10 @@
       <div class="row row-border-bottom" id="site-header-container">
         <div class="column column-full-width">
           <div class="row">
-            <div class="column text-button" id="site-header">
+            <div class="column text-button" id="site-header" v-if="!this.$store.getters['cognito/isLoggedIn']">
+              Request Workbox
+            </div>
+            <div class="column text-button" id="site-header-hidden" v-if="this.$store.getters['cognito/isLoggedIn']">
               Request Workbox
             </div>
             <div class="column column-grow"></div>
@@ -55,8 +58,15 @@ export default {
 #site-header {
   font-size: 17px;
   font-weight: 700;
-  background: transparent;
+  background: #011321;
   color: white;
+  border-radius: 0;
+}
+#site-header-hidden {
+  font-size: 17px;
+  font-weight: 700;
+  background: #011321;
+  color: #011321;
 }
 #feedback-button {
   background: transparent;

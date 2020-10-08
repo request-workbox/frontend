@@ -1,6 +1,5 @@
 <template>
   <div id="statistic-container">
-    <Nav />
     <ProjectInfo />
     <Menu />
     <TableToolbar />
@@ -8,13 +7,13 @@
     <TableDetails />
     <TableOptionsToolbar />
     <StatisticOptions />
+    <Footer />
   </div>
 </template>
 
 <script>
 import { mapMutations, mapActions } from "vuex";
 
-import Nav from './Nav'
 import ProjectInfo from "./ProjectInfo";
 import Menu from "./Menu";
 import TableToolbar from "./TableToolbar";
@@ -22,12 +21,12 @@ import Table from "./Table";
 import TableDetails from "./TableDetails";
 import TableOptionsToolbar from "./TableOptionsToolbar";
 import StatisticOptions from './StatisticOptions'
+import Footer from './Footer'
 
 export default {
   name: "Statistic",
   props: ["projectId"],
   components: {
-    Nav,
     ProjectInfo,
     Menu,
     TableToolbar,
@@ -35,6 +34,7 @@ export default {
     TableDetails,
     TableOptionsToolbar,
     StatisticOptions,
+    Footer,
   },
   mounted: function () {
     this.init();

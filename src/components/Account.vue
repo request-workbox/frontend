@@ -1,8 +1,8 @@
 <template>
   <div id="account-container">
-    <Nav />
     <AccountMenu />
     <component :is="`Account${upperFirstOption}`"/>
+    <Footer />
   </div>
 </template>
 
@@ -10,20 +10,20 @@
 import { mapMutations, mapActions, mapState } from "vuex";
 import _ from 'lodash'
 
-import Nav from './Nav'
 import AccountMenu from './AccountMenu'
 import AccountBilling from './AccountBilling'
 import AccountSettings from './AccountSettings'
 import AccountUser from './AccountUser'
+import Footer from './Footer'
 
 export default {
   name: "Account",
   components: {
-    Nav,
     AccountMenu,
     AccountBilling,
     AccountSettings,
     AccountUser,
+    Footer,
   },
   mounted: function () {
     this.init();

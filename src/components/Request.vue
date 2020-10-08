@@ -1,7 +1,6 @@
 <template>
   <div id="request-container">
     <!-- <RequestLogin /> -->
-    <Nav />
     <ProjectInfo />
     <Menu />
     <TableToolbar />
@@ -10,6 +9,7 @@
     <TableOptionsToolbar />
     <RequestOptionsActions />
     <RequestOptions />
+    <Footer />
     <SocketFooter />
   </div>
 </template>
@@ -18,7 +18,6 @@
 import { mapActions, mapMutations } from 'vuex'
 
 import RequestLogin from './RequestLogin'
-import Nav from './Nav'
 import ProjectInfo from "./ProjectInfo";
 import Menu from "./Menu";
 import TableToolbar from "./TableToolbar";
@@ -27,6 +26,7 @@ import TableDetails from "./TableDetails";
 import TableOptionsToolbar from "./TableOptionsToolbar";
 import RequestOptionsActions from './RequestOptionsActions';
 import RequestOptions from "./RequestOptions";
+import Footer from './Footer'
 import SocketFooter from './SocketFooter'
 
 export default {
@@ -34,7 +34,6 @@ export default {
   props: ['projectId'],
   components: {
     RequestLogin,
-    Nav,
     ProjectInfo,
     Menu,
     TableToolbar,
@@ -43,6 +42,7 @@ export default {
     TableOptionsToolbar,
     RequestOptionsActions,
     RequestOptions,
+    Footer,
     SocketFooter
   },
   mounted: function() {

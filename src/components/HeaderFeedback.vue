@@ -119,7 +119,7 @@ export default {
 }
 
 #feedback-title-row {
-  background: #011321;
+  background: #526e84;
 
   p {
     width: 100%;
@@ -147,7 +147,7 @@ export default {
   label {
     margin-left: 10px;
     font-size: 0.85em;
-    font-weight: 500;
+    font-weight: 600;
   }
 }
 

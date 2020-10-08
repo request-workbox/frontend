@@ -1,8 +1,8 @@
 <template>
   <div id="project-container">
-    <Nav />
     <Menu />
     <ProjectList />
+    <Footer />
     <SocketFooter />
   </div>
 </template>
@@ -10,18 +10,18 @@
 <script>
 import { mapMutations, mapActions } from "vuex";
 
-import Nav from './Nav'
 import Menu from "./Menu";
 import ProjectList from './ProjectList'
 import SocketFooter from './SocketFooter'
+import Footer from './Footer'
 
 export default {
   name: "Project",
   components: {
-    Nav,
     Menu,
     ProjectList,
-    SocketFooter
+    SocketFooter,
+    Footer,
   },
   mounted: function () {
     this.init();

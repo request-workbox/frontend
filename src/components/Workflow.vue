@@ -1,6 +1,5 @@
 <template>
   <div id="workflow-container">
-    <Nav />
     <ProjectInfo />
     <Menu />
     <TableToolbar />
@@ -9,6 +8,7 @@
     <TableOptionsToolbar />
     <WorkflowOptionsActions />
     <WorkflowOptions />
+    <Footer />
     <SocketFooter />
   </div>
 </template>
@@ -16,7 +16,6 @@
 <script>
 import { mapMutations, mapActions } from "vuex";
 
-import Nav from './Nav'
 import ProjectInfo from "./ProjectInfo";
 import Menu from "./Menu";
 import TableToolbar from "./TableToolbar";
@@ -25,13 +24,13 @@ import TableDetails from "./TableDetails";
 import TableOptionsToolbar from "./TableOptionsToolbar";
 import WorkflowOptionsActions from './WorkflowOptionsActions';
 import WorkflowOptions from './WorkflowOptions';
+import Footer from './Footer'
 import SocketFooter from './SocketFooter'
 
 export default {
   name: "Workflow",
   props: ["projectId"],
   components: {
-    Nav,
     ProjectInfo,
     Menu,
     TableToolbar,
@@ -40,6 +39,7 @@ export default {
     TableOptionsToolbar,
     WorkflowOptionsActions,
     WorkflowOptions,
+    Footer,
     SocketFooter
   },
   mounted: function () {

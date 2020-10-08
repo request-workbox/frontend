@@ -1,14 +1,14 @@
 <template>
     <div class="row row-border-bottom row-dark">
       <div class="column column-full-width">
-        <div class="row row-justify-between" v-if="this.$route.name === 'Requests'">
+        <div class="row row-justify-between table-detail-row" v-if="this.$route.name === 'Requests'">
           <div class="column section-header" id="request-details-name">{{ requestName() }}</div>
           <div class="column text" id="request-details-last-edited">{{ requestLastEdited() }}</div>
         </div>
-        <div class="row row-justify-between" v-if="this.$route.name === 'Workflows'">
+        <div class="row row-justify-between table-detail-row" v-if="this.$route.name === 'Workflows'">
           <div class="column section-header" id="request-details-name">{{ workflowName() }}</div>
         </div>
-        <div class="row row-justify-between" v-if="this.$route.name === 'Storage'">
+        <div class="row row-justify-between table-detail-row" v-if="this.$route.name === 'Storage'">
           <div class="column section-header" id="storage-details-name">{{ storageName() }}</div>
           <div class="column text" id="storage-details-last-edited">{{ storageLastEdited() }}</div>
         </div>

@@ -1,17 +1,24 @@
 <template>
   <div id="app">
-    <Header />
-    <router-view />
+    <div id="left-sidebar" v-if="this.$store.getters['cognito/isLoggedIn']">
+      <Nav />
+    </div>
+    <div id="main-view">
+      <Header />
+      <router-view />
+    </div>
   </div>
 </template>
 
 <script>
 import Header from './components/Header'
+import Nav from './components/Nav'
 
 export default {
   name: "App",
   components: {
     Header,
+    Nav,
   },
   mounted: async function() {
     try {
@@ -30,15 +37,24 @@ export default {
 </script>
 
 <style lang="scss">
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
 
 body {
   margin: 0;
 }
 
 #app {
-  font-family: "Roboto", sans-serif;
+  font-family: "Open Sans", sans-serif;
+
+  display:flex;
+}
+
+#left-sidebar {
+  background:#edeff1;
+  
+}
+#main-view {
+  width: 100%;
 }
 
 @import './src/styles/main';
