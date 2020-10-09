@@ -35,6 +35,12 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl, requestBody)
         location.assign(`/projects/${projectId}/storage`)
     },
+    async deleteEntireProject({ commit, state, rootState }, { projectId }) {
+        const requestUrl = `${state.apiUrl}/delete-entire-project`
+        const requestBody = { projectId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        location.reload()
+    },
 }
 
 const mutations = {

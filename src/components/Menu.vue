@@ -22,6 +22,14 @@
             <img src="/file.svg" alt="">
             <span>New File Storage</span>
           </div>
+          <div class="column text-button text-button-and-logo text-button-warning" v-if="shouldBeShown('deleteEntireProject') && !loading && this.$route.name === 'Projects'" v-on:click="deleteEntireProjectAction">
+            <img src="/trash.svg" alt="">
+            <span>Delete Entire Project</span>
+          </div>
+          <div class="column text-button text-button-and-logo text-button-warning" v-if="loading">
+            <img src="/trash.svg" alt="">
+            <span>Deleting...</span>
+          </div>
         </div>
       </div>
     </div>
@@ -32,6 +40,11 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Menu',
+  data: function() {
+    return {
+      loading: false,
+    }
+  },
   computed: {
     ...mapState('project', ['projectId'])
   },
@@ -41,6 +54,7 @@ export default {
       'newWorkflow',
       'newProject',
       'newStorage',
+      'deleteEntireProject'
     ]),
     shouldBeShown: function(action) {
       if (action === 'newProject') {
@@ -59,6 +73,20 @@ export default {
     newStorageAction: function(storageType) {
       this.newStorage({ projectId: this.projectId, storageType })
     },
+    deleteEntireProjectAction: async function() {
+      try {
+        const confirm = window.confirm('Are you sure you want to delete the entire project?')
+        if (confirm) {
+          this.loading = true
+          await this.deleteEntireProject({ projectId: this.projectId })
+        }
+      } catch(err) {
+        console.log(err)
+      } finally {
+        this.loading = false
+      }
+      
+    }
   }
 }
 </script>
