@@ -24,7 +24,7 @@
     </div>
 
     <pre v-if="shouldShowSelectedStat()">
-      <code>{{ selectedStat }}</code>
+      <code>{{ selectedStat() }}</code>
     </pre>
 
     </div>
@@ -40,15 +40,15 @@ export default {
   name: "StatisticOptionsDetails",
   data: function() {
     return {
-      selectedStat: {},
-      selectedStatId: '',
       loading: false,
     }
   },
   computed: {
-    ...mapGetters("table", ["selectedData"]),
+    ...mapState('table', ['selectedStatId']),
+    ...mapGetters("table", ["selectedData", "selectedStat"]),
   },
   methods: {
+    ...mapMutations('table',['changeSelectedStatId']),
     ...mapActions('table', ['getInstanceDetail']),
     getInstanceDetailAction: async function() {
       try {
@@ -66,11 +66,10 @@ export default {
       return `${moment(createdAt).format('M-D-YYYY, h:mm:ss a')}`
     },
     selectStatAction: function(stat) {
-      this.selectedStat = stat
-      this.selectedStatId = stat._id
+      this.changeSelectedStatId(stat._id)
     },
     shouldShowSelectedStat: function() {
-      if (!_.size(this.selectedStat)) return false
+      if (!_.size(this.selectedStat())) return false
       return true
     },
     shouldBeSelected: function(statId) {

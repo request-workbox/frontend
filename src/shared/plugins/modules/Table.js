@@ -23,7 +23,9 @@ const state = () => ({
     requestsForSelectOptions: [],
     storagesForSelectOptions: [],
 
-    currentRoute: ''
+    currentRoute: '',
+
+    selectedStatId: '',
 })
 
 const getters = {
@@ -109,8 +111,13 @@ const actions = {
 
         if (state.selectedId === data._id) {
             commit('changeSelectedId', { selectedId: '' })
+            if (state.currentRoute === 'Statistics') commit('changeSelectedStatId', '')
         } else {
             commit('changeSelectedId', { selectedId: data._id })
+            if (state.currentRoute === 'Statistics') {
+                const firstStatId = getters.firstStatId(data._id)
+                commit('changeSelectedStatId', firstStatId)
+            }
         }
     },
 

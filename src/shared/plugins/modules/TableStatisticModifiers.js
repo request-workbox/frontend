@@ -1,10 +1,30 @@
 import Vue from 'vue'
 import _ from 'lodash'
 
-
-
 const getters = {
     // STATISTIC GETTERS
+    selectedStat: (state, getters, rootState) => () => {
+        if (state.selectedStatId === '') return
+
+        const instance = getters.selectedData()
+
+        if (!_.size(instance.stats)) return
+
+        return _.filter(instance.stats, (data) => {
+            if (data._id === state.selectedStatId) return true;
+            else return false;
+        })[0]
+    },
+    firstStatId: (state, getters, rootState) => (instanceId) => {
+         const instance = _.filter(state.allData, (data) => {
+            if (data._id === instanceId) return true;
+            else return false;
+        })[0]
+
+        if (!_.size(instance.stats)) return
+
+        return instance.stats[0]._id
+    },
 }
 
 const actions = {
@@ -50,6 +70,9 @@ const mutations = {
             }
         })
     },
+    changeSelectedStatId(state, payload) {
+        state.selectedStatId = payload
+    }
 }
 
 export default {
