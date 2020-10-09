@@ -89,6 +89,13 @@
         <span>Delete Storage</span>
       </div>
     </template>
+    <template v-if="this.$route.name === 'Statistics'">
+      <div class="column spacer"></div>
+      <div class="column text-button text-button-and-logo" v-on:click="deleteAllStatsAction">
+        <img src="/trash.svg" alt="">
+        <span>Delete All Stats</span>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -119,6 +126,8 @@ export default {
       "archiveStorage",
       "restoreStorage",
       "deleteStorage",
+      // stats
+      "deleteAllStats"
     ]),
     ...mapMutations("table", ["changeFilter", "resetPage"]),
     filterIsActive: function(filterButton) {
@@ -164,6 +173,13 @@ export default {
         this.deleteStorage({ storageId: this.selectedId })
       }
     },
+    // stats
+    deleteAllStatsAction: function() {
+      const confirm = window.confirm('Are you sure you want to delete all stats?')
+      if (confirm) {
+        this.deleteAllStats({ projectId: this.$route.params.projectId })
+      }
+    }
   }
 };
 </script>

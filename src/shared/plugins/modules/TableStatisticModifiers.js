@@ -24,6 +24,13 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('updateInstanceDetail', { data: request.data, instanceId: instanceId })
     }, 
+    async deleteAllStats({ commit, state, getters, rootState }, payload) {
+        const projectId = payload.projectId
+        const requestUrl = `${state.apiUrl}/delete-stats`
+        const requestBody = { projectId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        location.reload()
+    }, 
 }
 
 const mutations = {
