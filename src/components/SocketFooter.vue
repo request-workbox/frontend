@@ -2,40 +2,47 @@
   <div class="row row-border-top" id="socket-footer">
     <div class="column column-full-width">
       <div class="row row-border-bottom">
-        <div class="column column-data column-grow">{{ statusUpdate }}</div>
+        <div class="column column-data column-grow">Live Workflows</div>
       </div>
       <div class="row row-border-bottom">
-        <div class="column column-data column-header column-20">Status Code</div>
-        <div class="column column-data column-header column-20">Request Name</div>
-        <div class="column column-data column-header column-20">Request Type</div>
-        <div class="column column-data column-header column-grow">Time</div>
+        <div class="column column-data column-header column-5">Stat</div>
+        <div class="column column-data column-header column-10">Workflow</div>
+        <div class="column column-data column-header column-10">Event</div>
+        <div class="column column-data column-header column-10">Request Name</div>
+        <div class="column column-data column-header column-5">Status</div>
+        <div class="column column-data column-header column-5">Time</div>
+        <div class="column column-data column-header column-5">Size</div>
+        <div class="column column-data column-header column-grow">Message</div>
       </div>
 
-      <template>
-        <div
-          v-for="(stat) in stats"
-          v-bind:key="stat._id"
-          class="row row-border-bottom"
-        >
-          <div class="column column-data column-20">{{ stat.status }}</div>
-          <div class="column column-data column-20">{{ stat.requestName }}</div>
-          <div class="column column-data column-20">{{ stat.requestType }}</div>
-          <div class="column column-data column-grow">{{ statisticCreatedAt(stat.endTime) }}</div>
+      <div v-for="(stat) in stats"
+          v-bind:key="stat.instance"
+          class="row row-border-bottom">
+        <div class="column column-data column-5">
+          <a :href="instanceStatUrl(stat.instanceId)" target="_blank">View</a>
         </div>
-      </template>
+        <div class="column column-data column-10">{{ stat.workflowName }}</div>
+        <div class="column column-data column-10">{{ stat.eventDetail }}</div>
+        <div class="column column-data column-10">{{ stat.requestName }}</div>
+        <div class="column column-data column-5">{{ stat.statusCode }}</div>
+        <div class="column column-data column-5">{{ stat.duration }}</div>
+        <div class="column column-data column-5">{{ stat.responseSize }}</div>
+        <div class="column column-data column-grow">{{ stat.message }}</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import moment from 'moment-timezone'
+import _ from 'lodash'
 
 export default {
   name: 'SocketFooter',
   data: function() {
     return {
-      statusUpdate: 'Latest Request',
       stats: [],
+      statKeys: {}
     }
   },
   mounted: async function() {
@@ -43,16 +50,23 @@ export default {
 
     const userSub = this.$store.getters['cognito/userSub']
     if (userSub) {
-      this.sockets.subscribe(userSub, (stat) => {
-          if (stat.statusUpdate) return this.statusUpdate = stat.status
-          if (!_.size(this.stats)) return this.stats.push(stat)
-
-          if (stat.instance === this.stats[0].instance) {
-            this.stats.push(stat)
-          } else {
-            this.stats = []
-            this.stats.push(stat)
+      this.sockets.subscribe(userSub, (socketStat) => {
+          // add to stats
+          if (!_.size(this.stats)) {
+            this.statKeys[socketStat.instanceId] = true
+            return this.stats.push(socketStat)
           }
+
+          if (!this.statKeys[socketStat.instanceId]) {
+            this.statKeys[socketStat.instanceId] = true
+            return this.stats.push(socketStat)
+          }
+
+          // update stat
+          this.stats = _.map(this.stats, (stat) => {
+            if (stat.instanceId === socketStat.instanceId) return socketStat
+            return stat
+          })
       });
     }
   },
@@ -60,6 +74,10 @@ export default {
     statisticCreatedAt: function(createdAt) {
       if (!createdAt) return ''
       return `${moment(createdAt).format('M-D-YYYY, h:mm:ss a')}`
+    },
+    instanceStatUrl: function(instanceId) {
+      const projectId = this.$route.params.projectId
+      return `/projects/${projectId}/statistics?instance=${instanceId}`
     }
   }
 }

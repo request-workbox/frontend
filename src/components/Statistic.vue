@@ -44,7 +44,7 @@ export default {
     return next();
   },
   methods: {
-    ...mapMutations('table',['changeOption','setCurrentRoute']),
+    ...mapMutations('table',['changeOption','setCurrentRoute','updateSearchTerm']),
     ...mapActions("project", ["getProjectName"]),
     ...mapActions('table',['getInstances']),
     init: function () {
@@ -52,6 +52,10 @@ export default {
       this.getProjectName({ projectId: this.projectId });
       this.getInstances({ projectId: this.projectId });
       this.changeOption('details');
+      
+      if (this.$route.query && this.$route.query.instance) {
+        this.updateSearchTerm(this.$route.query.instance)
+      }
     },
   },
 };

@@ -66,7 +66,7 @@ const getters = {
                 if (_.includes(data.name, state.searchTerm) || _.includes(data.storageType, state.searchTerm)) return true;
                 else return false;
             } else if (state.currentRoute === 'Statistics') {
-                if (_.includes(data.workflowName, state.searchTerm)) return true;
+                if (_.includes(data.workflowName, state.searchTerm) || _.includes(data._id, state.searchTerm)) return true;
                 else return false;
             }
         })
@@ -162,6 +162,9 @@ const mutations = {
     },
     changeSelectedId(state, { selectedId }) {
         state.selectedId = selectedId
+    },
+    updateSearchTerm(state, payload) {
+        state.searchTerm = payload
     },
 
     // REQUEST MUTATIONS
