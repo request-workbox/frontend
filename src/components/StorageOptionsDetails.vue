@@ -26,34 +26,7 @@
         </div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.selectedData()._id && this.selectedData().storageType === 'file'">
-        <div class="column column-data column-20">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            value="File"
-            disabled
-          />
-        </div>
-        <div class="column text-button action">
-          <span v-if="!revealing" v-on:click="getStorageDetailAction">Reveal</span>
-          <span v-if="revealing">Loading...</span>
-        </div>
-        <div class="column text-button action">
-          <span v-if="!downloading" v-on:click="downloadStorageDetailAction">Download</span>
-          <span v-if="downloading">Downloading...</span>
-        </div>
-        <input class="column text-button action" type="file" ref="file" v-on:change="handleFileUpload()"/>
-        <div class="column text-button action" v-if="storageValue">
-          <span v-if="!replacing" v-on:click="updateStorageDetailAction">Upload New File</span>
-          <span v-if="replacing">Uploading...</span>
-        </div>
-      </div>
-
-      <pre v-if="this.selectedData()._id && this.selectedData().storageType === 'file'">
-        <code>{{ this.selectedData().storageValue }}</code>
-      </pre>
+      <!-- TEXT -->
 
       <div class="row row-border-bottom" v-if="this.selectedData()._id && this.selectedData().storageType === 'text'">
         <div class="column column-data column-20">
@@ -75,12 +48,35 @@
           />
         </div>
         <div class="column text-button action">
-          <span v-if="!revealing" v-on:click="getStorageDetailAction">Reveal</span>
+          <span v-if="!revealing" v-on:click="getTextStorageDataAction">Reveal</span>
           <span v-if="revealing">Loading...</span>
         </div>
         <div class="column text-button action">
-          <span v-if="!replacing" v-on:click="updateStorageDetailAction">Update</span>
+          <span v-if="!replacing" v-on:click="updateTextStorageDataAction">Update</span>
           <span v-if="replacing">Updating...</span>
+        </div>
+      </div>
+
+      <!-- FILE -->
+
+      <div class="row row-border-bottom" v-if="this.selectedData()._id && this.selectedData().storageType === 'file'">
+        <div class="column column-data column-20">
+          <input
+            type="text"
+            placeholder="Key"
+            class="column-input-text"
+            value="File"
+            disabled
+          />
+        </div>
+        <div class="column text-button action">
+          <span v-if="!downloading" v-on:click="getFileStorageDataAction">Download</span>
+          <span v-if="downloading">Downloading...</span>
+        </div>
+        <input class="column text-button action" type="file" ref="file" v-on:change="handleFileInput()"/>
+        <div class="column text-button action" v-if="storageValue">
+          <span v-if="!replacing" v-on:click="updateFileStorageDataAction">Upload New File</span>
+          <span v-if="replacing">Uploading...</span>
         </div>
       </div>
 
@@ -90,6 +86,9 @@
 
 <script>
 import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
+import _ from 'lodash'
+
+const download = require("downloadjs")
 
 export default {
   name: "StorageOptionsDetails",
@@ -106,63 +105,68 @@ export default {
   },
   methods: {
     ...mapMutations('table', ['editStorageDetail','editStorageValue']),
-    ...mapActions('table', ['getStorageDetail', 'updateStorageDetail']),
+    ...mapActions('table', ['getTextStorageData', 'getFileStorageData', 'updateTextStorageData','updateFileStorageData']),
     editStorageDetailAction: function(key, event) {
       this.editStorageDetail({key, value: event.target.value, storageId: this.selectedData()._id})
     },
     editStorageValueAction: function(key, event) {
       this.editStorageValue({key, value: event.target.value, storageId: this.selectedData()._id})
     },
-    getStorageDetailAction: async function() {
+    getTextStorageDataAction: async function() {
       try {
         this.revealing = true
-        await this.getStorageDetail({storageId: this.selectedData()._id, editStorageValue: true})
+        await this.getTextStorageData({ storageId: this.selectedData()._id })
       } catch(err) {
         // console.log(err)
       } finally {
         this.revealing = false
       }
     },
-    downloadStorageDetailAction: async function() {
+    getFileStorageDataAction: async function() {
       try {
         this.downloading = true
-        const storageDetail = await this.getStorageDetail({storageId: this.selectedData()._id, editStorageValue: false})
+        const fileDataResponse = await this.getFileStorageData({ storageId: this.selectedData()._id })
+        const fileData = fileDataResponse.data
 
-        const fileURL = window.URL.createObjectURL(new Blob([storageDetail.storageValue]));
-        const fileLink = document.createElement('a');
-        fileLink.href = fileURL;
-        fileLink.setAttribute('download', this.selectedData().name);
-        document.body.appendChild(fileLink);
-        fileLink.click();
+        if (this.selectedData().mimetype === 'application/json') {
+          const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(fileData))
+          const downloadAnchorNode = document.createElement('a')
+          downloadAnchorNode.setAttribute("href",     dataStr)
+          downloadAnchorNode.setAttribute("download", this.selectedData().originalname)
+          document.body.appendChild(downloadAnchorNode)
+          downloadAnchorNode.click()
+          downloadAnchorNode.remove()
+        } else {
+          return download(fileData, this.selectedData().originalname, fileDataResponse.headers['content-type'])
+        }
       } catch(err) {
         // console.log(err)
       } finally {
         this.downloading = false
       }
     },
-    handleFileUpload: async function() {
+    handleFileInput: async function() {
       try {
-        const thisRef = this
-        const reader = new FileReader();
-        reader.onloadend = function(e) {
-          thisRef.storageValue = e.target.result
-        };
-        reader.readAsBinaryString(this.$refs.file.files[0]);
+        this.storageValue = this.$refs.file.files[0]
       } catch(err) {
         // console.log(err)
       }
     },
-    updateStorageDetailAction: async function() {
+    updateTextStorageDataAction: async function() {
       try {
         this.replacing = true
-
-        if (this.selectedData().storageType === 'text') {
-          this.storageValue = this.selectedData().storageValue
-          await this.updateStorageDetail({storageId: this.selectedData()._id, storageValue: this.storageValue })
-        } else if (this.selectedData().storageType === 'file') {
-          await this.updateStorageDetail({storageId: this.selectedData()._id, storageValue: this.storageValue })
-          location.reload()
-        }
+        await this.updateTextStorageData({storageId: this.selectedData()._id, storageValue: this.selectedData().storageValue })
+      } catch(err) {
+        // console.log(err)
+      } finally {
+        this.replacing = false
+      }
+    },
+    updateFileStorageDataAction: async function() {
+      try {
+        this.replacing = true
+        await this.updateFileStorageData({storageId: this.selectedData()._id, storageValue: this.storageValue })
+        location.reload()
       } catch(err) {
         // console.log(err)
       } finally {
