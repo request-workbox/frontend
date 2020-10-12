@@ -10,12 +10,16 @@ import _ from "lodash";
 
 import WorkflowOptionsInstance from "./WorkflowOptionsInstance";
 import WorkflowOptionsTasks from "./WorkflowOptionsTasks";
+import WorkflowOptionsQueue from './WorkflowOptionsQueue'
+import WorkflowOptionsSchedule from './WorkflowOptionsSchedule'
 
 export default {
   name: "WorkflowOptions",
   components: {
     WorkflowOptionsInstance,
     WorkflowOptionsTasks,
+    WorkflowOptionsQueue,
+    WorkflowOptionsSchedule,
   },
   computed: {
     ...mapState("table", ["option"]),
