@@ -27,7 +27,6 @@ import Workflow from './components/Workflow'
 import Statistic from './components/Statistic'
 import Storage from './components/Storage'
 import Account from './components/Account'
-import Product from './components/Product'
 
 Vue.use(VueRouter)
 const router = new VueRouter({
@@ -68,12 +67,6 @@ const router = new VueRouter({
       component: Storage,
       props: true,
     },
-    {
-      path: '/projects/:projectId/products',
-      name: 'Products',
-      component: Product,
-      props: true,
-    },
   ],
 })
 /**
@@ -84,7 +77,6 @@ import menuModule from './shared/plugins/modules/Menu'
 import projectModule from './shared/plugins/modules/Project'
 import tableModule from './shared/plugins/modules/Table'
 import accountModule from './shared/plugins/modules/Account'
-import productModule from './shared/plugins/modules/Product'
 import headerModule from './shared/plugins/modules/Header'
 
 Vue.use(vuex)
@@ -96,7 +88,6 @@ const store = new vuex.Store({
     project: projectModule,
     table: tableModule,
     account: accountModule,
-    product: productModule,
     header: headerModule,
   }
 })
