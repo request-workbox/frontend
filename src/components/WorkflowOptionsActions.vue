@@ -14,6 +14,22 @@
               v-bind:class="{ disabled: !this.editing }"
               v-on:click="saveWorkflowChangesAction"
             >Save Changes</div>
+            <div
+              class="column text-button action"
+              v-if="this.option === 'queue'"
+            >Refresh Queue</div>
+            <div
+              class="column text-button action"
+              v-if="this.option === 'schedule'"
+            >Refresh Schedule</div>
+            <div
+              class="column text-button action"
+              v-if="this.option === 'schedule'"
+            >Clear Schedule</div>
+            <div
+              class="column text-button action"
+              v-if="this.option === 'queue'"
+            >Clear Queue</div>
           </div>
         </div>
         <div class="column" v-if="allowAddingWorkflowTask()">
@@ -21,6 +37,11 @@
             class="column text-button action"
             v-on:click="addWorkflowTaskAction"
           >Add Request</div>
+        </div>
+        <div class="column" v-if="this.option === 'schedule'">
+          <div
+            class="column text-button action"
+          >Start New Instance in 5 Min</div>
         </div>
       </div>
     </div>
