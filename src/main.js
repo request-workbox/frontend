@@ -77,6 +77,7 @@ import menuModule from './shared/plugins/modules/Menu'
 import projectModule from './shared/plugins/modules/Project'
 import tableModule from './shared/plugins/modules/Table'
 import accountModule from './shared/plugins/modules/Account'
+import billingModule from './shared/plugins/modules/Billing'
 import headerModule from './shared/plugins/modules/Header'
 
 Vue.use(vuex)
@@ -88,6 +89,7 @@ const store = new vuex.Store({
     project: projectModule,
     table: tableModule,
     account: accountModule,
+    billing: billingModule,
     header: headerModule,
   }
 })

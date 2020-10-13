@@ -41,11 +41,13 @@ export default {
   methods: {
     ...mapMutations('table', ['setCurrentRoute']),
     ...mapMutations('account', ['changeAccountOption']),
+    ...mapActions('billing', ['getAccountType']),
     init: async function () {
       this.setCurrentRoute({ route: this.$route.name })
 
       try {
         await this.$store.dispatch('cognito/fetchSession')
+        await this.getAccountType()
         this.changeAccountOption('settings')
       } catch(err) {
         this.changeAccountOption('user')

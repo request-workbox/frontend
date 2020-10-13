@@ -15,16 +15,16 @@
             disabled
           />
         </div>
-        <div class="column text-button action">
+        <div class="column text-button action" v-on:click="updateAccountTypeAction('free')">
           <span>Free</span>
         </div>
-        <div class="column text-button action">
+        <div class="column text-button action" v-on:click="updateAccountTypeAction('standard')">
           <span>Standard</span>
         </div>
-        <div class="column text-button action">
+        <div class="column text-button action" v-on:click="updateAccountTypeAction('developer')">
           <span>Developer</span>
         </div>
-        <div class="column text-button action">
+        <div class="column text-button action" v-on:click="updateAccountTypeAction('professional')">
           <span>Professional</span>
         </div>
         <div class="column column-grow"></div>
@@ -85,5 +85,15 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'AccountBilling',
+  methods: {
+    ...mapActions('billing', ['updateAccountType']),
+    updateAccountTypeAction: async function(accountType) {
+      try {
+        await this.updateAccountType({ accountType: accountType })
+      } catch(err) {
+        console.log(err)
+      }
+    }
+  }
 }
 </script>
