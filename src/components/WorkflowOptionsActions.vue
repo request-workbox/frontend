@@ -25,11 +25,11 @@
             <div
               class="column text-button action"
               v-if="this.option === 'schedule'"
-            >Clear Schedule</div>
+            >Start New Instance in 5 Min</div>
             <div
               class="column text-button action"
               v-if="this.option === 'queue'"
-            >Clear Queue</div>
+            >Add New Instance to Queue</div>
           </div>
         </div>
         <div class="column" v-if="allowAddingWorkflowTask()">
@@ -38,10 +38,15 @@
             v-on:click="addWorkflowTaskAction"
           >Add Request</div>
         </div>
+        <div class="column" v-if="this.option === 'queue'">
+          <div
+            class="column text-button action"
+          >Clear Queue</div>
+        </div>
         <div class="column" v-if="this.option === 'schedule'">
           <div
             class="column text-button action"
-          >Start New Instance in 5 Min</div>
+          >Clear Schedule</div>
         </div>
       </div>
     </div>
