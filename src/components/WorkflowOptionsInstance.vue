@@ -32,18 +32,26 @@
 
       <div class="row row-border-bottom" v-if="this.selectedData()._id">
         <div class="column column-data column-20">
-          <div class="column text-button action action-text-center" v-on:click="queueWorkflowAction">Queue Workflow</div>
-        </div>
-        
-        <span class="tiny-text"> {{ startInstanceUrl }}</span>
-      </div>
-
-      <div class="row row-border-bottom" v-if="this.selectedData()._id">
-        <div class="column column-data column-20">
           <div class="column text-button action action-text-center" v-on:click="returnWorkflowAction">Return Workflow</div>
         </div>
         
         <span class="tiny-text"> {{ returnInstanceUrl }}</span>
+      </div>
+
+      <div class="row row-border-bottom" v-if="this.selectedData()._id">
+        <div class="column column-data column-20">
+          <div class="column text-button action action-text-center" v-on:click="queueWorkflowAction">Queue Workflow</div>
+        </div>
+        
+        <span class="tiny-text"> {{ queueInstanceUrl }}</span>
+      </div>
+
+      <div class="row row-border-bottom" v-if="this.selectedData()._id">
+        <div class="column column-data column-20">
+          <div class="column text-button action action-text-center" v-on:click="scheduleWorkflowAction">Schedule Workflow</div>
+        </div>
+        
+        <span class="tiny-text"> {{ scheduleInstanceUrl }}</span>
       </div>
 
     </div>
@@ -58,30 +66,39 @@ export default {
   computed: {
     ...mapState('table',['apiUrl']),
     ...mapGetters("table", ["selectedData"]),
-    startInstanceUrl: function() {
-      if (!this.apiUrl) return ''
-      if (!this.selectedData() || !this.selectedData()._id) return ''
-      
-      return `POST ${this.apiUrl}/queue-workflow/${this.selectedData()._id}`
-    },
     returnInstanceUrl: function() {
       if (!this.apiUrl) return ''
       if (!this.selectedData() || !this.selectedData()._id) return ''
       
       return `POST ${this.apiUrl}/return-workflow/${this.selectedData()._id}`
     },
+    queueInstanceUrl: function() {
+      if (!this.apiUrl) return ''
+      if (!this.selectedData() || !this.selectedData()._id) return ''
+      
+      return `POST ${this.apiUrl}/queue-workflow/${this.selectedData()._id}`
+    },
+    scheduleInstanceUrl: function() {
+      if (!this.apiUrl) return ''
+      if (!this.selectedData() || !this.selectedData()._id) return ''
+      
+      return `POST ${this.apiUrl}/schedule-workflow/${this.selectedData()._id}`
+    },
   },
   methods: {
     ...mapMutations('table', ['editWorkflowDetail']),
-    ...mapActions('table',['queueWorkflow','returnWorkflow']),
+    ...mapActions('table',['returnWorkflow','queueWorkflow','scheduleWorkflow']),
     editWorkflowDetailAction: function(key, event) {
       this.editWorkflowDetail({key, value: event.target.value, workflowId: this.selectedData()._id})
+    },
+    returnWorkflowAction: function() {
+      this.returnWorkflow(this.selectedData()._id)
     },
     queueWorkflowAction: function() {
       this.queueWorkflow(this.selectedData()._id)
     },
-    returnWorkflowAction: function() {
-      this.returnWorkflow(this.selectedData()._id)
+    scheduleWorkflowAction: function() {
+      this.scheduleWorkflow(this.selectedData()._id)
     },
   }
 };

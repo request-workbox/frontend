@@ -46,12 +46,16 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('removeWorkflowTask', { type: payload.type, taskId: payload.taskId, workflowId: payload.workflowId })
     },
+    async returnWorkflow({ commit, state, getters, rootState }, workflowId) {
+        const requestUrl = `${state.apiUrl}/return-workflow/${workflowId}`
+        const request = await Vue.$axios.post(requestUrl)
+    },
     async queueWorkflow({ commit, state, getters, rootState }, workflowId) {
         const requestUrl = `${state.apiUrl}/queue-workflow/${workflowId}`
         const request = await Vue.$axios.post(requestUrl)
     },
-    async returnWorkflow({ commit, state, getters, rootState }, workflowId) {
-        const requestUrl = `${state.apiUrl}/return-workflow/${workflowId}`
+    async scheduleWorkflow({ commit, state, getters, rootState }, workflowId) {
+        const requestUrl = `${state.apiUrl}/schedule-workflow/${workflowId}`
         const request = await Vue.$axios.post(requestUrl)
     },
     async archiveWorkflow({ commit, state, getters, rootState }, payload) {
