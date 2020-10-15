@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import _ from 'lodash'
+import moment from 'moment-timezone'
 
 
 
@@ -55,7 +56,7 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl)
     },
     async scheduleWorkflow({ commit, state, getters, rootState }, workflowId) {
-        const requestUrl = `${state.apiUrl}/schedule-workflow/${workflowId}`
+        const requestUrl = `${state.apiUrl}/schedule-workflow/${workflowId}?date=${moment().add(1, 'minute').toISOString()}`
         const request = await Vue.$axios.post(requestUrl)
     },
     async archiveWorkflow({ commit, state, getters, rootState }, payload) {

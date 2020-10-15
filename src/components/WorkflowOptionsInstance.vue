@@ -60,6 +60,7 @@
 
 <script>
 import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
+import moment from 'moment-timezone'
 
 export default {
   name: "WorkflowOptionsInstance",
@@ -82,7 +83,7 @@ export default {
       if (!this.apiUrl) return ''
       if (!this.selectedData() || !this.selectedData()._id) return ''
       
-      return `POST ${this.apiUrl}/schedule-workflow/${this.selectedData()._id}`
+      return `POST ${this.apiUrl}/schedule-workflow/${this.selectedData()._id}?date=[ISO 8601]`
     },
   },
   methods: {
