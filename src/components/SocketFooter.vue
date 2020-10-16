@@ -36,6 +36,7 @@
 <script>
 import moment from 'moment-timezone'
 import _ from 'lodash'
+import Vue from 'vue'
 
 export default {
   name: 'SocketFooter',
@@ -50,24 +51,8 @@ export default {
 
     const userSub = this.$store.getters['cognito/userSub']
     if (userSub) {
-      this.sockets.subscribe(userSub, (socketStat) => {
-          // add to stats
-          if (!_.size(this.stats)) {
-            this.statKeys[socketStat.instanceId] = true
-            return this.stats.push(socketStat)
-          }
-
-          if (!this.statKeys[socketStat.instanceId]) {
-            this.statKeys[socketStat.instanceId] = true
-            return this.stats.push(socketStat)
-          }
-
-          // update stat
-          this.stats = _.map(this.stats, (stat) => {
-            if (stat.instanceId === socketStat.instanceId) return socketStat
-            return stat
-          })
-      });
+      Vue.$apiSocket.on(userSub, this.processSocket)
+      Vue.$jobsSocket.on(userSub, this.processSocket)
     }
   },
   methods: {
@@ -78,6 +63,24 @@ export default {
     instanceStatUrl: function(instanceId) {
       const projectId = this.$route.params.projectId
       return `/projects/${projectId}/statistics?instance=${instanceId}`
+    },
+    processSocket: function(socketStat) {
+      // add to stats
+      if (!_.size(this.stats)) {
+        this.statKeys[socketStat.instanceId] = true
+        return this.stats.push(socketStat)
+      }
+
+      if (!this.statKeys[socketStat.instanceId]) {
+        this.statKeys[socketStat.instanceId] = true
+        return this.stats.push(socketStat)
+      }
+
+      // update stat
+      this.stats = _.map(this.stats, (stat) => {
+        if (stat.instanceId === socketStat.instanceId) return socketStat
+        return stat
+      })
     }
   }
 }
