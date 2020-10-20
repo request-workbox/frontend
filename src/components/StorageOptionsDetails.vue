@@ -85,6 +85,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
 import _ from 'lodash'
 
@@ -169,6 +170,7 @@ export default {
         location.reload()
       } catch(err) {
         // console.log(err)
+        Vue.$toast.open(err.response.data)
       } finally {
         this.replacing = false
       }
