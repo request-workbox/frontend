@@ -40,14 +40,19 @@ const actions = {
         commit('stopEditing')
     },
     async saveRequestChanges({ commit, state, getters, rootState }, request) {
-        if (!state.editing) return;
+        try {
+            if (!state.editing) return;
 
-        const requestUrl = `${state.apiUrl}/save-request-changes`
-        const requestBody = request
-        await Vue.$axios.post(requestUrl, requestBody)
-        commit('stopEditing')
-        // fix headers
-        commit('replaceHeaderSpaces', { requestId: request._id })
+            const requestUrl = `${state.apiUrl}/save-request-changes`
+            const requestBody = request
+            await Vue.$axios.post(requestUrl, requestBody)
+            commit('stopEditing')
+            commit('replaceHeaderSpaces', { requestId: request._id })
+        } catch(err) {
+            if (err.response && err.response.data) {
+                throw new Error(err.response.data)
+            }
+        }
     },
     async addRequestDetailItem({ commit, state, getters, rootState }, payload) {
         const untrackedPayload = JSON.parse(JSON.stringify(payload))

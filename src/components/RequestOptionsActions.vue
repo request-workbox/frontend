@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
@@ -50,7 +51,11 @@ export default {
       await this.cancelRequestChanges({ _id: this.selectedData()._id })
     },
     saveRequestChangesAction: async function() {
-      await this.saveRequestChanges(this.selectedData())
+      try {
+        await this.saveRequestChanges(this.selectedData())
+      } catch(err) {
+        Vue.$toast.open(err.message)
+      }
     },
     addRequestDetailItemAction: async function() {
       await this.addRequestDetailItem({_id: this.selectedData()._id, option: this.option })
