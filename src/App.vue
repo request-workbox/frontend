@@ -57,6 +57,10 @@ body {
   width: 100%;
 }
 
+.v-toast-text {
+  font-family: "Open Sans", sans-serif;
+}
+
 @import './src/styles/main';
 
 

@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
 import moment from 'moment-timezone'
 
@@ -92,14 +93,26 @@ export default {
     editWorkflowDetailAction: function(key, event) {
       this.editWorkflowDetail({key, value: event.target.value, workflowId: this.selectedData()._id})
     },
-    returnWorkflowAction: function() {
-      this.returnWorkflow(this.selectedData()._id)
+    returnWorkflowAction: async function() {
+      try {
+        await this.returnWorkflow(this.selectedData()._id)
+      } catch(err) {
+        Vue.$toast.open(err.response.data)
+      }
     },
-    queueWorkflowAction: function() {
-      this.queueWorkflow(this.selectedData()._id)
+    queueWorkflowAction: async function() {
+      try {
+        await this.queueWorkflow(this.selectedData()._id)
+      } catch(err) {
+        Vue.$toast.open(err.response.data)
+      }
     },
-    scheduleWorkflowAction: function() {
-      this.scheduleWorkflow(this.selectedData()._id)
+    scheduleWorkflowAction: async function() {
+      try {
+        await this.scheduleWorkflow(this.selectedData()._id)
+      } catch(err) {
+        Vue.$toast.open(err.response.data)
+      }
     },
   }
 };
