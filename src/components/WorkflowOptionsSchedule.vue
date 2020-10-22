@@ -3,10 +3,11 @@
     <div class="column column-full-width">
 
     <div class="row row-border-bottom">
-      <div class="column column-data column-header column-20 column-padded">Created</div>
-      <div class="column column-data column-header column-20 column-padded">For</div>
-      <div class="column column-data column-header column-20 column-padded">Status</div>
-      <div class="column column-data column-header column-grow column-padded">Id</div>
+      <div class="column column-data column-header column-5 column-padded">Stat</div>
+      <div class="column column-data column-header column-10 column-padded">Created</div>
+      <div class="column column-data column-header column-10 column-padded">Departure</div>
+      <div class="column column-data column-header column-10 column-padded">Status</div>
+      <div class="column column-data column-header column-grow column-padded">Message</div>
       <div class="column column-data column-header column-10 column-padded">Remove</div>
     </div>
 
