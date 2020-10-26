@@ -2,6 +2,7 @@
   <div id="project-container">
     <Menu />
     <ProjectList />
+    <GetStarted />
     <Footer />
     <SocketFooter />
   </div>
@@ -14,6 +15,7 @@ import Menu from "./Menu";
 import ProjectList from './ProjectList'
 import SocketFooter from './SocketFooter'
 import Footer from './Footer'
+import GetStarted from './GetStarted'
 
 export default {
   name: "Project",
@@ -22,6 +24,7 @@ export default {
     ProjectList,
     SocketFooter,
     Footer,
+    GetStarted,
   },
   mounted: function () {
     this.init();
