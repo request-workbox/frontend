@@ -7,13 +7,13 @@
             class="input-text" 
             type="text" 
             id="project-name-input"
+            ref="projectName"
             v-bind:value="projectName"
             v-on:focusin="focusInEvent"
             v-on:input="inputEvent"
             v-on:focusout="focusOutEvent"  />
           </div>
-          <!-- <div class="column text-button" id="project-share-button">Share</div> -->
-          <!-- <div class="column text-button" id="project-team-button">Team</div> -->
+          <div class="column text-button" v-on:click="focusOutEvent">Save Project Name</div>
         </div>
       </div>
     </div>
@@ -45,8 +45,9 @@ export default {
     },
     focusOutEvent: async function(event) {
       if (!this.editing) return;
-      this.updatedProjectName = event.target.value;
+      this.updatedProjectName = event.target.value || this.$refs.projectName.value;
       await this.updateProjectName({projectName: this.updatedProjectName, projectId: this.projectId })
+      location.reload()
     },
   }
 }
