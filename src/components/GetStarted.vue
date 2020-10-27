@@ -12,12 +12,12 @@
       <div class="row row-border-bottom get-started-heading">
         <div class="column column-data column-header-text column-grow">Projects</div>
       </div>
-      <div class="row row-border-bottom">
+      <div class="row">
         <div class="column column-data column-header-text column-grow">
           <a href="https://www.requestworkbox.com/blog/how-to-create-a-new-project" target="_blank">How to Create a Project</a>
         </div>
       </div>
-      <div class="row row-border-bottom">
+      <div class="row">
         <div class="column column-data column-header-text column-grow">
           <a href="https://www.requestworkbox.com/blog/how-to-delete-a-project" target="_blank">Delete a Project</a>
         </div>
@@ -27,12 +27,12 @@
       <div class="row row-border-bottom get-started-heading">
         <div class="column column-data column-header-text column-grow">Requests</div>
       </div>
-      <div class="row row-border-bottom">
+      <div class="row">
         <div class="column column-data column-header-text column-grow">
           <a href="https://www.requestworkbox.com/blog/how-to-create-a-request" target="_blank">Create an HTTPS API Request</a>
         </div>
       </div>
-      <div class="row row-border-bottom">
+      <div class="row">
         <div class="column column-data column-header-text column-grow">
           <a href="https://www.requestworkbox.com/blog/add-headers-to-a-request" target="_blank">Add Headers to a Request</a>
         </div>
@@ -42,12 +42,12 @@
       <div class="row row-border-bottom get-started-heading">
         <div class="column column-data column-header-text column-grow">Storage</div>
       </div>
-      <div class="row row-border-bottom">
+      <div class="row">
         <div class="column column-data column-header-text column-grow">
           <a href="https://www.requestworkbox.com/blog/add-a-text-value-to-storage" target="_blank">Add a Text Value to Storage</a>
         </div>
       </div>
-      <div class="row row-border-bottom">
+      <div class="row">
         <div class="column column-data column-header-text column-grow">
           <a href="https://www.requestworkbox.com/blog/add-a-json-file-to-storage" target="_blank">Store JSON Data</a>
         </div>
