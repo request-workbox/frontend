@@ -269,8 +269,11 @@
     font-size: 10px;
     font-weight: 400;
     text-transform: uppercase;
+    text-align: center;
   
     cursor: pointer;
+
+    min-width: 50px;
   }
   .filter-button-active {
     background: rgb(207, 207, 207);

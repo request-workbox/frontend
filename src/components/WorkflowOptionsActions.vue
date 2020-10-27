@@ -5,50 +5,57 @@
         <div class="column">
           <div class="row">
             <div
+              v-if="this.option !== 'queue' && this.option !== 'schedule'"
               class="column text-button action"
               v-bind:class="{ disabled: !this.editing }"
               v-on:click="cancelWorkflowChangesAction"
             >Cancel</div>
             <div
+              v-if="this.option !== 'queue' && this.option !== 'schedule'"
               class="column text-button action"
               v-bind:class="{ disabled: !this.editing }"
               v-on:click="saveWorkflowChangesAction"
             >Save Changes</div>
             <div
+              v-if="allowAddingWorkflowTask()"
               class="column text-button action"
-              v-if="this.option === 'queue'"
-            >Refresh Queue</div>
+              v-on:click="addWorkflowTaskAction"
+            >Add Task</div>
             <div
               class="column text-button action"
               v-if="this.option === 'schedule'"
-            >Refresh Schedule</div>
+            >Reload</div>
             <div
-              class="column text-button action"
               v-if="this.option === 'schedule'"
-            >Start New Instance in 5 Min</div>
-            <div
               class="column text-button action"
-              v-if="this.option === 'queue'"
-            >Add New Instance to Queue</div>
-          </div>
+            >Clear</div>
+
+            <div
+              v-if="this.option === 'schedule'"
+              class="column filter-button filter-button-left"
+              id="table-toolbar-filter-active"
+            >All</div>
+            <div
+              v-if="this.option === 'schedule'"
+              class="column filter-button"
+              id="table-toolbar-filter-active"
+            >Return</div>
+            <div
+              v-if="this.option === 'schedule'"
+              class="column filter-button"
+              id="table-toolbar-filter-archived"
+            >Queue</div>
+            <div
+              v-if="this.option === 'schedule'"
+              class="column filter-button filter-button-right"
+              id="table-toolbar-filter-archived"
+            >Schedule</div>
+
         </div>
-        <div class="column" v-if="allowAddingWorkflowTask()">
-          <div
-            class="column text-button action"
-            v-on:click="addWorkflowTaskAction"
-          >Add Request</div>
-        </div>
-        <div class="column" v-if="this.option === 'queue'">
-          <div
-            class="column text-button action"
-          >Clear Queue</div>
-        </div>
-        <div class="column" v-if="this.option === 'schedule'">
-          <div
-            class="column text-button action"
-          >Clear Schedule</div>
+        
         </div>
       </div>
+
     </div>
   </div>
 </template>

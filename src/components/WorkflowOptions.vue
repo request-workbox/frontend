@@ -10,7 +10,6 @@ import _ from "lodash";
 
 import WorkflowOptionsInstance from "./WorkflowOptionsInstance";
 import WorkflowOptionsTasks from "./WorkflowOptionsTasks";
-import WorkflowOptionsQueue from './WorkflowOptionsQueue'
 import WorkflowOptionsSchedule from './WorkflowOptionsSchedule'
 
 export default {
@@ -18,7 +17,6 @@ export default {
   components: {
     WorkflowOptionsInstance,
     WorkflowOptionsTasks,
-    WorkflowOptionsQueue,
     WorkflowOptionsSchedule,
   },
   computed: {
