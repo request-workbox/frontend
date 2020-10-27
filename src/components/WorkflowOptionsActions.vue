@@ -4,6 +4,7 @@
       <div class="row row-justify-between">
         <div class="column">
           <div class="row">
+            <!-- Cancel / Save Changes / Add Task-->
             <div
               v-if="this.option !== 'queue' && this.option !== 'schedule'"
               class="column text-button action"
@@ -21,36 +22,56 @@
               class="column text-button action"
               v-on:click="addWorkflowTaskAction"
             >Add Task</div>
+            <!-- Date Filter -->
+            <div class="spacer"></div>
+            <div 
+              class="column"
+              v-if="this.option === 'schedule'">
+              <input type="date" name="" id="">
+            </div>
+            <!-- Reload / Clear -->
+            <div class="spacer"></div>
             <div
               class="column text-button action"
               v-if="this.option === 'schedule'"
+              v-on:click="getScheduleAction"
             >Reload</div>
             <div
               v-if="this.option === 'schedule'"
               class="column text-button action"
             >Clear</div>
-
+            <!-- Queue Type Filter -->
+            <div class="spacer"></div>
             <div
               v-if="this.option === 'schedule'"
-              class="column filter-button filter-button-left"
-              id="table-toolbar-filter-active"
+              class="column filter-button filter-button-left filter-button-active"
             >All</div>
             <div
               v-if="this.option === 'schedule'"
               class="column filter-button"
-              id="table-toolbar-filter-active"
             >Return</div>
             <div
               v-if="this.option === 'schedule'"
               class="column filter-button"
-              id="table-toolbar-filter-archived"
             >Queue</div>
             <div
               v-if="this.option === 'schedule'"
               class="column filter-button filter-button-right"
-              id="table-toolbar-filter-archived"
             >Schedule</div>
-
+            <!-- Queue Status Filter -->
+            <div class="spacer"></div>
+            <div
+              v-if="this.option === 'schedule'"
+              class="column filter-button filter-button-left filter-button-active"
+            >Active</div>
+            <div
+              v-if="this.option === 'schedule'"
+              class="column filter-button"
+            >Archived</div>
+            <div
+              v-if="this.option === 'schedule'"
+              class="column filter-button"
+            >Errored</div>
         </div>
         
         </div>
@@ -71,7 +92,7 @@ export default {
     ...mapState('table', ['option'])
   },
   methods: {
-    ...mapActions("table", ["cancelWorkflowChanges", 'saveWorkflowChanges','addWorkflowTask']),
+    ...mapActions("table", ["cancelWorkflowChanges", 'saveWorkflowChanges','addWorkflowTask', 'getSchedule']),
     allowAddingWorkflowTask: function() {
       if (!this.selectedData()._id) return false;
 
@@ -87,10 +108,18 @@ export default {
     saveWorkflowChangesAction: async function() {
       await this.saveWorkflowChanges(this.selectedData())
     },
+    getScheduleAction: async function() {
+      await this.getSchedule({
+        workflowId: this.selectedData()._id,
+        date: new Date()
+      })
+    }
   }
 };
 </script>
 
 <style lang="scss">
-
+  input[type=date] {
+    font-family: "Open Sans", sans-serif;
+  }
 </style>
