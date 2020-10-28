@@ -129,6 +129,9 @@
   .column-10 {
     width: 10%;
   }
+  .column-15 {
+    width: 15%;
+  }
   .column-20 {
     width: 20%;
   }
@@ -165,6 +168,12 @@
     cursor: auto !important;
     background: #e4e4e4 !important;
     color: #a0a0a0 !important;
+  }
+
+  .column-text-button {
+    color: #006dc1;
+    cursor: pointer;
+    text-decoration: underline;
   }
   
   .text-button {

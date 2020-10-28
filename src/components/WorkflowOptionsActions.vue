@@ -10,116 +10,199 @@
               class="column text-button action"
               v-bind:class="{ disabled: !this.editing }"
               v-on:click="cancelWorkflowChangesAction"
-            >Cancel</div>
+            >
+              Cancel
+            </div>
             <div
               v-if="this.option !== 'queue' && this.option !== 'schedule'"
               class="column text-button action"
               v-bind:class="{ disabled: !this.editing }"
               v-on:click="saveWorkflowChangesAction"
-            >Save Changes</div>
+            >
+              Save Changes
+            </div>
             <div
               v-if="allowAddingWorkflowTask()"
               class="column text-button action"
               v-on:click="addWorkflowTaskAction"
-            >Add Task</div>
+            >
+              Add Task
+            </div>
+
             <!-- Date Filter -->
             <div class="spacer"></div>
-            <div 
-              class="column"
-              v-if="this.option === 'schedule'">
-              <input type="date" name="" id="">
+            <div class="column" v-if="this.option === 'schedule'">
+              <input type="date" name="" id="" :value="scheduleDate" v-on:change="changeScheduleDateAction"/>
             </div>
+
             <!-- Reload / Clear -->
             <div class="spacer"></div>
             <div
               class="column text-button action"
-              v-if="this.option === 'schedule'"
+              v-if="this.option === 'schedule' && !loading"
+              v-bind:class="{ disabled: !this.selectedData()._id }"
               v-on:click="getScheduleAction"
-            >Reload</div>
+            >
+              Reload
+            </div>
+            <div
+              class="column text-button action"
+              v-if="this.option === 'schedule' && loading"
+            >
+              Loading...
+            </div>
             <div
               v-if="this.option === 'schedule'"
               class="column text-button action"
-            >Clear</div>
+              v-bind:class="{ disabled: !this.selectedData()._id }"
+            >
+              Clear
+            </div>
+
             <!-- Queue Type Filter -->
             <div class="spacer"></div>
             <div
               v-if="this.option === 'schedule'"
-              class="column filter-button filter-button-left filter-button-active"
-            >All</div>
-            <div
-              v-if="this.option === 'schedule'"
-              class="column filter-button"
-            >Return</div>
-            <div
-              v-if="this.option === 'schedule'"
-              class="column filter-button"
-            >Queue</div>
+              class="column filter-button filter-button-left"
+              v-bind:class="{ 'filter-button-active': this.scheduleType === 'all' }"
+              v-on:click="changeScheduleTypeAction('all')"
+            >
+              All
+            </div>
+            <div 
+              v-if="this.option === 'schedule'" 
+              class="column filter-button" 
+              v-bind:class="{ 'filter-button-active': this.scheduleType === 'return' }" 
+              v-on:click="changeScheduleTypeAction('return')">
+              Return
+            </div>
+            <div 
+              v-if="this.option === 'schedule'" 
+              class="column filter-button" 
+              v-bind:class="{ 'filter-button-active': this.scheduleType === 'queue' }" 
+              v-on:click="changeScheduleTypeAction('queue')">
+              Queue
+            </div>
             <div
               v-if="this.option === 'schedule'"
               class="column filter-button filter-button-right"
-            >Schedule</div>
+              v-bind:class="{ 'filter-button-active': this.scheduleType === 'schedule' }"
+              v-on:click="changeScheduleTypeAction('schedule')"
+            >
+              Schedule
+            </div>
+
             <!-- Queue Status Filter -->
             <div class="spacer"></div>
             <div
               v-if="this.option === 'schedule'"
-              class="column filter-button filter-button-left filter-button-active"
-            >Active</div>
-            <div
-              v-if="this.option === 'schedule'"
-              class="column filter-button"
-            >Archived</div>
-            <div
-              v-if="this.option === 'schedule'"
-              class="column filter-button"
-            >Errored</div>
-        </div>
-        
+              class="column filter-button filter-button-left"
+              v-bind:class="{ 'filter-button-active': this.scheduleStatus === 'all' }"
+              v-on:click="changeScheduleStatusAction('all')"
+            >
+              All
+            </div>
+            <div 
+              v-if="this.option === 'schedule'" 
+              class="column filter-button" 
+              v-bind:class="{ 'filter-button-active': this.scheduleStatus === 'active' }"
+              v-on:click="changeScheduleStatusAction('active')">
+              Active
+            </div>
+            <div 
+              v-if="this.option === 'schedule'" 
+              class="column filter-button" 
+              v-bind:class="{ 'filter-button-active': this.scheduleStatus === 'archived' }"
+              v-on:click="changeScheduleStatusAction('archived')">
+              Archived
+            </div>
+            <div 
+              v-if="this.option === 'schedule'" 
+              class="column filter-button" 
+              v-bind:class="{ 'filter-button-active': this.scheduleStatus === 'error' }"
+              v-on:click="changeScheduleStatusAction('error')">
+              Errored
+            </div>
+          </div>
         </div>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
+import moment from 'moment-timezone'
 
 export default {
   name: "WorkflowOptionsActions",
+  data: function () {
+    return {
+      loading: false,
+    };
+  },
   computed: {
-    ...mapGetters('table', ['selectedData']),
+    ...mapState('schedule', ['scheduleDate','scheduleType', 'scheduleStatus']),
+    ...mapGetters("table", ["selectedData"]),
     ...mapState("table", ["editing"]),
-    ...mapState('table', ['option'])
+    ...mapState("table", ["option"]),
   },
   methods: {
-    ...mapActions("table", ["cancelWorkflowChanges", 'saveWorkflowChanges','addWorkflowTask', 'getSchedule']),
-    allowAddingWorkflowTask: function() {
+    ...mapMutations('schedule', ['changeScheduleDate', 'changeScheduleType', 'changeScheduleStatus']),
+    ...mapActions("table", [
+      "cancelWorkflowChanges",
+      "saveWorkflowChanges",
+      "addWorkflowTask",
+    ]),
+    ...mapActions('schedule', [
+      'getSchedule',
+    ]),
+    allowAddingWorkflowTask: function () {
       if (!this.selectedData()._id) return false;
 
-      if (this.option === 'tasks') return true;
-        else return false;
+      if (this.option === "tasks") return true;
+      else return false;
     },
-    addWorkflowTaskAction: async function() {
-      await this.addWorkflowTask({ workflowId: this.selectedData()._id})
+    addWorkflowTaskAction: async function () {
+      await this.addWorkflowTask({ workflowId: this.selectedData()._id });
     },
-    cancelWorkflowChangesAction: async function() {
-      await this.cancelWorkflowChanges({ _id: this.selectedData()._id })
+    cancelWorkflowChangesAction: async function () {
+      await this.cancelWorkflowChanges({ _id: this.selectedData()._id });
     },
-    saveWorkflowChangesAction: async function() {
-      await this.saveWorkflowChanges(this.selectedData())
+    saveWorkflowChangesAction: async function () {
+      await this.saveWorkflowChanges(this.selectedData());
     },
-    getScheduleAction: async function() {
-      await this.getSchedule({
-        workflowId: this.selectedData()._id,
-        date: new Date()
-      })
-    }
-  }
+    changeScheduleDateAction: function(event) {
+      this.changeScheduleDate(event.srcElement.value)
+    },
+    changeScheduleTypeAction: function(scheduleType) {
+      this.changeScheduleType(scheduleType)
+    },
+    changeScheduleStatusAction: function(scheduleStatus) {
+      this.changeScheduleStatus(scheduleStatus)
+    },
+    getScheduleAction: async function () {
+      if (!this.selectedData()._id) return;
+      
+      this.loading = true
+      try {
+        const payload = {
+          workflowId: this.selectedData()._id,
+          date: moment(this.scheduleDate),
+        };
+        await this.getSchedule(payload);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        this.loading = false
+      }
+    },
+  },
 };
 </script>
 
 <style lang="scss">
-  input[type=date] {
-    font-family: "Open Sans", sans-serif;
-  }
+input[type="date"] {
+  font-family: "Open Sans", sans-serif;
+}
 </style>

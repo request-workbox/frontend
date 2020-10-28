@@ -4,29 +4,32 @@
 
     <div class="row row-border-bottom">
       <div class="column column-data column-header column-5 column-padded">Stat</div>
-      <div class="column column-data column-header column-10 column-padded">Created</div>
-      <div class="column column-data column-header column-10 column-padded">Departure</div>
+      <div class="column column-data column-header column-10 column-padded">Queue Type</div>
       <div class="column column-data column-header column-10 column-padded">Status</div>
-      <div class="column column-data column-header column-grow column-padded">Message</div>
-      <div class="column column-data column-header column-10 column-padded">Remove</div>
+      
+      
+      <div class="column column-data column-header column-15 column-padded">Created</div>
+      <div class="column column-data column-header column-15 column-padded">Departure</div>
+      <div class="column column-data column-header column-20 column-padded">Workflow Name</div>
     </div>
 
-    <!-- <div class="row row-border-bottom table-row-selectable" v-bind:class="{'table-row-selected':shouldBeSelected(stat._id)}" v-for="(stat) in this.selectedData().stats" :key="stat._id" v-on:click="selectStatAction(stat)">
-      <div class="column column-data column-10 column-padded">{{ stat.status }}</div>
-      <div class="column column-data column-10 column-padded">{{ stat.statusText }}</div>
-      <div class="column column-data column-10 column-padded">{{ stat.requestName }}</div>
-      <div class="column column-data column-20 column-padded">{{ stat.requestType }}</div>
-      <div class="column column-data column-grow column-padded">{{ statisticCreatedAt(stat.createdAt) }}</div>
+    <div 
+      v-for="(stat) in filterScheduleByWorkflow(this.selectedData()._id)" :key="stat._id"
+      class="row row-border-bottom schedule-row">
+      <div class="column column-data column-5">
+        <a :href="instanceStatUrl(stat.instance)" target="_blank">View</a>
+      </div>
+      <div class="column column-data column-10 column-padded">{{ formattedQueueType(stat.queueType) }}</div>
+      <div class="column column-data column-10 column-padded">{{ formattedQueueStatus(stat.status) }}</div>
+      
+      
+      <div class="column column-data column-15 column-padded">{{ formattedDate(stat.createdAt) }}</div>
+      <div class="column column-data column-15 column-padded">{{ formattedDate(stat.date) }}</div>
+      <div class="column column-data column-20 column-padded">{{ stat.workflowName }}</div>
+      <div class="column column-data column-grow column-padded" v-if="canRemoveSchedule(stat.status)">
+        <span class="column-text-button">Remove</span>
+      </div>
     </div>
-
-    <div class="row row-border-bottom" v-if="shouldShowSelectedStat()">
-      <div class="column text-button action" v-if="!loading" v-on:click="getInstanceDetailAction()">Load Requests / Responses</div>
-      <div class="column text-button action" v-if="loading">Loading...</div>
-    </div>
-
-    <pre v-if="shouldShowSelectedStat()">
-      <code>{{ selectedStat() }}</code>
-    </pre> -->
 
     </div>
   </div>
@@ -41,6 +44,40 @@ export default {
   name: "WorkflowOptionsSchedule",
   computed: {
     ...mapGetters("table", ["selectedData"]),
+    ...mapGetters('schedule', ['filterScheduleByWorkflow']),
   },
+  methods: {
+    formattedQueueType: (queueType) => {
+      if (queueType === 'return') return 'Return'
+      if (queueType === 'queue') return 'Queue'
+      if (queueType === 'schedule') return 'Schedule'
+    },
+    formattedQueueStatus: (queueType) => {
+      if (queueType === 'received') return 'Received'
+      if (queueType === 'queued') return 'Queued'
+      if (queueType === 'running') return 'Running'
+      if (queueType === 'complete') return 'Complete'
+      if (queueType === 'error') return 'Error'
+    },
+    formattedDate: (date) => {
+      return `${moment(date).format('h:mm:ss a')}`
+    },
+    canRemoveSchedule: (status) => {
+      if (status === 'received' || status === 'queued') return true
+      else return false
+    },
+    instanceStatUrl: function(instanceId) {
+      const projectId = this.$route.params.projectId
+      return `/projects/${projectId}/statistics?instance=${instanceId}`
+    },
+  }
 };
 </script>
+
+<style lang="scss">
+.schedule-row:hover {
+  background: #dcf0ff !important;
+  border-top: #2196f3 solid 1px !important;
+  border-bottom: #2196f3 solid 1px !important;
+}
+</style>

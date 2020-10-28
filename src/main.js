@@ -83,6 +83,7 @@ import tableModule from './shared/plugins/modules/Table'
 import accountModule from './shared/plugins/modules/Account'
 import billingModule from './shared/plugins/modules/Billing'
 import headerModule from './shared/plugins/modules/Header'
+import scheduleModule from './shared/plugins/modules/Schedule'
 
 Vue.use(vuex)
 const store = new vuex.Store({
@@ -95,6 +96,7 @@ const store = new vuex.Store({
     account: accountModule,
     billing: billingModule,
     header: headerModule,
+    schedule: scheduleModule,
   }
 })
 /**

@@ -37,6 +37,7 @@
 import moment from 'moment-timezone'
 import _ from 'lodash'
 import Vue from 'vue'
+import { mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'SocketFooter',
@@ -56,6 +57,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('schedule', ['addToSchedule']),
     statisticCreatedAt: function(createdAt) {
       if (!createdAt) return ''
       return `${moment(createdAt).format('M-D-YYYY, h:mm:ss a')}`
@@ -65,6 +67,9 @@ export default {
       return `/projects/${projectId}/statistics?instance=${instanceId}`
     },
     processSocket: function(socketStat) {
+      // send to schedule
+      this.addToSchedule(socketStat)
+
       // add to stats
       if (!_.size(this.stats)) {
         this.statKeys[socketStat.instanceId] = true

@@ -82,13 +82,6 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl, requestBody)
         location.reload()
     },
-    async getSchedule({ commit, state, getters, rootState }, payload) {
-        const requestUrl = `${state.apiUrl}/get-schedule`
-        const requestBody = { workflow: payload.workflowId, date: payload.date }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        console.log(request)
-        // location.reload()
-    },
 }
 
 const mutations = {
