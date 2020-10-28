@@ -4,7 +4,7 @@
       <div class="row row-border-bottom">
         <div class="column column-data column-header-text column-10">Key</div>
         <div class="column column-data column-header-text column-20">Type</div>
-        <div class="column column-data column-header-text column-grow">Value</div>
+        <div class="column column-data column-header-text column-20">Value</div>
       </div>
 
       <div class="row row-border-bottom" v-for="value in this.selectedData().body" :key="value._id">
@@ -25,7 +25,7 @@
               <option value="incomingField">Incoming Field</option>
             </select>
         </div>
-        <div class="column column-data column-grow" v-if="value.valueType === 'textInput'">
+        <div class="column column-data column-20" v-if="value.valueType === 'textInput'">
           <input
             type="text"
             placeholder="Text Input Value"
@@ -34,7 +34,7 @@
             v-on:input="editValue('body', value._id, $event)"
           />
         </div>
-        <div class="column column-data column-grow" v-if="value.valueType === 'storage'">
+        <div class="column column-data column-20" v-if="value.valueType === 'storage'">
           <select class="column-input-select" :value="value.value" v-on:input="editValue('body', value._id, $event)">
               <option
                   v-for="(storage) in storagesForSelect()"
@@ -43,7 +43,7 @@
                 >{{ storage.name }}</option>
             </select>
         </div>
-        <div class="column column-data column-grow" v-if="value.valueType === 'runtimeResult'">
+        <div class="column column-data column-20" v-if="value.valueType === 'runtimeResult'">
           <input
             type="text"
             placeholder="Request Name"
@@ -52,7 +52,7 @@
             v-on:input="editValue('body', value._id, $event)"
           />
         </div>
-        <div class="column column-data column-grow" v-if="value.valueType === 'incomingField'">
+        <div class="column column-data column-20" v-if="value.valueType === 'incomingField'">
           <input
             type="text"
             placeholder="Field Name"
@@ -61,7 +61,7 @@
             v-on:input="editValue('body', value._id, $event)"
           />
         </div>
-        <div class="column column-data text-button" v-on:click="deleteRequestDetailItemAction(value)">
+        <div class="column text-button action" v-on:click="deleteRequestDetailItemAction(value)">
           Delete
         </div>
       </div>
@@ -90,7 +90,10 @@ export default {
       this.editRequestDetailValueType({type, key, value: event.target.value, requestId: this.selectedData()._id})
     },
     deleteRequestDetailItemAction: function(value) {
-      this.deleteRequestDetailItem({ detailItem: value, requestId: this.selectedData()._id, option: 'body'})
+      const confirm = window.confirm('Are you sure you want to delete this item?')
+      if (confirm) {
+        this.deleteRequestDetailItem({ detailItem: value, requestId: this.selectedData()._id, option: 'body'})
+      }
     }
   },
 };

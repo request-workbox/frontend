@@ -33,7 +33,7 @@
               </select>
             </div>
             <div
-              class="column column-data text-button"
+              class="column text-button action"
               v-on:click="deleteWorkflowTaskAction('tasks', task._id )"
             >Remove</div>
           </div>
@@ -68,11 +68,14 @@ export default {
       });
     },
     deleteWorkflowTaskAction: function (type, taskId) {
-      this.deleteWorkflowTask({
-        type: type,
-        taskId: taskId,
-        workflowId: this.selectedData()._id,
-      });
+      const confirm = window.confirm('Are you sure you want to delete this task?')
+      if (confirm) {
+        this.deleteWorkflowTask({
+          type: type,
+          taskId: taskId,
+          workflowId: this.selectedData()._id,
+        });
+      }
     },
     changeTaskPositionAction: function (taskId) {
       this.changeTaskPosition({ taskId, workflowId: this.selectedData()._id });

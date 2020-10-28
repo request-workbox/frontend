@@ -14,13 +14,12 @@
               v-bind:class="{ disabled: !this.editing }"
               v-on:click="saveRequestChangesAction"
             >Save Changes</div>
+            <div
+              v-if="allowAddingRequestItem()"
+              class="column text-button action"
+              v-on:click="addRequestDetailItemAction"
+            >Add Item</div>
           </div>
-        </div>
-        <div class="column" v-if="allowAddingRequestItem()">
-          <div
-            class="column text-button action"
-            v-on:click="addRequestDetailItemAction"
-          >Add Parameter</div>
         </div>
       </div>
     </div>
