@@ -46,15 +46,16 @@ export default {
   methods: {
     ...mapMutations('table',['changeOption','setCurrentRoute','updateSearchTerm']),
     ...mapActions("project", ["getProjectName"]),
-    ...mapActions('table',['getInstances']),
+    ...mapActions('table',['getInstances', 'getInstance']),
     init: function () {
       this.setCurrentRoute({ route: this.$route.name })
       this.getProjectName({ projectId: this.projectId });
-      this.getInstances({ projectId: this.projectId });
       this.changeOption('details');
       
       if (this.$route.query && this.$route.query.instance) {
-        this.updateSearchTerm(this.$route.query.instance)
+        this.getInstance({ projectId: this.projectId, instanceId: this.$route.query.instance })
+      } else {
+        this.getInstances({ projectId: this.projectId });
       }
     },
   },

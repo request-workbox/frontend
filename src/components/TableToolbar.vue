@@ -89,13 +89,13 @@
         <span>Delete Storage</span>
       </div>
     </template>
-    <template v-if="this.$route.name === 'Statistics'">
+    <!-- <template v-if="this.$route.name === 'Statistics'">
       <div class="column spacer"></div>
       <div class="column text-button text-button-and-logo" v-on:click="deleteAllStatsAction">
         <img src="/trash.svg" alt="">
         <span>Delete All Stats</span>
       </div>
-    </template>
+    </template> -->
   </div>
 </template>
 

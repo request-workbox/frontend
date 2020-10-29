@@ -37,6 +37,13 @@ const actions = {
         commit('replaceAllData', { data: request.data })
         commit('resetPage')
     },
+    async getInstance({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${state.apiUrl}/get-instance`
+        const requestBody = { projectId: payload.projectId, instanceId: payload.instanceId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('replaceAllData', { data: request.data })
+        commit('resetPage')
+    },
     async getInstanceDetail({ commit, state, getters, rootState }, payload) {
         const instanceId = payload.instanceId
         const requestUrl = `${state.apiUrl}/get-instance-detail`
