@@ -87,6 +87,25 @@ const actions = {
             throw new Error(err)
         }
     },
+    async archiveAllQueue({ commit, state, getters, rootState }, payload) {
+        try {
+            const requestUrl = `${state.apiUrl}/archive-all-queue`
+            const request = await Vue.$axios.post(requestUrl, payload)
+        } catch(err) {
+            console.log(err)
+            throw new Error(err)
+        }
+    },
+    async archiveQueue({ commit, state, getters, rootState }, payload) {
+        try {
+            const requestUrl = `${state.apiUrl}/archive-queue`
+            const requestBody = { queueId: payload }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
+        } catch(err) {
+            console.log(err)
+            throw new Error(err)
+        }
+    },
 }
 
 const mutations = {

@@ -52,11 +52,18 @@
               Loading...
             </div>
             <div
-              v-if="this.option === 'schedule'"
               class="column text-button action"
+              v-if="this.option === 'schedule' && !clearing"
               v-bind:class="{ disabled: !this.selectedData()._id }"
+              v-on:click="archiveAllQueueAction"
             >
-              Clear
+              Archive Upcoming
+            </div>
+            <div
+              class="column text-button action"
+              v-if="this.option === 'schedule' && clearing"
+            >
+              Archiving...
             </div>
 
             <!-- Queue Type Filter -->
@@ -139,6 +146,7 @@ export default {
   data: function () {
     return {
       loading: false,
+      clearing: false,
     };
   },
   computed: {
@@ -156,6 +164,7 @@ export default {
     ]),
     ...mapActions('schedule', [
       'getSchedule',
+      'archiveAllQueue'
     ]),
     allowAddingWorkflowTask: function () {
       if (!this.selectedData()._id) return false;
@@ -195,6 +204,30 @@ export default {
         console.log(err);
       } finally {
         this.loading = false
+      }
+    },
+    archiveAllQueueAction: async function(queueId) {
+      if (!this.selectedData()._id) return;
+
+      const date = moment(this.scheduleDate)
+      const workflow = this.selectedData()._id
+      const queueType = this.scheduleType
+
+      const confirm = window.confirm(`Are you sure you want to unschedule [${queueType}] queue types occurring on [${this.scheduleDate}]?`)
+      if (confirm) {
+        this.clearing = true
+        try {
+          const payload = {
+            date: date,
+            workflow: workflow,
+            queueType: queueType,
+          }
+          await this.archiveAllQueue(payload)
+        } catch(err) {
+          console.log(err)
+        } finally {
+          this.clearing = false
+        }
       }
     },
   },

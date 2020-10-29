@@ -26,7 +26,7 @@
       <div class="column column-data column-15 column-padded">{{ formattedDate(stat.createdAt) }}</div>
       <div class="column column-data column-15 column-padded">{{ formattedDate(stat.date) }}</div>
       <div class="column column-data column-20 column-padded">{{ stat.workflowName }}</div>
-      <div class="column column-data column-grow column-padded" v-if="canRemoveSchedule(stat.status)">
+      <div class="column column-data column-grow column-padded" v-if="canRemoveSchedule(stat.status)" v-on:click="archiveQueueAction(stat._id)">
         <span class="column-text-button">Remove</span>
       </div>
     </div>
@@ -47,6 +47,7 @@ export default {
     ...mapGetters('schedule', ['filterScheduleByWorkflow']),
   },
   methods: {
+    ...mapActions('schedule', ['archiveQueue']),
     formattedQueueType: (queueType) => {
       if (queueType === 'return') return 'Return'
       if (queueType === 'queue') return 'Queue'
@@ -57,6 +58,7 @@ export default {
       if (queueType === 'queued') return 'Queued'
       if (queueType === 'running') return 'Running'
       if (queueType === 'complete') return 'Complete'
+      if (queueType === 'archived') return 'Archived'
       if (queueType === 'error') return 'Error'
     },
     formattedDate: (date) => {
@@ -69,6 +71,13 @@ export default {
     instanceStatUrl: function(instanceId) {
       const projectId = this.$route.params.projectId
       return `/projects/${projectId}/statistics?instance=${instanceId}`
+    },
+    archiveQueueAction: async function(queueId) {
+      try {
+        await this.archiveQueue(queueId)
+      } catch(err) {
+        console.log(err)
+      }
     },
   }
 };
