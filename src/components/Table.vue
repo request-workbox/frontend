@@ -164,7 +164,7 @@ export default {
       return this.$route.name;
     },
     leftoverRows: function() {
-      const leftover = 10 - _.size(this.viewableData())
+      const leftover = 6 - _.size(this.viewableData())
       return leftover
     }
   },

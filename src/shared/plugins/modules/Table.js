@@ -12,7 +12,7 @@ const state = () => ({
 
     selectedId: '',
 
-    numberOfRows: 10,
+    numberOfRows: 6,
     searchTerm: '',
     filter: 'active',
     allData: [],
