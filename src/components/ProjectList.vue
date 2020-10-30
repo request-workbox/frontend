@@ -1,14 +1,14 @@
 <template>
   <div class="row">
-    <div class="column column-full-width">
+    <div class="column column-full-width table-row-data">
       <div class="row row-border-bottom">
-        <div class="column column-data column-header-text column-grow">Project Name</div>
         <div class="column column-data column-header-text column-20">Date Created</div>
+        <div class="column column-data column-header-text column-grow">Project Name</div>
       </div>
 
       <div class="row row-border-bottom project-row" v-bind:class="{'project-row-selected':shouldBeSelected(project._id)}" v-for="(project) in viewableData()" :key="project._id" v-on:click="selectProjectAction(project._id)">
-        <div class="column column-data column-grow">{{ project.name }}</div>
         <div class="column column-data column-20">{{ projectCreatedAt(project.createdAt) }}</div>
+        <div class="column column-data column-grow">{{ project.name }}</div>
       </div>
     </div>
   </div>
