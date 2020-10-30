@@ -50,11 +50,12 @@ export default {
     return next();
   },
   methods: {
-    ...mapMutations('table',['changeOption', 'setCurrentRoute']),
+    ...mapMutations('table',['changeOption', 'setCurrentRoute','updateOrderDirection']),
     ...mapActions("project", ["getProjectName"]),
     ...mapActions('table',['getStorages']),
     init: function () {
       this.setCurrentRoute({ route: this.$route.name })
+      this.updateOrderDirection(localStorage.getItem('orderDirection'))
       this.getProjectName({ projectId: this.projectId });
       this.getStorages({ projectId: this.projectId });
       this.changeOption('details');

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { getField, updateField } from 'vuex-map-fields'
 import _ from 'lodash'
+import moment from 'moment-timezone'
 
 import TableRequestModifiers from './TableRequestModifiers'
 import TableWorkflowModifiers from './TableWorkflowModifiers'
@@ -26,6 +27,8 @@ const state = () => ({
     currentRoute: '',
 
     selectedStatId: '',
+
+    orderDirection: 'descending',
 })
 
 const getters = {
@@ -72,7 +75,15 @@ const getters = {
         })
     },
     reversedData: (state, getters) => () => {
-        return _.reverse(getters.dataBySearchTerm())
+        return getters.dataBySearchTerm().sort(function compare(a, b) {
+            var dateA = new Date(a.createdAt)
+            var dateB = new Date(b.createdAt)
+            if (state.orderDirection === 'ascending') {
+                return dateA - dateB
+            } else if (state.orderDirection === 'descending') {
+                return dateB - dateA
+            }
+        })
     },
     chunkedData: (state, getters) => () => {
         return _.chunk(getters.reversedData(), state.numberOfRows)
@@ -165,6 +176,23 @@ const mutations = {
     },
     updateSearchTerm(state, payload) {
         state.searchTerm = payload
+    },
+    updateOrderDirection(state, payload) {
+        if (payload === 'ascending' || payload === 'descending') {
+            state.orderDirection = payload
+        } else {
+            state.orderDirection = 'descending'
+            localStorage.setItem('orderDirection', state.orderDirection)
+        }
+    },
+    toggleOrderDirection(state, payload) {
+        if (state.orderDirection === 'ascending') {
+            state.orderDirection = 'descending'
+        } else if (state.orderDirection === 'descending') {
+            state.orderDirection = 'ascending'
+        }
+
+        localStorage.setItem('orderDirection', state.orderDirection)
     },
 
     // REQUEST MUTATIONS

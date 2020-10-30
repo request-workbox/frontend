@@ -44,12 +44,13 @@ export default {
     return next();
   },
   methods: {
-    ...mapMutations('table',['changeOption','setCurrentRoute','updateSearchTerm']),
+    ...mapMutations('table',['changeOption','setCurrentRoute','updateSearchTerm','updateOrderDirection']),
     ...mapActions("project", ["getProjectName"]),
     ...mapActions('table',['getInstances', 'getInstance']),
     init: function () {
       this.setCurrentRoute({ route: this.$route.name })
       this.getProjectName({ projectId: this.projectId });
+      this.updateOrderDirection(localStorage.getItem('orderDirection'))
       this.changeOption('details');
       
       if (this.$route.query && this.$route.query.instance) {
