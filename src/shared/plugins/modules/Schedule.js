@@ -14,6 +14,16 @@ const state = () => ({
 
 const getters = {
     getField,
+    getScheduleById: (state, getters, rootState) => (queueId) => {
+        if (!queueId) return {}
+
+        const queue = _.filter(state.schedule, (data) => {
+            if (data._id === queueId) return true;
+            else return false
+        })
+
+        return queue[0]
+    },
     filterScheduleByWorkflow: (state, getters, rootState) => (workflowId) => {
         if (!workflowId) return []
 

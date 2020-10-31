@@ -9,7 +9,6 @@
     <StorageOptionsActions />
     <StorageOptions />
     <Footer />
-    <SocketFooter />
   </div>
 </template>
 
@@ -25,7 +24,6 @@ import TableOptionsToolbar from "./TableOptionsToolbar";
 import StorageOptionsActions from './StorageOptionsActions';
 import StorageOptions from './StorageOptions';
 import Footer from './Footer'
-import SocketFooter from './SocketFooter'
 
 export default {
   name: "Storage",
@@ -40,7 +38,6 @@ export default {
     StorageOptionsActions,
     StorageOptions,
     Footer,
-    SocketFooter
   },
   mounted: function () {
     this.init();

@@ -10,7 +10,6 @@
     <RequestOptionsActions />
     <RequestOptions />
     <Footer />
-    <SocketFooter />
   </div>
 </template>
 
@@ -27,7 +26,6 @@ import TableOptionsToolbar from "./TableOptionsToolbar";
 import RequestOptionsActions from './RequestOptionsActions';
 import RequestOptions from "./RequestOptions";
 import Footer from './Footer'
-import SocketFooter from './SocketFooter'
 
 export default {
   name: "Request",
@@ -43,7 +41,6 @@ export default {
     RequestOptionsActions,
     RequestOptions,
     Footer,
-    SocketFooter
   },
   mounted: function() {
     this.init()

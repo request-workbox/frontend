@@ -9,11 +9,11 @@
     <WorkflowOptionsActions />
     <WorkflowOptions />
     <Footer />
-    <SocketFooter />
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
 import { mapMutations, mapActions } from "vuex";
 
 import ProjectInfo from "./ProjectInfo";
@@ -25,7 +25,6 @@ import TableOptionsToolbar from "./TableOptionsToolbar";
 import WorkflowOptionsActions from './WorkflowOptionsActions';
 import WorkflowOptions from './WorkflowOptions';
 import Footer from './Footer'
-import SocketFooter from './SocketFooter'
 
 export default {
   name: "Workflow",
@@ -40,7 +39,6 @@ export default {
     WorkflowOptionsActions,
     WorkflowOptions,
     Footer,
-    SocketFooter
   },
   mounted: function () {
     this.init();
@@ -50,16 +48,26 @@ export default {
     return next();
   },
   methods: {
+    ...mapMutations('schedule', ['addToSchedule']),
     ...mapMutations('table',['changeOption', 'setCurrentRoute','updateOrderDirection']),
     ...mapActions("project", ["getProjectName"]),
     ...mapActions('table',['getWorkflows','getRequestsForSelectOptions']),
-    init: function () {
+    init: async function () {
       this.setCurrentRoute({ route: this.$route.name })
       this.getProjectName({ projectId: this.projectId });
       this.updateOrderDirection(localStorage.getItem('orderDirection'))
       this.getWorkflows({ projectId: this.projectId });
       this.getRequestsForSelectOptions({ projectId: this.projectId })
       this.changeOption('instance');
+
+      // Listen to socket
+      await this.$store.dispatch('cognito/fetchSession')
+      const userSub = this.$store.getters['cognito/userSub']
+      if (userSub) {
+        Vue.$apiSocket.on(userSub, this.addToSchedule)
+        Vue.$jobsSocket.on(userSub, this.addToSchedule)
+      }
+      
     },
   },
 };

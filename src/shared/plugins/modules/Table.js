@@ -27,6 +27,7 @@ const state = () => ({
     currentRoute: '',
 
     selectedStatId: '',
+    selectedQueueStatId: '',
 
     orderDirection: 'descending',
 })

@@ -207,6 +207,9 @@ const mutations = {
                 }
             }
         })
+    },
+    changeSelectedQueueStatId(state, payload) {
+        state.selectedQueueStatId = payload
     }
 }
 

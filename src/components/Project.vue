@@ -4,7 +4,6 @@
     <ProjectList />
     <GetStarted />
     <Footer />
-    <SocketFooter />
   </div>
 </template>
 
@@ -13,7 +12,6 @@ import { mapMutations, mapActions } from "vuex";
 
 import Menu from "./Menu";
 import ProjectList from './ProjectList'
-import SocketFooter from './SocketFooter'
 import Footer from './Footer'
 import GetStarted from './GetStarted'
 
@@ -22,7 +20,6 @@ export default {
   components: {
     Menu,
     ProjectList,
-    SocketFooter,
     Footer,
     GetStarted,
   },

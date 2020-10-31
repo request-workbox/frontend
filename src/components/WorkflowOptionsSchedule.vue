@@ -15,7 +15,9 @@
 
     <div 
       v-for="(stat) in filterScheduleByWorkflow(this.selectedData()._id)" :key="stat._id"
-      class="row row-border-bottom schedule-row">
+      v-bind:class="{'table-row-selected':shouldBeSelected(stat._id)}"
+      v-on:click="selectQueueStatAction(stat)"
+      class="row row-border-bottom table-row-selectable schedule-row">
       <div class="column column-data column-5">
         <a :href="instanceStatUrl(stat.instance)" target="_blank">View</a>
       </div>
@@ -31,22 +33,31 @@
       </div>
     </div>
 
+    <WorkflowOptionsScheduleFooter />
+
     </div>
   </div>
 </template>
 
 <script>
+import WorkflowOptionsScheduleFooter from './WorkflowOptionsScheduleFooter'
+
 import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
 import moment from 'moment-timezone'
 import _ from 'lodash'
 
 export default {
   name: "WorkflowOptionsSchedule",
+  components: {
+    WorkflowOptionsScheduleFooter,
+  },
   computed: {
+    ...mapState('table', ['selectedQueueStatId']),
     ...mapGetters("table", ["selectedData"]),
     ...mapGetters('schedule', ['filterScheduleByWorkflow']),
   },
   methods: {
+    ...mapMutations('table', ['changeSelectedQueueStatId']),
     ...mapActions('schedule', ['archiveQueue']),
     formattedQueueType: (queueType) => {
       if (queueType === 'return') return 'Return'
@@ -54,12 +65,7 @@ export default {
       if (queueType === 'schedule') return 'Schedule'
     },
     formattedQueueStatus: (queueType) => {
-      if (queueType === 'received') return 'Received'
-      if (queueType === 'queued') return 'Queued'
-      if (queueType === 'running') return 'Running'
-      if (queueType === 'complete') return 'Complete'
-      if (queueType === 'archived') return 'Archived'
-      if (queueType === 'error') return 'Error'
+      return _.upperFirst(queueType)
     },
     formattedDate: (date) => {
       return `${moment(date).format('h:mm:ss a')}`
@@ -79,6 +85,13 @@ export default {
         console.log(err)
       }
     },
+    selectQueueStatAction: function(stat) {
+      this.changeSelectedQueueStatId(stat._id)
+    },
+    shouldBeSelected: function(statId) {
+      if (statId === this.selectedQueueStatId) return true
+      else return false
+    }
   }
 };
 </script>
