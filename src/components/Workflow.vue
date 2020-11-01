@@ -67,7 +67,6 @@ export default {
         Vue.$apiSocket.on(userSub, this.addToSchedule)
         Vue.$jobsSocket.on(userSub, this.addToSchedule)
       }
-      
     },
   },
 };

@@ -9,7 +9,7 @@
       
       
       <div class="column column-data column-header column-15 column-padded">Created</div>
-      <div class="column column-data column-header column-15 column-padded">Departure</div>
+      <div class="column column-data column-header column-20 column-padded">Departure</div>
       <div class="column column-data column-header column-20 column-padded">Workflow Name</div>
     </div>
 
@@ -23,10 +23,8 @@
       </div>
       <div class="column column-data column-10 column-padded">{{ formattedQueueType(stat.queueType) }}</div>
       <div class="column column-data column-10 column-padded">{{ formattedQueueStatus(stat.status) }}</div>
-      
-      
       <div class="column column-data column-15 column-padded">{{ formattedDate(stat.createdAt) }}</div>
-      <div class="column column-data column-15 column-padded">{{ formattedDate(stat.date) }}</div>
+      <div class="column column-data column-20 column-padded">{{ formattedDate(stat.date) }}</div>
       <div class="column column-data column-20 column-padded">{{ stat.workflowName }}</div>
       <div class="column column-data column-grow column-padded" v-if="canRemoveSchedule(stat.status)" v-on:click="archiveQueueAction(stat._id)">
         <span class="column-text-button">Remove</span>
@@ -71,7 +69,7 @@ export default {
       return `${moment(date).format('h:mm:ss a')}`
     },
     canRemoveSchedule: (status) => {
-      if (status === 'received' || status === 'queued') return true
+      if (status === 'pending') return true
       else return false
     },
     instanceStatUrl: function(instanceId) {
