@@ -209,7 +209,11 @@ const mutations = {
         })
     },
     changeSelectedQueueStatId(state, payload) {
-        state.selectedQueueStatId = payload
+        if (state.selectedQueueStatId === payload) {
+            state.selectedQueueStatId = ''
+        } else {
+            state.selectedQueueStatId = payload
+        }
     }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="row row-border-top" id="socket-footer">
+  <div class="row row-border-top" id="socket-footer" v-if="showQueueStats()">
     <div class="column column-full-width">
       <div class="row row-border-bottom">
         <div class="column column-data column-grow">Queue Stats</div>
@@ -43,6 +43,10 @@ export default {
       if (!createdAt) return ''
       return `${moment(createdAt).format('M-D-YYYY, h:mm:ss a')}`
     },
+    showQueueStats: function() {
+      if (!this.selectedQueueStatId) return false
+      else return true
+    }
   }
 }
 </script>
@@ -54,5 +58,6 @@ export default {
   bottom: 0;
   overflow:auto;
   background:white;
+  box-shadow: 2px -2px 7px 0px #b5b5b5;
 }
 </style>

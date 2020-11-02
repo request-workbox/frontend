@@ -157,6 +157,7 @@ export default {
   },
   methods: {
     ...mapMutations('schedule', ['changeScheduleDate', 'changeScheduleType', 'changeScheduleStatus']),
+    ...mapMutations('table', ['changeSelectedQueueStatId']),
     ...mapActions("table", [
       "cancelWorkflowChanges",
       "saveWorkflowChanges",
@@ -182,12 +183,15 @@ export default {
       await this.saveWorkflowChanges(this.selectedData());
     },
     changeScheduleDateAction: function(event) {
+      this.changeSelectedQueueStatId('')
       this.changeScheduleDate(event.srcElement.value)
     },
     changeScheduleTypeAction: function(scheduleType) {
+      this.changeSelectedQueueStatId('')
       this.changeScheduleType(scheduleType)
     },
     changeScheduleStatusAction: function(scheduleStatus) {
+      this.changeSelectedQueueStatId('')
       this.changeScheduleStatus(scheduleStatus)
     },
     getScheduleAction: async function () {
