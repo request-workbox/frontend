@@ -52,8 +52,10 @@ export default {
     ...mapActions('table',['getStorages']),
     init: function () {
       this.setCurrentRoute({ route: this.$route.name })
-      this.updateOrderDirection(localStorage.getItem('orderDirection'))
       this.getProjectName({ projectId: this.projectId });
+      this.updateOrderDirection({
+        orderDirection: localStorage.getItem('orderDirection') || 'descending'
+      })
       this.getStorages({ projectId: this.projectId });
       this.changeOption('details');
     },

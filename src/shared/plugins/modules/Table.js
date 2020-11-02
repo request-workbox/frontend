@@ -75,7 +75,7 @@ const getters = {
             }
         })
     },
-    reversedData: (state, getters) => () => {
+    sortedData: (state, getters) => () => {
         return getters.dataBySearchTerm().sort(function compare(a, b) {
             var dateA = new Date(a.createdAt)
             var dateB = new Date(b.createdAt)
@@ -87,7 +87,7 @@ const getters = {
         })
     },
     chunkedData: (state, getters) => () => {
-        return _.chunk(getters.reversedData(), state.numberOfRows)
+        return _.chunk(getters.sortedData(), state.numberOfRows)
     },
     viewableData: (state, getters) => () => {
         return getters.chunkedData()[state.page]
@@ -179,12 +179,8 @@ const mutations = {
         state.searchTerm = payload
     },
     updateOrderDirection(state, payload) {
-        if (payload === 'ascending' || payload === 'descending') {
-            state.orderDirection = payload
-        } else {
-            state.orderDirection = 'descending'
-            localStorage.setItem('orderDirection', state.orderDirection)
-        }
+        state.orderDirection = payload.orderDirection
+        localStorage.setItem('orderDirection', state.orderDirection)
     },
     toggleOrderDirection(state, payload) {
         if (state.orderDirection === 'ascending') {

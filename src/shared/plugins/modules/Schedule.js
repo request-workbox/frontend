@@ -10,6 +10,9 @@ const state = () => ({
     scheduleType: 'all',
     scheduleStatus: 'all',
     scheduleDate: moment().format('YYYY-MM-DD'),
+
+    orderDirection: 'descending',
+    orderBy: 'createdAt',
 })
 
 const getters = {
@@ -72,12 +75,29 @@ const getters = {
                 else return false
             } else if (state.scheduleStatus === 'active') {
                 if (data.status === 'received') return true
+                else if (data.status === 'uploading') return true
+                else if (data.status === 'pending') return true
                 else if (data.status === 'queued') return true
+                else if (data.status === 'starting') return true
+                else if (data.status === 'initializing') return true
+                else if (data.status === 'loading') return true
                 else if (data.status === 'running') return true
+                else return false
             }
         })
 
-        return workflowScheduleStatus
+        return getters.sortedSchedule(workflowScheduleStatus)
+    },
+    sortedSchedule: (state, getters, rootState) => (workflowScheduleStatus) => {
+        return workflowScheduleStatus.sort(function compare(a, b) {
+            var dateA = new Date(a[state.orderBy])
+            var dateB = new Date(b[state.orderBy])
+            if (state.orderDirection === 'ascending') {
+                return dateA - dateB
+            } else if (state.orderDirection === 'descending') {
+                return dateB - dateA
+            }
+        })
     }
 }
 
@@ -147,6 +167,25 @@ const mutations = {
     },
     changeScheduleType(state, scheduleType) {
         state.scheduleType = scheduleType
+    },
+    updateScheduleOrderDirection(state, payload) {
+        state.orderDirection = payload.scheduleOrderDirection
+        state.orderBy = payload.scheduleOrderBy
+
+        localStorage.setItem('scheduleOrderDirection', state.orderDirection)
+        localStorage.setItem('scheduleOrderBy', state.orderBy)
+    },
+    toggleScheduleOrderDirection(state, payload) {
+        if (state.orderDirection === 'ascending') {
+            state.orderDirection = 'descending'
+        } else if (state.orderDirection === 'descending') {
+            state.orderDirection = 'ascending'
+        }
+
+        state.orderBy = payload
+
+        localStorage.setItem('scheduleOrderDirection', state.orderDirection)
+        localStorage.setItem('scheduleOrderBy', state.orderBy)
     },
 }
 

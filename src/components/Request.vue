@@ -57,7 +57,9 @@ export default {
     init: function() {
       this.setCurrentRoute({ route: this.$route.name })
       this.getProjectName({ projectId: this.projectId })
-      this.updateOrderDirection(localStorage.getItem('orderDirection'))
+      this.updateOrderDirection({
+        orderDirection: localStorage.getItem('orderDirection') || 'descending'
+      })
       this.getRequests({ projectId: this.projectId })
       this.getStoragesForSelectOptions({ projectId: this.projectId })
       this.changeOption('url');

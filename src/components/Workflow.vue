@@ -50,12 +50,19 @@ export default {
   methods: {
     ...mapMutations('schedule', ['addToSchedule']),
     ...mapMutations('table',['changeOption', 'setCurrentRoute','updateOrderDirection']),
+    ...mapMutations('schedule', ['updateScheduleOrderDirection']),
     ...mapActions("project", ["getProjectName"]),
     ...mapActions('table',['getWorkflows','getRequestsForSelectOptions']),
     init: async function () {
       this.setCurrentRoute({ route: this.$route.name })
       this.getProjectName({ projectId: this.projectId });
-      this.updateOrderDirection(localStorage.getItem('orderDirection'))
+      this.updateOrderDirection({
+        orderDirection: localStorage.getItem('orderDirection') || 'descending'
+      })
+      this.updateScheduleOrderDirection({
+        scheduleOrderDirection: localStorage.getItem('scheduleOrderDirection') || 'descending',
+        scheduleOrderBy: localStorage.getItem('scheduleOrderBy') || 'createdAt',
+      })
       this.getWorkflows({ projectId: this.projectId });
       this.getRequestsForSelectOptions({ projectId: this.projectId })
       this.changeOption('instance');

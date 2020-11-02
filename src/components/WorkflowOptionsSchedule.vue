@@ -4,12 +4,14 @@
 
     <div class="row row-border-bottom">
       <div class="column column-data column-header column-5 column-padded">Stat</div>
+      <div class="column column-data column-header column-15 column-padded">
+        <span class="column-text-button" v-on:click="toggleScheduleOrderDirection('createdAt')">Created</span>
+      </div>
+      <div class="column column-data column-header column-20 column-padded">
+        <span class="column-text-button" v-on:click="toggleScheduleOrderDirection('date')">Departure</span>
+      </div>
       <div class="column column-data column-header column-10 column-padded">Queue Type</div>
       <div class="column column-data column-header column-10 column-padded">Status</div>
-      
-      
-      <div class="column column-data column-header column-15 column-padded">Created</div>
-      <div class="column column-data column-header column-20 column-padded">Departure</div>
       <div class="column column-data column-header column-20 column-padded">Workflow Name</div>
     </div>
 
@@ -18,13 +20,13 @@
       v-bind:class="{'table-row-selected':shouldBeSelected(stat._id)}"
       v-on:click="selectQueueStatAction(stat)"
       class="row row-border-bottom table-row-selectable schedule-row">
-      <div class="column column-data column-5">
+      <div class="column column-data column-5 column-padded">
         <a :href="instanceStatUrl(stat.instance)" target="_blank">View</a>
       </div>
-      <div class="column column-data column-10 column-padded">{{ formattedQueueType(stat.queueType) }}</div>
-      <div class="column column-data column-10 column-padded">{{ formattedQueueStatus(stat.status) }}</div>
       <div class="column column-data column-15 column-padded">{{ formattedDate(stat.createdAt) }}</div>
       <div class="column column-data column-20 column-padded">{{ formattedDate(stat.date) }}</div>
+      <div class="column column-data column-10 column-padded">{{ formattedQueueType(stat.queueType) }}</div>
+      <div class="column column-data column-10 column-padded">{{ formattedQueueStatus(stat.status) }}</div>
       <div class="column column-data column-20 column-padded">{{ stat.workflowName }}</div>
       <div class="column column-data column-grow column-padded" v-if="canRemoveSchedule(stat.status)" v-on:click="archiveQueueAction(stat._id)">
         <span class="column-text-button">Remove</span>
@@ -56,6 +58,7 @@ export default {
   },
   methods: {
     ...mapMutations('table', ['changeSelectedQueueStatId']),
+    ...mapMutations('schedule', ['toggleScheduleOrderDirection']),
     ...mapActions('schedule', ['archiveQueue']),
     formattedQueueType: (queueType) => {
       if (queueType === 'return') return 'Return'
