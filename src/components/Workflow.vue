@@ -50,7 +50,7 @@ export default {
   methods: {
     ...mapMutations('schedule', ['addToSchedule']),
     ...mapMutations('table',['changeOption', 'setCurrentRoute','updateOrderDirection']),
-    ...mapMutations('schedule', ['updateScheduleOrderDirection']),
+    ...mapMutations('schedule', ['updateScheduleOrderDirection', 'updateCurrentTime']),
     ...mapActions("project", ["getProjectName"]),
     ...mapActions('table',['getWorkflows','getRequestsForSelectOptions']),
     init: async function () {
@@ -74,6 +74,11 @@ export default {
         Vue.$apiSocket.on(userSub, this.addToSchedule)
         Vue.$jobsSocket.on(userSub, this.addToSchedule)
       }
+
+      const thisRef = this
+      setInterval(function() {
+        thisRef.updateCurrentTime()
+      })
     },
   },
 };

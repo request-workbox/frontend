@@ -30,7 +30,9 @@
             </div>
 
             <!-- Date Filter -->
-            <div class="spacer"></div>
+            <div class="column" v-if="this.option === 'schedule'">
+              <span class="tiny-text tiny-text-spaced">{{ currentTime }}</span>
+            </div>
             <div class="column" v-if="this.option === 'schedule'">
               <input type="date" name="" id="" :value="scheduleDate" v-on:change="changeScheduleDateAction"/>
             </div>
@@ -150,7 +152,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('schedule', ['scheduleDate','scheduleType', 'scheduleStatus']),
+    ...mapState('schedule', ['scheduleDate','scheduleType', 'scheduleStatus', 'currentTime']),
     ...mapGetters("table", ["selectedData"]),
     ...mapState("table", ["editing"]),
     ...mapState("table", ["option"]),
@@ -241,5 +243,8 @@ export default {
 <style lang="scss">
 input[type="date"] {
   font-family: "Open Sans", sans-serif;
+}
+.tiny-text-spaced {
+  margin-left: 9px !important;
 }
 </style>

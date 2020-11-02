@@ -13,6 +13,8 @@ const state = () => ({
 
     orderDirection: 'descending',
     orderBy: 'createdAt',
+
+    currentTime: `${moment().format('h:mm:ss a')}`,
 })
 
 const getters = {
@@ -187,6 +189,9 @@ const mutations = {
         localStorage.setItem('scheduleOrderDirection', state.orderDirection)
         localStorage.setItem('scheduleOrderBy', state.orderBy)
     },
+    updateCurrentTime(state, payload) {
+        state.currentTime = `${moment().format('h:mm:ss a')}`
+    }
 }
 
 export default {
