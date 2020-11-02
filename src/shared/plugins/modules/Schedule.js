@@ -12,7 +12,7 @@ const state = () => ({
     scheduleDate: moment().format('YYYY-MM-DD'),
 
     orderDirection: 'descending',
-    orderBy: 'createdAt',
+    orderBy: 'date',
 
     currentTime: `${moment().format('h:mm:ss a')}`,
 })
@@ -100,7 +100,38 @@ const getters = {
                 return dateB - dateA
             }
         })
-    }
+    },
+    pendingQueues: (state, getters, rootState) => () => {
+        const pendingObj = {
+            total: 0, return: 0, queue: 0, schedule: 0,
+        }
+
+        if (!_.size(state.schedule)) return false
+
+        _.each(state.schedule, (schedule) => {
+            if (schedule.status === '' 
+                || schedule.status === 'received' 
+                || schedule.status === 'uploading' 
+                || schedule.status === 'pending' 
+                || schedule.status === 'queued' 
+                || schedule.status === 'starting' 
+                || schedule.status === 'initializing' 
+                || schedule.status === 'loading' 
+                || schedule.status === 'running') {
+                    if (schedule.queueType === 'return') {
+                        pendingObj.return = pendingObj.return + 1
+                    } else if (schedule.queueType === 'queue') {
+                        pendingObj.queue = pendingObj.queue + 1
+                    } else if (schedule.queueType === 'schedule') {
+                        pendingObj.schedule = pendingObj.schedule + 1
+                    }
+            }
+        })
+
+        pendingObj.total = pendingObj.return + pendingObj.queue + pendingObj.schedule
+
+        return pendingObj
+    },
 }
 
 const actions = {

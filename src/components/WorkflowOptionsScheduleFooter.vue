@@ -2,7 +2,7 @@
   <div class="row row-border-top" id="socket-footer" v-if="showQueueStats()">
     <div class="column column-full-width">
       <div class="row row-border-bottom">
-        <div class="column column-data column-grow">Queue Stats</div>
+        <div class="column column-data column-grow">Queue Stats - {{ this.selectedQueueStatId }}</div>
       </div>
       <div class="row row-border-bottom">
         <div class="column column-data column-header column-20">Date</div>

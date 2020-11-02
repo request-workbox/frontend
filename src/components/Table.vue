@@ -3,12 +3,12 @@
     <!-- Request Table -->
     <div class="column column-full-width table-row-data" v-if="currentRoute === 'Requests'">
       <div class="row row-border-bottom">
-        <div class="column column-data column-header column-20" id="table-header-1">
+        <div class="column column-data column-header column-20">
           <span class="column-text-button" v-on:click="toggleOrderDirection">Date Created</span>
         </div>
-        <div class="column column-data column-header column-10" id="table-header-1">Method</div>
-        <div class="column column-data column-header column-10" id="table-header-3">Name</div>
-        <div class="column column-data column-header column-grow" id="table-header-4">Url</div>
+        <div class="column column-data column-header column-10">Name</div>
+        <div class="column column-data column-header column-grow">Url</div>
+        <div class="column column-data column-header column-20">Request ID</div>
       </div>
 
       <template v-if="allData.length > 0">
@@ -19,10 +19,10 @@
           v-bind:class="{ 'table-row-selected': rowIsActive(data) }"
           v-on:click="selectOrDeselectRow(data)"
         >
-          <div class="column column-data column-20" id="table-data-1">{{ dateCreated(data.createdAt) }}</div>
-          <div class="column column-data column-10" id="table-data-1">{{ data.url.method }}</div>
-          <div class="column column-data column-10" id="table-data-3">{{ data.url.name }}</div>
-          <div class="column column-data column-grow" id="table-data-4">{{ data.url.url }}</div>
+          <div class="column column-data column-20">{{ dateCreated(data.createdAt) }}</div>
+          <div class="column column-data column-10">{{ data.url.name }}</div>
+          <div class="column column-data column-grow">{{ data.url.url }}</div>
+          <div class="column column-data column-20">{{ data._id }}</div>
         </div>
       </template>
 
@@ -34,8 +34,8 @@
         >
           <div class="column column-data column-20 column-filler"></div>
           <div class="column column-data column-10 column-filler"></div>
-          <div class="column column-data column-10 column-filler"></div>
           <div class="column column-data column-grow column-filler"></div>
+          <div class="column column-data column-20 column-filler"></div>
         </div>
       </template>
     </div>
@@ -43,11 +43,12 @@
     <!-- Workflow Table -->
     <div class="column column-full-width table-row-data" v-if="currentRoute === 'Workflows'">
       <div class="row row-border-bottom">
-        <div class="column column-data column-header column-20" id="table-header-1">
+        <div class="column column-data column-header column-20">
           <span class="column-text-button" v-on:click="toggleOrderDirection">Date Created</span>
         </div>
-        <div class="column column-data column-header column-20" id="table-header-1">Name</div>
-        <div class="column column-data column-header column-20" id="table-header-4">Tasks</div>
+        <div class="column column-data column-header column-10">Name</div>
+        <div class="column column-data column-header column-grow">Tasks</div>
+        <div class="column column-data column-header column-20">Workflow ID</div>
       </div>
 
       <template v-if="allData.length > 0">
@@ -58,9 +59,10 @@
           v-bind:class="{ 'table-row-selected': rowIsActive(data) }"
           v-on:click="selectOrDeselectRow(data)"
         >
-          <div class="column column-data column-20" id="table-data-1">{{ dateCreated(data.createdAt) }}</div>
-          <div class="column column-data column-20" id="table-data-1">{{ data.name }}</div>
-          <div class="column column-data column-20" id="table-data-2">{{ numberOfWorkflowTasks(data) }}</div>
+          <div class="column column-data column-20">{{ dateCreated(data.createdAt) }}</div>
+          <div class="column column-data column-10">{{ data.name }}</div>
+          <div class="column column-data column-grow">{{ numberOfWorkflowTasks(data) }}</div>
+          <div class="column column-data column-20">{{ data._id }}</div>
         </div>
       </template>
 
@@ -71,7 +73,8 @@
           class="row row-border-bottom table-row-selectable"
         >
           <div class="column column-data column-20 column-filler"></div>
-          <div class="column column-data column-20 column-filler"></div>
+          <div class="column column-data column-10 column-filler"></div>
+          <div class="column column-data column-grow column-filler"></div>
           <div class="column column-data column-20 column-filler"></div>
         </div>
       </template>
@@ -80,11 +83,12 @@
     <!-- Storage Table -->
     <div class="column column-full-width table-row-data" v-if="currentRoute === 'Storage'">
       <div class="row row-border-bottom">
-        <div class="column column-data column-header column-20" id="table-header-1">
+        <div class="column column-data column-header column-20">
           <span class="column-text-button" v-on:click="toggleOrderDirection">Date Created</span>
         </div>
-        <div class="column column-data column-header column-20">Name</div>
-        <div class="column column-data column-header column-20">Storage Type</div>
+        <div class="column column-data column-header column-10">Name</div>
+        <div class="column column-data column-header column-grow">Storage Type</div>
+        <div class="column column-data column-header column-20">Storage ID</div>
       </div>
 
       <template v-if="allData.length > 0">
@@ -95,9 +99,10 @@
           v-bind:class="{ 'table-row-selected': rowIsActive(data) }"
           v-on:click="selectOrDeselectRow(data)"
         >
-          <div class="column column-data column-20" id="table-data-1">{{ dateCreated(data.createdAt) }}</div>
-          <div class="column column-data column-20">{{ data.name }}</div>
-          <div class="column column-data column-20">{{ storageType(data) }}</div>
+          <div class="column column-data column-20">{{ dateCreated(data.createdAt) }}</div>
+          <div class="column column-data column-10">{{ data.name }}</div>
+          <div class="column column-data column-grow">{{ storageType(data) }}</div>
+          <div class="column column-data column-20">{{ data._id }}</div>
         </div>
       </template>
 
@@ -108,7 +113,8 @@
           class="row row-border-bottom table-row-selectable"
         >
           <div class="column column-data column-20 column-filler"></div>
-          <div class="column column-data column-20 column-filler"></div>
+          <div class="column column-data column-10 column-filler"></div>
+          <div class="column column-data column-grow column-filler"></div>
           <div class="column column-data column-20 column-filler"></div>
         </div>
       </template>
@@ -120,8 +126,8 @@
         <div class="column column-data column-header column-20" id="table-header-1">
           <span class="column-text-button" v-on:click="toggleOrderDirection">Date Created</span>
         </div>
-        <div class="column column-data column-header column-20">Instance</div>
         <div class="column column-data column-header column-grow">Workflow Name</div>
+        <div class="column column-data column-header column-20">Instance ID</div>
       </div>
 
       <!-- <div v-if="allData.length === 0" class="row row-border-bottom">
@@ -136,9 +142,9 @@
           v-bind:class="{ 'table-row-selected': rowIsActive(data) }"
           v-on:click="selectOrDeselectRow(data)"
         >
-          <div class="column column-data column-20" id="table-data-1">{{ dateCreated(data.createdAt) }}</div>
-          <div class="column column-data column-20" id="table-data-2">{{ data._id }}</div>
-          <div class="column column-data column-grow" id="table-data-2">{{ data.workflowName }}</div>
+          <div class="column column-data column-20">{{ dateCreated(data.createdAt) }}</div>
+          <div class="column column-data column-grow">{{ data.workflowName }}</div>
+          <div class="column column-data column-20">{{ data._id }}</div>
         </div>
       </template>
 
@@ -149,8 +155,8 @@
           class="row row-border-bottom table-row-selectable"
         >
           <div class="column column-data column-20 column-filler"></div>
-          <div class="column column-data column-20 column-filler"></div>
           <div class="column column-data column-grow column-filler"></div>
+          <div class="column column-data column-20 column-filler"></div>
         </div>
       </template>
 

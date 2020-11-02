@@ -61,7 +61,7 @@ export default {
       })
       this.updateScheduleOrderDirection({
         scheduleOrderDirection: localStorage.getItem('scheduleOrderDirection') || 'descending',
-        scheduleOrderBy: localStorage.getItem('scheduleOrderBy') || 'createdAt',
+        scheduleOrderBy: localStorage.getItem('scheduleOrderBy') || 'date',
       })
       this.getWorkflows({ projectId: this.projectId });
       this.getRequestsForSelectOptions({ projectId: this.projectId })
