@@ -26,7 +26,7 @@
               class="column text-button action"
               v-on:click="addWorkflowTaskAction"
             >
-              Add Task
+              Add Request
             </div>
 
             <!-- Date Filter -->
@@ -142,6 +142,7 @@
 <script>
 import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
 import moment from 'moment-timezone'
+import Vue from 'vue'
 
 export default {
   name: "WorkflowOptionsActions",
@@ -182,7 +183,11 @@ export default {
       await this.cancelWorkflowChanges({ _id: this.selectedData()._id });
     },
     saveWorkflowChangesAction: async function () {
-      await this.saveWorkflowChanges(this.selectedData());
+      try {
+        await this.saveWorkflowChanges(this.selectedData());
+      } catch(err) {
+        Vue.$toast.open(err.message)
+      }
     },
     changeScheduleDateAction: function(event) {
       this.changeSelectedQueueStatId('')

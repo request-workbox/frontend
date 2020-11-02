@@ -18,22 +18,32 @@ const actions = {
         commit('replaceAllData', { data: request.data })
         commit('resetPage')
     },
+    async getWorkflow({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${state.apiUrl}/get-workflow`
+        const requestBody = { projectId: payload.projectId, workflowId: payload.workflowId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('replaceAllData', { data: request.data })
+        commit('resetPage')
+        commit('changeSelectedId', { selectedId: request.data[0]._id })
+    },
     async cancelWorkflowChanges({ commit, state, getters, rootState }, { _id }) {
         if (!state.editing) return;
 
-        const requestUrl = `${state.apiUrl}/get-workflow-details`
-        const requestBody = { workflowId: _id }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('updateWorkflow', request.data)
-        commit('stopEditing')
+        location.reload()
     },
     async saveWorkflowChanges({ commit, state, getters, rootState }, workflow) {
-        if (!state.editing) return;
+        try {
+            if (!state.editing) return;
 
-        const requestUrl = `${state.apiUrl}/save-workflow-changes`
-        const requestBody = workflow
-        await Vue.$axios.post(requestUrl, requestBody)
-        commit('stopEditing')
+            const requestUrl = `${state.apiUrl}/save-workflow-changes`
+            const requestBody = workflow
+            await Vue.$axios.post(requestUrl, requestBody)
+            location.reload()
+        } catch(err) {
+            if (err.response && err.response.data) {
+                throw new Error(err.response.data)
+            }
+        }
     },
     async addWorkflowTask({ commit, state, getters, rootState }, payload) {
         const requestUrl = `${state.apiUrl}/add-workflow-task`
@@ -92,6 +102,9 @@ const mutations = {
                 _.each(data, (value, key) => {
                     data[key] = payload[key]
                 })
+                if (!data.webhookRequestId) {
+                    data.webhookRequestId = ''
+                }
             }
         })
     },

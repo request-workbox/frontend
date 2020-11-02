@@ -23,6 +23,15 @@ const actions = {
         commit('replaceAllData', { data: request.data })
         commit('resetPage')
     },
+    // STORAGE ACTIONS
+    async getStorage({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${state.apiUrl}/get-storage`
+        const requestBody = { projectId: payload.projectId, storageId: payload.storageId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('replaceAllData', { data: request.data })
+        commit('resetPage')
+        commit('changeSelectedId', { selectedId: request.data[0]._id })
+    },
     async getStoragesForSelectOptions({ commit, state, getters, rootState }, payload) {
         const projectId = payload.projectId
         const requestUrl = `${state.apiUrl}/get-storages`

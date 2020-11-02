@@ -40,14 +40,14 @@ export default {
     this.init();
   },
   beforeRouteUpdate(to, from, next) {
-    this.init();
+    // this.init();
     return next();
   },
   methods: {
     ...mapMutations('table',['changeOption','setCurrentRoute','updateSearchTerm','updateOrderDirection']),
     ...mapActions("project", ["getProjectName"]),
     ...mapActions('table',['getInstances', 'getInstance']),
-    init: function () {
+    init: async function () {
       this.setCurrentRoute({ route: this.$route.name })
       this.getProjectName({ projectId: this.projectId });
       this.updateOrderDirection({
@@ -55,10 +55,10 @@ export default {
       })
       this.changeOption('details');
       
-      if (this.$route.query && this.$route.query.instance) {
-        this.getInstance({ projectId: this.projectId, instanceId: this.$route.query.instance })
+      if (this.$route.query && this.$route.query.id) {
+        await this.getInstance({ projectId: this.projectId, instanceId: this.$route.query.id })
       } else {
-        this.getInstances({ projectId: this.projectId });
+        await this.getInstances({ projectId: this.projectId });
       }
     },
   },

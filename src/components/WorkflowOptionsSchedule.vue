@@ -79,7 +79,7 @@ export default {
     },
     instanceStatUrl: function(instanceId) {
       const projectId = this.$route.params.projectId
-      return `/projects/${projectId}/statistics?instance=${instanceId}`
+      return `/projects/${projectId}/statistics?id=${instanceId}`
     },
     archiveQueueAction: async function(queueId) {
       try {

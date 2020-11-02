@@ -25,7 +25,7 @@
           />
         </div>
       </div>
-
+      
       <div class="row row-border-bottom">
         <div class="column column-data column-header-text column-grow column-group-header">Instance</div>
       </div>

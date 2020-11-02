@@ -43,6 +43,7 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('replaceAllData', { data: request.data })
         commit('resetPage')
+        commit('changeSelectedId', { selectedId: request.data[0]._id })
     },
     async getInstanceDetail({ commit, state, getters, rootState }, payload) {
         const instanceId = payload.instanceId

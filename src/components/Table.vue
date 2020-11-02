@@ -17,7 +17,7 @@
           v-bind:key="data._id"
           class="row row-border-bottom table-row-selectable"
           v-bind:class="{ 'table-row-selected': rowIsActive(data) }"
-          v-on:click="selectOrDeselectRow(data)"
+          v-on:click="selectOrDeselectRowAction(data)"
         >
           <div class="column column-data column-20">{{ dateCreated(data.createdAt) }}</div>
           <div class="column column-data column-10">{{ data.url.name }}</div>
@@ -57,7 +57,7 @@
           v-bind:key="data._id"
           class="row row-border-bottom table-row-selectable"
           v-bind:class="{ 'table-row-selected': rowIsActive(data) }"
-          v-on:click="selectOrDeselectRow(data)"
+          v-on:click="selectOrDeselectRowAction(data)"
         >
           <div class="column column-data column-20">{{ dateCreated(data.createdAt) }}</div>
           <div class="column column-data column-10">{{ data.name }}</div>
@@ -97,7 +97,7 @@
           v-bind:key="data._id"
           class="row row-border-bottom table-row-selectable"
           v-bind:class="{ 'table-row-selected': rowIsActive(data) }"
-          v-on:click="selectOrDeselectRow(data)"
+          v-on:click="selectOrDeselectRowAction(data)"
         >
           <div class="column column-data column-20">{{ dateCreated(data.createdAt) }}</div>
           <div class="column column-data column-10">{{ data.name }}</div>
@@ -140,7 +140,7 @@
           v-bind:key="data._id"
           class="row row-border-bottom table-row-selectable"
           v-bind:class="{ 'table-row-selected': rowIsActive(data) }"
-          v-on:click="selectOrDeselectRow(data)"
+          v-on:click="selectOrDeselectRowAction(data)"
         >
           <div class="column column-data column-20">{{ dateCreated(data.createdAt) }}</div>
           <div class="column column-data column-grow">{{ data.workflowName }}</div>
@@ -172,7 +172,7 @@ import _ from 'lodash'
 export default {
   name: "Table",
   computed: {
-    ...mapState("table", ["allData", "selectedId"]),
+    ...mapState("table", ["allData", "selectedId", 'option']),
     ...mapGetters("table", ["viewableData"]),
     currentRoute: function () {
       return this.$route.name;
@@ -200,7 +200,15 @@ export default {
     dateCreated: function(createdAt) {
       if (!createdAt) return ''
       return `${moment(createdAt).format('M-D-YYYY, h:mm a')}`
-    }
+    },
+    selectOrDeselectRowAction: function(payload) {
+      if (this.selectedId === payload._id) {
+        this.$router.replace({ path: this.$route.name, query: { option: this.option, }}).catch((err) => err)
+      } else {
+        this.$router.replace({ path: this.$route.name, query: { id: payload._id, option: this.option, }}).catch((err) => err)
+      }
+      this.selectOrDeselectRow(payload)
+    },
   },
 };
 </script>

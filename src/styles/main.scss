@@ -96,6 +96,10 @@
     justify-content: center;
     cursor: pointer;
   }
+  .column-uparrow-hidden {
+    cursor: default;
+    color:white;
+  }
   .column-uparrow-header {
     display: flex;
     flex-direction: row;

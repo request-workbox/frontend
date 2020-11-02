@@ -23,6 +23,14 @@ const actions = {
         commit('replaceAllData', { data: request.data })
         commit('resetPage')
     },
+    async getRequest({ commit, state, getters, rootState }, payload) {
+        const requestUrl = `${state.apiUrl}/get-request`
+        const requestBody = { projectId: payload.projectId, requestId: payload.requestId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('replaceAllData', { data: request.data })
+        commit('resetPage')
+        commit('changeSelectedId', { selectedId: request.data[0]._id })
+    },
     async getRequestsForSelectOptions({ commit, state, getters, rootState }, payload) {
         const projectId = (payload && payload.projectId) ? payload.projectId : rootState.project.projectInfo.projectId
         const requestUrl = `${state.apiUrl}/get-requests`

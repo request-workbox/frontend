@@ -46,23 +46,33 @@ export default {
     this.init()
   },
   beforeRouteUpdate (to, from, next) {
-    this.init()
+    // this.init()
     return next()
   },
   methods: {
     ...mapMutations('table',['changeOption', 'setCurrentRoute','updateOrderDirection']),
     ...mapActions('project', ['getProjectName']),
     
-    ...mapActions('table', ['getRequests','getStoragesForSelectOptions']),
-    init: function() {
+    ...mapActions('table', ['getRequests', 'getRequest', 'getStoragesForSelectOptions']),
+    init: async function() {
       this.setCurrentRoute({ route: this.$route.name })
       this.getProjectName({ projectId: this.projectId })
       this.updateOrderDirection({
         orderDirection: localStorage.getItem('orderDirection') || 'descending'
       })
-      this.getRequests({ projectId: this.projectId })
-      this.getStoragesForSelectOptions({ projectId: this.projectId })
-      this.changeOption('url');
+      await this.getStoragesForSelectOptions({ projectId: this.projectId })
+
+      if (this.$route.query && this.$route.query.id) {
+        await this.getRequest({ projectId: this.projectId, requestId: this.$route.query.id })
+      } else {
+        await this.getRequests({ projectId: this.projectId });
+      }
+
+      if (this.$route.query && this.$route.query.option) {
+        this.changeOption(this.$route.query.option);
+      } else {
+        this.changeOption('url');
+      }
     }
   }
 };

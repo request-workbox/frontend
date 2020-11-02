@@ -41,10 +41,12 @@ export default {
     Footer,
   },
   mounted: function () {
+    // console.log('loaded 1')
     this.init();
   },
   beforeRouteUpdate(to, from, next) {
-    this.init();
+    // console.log('loaded 2')
+    // this.init();
     return next();
   },
   methods: {
@@ -52,7 +54,7 @@ export default {
     ...mapMutations('table',['changeOption', 'setCurrentRoute','updateOrderDirection']),
     ...mapMutations('schedule', ['updateScheduleOrderDirection', 'updateCurrentTime']),
     ...mapActions("project", ["getProjectName"]),
-    ...mapActions('table',['getWorkflows','getRequestsForSelectOptions']),
+    ...mapActions('table',['getWorkflows','getWorkflow','getRequestsForSelectOptions']),
     init: async function () {
       this.setCurrentRoute({ route: this.$route.name })
       this.getProjectName({ projectId: this.projectId });
@@ -63,9 +65,19 @@ export default {
         scheduleOrderDirection: localStorage.getItem('scheduleOrderDirection') || 'descending',
         scheduleOrderBy: localStorage.getItem('scheduleOrderBy') || 'date',
       })
-      this.getWorkflows({ projectId: this.projectId });
-      this.getRequestsForSelectOptions({ projectId: this.projectId })
-      this.changeOption('instance');
+      await this.getRequestsForSelectOptions({ projectId: this.projectId })
+      
+      if (this.$route.query && this.$route.query.id) {
+        await this.getWorkflow({ projectId: this.projectId, workflowId: this.$route.query.id })
+      } else {
+        await this.getWorkflows({ projectId: this.projectId });
+      }
+
+      if (this.$route.query && this.$route.query.option) {
+        this.changeOption(this.$route.query.option);
+      } else {
+        this.changeOption('instance');
+      }
 
       // Listen to socket
       await this.$store.dispatch('cognito/fetchSession')
@@ -78,7 +90,7 @@ export default {
       const thisRef = this
       setInterval(function() {
         thisRef.updateCurrentTime()
-      })
+      }, 1000)
     },
   },
 };
