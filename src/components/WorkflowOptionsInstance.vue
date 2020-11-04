@@ -27,31 +27,52 @@
       </div>
       
       <div class="row row-border-bottom">
-        <div class="column column-data column-header-text column-grow column-group-header">Instance</div>
+        <div class="column column-data column-header-text column-grow column-group-header">Instance API</div>
       </div>
 
       <div class="row row-border-bottom" v-if="this.selectedData()._id">
         <div class="column column-data column-20">
-          <div class="column text-button action action-text-center" v-on:click="returnWorkflowAction">Return Workflow</div>
+          <div class="column text-button action action-text-center" v-on:click="copyToClipboard('return')">Copy Return URL</div>
         </div>
-        
-        <span class="tiny-text"> {{ returnInstanceUrl }}</span>
+        <div class="column column-data column-grow">
+          <input
+            type="text"
+            placeholder="Key"
+            class="column-input-text"
+            :value="returnInstanceUrl"
+            ref="returnUrl"
+          />
+        </div>
       </div>
 
       <div class="row row-border-bottom" v-if="this.selectedData()._id">
         <div class="column column-data column-20">
-          <div class="column text-button action action-text-center" v-on:click="queueWorkflowAction">Queue Workflow</div>
+          <div class="column text-button action action-text-center" v-on:click="copyToClipboard('queue')">Copy Queue URL</div>
         </div>
-        
-        <span class="tiny-text"> {{ queueInstanceUrl }}</span>
+        <div class="column column-data column-grow">
+          <input
+            type="text"
+            placeholder="Key"
+            class="column-input-text"
+            :value="queueInstanceUrl"
+            ref="queueUrl"
+          />
+        </div>
       </div>
 
       <div class="row row-border-bottom" v-if="this.selectedData()._id">
         <div class="column column-data column-20">
-          <div class="column text-button action action-text-center" v-on:click="scheduleWorkflowAction">Schedule Workflow</div>
+          <div class="column text-button action action-text-center" v-on:click="copyToClipboard('schedule')">Copy Schedule URL</div>
         </div>
-        
-        <span class="tiny-text"> {{ scheduleInstanceUrl }}</span>
+        <div class="column column-data column-grow">
+          <input
+            type="text"
+            placeholder="Key"
+            class="column-input-text"
+            :value="scheduleInstanceUrl"
+            ref="scheduleUrl"
+          />
+        </div>
       </div>
 
     </div>
@@ -89,30 +110,24 @@ export default {
   },
   methods: {
     ...mapMutations('table', ['editWorkflowDetail']),
-    ...mapActions('table',['returnWorkflow','queueWorkflow','scheduleWorkflow']),
     editWorkflowDetailAction: function(key, event) {
       this.editWorkflowDetail({key, value: event.target.value, workflowId: this.selectedData()._id})
     },
-    returnWorkflowAction: async function() {
-      try {
-        await this.returnWorkflow(this.selectedData()._id)
-      } catch(err) {
-        Vue.$toast.open(err.response.data)
-      }
-    },
-    queueWorkflowAction: async function() {
-      try {
-        await this.queueWorkflow(this.selectedData()._id)
-      } catch(err) {
-        Vue.$toast.open(err.response.data)
-      }
-    },
-    scheduleWorkflowAction: async function() {
-      try {
-        await this.scheduleWorkflow(this.selectedData()._id)
-      } catch(err) {
-        Vue.$toast.open(err.response.data)
-      }
+    copyToClipboard: function(queueType) {
+      const queueTypeRef = `${queueType}Url`
+      const ref = this.$refs[queueTypeRef]
+
+      /* Select the text field */
+      ref.select();
+      ref.setSelectionRange(0, 99999); /*For mobile devices*/
+
+      /* Copy the text inside the text field */
+      document.execCommand("copy");
+
+      Vue.$toast.open({
+        message: 'Copied text to clipboard!',
+        type: 'success',
+      })
     },
   }
 };

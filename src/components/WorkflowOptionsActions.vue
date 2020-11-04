@@ -28,6 +28,13 @@
             >
               Add Request
             </div>
+            
+            <div class="large-spacer" v-if="this.selectedData()._id && this.option === 'tasks'"></div>
+
+            <!-- Schedule Workflow -->
+            <div class="column text-button action action-text-center" v-if="this.selectedData()._id && this.option === 'tasks'" v-on:click="returnWorkflowAction">Return Workflow</div>
+            <div class="column text-button action action-text-center" v-if="this.selectedData()._id && this.option === 'tasks'" v-on:click="queueWorkflowAction">Queue Workflow</div>
+            <div class="column text-button action action-text-center" v-if="this.selectedData()._id && this.option === 'tasks'" v-on:click="scheduleWorkflowAction">Schedule Workflow</div>
 
             <!-- Date Filter -->
             <div class="column" v-if="this.option === 'schedule'">
@@ -165,6 +172,7 @@ export default {
       "cancelWorkflowChanges",
       "saveWorkflowChanges",
       "addWorkflowTask",
+      'returnWorkflow','queueWorkflow','scheduleWorkflow',
     ]),
     ...mapActions('schedule', [
       'getSchedule',
@@ -239,6 +247,27 @@ export default {
         } finally {
           this.clearing = false
         }
+      }
+    },
+    returnWorkflowAction: async function() {
+      try {
+        await this.returnWorkflow(this.selectedData()._id)
+      } catch(err) {
+        Vue.$toast.open(err.response.data)
+      }
+    },
+    queueWorkflowAction: async function() {
+      try {
+        await this.queueWorkflow(this.selectedData()._id)
+      } catch(err) {
+        Vue.$toast.open(err.response.data)
+      }
+    },
+    scheduleWorkflowAction: async function() {
+      try {
+        await this.scheduleWorkflow(this.selectedData()._id)
+      } catch(err) {
+        Vue.$toast.open(err.response.data)
       }
     },
   },
