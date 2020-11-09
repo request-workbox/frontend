@@ -59,17 +59,23 @@ const actions = {
     },
     async returnWorkflow({ commit, state, getters, rootState }, workflowId) {
         const requestUrl = `${state.apiUrl}/return-workflow/${workflowId}`
-        const request = await Vue.$axios.post(requestUrl)
+        const request = await Vue.$axios.post(requestUrl, {
+            testing: true,
+        })
         return request
     },
     async queueWorkflow({ commit, state, getters, rootState }, workflowId) {
         const requestUrl = `${state.apiUrl}/queue-workflow/${workflowId}`
-        const request = await Vue.$axios.post(requestUrl)
+        const request = await Vue.$axios.post(requestUrl, {
+            testing: true,
+        })
         return request
     },
     async scheduleWorkflow({ commit, state, getters, rootState }, workflowId) {
         const requestUrl = `${state.apiUrl}/schedule-workflow/${workflowId}?date=${moment().add(1, 'minute').toISOString()}`
-        const request = await Vue.$axios.post(requestUrl)
+        const request = await Vue.$axios.post(requestUrl, {
+            testing: true,
+        })
         return request
     },
     async archiveWorkflow({ commit, state, getters, rootState }, payload) {
