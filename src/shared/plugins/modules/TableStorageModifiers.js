@@ -100,6 +100,14 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl, requestBody)
         location.reload()
     },
+    async getStorageUsage({ commit, state, getters, rootState }, payload) {
+        if (!payload.storageId) return;
+        const storageId = payload.storageId
+        const requestUrl = `${state.apiUrl}/get-storage-usage`
+        const requestBody = { storageId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('updateStorageUsage', { data: request.data, storageId: storageId })
+    },
 }
 
 const mutations = {
@@ -145,6 +153,13 @@ const mutations = {
     },
     replaceStoragesForSelectOptions(state, payload) {
         state.storagesForSelectOptions = payload.data
+    },
+    updateStorageUsage(state, payload) {
+        _.each(state.allData, (storage) => {
+            if (storage._id === payload.storageId) {
+                storage.usage = payload.data.usage
+            }
+        })
     },
 }
 

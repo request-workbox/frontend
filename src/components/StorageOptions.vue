@@ -9,11 +9,13 @@ import { mapState } from "vuex";
 import _ from "lodash";
 
 import StorageOptionsDetails from "./StorageOptionsDetails";
+import StorageOptionsUsage from "./StorageOptionsUsage";
 
 export default {
   name: "StorageOptions",
   components: {
     StorageOptionsDetails,
+    StorageOptionsUsage,
   },
   computed: {
     ...mapState("table", ["option"]),

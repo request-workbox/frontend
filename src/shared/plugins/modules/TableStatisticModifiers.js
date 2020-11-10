@@ -25,13 +25,14 @@ const getters = {
 
         return instance.stats[0]._id
     },
-    usageTotals: (state, getters, rootState) => (instanceId) => {
+    // This is used by Statistic and Storage usage views
+    usageTotals: (state, getters, rootState) => (docId) => {
         const totals = { 'kb down': 0, 'kb up': 0, 'time': 0, }
 
-        if (!instanceId) return totals
+        if (!docId) return totals
 
         const instance = _.filter(state.allData, (data) => {
-           if (data._id === instanceId) return true;
+           if (data._id === docId) return true;
            else return false;
        })[0]
 
