@@ -25,6 +25,24 @@ const getters = {
 
         return instance.stats[0]._id
     },
+    usageTotals: (state, getters, rootState) => (instanceId) => {
+        const totals = { 'kb down': 0, 'kb up': 0, 'time': 0, }
+
+        if (!instanceId) return totals
+
+        const instance = _.filter(state.allData, (data) => {
+           if (data._id === instanceId) return true;
+           else return false;
+       })[0]
+
+       if (!_.size(instance.usage)) return totals
+
+       totals['kb down'] = String((((instance.totalBytesDown || 0) / 1000) || 0).toFixed(2)) + ' kb'
+       totals['kb up'] = String((((instance.totalBytesUp || 0) / 1000) || 0).toFixed(2)) + ' kb'
+       totals['time'] = String((((instance.totalMs || 0) / 1000) || 0).toFixed(2)) + ' seconds'
+
+        return totals
+   },
 }
 
 const actions = {
@@ -51,7 +69,15 @@ const actions = {
         const requestBody = { instanceId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('updateInstanceDetail', { data: request.data, instanceId: instanceId })
-    }, 
+    },
+    async getInstanceUsage({ commit, state, getters, rootState }, payload) {
+        if (!payload.instanceId) return;
+        const instanceId = payload.instanceId
+        const requestUrl = `${state.apiUrl}/get-instance-usage`
+        const requestBody = { instanceId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('updateInstanceUsage', { data: request.data, instanceId: instanceId })
+    },
     async deleteAllStats({ commit, state, getters, rootState }, payload) {
         const projectId = payload.projectId
         const requestUrl = `${state.apiUrl}/delete-stats`
@@ -75,6 +101,13 @@ const mutations = {
                     stat.responsePayload = statUpdate.responsePayload
                     return stat
                 })
+            }
+        })
+    },
+    updateInstanceUsage(state, payload) {
+        _.each(state.allData, (instance) => {
+            if (instance._id === payload.instanceId) {
+                instance.usage = payload.data.usage
             }
         })
     },

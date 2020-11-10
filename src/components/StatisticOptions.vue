@@ -9,11 +9,13 @@ import { mapState } from "vuex";
 import _ from "lodash";
 
 import StatisticOptionsDetails from "./StatisticOptionsDetails";
+import StatisticOptionsUsage from "./StatisticOptionsUsage";
 
 export default {
   name: "StatisticOptions",
   components: {
     StatisticOptionsDetails,
+    StatisticOptionsUsage,
   },
   computed: {
     ...mapState("table", ["option"]),

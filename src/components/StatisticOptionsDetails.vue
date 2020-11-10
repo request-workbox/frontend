@@ -21,8 +21,6 @@
     <div class="row row-border-bottom" v-if="shouldShowSelectedStat()">
       <div class="column text-button action" v-if="!loading" v-on:click="getInstanceDetailAction()">Load Requests / Responses</div>
       <div class="column text-button action" v-if="loading">Loading Data...</div>
-      <div class="column text-button action" v-if="!loadingUsage">Load Usage</div>
-      <div class="column text-button action" v-if="loadingUsage">Loading Usage...</div>
     </div>
 
     <pre v-if="shouldShowSelectedStat()">
@@ -43,7 +41,6 @@ export default {
   data: function() {
     return {
       loading: false,
-      loadingUsage: false,
     }
   },
   computed: {
@@ -62,7 +59,6 @@ export default {
       } finally {
         this.loading = false
       }
-      
     },
     statisticCreatedAt: function(createdAt) {
       if (!createdAt) return ''

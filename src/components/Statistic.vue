@@ -53,7 +53,12 @@ export default {
       this.updateOrderDirection({
         orderDirection: localStorage.getItem('orderDirection') || 'descending'
       })
-      this.changeOption('details');
+
+      if (this.$route.query && this.$route.query.option) {
+        this.changeOption(this.$route.query.option);
+      } else {
+        this.changeOption('details');
+      }
       
       if (this.$route.query && this.$route.query.id) {
         await this.getInstance({ projectId: this.projectId, instanceId: this.$route.query.id })
