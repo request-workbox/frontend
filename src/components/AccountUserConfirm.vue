@@ -58,13 +58,15 @@ export default {
   },
   methods: {
     ...mapActions('authentication', [
-      'confirmUser'
+      'confirmUser',
+      'updateCustomer',
     ]),
     confirmUserAction: async function() {
       try {
         this.loading = true
         this.message = ''
         await this.confirmUser()
+        await this.updateCustomer()
         location.reload()
       } catch(err) {
         this.message = err.message

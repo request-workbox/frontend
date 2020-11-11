@@ -1,9 +1,11 @@
 import { getField, updateField } from 'vuex-map-fields'
 import _ from 'lodash'
+import Vue from 'vue'
 
 export default {
     namespaced: true,
     state: {
+        billingUrl: process.env.VUE_APP_BILLING_URL,
         login: {
             username: '',
             password1: '',
@@ -32,6 +34,26 @@ export default {
         updateField,
     },
     actions: {
+        async createCustomer({ commit, state, dispatch }) {
+            try {
+                const requestUrl = `${state.billingUrl}/create-customer`
+                const requestBody = { username: state.signup.username, email: state.signup.email }
+                const request = await Vue.$axios.post(requestUrl, requestBody)
+            } catch (err) {
+                if (err.message) throw new Error(err.message)
+                else throw new Error(err) 
+            }
+        },
+        async updateCustomer({ commit, state, dispatch }) {
+            try {
+                const requestUrl = `${state.billingUrl}/update-customer`
+                const requestBody = { username: state.confirm.username }
+                const request = await Vue.$axios.post(requestUrl, requestBody)
+            } catch (err) {
+                if (err.message) throw new Error(err.message)
+                else throw new Error(err) 
+            }
+        },
         async loginUser({ commit, state, dispatch }) {
             try {
                 await dispatch('cognito/signInUser', {

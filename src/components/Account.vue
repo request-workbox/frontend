@@ -14,6 +14,7 @@ import AccountMenu from './AccountMenu'
 import AccountBilling from './AccountBilling'
 import AccountSettings from './AccountSettings'
 import AccountUser from './AccountUser'
+import AccountBeta from './AccountBeta'
 import Footer from './Footer'
 
 export default {
@@ -23,6 +24,7 @@ export default {
     AccountBilling,
     AccountSettings,
     AccountUser,
+    AccountBeta,
     Footer,
   },
   mounted: function () {

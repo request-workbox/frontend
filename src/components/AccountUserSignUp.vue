@@ -79,13 +79,15 @@ export default {
   },
   methods: {
     ...mapActions('authentication', [
-      'signupUser'
+      'signupUser',
+      'createCustomer',
     ]),
     signupUserAction: async function() {
       try {
         this.loading = true
         this.message = ''
         await this.signupUser()
+        await this.createCustomer()
         this.message = 'Check your email for sign up instructions'
       } catch(err) {
         if (err.message === 'Username cannot be empty') {
