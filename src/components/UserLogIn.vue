@@ -43,7 +43,7 @@ import { mapState, mapActions } from 'vuex'
 import { mapFields } from 'vuex-map-fields';
 
 export default {
-  name: 'AccountUserLogIn',
+  name: 'UserLogIn',
   data: function() {
     return {
       loading: false,

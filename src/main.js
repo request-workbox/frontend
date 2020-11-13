@@ -32,6 +32,11 @@ import Statistic from './components/Statistic'
 import Storage from './components/Storage'
 import Account from './components/Account'
 
+import Register from './components/UserSignUp'
+import Confirm from './components/UserConfirm'
+import Reset from './components/UserReset'
+import Login from './components/UserLogIn'
+
 Vue.use(VueRouter)
 const router = new VueRouter({
   mode: 'history',
@@ -69,6 +74,30 @@ const router = new VueRouter({
       path: '/projects/:projectId/storage',
       name: 'Storage',
       component: Storage,
+      props: true,
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register,
+      props: true,
+    },
+    {
+      path: '/confirm',
+      name: 'Confirm',
+      component: Confirm,
+      props: true,
+    },
+    {
+      path: '/reset',
+      name: 'Reset',
+      component: Reset,
+      props: true,
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login,
       props: true,
     },
   ],

@@ -4,8 +4,7 @@ import { getField, updateField } from 'vuex-map-fields';
 const state = () => ({
     apiUrl: process.env.VUE_APP_API_URL,
 
-    option: 'user',
-    userOption: 'login'
+    option: 'settings',
 })
 
 const getters = {
@@ -20,9 +19,6 @@ const mutations = {
     changeAccountOption(state, option) {
         state.option = option
     },
-    changeAccountUserOption(state, userOption) {
-        state.userOption = userOption
-    }
 }
 
 export default {

@@ -69,7 +69,7 @@ import { mapState, mapActions } from 'vuex'
 import { mapFields } from 'vuex-map-fields';
 
 export default {
-  name: 'AccountUserReset',
+  name: 'UserReset',
   data: function() {
     return {
       loadingEmail: false,

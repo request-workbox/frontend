@@ -62,7 +62,7 @@ import { mapFields } from 'vuex-map-fields';
 import _ from 'lodash'
 
 export default {
-  name: 'AccountUserSignUp',
+  name: 'UserSignUp',
   data: function() {
     return {
       loading: false,

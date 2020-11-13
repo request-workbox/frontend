@@ -13,8 +13,6 @@ import _ from 'lodash'
 import AccountMenu from './AccountMenu'
 import AccountBilling from './AccountBilling'
 import AccountSettings from './AccountSettings'
-import AccountUser from './AccountUser'
-import AccountBeta from './AccountBeta'
 import Footer from './Footer'
 
 export default {
@@ -23,15 +21,13 @@ export default {
     AccountMenu,
     AccountBilling,
     AccountSettings,
-    AccountUser,
-    AccountBeta,
     Footer,
   },
   mounted: function () {
     this.init();
   },
   beforeRouteUpdate(to, from, next) {
-    this.init();
+    // this.init();
     return next();
   },
   computed: {
@@ -47,10 +43,15 @@ export default {
     init: async function () {
       this.setCurrentRoute({ route: this.$route.name })
 
+      if (this.$route.query && this.$route.query.option) {
+        this.changeAccountOption(this.$route.query.option);
+      } else {
+        this.changeAccountOption('settings')
+      }
+
       try {
         await this.$store.dispatch('cognito/fetchSession')
         await this.getAccountType()
-        this.changeAccountOption('settings')
       } catch(err) {
         this.changeAccountOption('user')
       }

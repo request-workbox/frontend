@@ -4,6 +4,7 @@ const state = () => ({
     billingUrl: process.env.VUE_APP_BILLING_URL,
 
     accountType: '',
+    updateCardView: false,
 })
 
 const getters = {
@@ -27,6 +28,9 @@ const actions = {
 const mutations = {
     changeAccountType(state, { accountType }) {
         state.accountType = accountType
+    },
+    toggleUpdateCardView(state) {
+        state.updateCardView = !state.updateCardView
     },
 }
 

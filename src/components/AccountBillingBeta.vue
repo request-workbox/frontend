@@ -3,18 +3,12 @@
     <div class="column column-full-width">
       <!-- Free 3 Month Trial -->
       <div class="row row-border-bottom">
-        <div class="column column-data column-header-text column-grow column-group-header">3 Month Trial Upgrade to Standard</div>
+        <div class="column column-data column-header-text column-grow column-group-header">Beta Program</div>
       </div>
 
       <div class="row row-border-bottom">
-        <div class="column column-data column-20">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            value="Pending Actions"
-            disabled
-          />
+        <div class="column text-button action beta-button">
+          <span>Unlock Standard 3 Month Trial</span>
         </div>
         <div class="column text-button action">
           <span>Add Default Credit Card</span>
@@ -32,20 +26,9 @@
         <span class="tiny-text tiny-text-spaced"></span>
       </div>
 
-      <!-- Free $5.00 Account Credit -->
       <div class="row row-border-bottom">
-        <div class="column column-data column-header-text column-grow column-group-header">$5.00 Account Credit</div>
-      </div>
-
-      <div class="row row-border-bottom">
-        <div class="column column-data column-20">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            value="Pending Actions"
-            disabled
-          />
+        <div class="column text-button action beta-button">
+          <span>Unlock $5.00 Account Credit</span>
         </div>
         <div class="column text-button action">
           <span>Create API Key</span>
@@ -71,9 +54,20 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'AccountBetaProgram',
+  name: 'AccountBillingBeta',
   methods: {
     ...mapActions('billing', ['updateAccountType']),
   }
 }
 </script>
+
+<style lang="scss">
+.beta-button {
+  background: #ececec !important;
+  color: #011321 !important;
+  font-weight: 600;
+  min-width: 195px !important;
+  text-align:center !important;
+  font-size: 11px;
+}
+</style>

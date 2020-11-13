@@ -24,16 +24,19 @@ export default {
   },
   mounted: async function() {
     try {
-      if (!this.$route.name) {
-        return location.assign('/projects')
-      }
-      
       await this.$store.dispatch('cognito/fetchSession')
       const stripe = await loadStripe('pk_test_51Ha7CVJzZURMKlQ3m7CtvxXK4cFuJbznhCXG39BX675qgw1E33q55v6ZalTcC450sggHyAcZi9GQp1hoB4imONuw00Cggm8OYX')
       Vue.prototype.$stripe = stripe
+
+      if (!this.$route.name) {
+        return location.assign('/projects')
+      }
     } catch(err) {
-      if (location.pathname !== '/account') {
-        location.assign('/account')
+      console.log(123)
+      if (location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/confirm' || location.pathname === '/reset') {
+        return;
+      } else {
+        location.assign('/login')
       }
     }
   }
