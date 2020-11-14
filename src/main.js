@@ -32,10 +32,11 @@ import Statistic from './components/Statistic'
 import Storage from './components/Storage'
 import Account from './components/Account'
 
-import Register from './components/UserSignUp'
+import Register from './components/UserRegister'
 import Confirm from './components/UserConfirm'
 import Reset from './components/UserReset'
-import Login from './components/UserLogIn'
+import SendReset from './components/UserSendReset'
+import Login from './components/UserLogin'
 
 Vue.use(VueRouter)
 const router = new VueRouter({
@@ -89,7 +90,13 @@ const router = new VueRouter({
       props: true,
     },
     {
-      path: '/reset',
+      path: '/send-reset-password',
+      name: 'SendReset',
+      component: SendReset,
+      props: true,
+    },
+    {
+      path: '/reset-password',
       name: 'Reset',
       component: Reset,
       props: true,

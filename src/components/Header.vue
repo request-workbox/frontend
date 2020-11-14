@@ -1,8 +1,8 @@
 <template>
-  <div class="row row-border-bottom">
+  <div class="row">
     <div class="column column-full-width">
 
-      <div class="row row-border-bottom" id="site-header-container">
+      <div class="row" id="site-header-container">
         <div class="column column-full-width">
           <div class="row">
             <div class="column text-button" id="site-header" v-if="!this.$store.getters['cognito/isLoggedIn']">

@@ -32,11 +32,10 @@ export default {
         return location.assign('/projects')
       }
     } catch(err) {
-      console.log(123)
-      if (location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/confirm' || location.pathname === '/reset') {
+      if (location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/confirm' || location.pathname === '/reset-password' || location.pathname === '/send-reset-password') {
         return;
       } else {
-        location.assign('/login')
+        location.assign('/register')
       }
     }
   }
@@ -45,6 +44,10 @@ export default {
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+
+input {
+  font-family: "Open Sans", sans-serif !important;
+}
 
 body {
   margin: 0;

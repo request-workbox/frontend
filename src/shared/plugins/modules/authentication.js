@@ -32,6 +32,15 @@ export default {
     },
     mutations: {
         updateField,
+        updateResetUsername(state, username) {
+            state.change.username = username
+        },
+        updateConfirmUsername(state, username) {
+            state.confirm.username = username
+        },
+        updateLoginUsername(state, username) {
+            state.login.username = username
+        },
     },
     actions: {
         async createCustomer({ commit, state, dispatch }) {
@@ -56,6 +65,12 @@ export default {
         },
         async loginUser({ commit, state, dispatch }) {
             try {
+                if (state.login.username === '') {
+                    throw new Error('Username cannot be empty')
+                }
+                if (state.login.password1 === '') {
+                    throw new Error('Password cannot be empty')
+                }
                 await dispatch('cognito/signInUser', {
                     username: state.login.username, 
                     password: state.login.password1
@@ -67,16 +82,26 @@ export default {
         },
         async signupUser({ commit, state, dispatch, rootState }) {
             try {
+                if (state.signup.email === '') {
+                    throw new Error('Email cannot be empty')
+                }
+
+                if (state.signup.username === '') {
+                    throw new Error('Username cannot be empty')
+                }
+
+                if (_.size(state.signup.password1) < 8) {
+                    throw new Error('Password must contain at least 8 characters')
+                }
+
                 if (state.signup.password1 === '') {
-                    throw new Error('Please confirm password')
+                    throw new Error('Password cannot be empty')
                 }
                 if (state.signup.password1 !== state.signup.password2) {
                     throw new Error('Passwords must match')
                 }
 
-                if (state.signup.email === '') {
-                    throw new Error('Please include an email')
-                }
+                
 
                 const newUser = await dispatch('cognito/registerUser', {
                     username: state.signup.username,
@@ -93,7 +118,7 @@ export default {
         async resetPassword({ commit, state, dispatch }) {
             try {
                 if (state.change.username === '') {
-                    throw new Error('Please confirm username')
+                    throw new Error('Please enter a username')
                 }
 
                 await dispatch('cognito/forgotPassword', {
@@ -107,11 +132,16 @@ export default {
         async changePassword({ commit, state, dispatch }) {
             try {
                 if (state.change.username === '') {
-                    throw new Error('Please confirm username')
+                    throw new Error('Please enter a username')
                 }
-                if (state.change.password1 === '') {
-                    throw new Error('Please confirm password')
+                if (state.change.code === '') {
+                    throw new Error('Please enter a reset code')
                 }
+
+                if (_.size(state.change.password1) < 8) {
+                    throw new Error('Password must contain at least 8 characters')
+                }
+
                 if (state.change.password1 !== state.change.password2) {
                     throw new Error('Passwords must match')
                 }

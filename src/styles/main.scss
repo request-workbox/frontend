@@ -42,6 +42,9 @@
   .row-justify-between {
     justify-content: space-between;
   }
+  .row-justify-center {
+    justify-content: center;
+  }
   .row-white {
     background:white !important;
   
@@ -157,9 +160,20 @@
   .column-30 {
     width: 30%;
   }
+  .column-40 {
+    width: 40%;
+  }
+  .column-45 {
+    width: 45%;
+  }
   .column-50 {
     width: 50%;
   }
+
+  .column-300 {
+    width: 300px;
+  }
+  
   .column-min-100 {
     width: 20%;
     min-width:100px;
@@ -383,3 +397,327 @@
   .table-detail-row {
     padding: 15px;
   }
+
+
+  .column-left-heading {
+    text-align: right;
+  }
+  .column-left-heading-text {
+    font-size: 15px;
+    color: #5281ff;
+    margin-top: 11px;
+    margin-bottom: 11px;
+  }
+  .column-left-heading-header {
+    font-size: 19px;
+    color: #060d3d;
+    margin-top: 11px;
+    margin-bottom: 11px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .column-left-heading-subheader {
+    font-size: 13px;
+    color: #060b3e;
+    margin-top: 11px;
+    margin-bottom: 11px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  
+  .column-button {
+    background: #008eff;
+    text-align: center;
+    margin: 10px;
+    border-radius:3px;
+    cursor: pointer;
+  }
+  .column-button:hover {
+    box-shadow: -1px 2px 5px 3px #eff0f7;
+  }
+  .column-button-text {
+    color:white !important;
+    font-size: 15px;
+    margin-top: 9px;
+    margin-bottom: 9px;
+    font-weight: 600;
+  }
+  
+  .column-left-heading-cancel {
+    text-align: right;
+    background: white;
+    border-radius:3px;
+    cursor: pointer;
+    padding: 5px;
+    box-shadow: -1px 2px 5px 3px #eaedff;
+  }
+  .column-left-heading-cancel-text {
+    font-size: 12px;
+    color: #5281ff;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin:0;
+    padding:0;
+    cursor:pointer;
+  }
+  
+  .StripeElement {
+    box-sizing: border-box;
+  
+    height: 40px;
+  
+    padding: 10px 12px;
+  
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: white;
+  
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+  }
+  
+  .StripeElement--focus {
+    box-shadow: 0 1px 3px 0 #cfd7df;
+  }
+  
+  .StripeElement--invalid {
+    border-color: #fa755a;
+  }
+  
+  .StripeElement--webkit-autofill {
+    background-color: #fefde5 !important;
+  }
+
+  .dark-background {
+    background:#011321 !important;
+  }
+
+  #small-img-container {
+    border: 0;
+    max-width: 100%;
+    vertical-align: middle;
+    display: inline-block;
+  }
+  .small-img {
+    width: 100px;
+    margin-top: 7px;
+    margin-right: 9px;
+    border-radius: 3px;
+  }
+  
+  
+
+
+
+
+// UserRegisterMarketing
+#checkmark-img {
+  border: 0;
+  max-width: 100%;
+  vertical-align: middle;
+  display: inline-block;
+}
+.checkmark {
+  width: 14px;
+  margin-top: 7px;
+  margin-right: 9px;
+}
+
+#marketing-container {
+padding-top: 60px;
+}
+
+.column-list-heading-header {
+font-size: 24px;
+color: #2196f3;
+margin-top: 4px;
+margin-bottom: 11px;
+font-weight: 600;
+}
+.column-list-heading-text {
+font-size: 16px;
+color: #b7d5ec;
+margin-top: 4px;
+margin-bottom: 11px;
+font-weight: 600;
+}
+.column-list-heading-subtext {
+font-size: 14px;
+color: #819baf;
+margin-top: 4px;
+margin-bottom: 11px;
+font-weight: 500;
+max-width: 270px;
+}
+
+// UserRegisterForm
+#user-form-container {
+  
+}
+#user-form {
+  width: 390px !important;
+  padding-top:25px;
+}
+.user-form-heading-text {
+  font-size: 21px;
+}
+.user-form-heading-text-small {
+  font-size: 18px;
+  margin-top:0;
+  margin-bottom:25px;
+}
+.user-form-label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+.user-form-input {
+    width: 367px;
+    height: 27px;
+    border-radius: 3px;
+    box-shadow: none;
+    border-style: solid;
+    border-width: 1px;
+    padding: 3px 10px;
+    font-weight: 500;
+    font-size: 14px;
+    border-color: #d4d4d4;
+}
+.user-form-input-danger {
+  border-color: #ea003f;
+}
+.user-form-input-stretch {
+  width: stretch !important;
+}
+.user-form-message {
+    font-size: 12px;
+    margin-top: 5px;
+    min-height: 17px;
+    color:#ea003f;
+}
+.user-form-button {
+  margin: 0 !important;
+}
+
+.user-form-input:focus {
+  outline:none;
+  box-shadow: 0px 0px 2px 2px #89bfea;
+}
+
+
+.user-form-label-container {
+  margin-bottom: 7px;
+}
+
+.user-help-text {
+  font-size: 14px;
+  margin-top: 30px;
+}
+.user-help-text-small {
+  font-size: 12px;
+  margin-top: 3px;
+}
+.user-help-text-text {
+  margin-right: 7px;
+}
+.user-help-text-button {
+  cursor:pointer;
+  font-weight:600;
+  color:#0075d2;
+}
+
+.user-help-text-button-grey {
+  cursor:pointer;
+  font-weight:600;
+  color:#64717b;
+}
+
+
+// UserRegister
+#user-sign-up {
+  height:100%;
+}
+.row-height-100 {
+  height: 100% !important;
+}
+.row-height-20 {
+  height: 20% !important;
+}
+#signup-marketing-container {
+  background:#011321;
+}
+#main-user-form-container {
+  padding-left: 75px;
+}
+.row-align-start {
+  align-items: start !important;
+}
+
+.column-right-border {
+ border-right-style:solid;
+ border-right-color:#bac3ca;
+ border-right-width:1px;
+}
+
+// UserLoginForm
+.text-center {
+  text-align: center;
+}
+.user-form-box {
+  padding: 50px;
+  box-shadow: 0px 0px 6px 0px #b1c3d2;
+}
+.user-form-header {
+  margin-top:75px;
+}
+.user-form-header-small {
+  margin-top:35px;
+  margin-bottom: 35px;
+}
+
+@media only screen and (max-width: 915px) {
+  #signup-marketing-container {
+    // display:none;
+    .column-45 {
+      width: 30% !important;
+    }
+    .column-min-100 {
+      width: 15%;
+      min-width: 50px;
+    }
+  }
+
+  #main-user-form-container {
+    padding-left: 40px;
+  }
+}
+
+@media only screen and (max-width: 820px) {
+  #signup-marketing-container {
+    display:none;
+  }
+  #main-user-form-container {
+    padding-left: 0;
+  }
+  #user-form-container {
+    justify-content: center !important;
+  }
+}
+
+@media only screen and (max-width: 415px) {
+  #user-form {
+    width: 100% !important;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .user-form-box {
+    width: 100% !important;
+    padding-left: 30px;
+    padding-right: 30px;
+    box-shadow:none;
+  }
+  .user-form-input {
+    width: stretch;
+  }
+}

@@ -6,7 +6,7 @@
       <div class="row row-align-start row-height-100">
         <!-- Login -->
         <div class="column column-grow">
-          <UserConfirmForm />
+          <UserSendResetForm />
         </div>
       </div>
 
@@ -27,12 +27,12 @@
 import { mapState, mapActions } from 'vuex'
 import _ from 'lodash'
 
-import UserConfirmForm from './UserConfirmForm'
+import UserSendResetForm from './UserSendResetForm'
 
 export default {
-  name: 'UserConfirm',
+  name: 'UserSendReset',
   components: {
-    UserConfirmForm,
+    UserSendResetForm,
   }
 }
 </script>

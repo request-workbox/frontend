@@ -1,0 +1,177 @@
+<template>
+  <div class="row">
+    <div class="column column-full-width">
+
+
+      <div class="row">
+        <div class="column column-grow">
+          <div class="row">
+            <div class="column column-full-width text-center user-form-header-small">
+              <img src="/favicon2.png" alt="" id="small-img-container" class="small-img">
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row row-justify-center">
+        <div class="column column-300 user-form-box">
+          <div class="row">
+            <div class="column column-full-width">
+              
+              <!-- Form Begins -->
+
+              <!-- Heading -->
+              <div class="row">
+                <div class="column-column-full-width">
+                  <p class="user-form-heading-text user-form-heading-text-small">We sent you an email with a confirmation code</p>
+                </div>
+              </div>
+
+              <!-- Username -->
+              <div class="row row-justify-between">
+                <div class="column column-grow">
+                  <div class="row">
+                    <div class="column column-full-width user-form-label-container">
+                      <label class="user-form-label">Username</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="column column-full-width">
+                      <input type="text" class="user-form-input user-form-input-stretch" autocomplete="username" v-model="username" v-bind:class="{ 'user-form-input-danger':usernameError }">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="column column-full-width">
+                      <p class="user-form-message">{{ usernameMessage }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Sign Up Code -->
+              <div class="row row-justify-between">
+                <div class="column column-grow">
+                  <div class="row row-justify-between">
+                    <div class="column column-full-width user-form-label-container">
+                      <label class="user-form-label">Confirmation Code</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="column column-full-width">
+                      <input type="text" class="user-form-input user-form-input-stretch" autocomplete="one-time-code" v-model="code" v-bind:class="{ 'user-form-input-danger':codeError }">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="column column-full-width">
+                      <p class="user-form-message">{{ codeMessage }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Confirm Button -->
+              <div class="row row-justify-between">
+                <div class="column column-grow">
+                  <div class="row">
+                    <div class="column column-grow column-button user-form-button" v-if="!loading" v-on:click="confirmUserAction">
+                      <p class="column-button-text">Confirm</p>
+                    </div>
+                    <div class="column column-grow column-button user-form-button" v-if="loading">
+                      <p class="column-button-text">Confirming...</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Sign in Button -->
+              <div class="row row-justify-between">
+                <div class="column column-grow">
+                  <div class="row row-justify-center">
+                    <div class="column user-help-text">
+                      <span class="user-help-text-text">Don't have an account?</span><span class="user-help-text-button" v-on:click="goToRegisterUser">Sign up</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapState, mapActions, mapMutations } from 'vuex'
+import { mapFields } from 'vuex-map-fields';
+
+export default {
+  name: 'UserConfirmForm',
+  data: function() {
+    return {
+      loading: false,
+      usernameMessage: '',
+      usernameError: false,
+      codeMessage: '',
+      codeError: false,
+    }
+  },
+  computed: {
+    ...mapFields('authentication', [
+      'confirm.username',
+      'confirm.code',
+    ]),
+  },
+  mounted: function() {
+    if (this.$route.query && this.$route.query.username) {
+      // set username
+      this.updateConfirmUsername(this.$route.query.username)
+    }
+  },
+  methods: {
+    ...mapMutations('authentication', ['updateConfirmUsername']),
+    ...mapActions('authentication', [
+      'confirmUser',
+      'updateCustomer',
+    ]),
+    confirmUserAction: async function() {
+      try {
+        this.loading = true
+        this.usernameMessage = ''
+        this.codeMessage = ''
+        this.usernameError = false
+        this.codeError = false
+        await this.confirmUser()
+        await this.updateCustomer()
+        location.assign(`/login?username=${this.username}`)
+      } catch(err) {
+        if (err.message === 'Please confirm sign up code') {
+          this.codeMessage = 'Please enter a confirmation code'
+          this.codeError = true
+        } else if (err.message === 'Please confirm username') {
+          this.usernameMessage = err.message
+          this.usernameError = true
+        } else if (err.message === 'Invalid verification code provided, please try again.') {
+          this.codeMessage = 'Please confirm code'
+          this.codeError = true
+        } else if (err.message === 'Invalid code provided, please request a code again.') {
+          this.codeMessage = 'Please confirm code'
+          this.codeError = true
+        } else {
+          this.codeMessage = err.message
+          this.codeError = true
+        }
+      } finally {
+        this.loading = false
+      }
+    },
+    goToRegisterUser: function() {
+      location.assign('/register')
+    }
+  }
+}
+</script>
