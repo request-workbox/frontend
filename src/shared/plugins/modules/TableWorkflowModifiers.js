@@ -9,6 +9,10 @@ const getters = {
 }
 
 const actions = {
+    // WORKFLOW GETTERS
+    forceComputedForWebhookCancelChangesAction({ commit, state, getters, rootState }, payload) {
+        return state.forceComputedForWebhookCancelChanges
+    },
     // WORKFLOW ACTIONS
     async getWorkflows({ commit, state, getters, rootState }, payload) {
         const projectId = payload.projectId
@@ -29,16 +33,27 @@ const actions = {
     async cancelWorkflowChanges({ commit, state, getters, rootState }, { _id }) {
         if (!state.editing) return;
 
-        location.reload()
+        const requestUrl = `${state.apiUrl}/get-workflow-details`
+        const requestBody = { workflowId: _id }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('updateWorkflow', request.data)
+        commit('stopEditing')
+        commit('updateForceComputedForWebhookCancelChanges')
     },
     async saveWorkflowChanges({ commit, state, getters, rootState }, workflow) {
         try {
             if (!state.editing) return;
 
             const requestUrl = `${state.apiUrl}/save-workflow-changes`
-            const requestBody = workflow
+
+            let requestBody = workflow
+
+            if (requestBody.webhookRequestId === '') {
+                delete requestBody.webhookRequestId
+            }
+            
             await Vue.$axios.post(requestUrl, requestBody)
-            location.reload()
+            commit('stopEditing')
         } catch(err) {
             if (err.response && err.response.data) {
                 throw new Error(err.response.data)
@@ -101,6 +116,9 @@ const actions = {
 }
 
 const mutations = {
+    updateForceComputedForWebhookCancelChanges(state, payload) {
+        state.forceComputedForWebhookCancelChanges = state.forceComputedForWebhookCancelChanges + 1
+    },
     // WORKFLOW MUTATIONS
     updateWorkflow(state, payload) {
         _.each(state.allData, (data) => {
@@ -108,9 +126,6 @@ const mutations = {
                 _.each(data, (value, key) => {
                     data[key] = payload[key]
                 })
-                if (!data.webhookRequestId) {
-                    data.webhookRequestId = ''
-                }
             }
         })
     },

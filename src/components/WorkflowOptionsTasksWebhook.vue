@@ -16,7 +16,7 @@
             <div class="column column-data column-20">
               <select
                 class="column-input-select column-input-select-grow"
-                :value="this.selectedData().webhookRequestId"
+                :value="webhookRequestId()"
                 v-on:input="editWorkflowWebhookAction('webhookRequestId', $event)"
               >
                 <option value="">No Webhook</option>
@@ -31,6 +31,8 @@
 
         </div>
       </div>
+
+      <div v-if="forceComputedForWebhookCancelChanges"></div>
     </div>
   </div>
 </template>
@@ -45,16 +47,24 @@ export default {
       "selectedData",
       "requestsForSelect",
     ]),
+    forceComputedForWebhookCancelChanges: async function() {
+      const changes = await this.forceComputedForWebhookCancelChangesAction()
+      return changes
+    },
   },
   methods: {
     ...mapMutations("table", ["editWorkflowTask", "changeTaskPosition", 'editWorkflowDetail']),
-    ...mapActions("table", ["deleteWorkflowTask"]),
+    ...mapActions("table", ["deleteWorkflowTask",'forceComputedForWebhookCancelChangesAction']),
     editWorkflowWebhookAction: function (type, event) {
       this.editWorkflowDetail({
         key: type,
         value: event.target.value,
         workflowId: this.selectedData()._id,
       });
+    },
+    webhookRequestId: function() {
+      if (_.size(this.selectedData().webhookRequestId) > 1) return this.selectedData().webhookRequestId
+      return ''
     },
   },
 };

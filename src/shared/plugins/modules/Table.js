@@ -30,6 +30,8 @@ const state = () => ({
     selectedQueueStatId: '',
 
     orderDirection: 'descending',
+
+    forceComputedForWebhookCancelChanges: 0,
 })
 
 const getters = {
