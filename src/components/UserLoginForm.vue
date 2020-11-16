@@ -60,7 +60,7 @@
                   </div>
                   <div class="row">
                     <div class="column column-full-width">
-                      <input type="password" class="user-form-input user-form-input-stretch" autocomplete="current-password" v-model="password1" v-bind:class="{ 'user-form-input-danger':passwordError }">
+                      <input type="password" class="user-form-input user-form-input-stretch" autocomplete="current-password" v-model="password1" v-bind:class="{ 'user-form-input-danger':passwordError }" v-on:keyup.enter="loginUserAction">
                     </div>
                   </div>
                   <div class="row">
@@ -139,6 +139,11 @@ export default {
     ...mapActions('authentication', [
       'loginUser'
     ]),
+    loginUserActionKey: async function() {
+      if (this.loading) return;
+
+      this.loginUserAction()
+    },
     loginUserAction: async function() {
       try {
         this.passwordError = false

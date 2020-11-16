@@ -21,6 +21,9 @@
     <div class="row row-border-bottom" v-if="shouldShowSelectedStat()">
       <div class="column text-button action" v-if="!loading" v-on:click="getInstanceDetailAction()">Load Requests / Responses</div>
       <div class="column text-button action" v-if="loading">Loading Data...</div>
+
+      <div class="column text-button action" v-if="!downloading && shouldShowSelectedStat() && selectedStat().downloadPayload" v-on:click="downloadInstanceStatAction">Download Payload</div>
+      <div class="column text-button action" v-if="downloading && shouldShowSelectedStat() && selectedStat().downloadPayload">Downloading...</div>
     </div>
 
     <pre v-if="shouldShowSelectedStat()">
@@ -36,11 +39,14 @@ import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
 import moment from 'moment-timezone'
 import _ from 'lodash'
 
+const download = require("downloadjs")
+
 export default {
   name: "StatisticOptionsDetails",
   data: function() {
     return {
       loading: false,
+      downloading: false,
     }
   },
   computed: {
@@ -49,7 +55,7 @@ export default {
   },
   methods: {
     ...mapMutations('table',['changeSelectedStatId']),
-    ...mapActions('table', ['getInstanceDetail']),
+    ...mapActions('table', ['getInstanceDetail','downloadInstanceStat',]),
     getInstanceDetailAction: async function() {
       try {
         this.loading = true
@@ -58,6 +64,20 @@ export default {
         console.log('Error getting instance details')
       } finally {
         this.loading = false
+      }
+    },
+    downloadInstanceStatAction: async function() {
+      try {
+        this.downloading = true
+        const fileDataResponse = await this.downloadInstanceStat({ instanceId: this.selectedData()._id, statId: this.selectedStat()._id })
+        const fileData = fileDataResponse.data
+        const fileStringData = JSON.stringify(fileData)
+
+        return download(fileStringData, `${this.selectedData()._id}-${this.selectedStat()._id}`, 'text/plain')
+      } catch(err) {
+        // console.log(err)
+      } finally {
+        this.downloading = false
       }
     },
     statisticCreatedAt: function(createdAt) {

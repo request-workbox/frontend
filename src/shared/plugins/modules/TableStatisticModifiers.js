@@ -85,7 +85,13 @@ const actions = {
         const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         location.reload()
-    }, 
+    },
+    async downloadInstanceStat({ commit, state, getters, rootState }, { instanceId, statId, }) {
+        const requestUrl = `${state.apiUrl}/download-instance-stat`
+        const requestBody = { instanceId, statId, }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        return request
+    },
 }
 
 const mutations = {
@@ -100,6 +106,7 @@ const mutations = {
                     })[0]
                     stat.requestPayload = statUpdate.requestPayload
                     stat.responsePayload = statUpdate.responsePayload
+                    stat.downloadPayload = statUpdate.downloadPayload
                     return stat
                 })
             }
