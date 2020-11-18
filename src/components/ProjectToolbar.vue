@@ -1,7 +1,7 @@
 <template>
     <div class="row row-border-bottom">
       <div class="column column-full-width">
-        <div class="row row-justify-between margin-top-bottom-5">
+        <div class="row margin-top-bottom-5">
           
           <div class="column">
             <div class="row">
@@ -20,7 +20,7 @@
               >Archived</div>
             </div>
           </div>
-          <!-- <div class="column spacer"></div> -->
+          <div class="column spacer"></div>
           <div class="column text-button text-button-and-logo" v-on:click="archiveProjectAction" v-if="filterIsActive('active') && projectIsSelected()">
             <img src="/box.svg" alt="">
             <span>Archive Project</span>
@@ -54,10 +54,16 @@ export default {
       else return true;
     },
     archiveProjectAction: async function() {
-      await this.archiveProject({ projectId: this.projectId })
+      const confirm = window.confirm('Are you sure you want to archive this project?')
+      if (confirm) {
+        await this.archiveProject({ projectId: this.projectId })
+      }
     },
     restoreProjectAction: async function() {
-      await this.restoreProject({ projectId: this.projectId })
+      const confirm = window.confirm('Are you sure you want to restore this project?')
+      if (confirm) {
+        await this.restoreProject({ projectId: this.projectId })
+      }
     },
   }
 }

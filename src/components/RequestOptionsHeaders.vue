@@ -18,7 +18,7 @@
           />
         </div>
         <div class="column column-data column-20">
-          <select class="column-input-select" :value="value.valueType" v-on:input="editValueType('headers', value._id, $event)">
+          <select class="column-input-select column-input-select-stretch" :value="value.valueType" v-on:input="editValueType('headers', value._id, $event)">
               <option value="textInput">Text Input</option>
               <option value="storage">Storage</option>
               <option value="runtimeResult">Runtime Result</option>
@@ -35,7 +35,7 @@
           />
         </div>
         <div class="column column-data column-20" v-if="value.valueType === 'storage'">
-          <select class="column-input-select" :value="value.value" v-on:input="editValue('headers', value._id, $event)">
+          <select class="column-input-select column-input-select-stretch" :value="value.value" v-on:input="editValue('headers', value._id, $event)">
               <option
                   v-for="(storage) in storagesForSelect()"
                   :key="storage._id"

@@ -11,20 +11,22 @@
       <!-- Form row -->
       <div class="row"  id="feedback-form-row" v-if="!submitted">
         <div class="column">
-          <input type="radio" id="feature" value="feature" v-model="feedbackType">
-          <label for="feature">Feature Request</label>
+          <input type="radio" id="general" value="general" v-model="feedbackType">
+          <label for="general">Feedback</label>
           <br>
           <input type="radio" id="bug" value="bug" v-model="feedbackType">
           <label for="bug">Bug Report</label>
           <br>
-          <input type="radio" id="general" value="general" v-model="feedbackType">
-          <label for="general">General Feedback / Other</label>
+          <input type="radio" id="feature" value="feature" v-model="feedbackType">
+          <label for="feature">Feature Request</label>
         </div>
       </div>
       <!-- Text area row -->
       <div class="row" id="feedback-text-row" v-if="!submitted">
         <div class="column column-full-width">
-          <textarea placeholder="Please enter feedback here." v-model="feedbackText"></textarea>
+          <p class="feedback-title-detail-margin">Enter your message below.</p>
+          <textarea v-model="feedbackText"></textarea>
+          <p class="feedback-title-detail-margin" v-if="feedbackError">Please enter a message before submitting.</p>
         </div>
       </div>
       <!-- Submit / Cancel row -->
@@ -52,8 +54,9 @@ export default {
   name: "HeaderFeedback",
   data: function() {
     return {
-      feedbackType:'',
+      feedbackType:'general',
       feedbackText: '',
+      feedbackError: false,
 
       submitting: false,
     }
@@ -65,14 +68,18 @@ export default {
       ...mapMutations('header', ['changeDisplayForm', 'changeSubmitted']),
       ...mapActions('header', ['submitFeedback']),
       changeDisplayFormAction: function(displayForm) {
-          this.feedbackType = ''
+          this.feedbackType = 'general'
           this.feedbackText = ''
+          this.feedbackError = false
 
           this.changeDisplayForm(displayForm)
           this.changeSubmitted(displayForm)
       },
       submitFeedbackAction: async function() {
         try {
+          if (this.feedbackText === '') {
+            return this.feedbackError = true
+          }
           this.submitting = true
           await this.submitFeedback({
             feedbackType: this.feedbackType,
@@ -90,6 +97,22 @@ export default {
 
 <style lang="scss">
 #feedback-container-row {
+  // position: fixed;
+  // width:100%;
+  // height:100%;
+  // top:0;
+  // bottom:0;
+  // left:0;
+  // right:0;
+
+  // background: #00000029;
+
+  // z-index:1;
+
+  // display: flex;
+  // flex-direction: column;
+
+  // padding-top: 100px;
   position: fixed;
   width:100%;
   height:100%;
@@ -97,46 +120,58 @@ export default {
   bottom:0;
   left:0;
   right:0;
-
-  background: #00000029;
-
+  background: #00000082;
   z-index:1;
-
   display: flex;
   flex-direction: column;
-
-  padding-top: 100px;
+  padding-top: 50px;
 }
 #feedback-container {
-  background: #f9f9f9;
+  // background: #f9f9f9;
+  // height: auto;
+  // width:auto;
+
+  // border-radius: 3px;
+  // border:#868686 solid 1px;
+
+  // min-width: 375px;
+  background: #edeff1;
   height: auto;
   width:auto;
-
   border-radius: 3px;
-  border:#868686 solid 1px;
-
-  min-width: 375px;
+  border:#dcdcdc solid 1px;
+  min-width: 500px;
+  padding: 10px 50px 25px 50px;
+  box-shadow:0px 2px 4px 2px #595a5a;
 }
 
 #feedback-title-row {
-  background: #526e84;
+  // background: #526e84;
 
   p {
     width: 100%;
     margin: 10px;
 
-    color:white;
+    color:black;
 
     font-weight: 600;
   }
 
   .feedback-title-detail {
-    color:white;
+    color:black;
     font-size: 0.75em;
 
     font-weight: 400;
   }
 }
+
+.feedback-title-detail-margin {
+    color:black;
+    font-size: 0.75em;
+
+    font-weight: 400;
+    margin-left: 10px;
+  }
 
 #feedback-form-row {
   margin: 10px 0;
@@ -159,6 +194,7 @@ export default {
     margin: 10px;
     padding-left: 5px;
     padding-top: 5px;
+    min-height: 73px;
   }
 }
 

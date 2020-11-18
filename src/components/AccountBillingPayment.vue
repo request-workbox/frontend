@@ -42,9 +42,9 @@
           />
         </div>
         <span class="tiny-text tiny-text-spaced">$7.95</span>
-        <div class="column text-button action"><span>$5</span></div>
+        <!-- <div class="column text-button action"><span>$5</span></div>
         <div class="column text-button action"><span>$25</span></div>
-        <div class="column text-button action"><span>$50</span></div>
+        <div class="column text-button action"><span>$50</span></div> -->
         <div class="column column-grow"></div>
         <span class="tiny-text tiny-text-spaced"></span>
       </div>

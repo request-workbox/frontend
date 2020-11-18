@@ -122,8 +122,13 @@
     color: transparent;
   }
   .column-input-select {
-    // font-size: 1em;
     min-height: 25px;
+  }
+  .column-input-select-min-width {
+    min-width: 125px;
+  }
+  .column-input-select-stretch {
+    width: stretch !important;
   }
   .column-input-select-grow {
     width: 98%;
@@ -245,6 +250,7 @@
     img {
       width: 14px;
       margin-right: 5px;
+      max-width: 14px;
     }
   }
 

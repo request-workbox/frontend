@@ -18,7 +18,7 @@
         </div>
         <template v-if="key === 'method'">
           <div class="column column-data column-grow">
-            <select class="column-input-select" :value="value" v-on:input="edit('url', key, $event)">
+            <select class="column-input-select column-input-select-min-width" :value="value" v-on:input="edit('url', key, $event)">
               <option value="GET">GET</option>
               <option value="POST">POST</option>
             </select>
