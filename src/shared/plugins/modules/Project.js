@@ -6,18 +6,26 @@ const state = () => ({
     projectName: '',
     projectId: '',
 
-    projects: []
+    projects: [],
+    
+    filter: 'active',
 })
 
 const getters = {
-    filteredData: (state, getters) => () => {
-        return _.filter(state.projects, (project) => {
-            if (project.active) return true
-            else return false
-        })
-    },
     viewableData: (state, getters) => () => {
-        return _.reverse(getters.filteredData())
+        return state.projects
+        return _.reverse(state.projects)
+    },
+    sortedData: (state, getters) => () => {
+        return _.filter(getters.viewableData(), (data) => {
+            if (state.filter === 'active') {
+                if (data.active) return true
+                else return false
+            } else if (state.filter === 'archived') {
+                if (!data.active) return true
+                else return false
+            }
+        })
     },
 }
 
@@ -41,6 +49,20 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl)
         commit('changeProjects', request.data)
     },
+    async archiveProject({ commit, state, getters, rootState }, { projectId }) {
+        const requestUrl = `${state.apiUrl}/archive-project`
+        const requestBody = { projectId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('editProjectToArchive', { projectId })
+        commit('changeFilter', { filter: 'active' })
+    },
+    async restoreProject({ commit, state, getters, rootState }, { projectId }) {
+        const requestUrl = `${state.apiUrl}/restore-project`
+        const requestBody = { projectId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        commit('editProjectToRestore', { projectId })
+        commit('changeFilter', { filter: 'archived' })
+    },
 }
 
 const mutations = {
@@ -52,7 +74,25 @@ const mutations = {
     },
     changeProjects(state, payload) {
         state.projects = payload
-    }
+    },
+    changeFilter(state, { filter }) {
+        state.filter = filter
+        state.projectId = ''
+    },
+    editProjectToArchive(state, payload) {
+        _.each(state.projects, (data) => {
+            if (data._id === payload.projectId) {
+                data.active = false
+            }
+        })
+    },
+    editProjectToRestore(state, payload) {
+        _.each(state.projects, (data) => {
+            if (data._id === payload.projectId) {
+                data.active = true
+            }
+        })
+    },
 }
 
 export default {

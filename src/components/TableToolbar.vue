@@ -51,11 +51,12 @@
         <img src="/file-1.svg" alt="">
         <span>Restore Request</span>
       </div>
-      <div class="column spacer"></div>
+      <!-- <div class="column spacer"></div>
       <div class="column text-button text-button-and-logo" v-on:click="deleteRequestAction">
         <img src="/trash.svg" alt="">
         <span>Delete Request</span>
-      </div>
+      </div> -->
+      <div class="column text">Archives are deleted after 30 days</div>
     </template>
     <template v-if="this.$route.name === 'Workflows' && this.selectedId !== '' && !this.editing">
       <div class="column spacer"></div>
@@ -67,11 +68,12 @@
         <img src="/file-1.svg" alt="">
         <span>Restore Workflow</span>
       </div>
-      <div class="column spacer"></div>
+      <!-- <div class="column spacer"></div>
       <div class="column text-button text-button-and-logo" v-on:click="deleteWorkflowAction">
         <img src="/trash.svg" alt="">
         <span>Delete Workflow</span>
-      </div>
+      </div> -->
+      <div class="column text">Archives are deleted after 30 days</div>
     </template>
     <template v-if="this.$route.name === 'Storage' && this.selectedId !== '' && !this.editing">
       <div class="column spacer"></div>
@@ -83,11 +85,12 @@
         <img src="/file-1.svg" alt="">
         <span>Restore Storage</span>
       </div>
-      <div class="column spacer"></div>
+      <!-- <div class="column spacer"></div>
       <div class="column text-button text-button-and-logo" v-on:click="deleteStorageAction">
         <img src="/trash.svg" alt="">
         <span>Delete Storage</span>
-      </div>
+      </div> -->
+      <div class="column text">Archives are deleted after 30 days</div>
     </template>
     <!-- <template v-if="this.$route.name === 'Statistics'">
       <div class="column spacer"></div>

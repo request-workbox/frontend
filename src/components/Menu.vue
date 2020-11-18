@@ -22,14 +22,14 @@
             <img src="/file.svg" alt="">
             <span>New File Storage</span>
           </div>
-          <div class="column text-button text-button-and-logo text-button-warning" v-if="shouldBeShown('deleteEntireProject') && !loading && this.$route.name === 'Projects'" v-on:click="deleteEntireProjectAction">
+          <!-- <div class="column text-button text-button-and-logo text-button-warning" v-if="shouldBeShown('deleteEntireProject') && !loading && this.$route.name === 'Projects'" v-on:click="deleteEntireProjectAction">
             <img src="/trash.svg" alt="">
             <span>Delete Entire Project</span>
           </div>
           <div class="column text-button text-button-and-logo text-button-warning" v-if="loading">
             <img src="/trash.svg" alt="">
             <span>Deleting...</span>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
