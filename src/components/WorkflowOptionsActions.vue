@@ -251,7 +251,18 @@ export default {
     },
     returnWorkflowAction: async function() {
       try {
+        // Info
+        Vue.$toast.open({
+          message: 'Returning workflow...',
+          type: 'info',
+        })
+        // Start
         await this.returnWorkflow(this.selectedData()._id)
+        // Success
+        Vue.$toast.open({
+          message: 'Workflow returned successfully',
+          type: 'success',
+        })
       } catch(err) {
         Vue.$toast.open(err.response.data)
       }
@@ -259,6 +270,10 @@ export default {
     queueWorkflowAction: async function() {
       try {
         await this.queueWorkflow(this.selectedData()._id)
+        Vue.$toast.open({
+          message: 'Queued workflow',
+          type: 'info',
+        })
       } catch(err) {
         Vue.$toast.open(err.response.data)
       }
@@ -266,6 +281,10 @@ export default {
     scheduleWorkflowAction: async function() {
       try {
         await this.scheduleWorkflow(this.selectedData()._id)
+        Vue.$toast.open({
+          message: 'Scheduled workflow',
+          type: 'info',
+        })
       } catch(err) {
         Vue.$toast.open(err.response.data)
       }
