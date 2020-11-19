@@ -10,6 +10,9 @@ const state = () => ({
     emailProducts: null,
     emailSystemUpdates: null,
     globalWorkflowStatus: null,
+
+    balance: 0,
+    card: null,
 })
 
 const getters = {
@@ -17,21 +20,20 @@ const getters = {
 }
 
 const actions = {
-    async getAccountType({ commit, state, rootState }) {
-        const requestUrl = `${state.billingUrl}/get-account-type`
+    // A single endpoint for getAccountType and getSettings
+    async getAccountDetails({ commit, state, rootState }) {
+        const requestUrl = `${state.billingUrl}/get-account-details`
         const request = await Vue.$axios.post(requestUrl)
         commit('changeAccountType', request.data)
+        commit('updateSettings', request.data.setting)
+        commit('updateCard', request.data.card)
+        commit('updateBalance', request.data.balance)
     },
     async updateAccountType({ commit, state, rootState }, { accountType }) {
         const requestUrl = `${state.billingUrl}/update-account-type`
         const requestBody = { accountType }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         location.reload()
-    },
-    async getSettings({ commit, state, rootState }, payload) {
-        const requestUrl = `${state.billingUrl}/get-settings`
-        const request = await Vue.$axios.post(requestUrl)
-        commit('updateSettings', request.data)
     },
     async updateEmailAlert({ commit, state, rootState }, payload) {
         const requestUrl = `${state.billingUrl}/update-email-alert`
@@ -70,6 +72,12 @@ const mutations = {
     },
     updateWorkflowStatus(state, payload) {
         state.globalWorkflowStatus = payload
+    },
+    updateCard(state, payload) {
+        state.card = payload
+    },
+    updateBalance(state, payload) {
+        state.balance = payload
     },
 }
 
