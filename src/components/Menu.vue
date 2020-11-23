@@ -57,12 +57,15 @@ export default {
       'deleteEntireProject'
     ]),
     shouldBeShown: function(action) {
-      if (action === 'newProject') {
-        return true
-      } else {
-        if (this.projectId !== '') return true;
-        else return false;
+      if (!this.projectId || this.projectId === '') {
+        if (action === 'newProject' && this.$route.name === 'Projects') return true
+        else return false
       }
+
+      if (action === 'newProject' && this.$route.name === 'Projects') return true
+      if (action === 'newRequest' && this.$route.name === 'Requests') return true
+      if (action === 'newWorkflow' && this.$route.name === 'Workflows') return true
+      if (action === 'newStorage' && this.$route.name === 'Storage') return true
     },
     newRequestAction: function() {
       this.newRequest({ projectId: this.projectId })
