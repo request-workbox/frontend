@@ -29,7 +29,9 @@
           <div class="column text-button-nav" v-if="shouldBeShown('account') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('account') }" v-on:click="navigateToRoute('account')">
             <p class="text-button-nav-text">Account</p>
           </div>
-          <div class="column column-grow"></div>
+          <div class="column text-button-nav" v-if="this.$route.name === 'Checkout' && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected': this.$route.name === 'Checkout' }" v-on:click="navigateToRoute('account')">
+            <p class="text-button-nav-text">Checkout</p>
+          </div>
           <div class="column text-button-nav text-button-and-logo" v-if="!loading && this.$store.getters['cognito/isLoggedIn']" v-on:click="logoutUserAction">
             <p class="text-button-nav-text">Logout</p>
           </div>

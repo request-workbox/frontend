@@ -54,13 +54,14 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { mapState, mapMutations, mapActions } from 'vuex';
 
 export default {
-  name: "AccountBillingCardForm",
+  name: "CheckoutFormPaymentInformation",
   mounted: function() {
-    const card = this.$stripe.elements().create('card')
-      card.mount('#card-info')
+    const card = Vue.$stripe.elements().create('card')
+    card.mount('#card-info')
   },
 };
 </script>

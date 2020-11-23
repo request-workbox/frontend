@@ -14,7 +14,7 @@
 import Vue from 'vue'
 import Header from './components/Header'
 import Nav from './components/Nav'
-import {loadStripe} from '@stripe/stripe-js';
+
 
 export default {
   name: "App",
@@ -25,8 +25,6 @@ export default {
   mounted: async function() {
     try {
       await this.$store.dispatch('cognito/fetchSession')
-      const stripe = await loadStripe('pk_test_51Ha7CVJzZURMKlQ3m7CtvxXK4cFuJbznhCXG39BX675qgw1E33q55v6ZalTcC450sggHyAcZi9GQp1hoB4imONuw00Cggm8OYX')
-      Vue.prototype.$stripe = stripe
 
       if (!this.$route.name) {
         return location.assign('/projects')

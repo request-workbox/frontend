@@ -19,6 +19,10 @@ import axios from './shared/plugins/network/axios'
  * **/
 import socket from './shared/plugins/network/socket'
 /**
+ * Import socket
+ * **/
+import stripe from './shared/plugins/network/stripe'
+/**
  * Import cognito module
  * **/
 import attachCognitoModule from '@vuetify/vuex-cognito-module'
@@ -31,6 +35,7 @@ import Workflow from './components/Workflow'
 import Statistic from './components/Statistic'
 import Storage from './components/Storage'
 import Account from './components/Account'
+import Checkout from './components/Checkout'
 
 import Register from './components/UserRegister'
 import Confirm from './components/UserConfirm'
@@ -52,6 +57,12 @@ const router = new VueRouter({
       path: '/account',
       name: 'Account',
       component: Account,
+    },
+    {
+      path: '/checkout',
+      name: 'Checkout',
+      component: Checkout,
+      props: true,
     },
     {
       path: '/projects/:projectId/requests',
@@ -151,6 +162,10 @@ attachCognitoModule(store, {
  * Configure Socket
  * **/
 Vue.use(socket)
+/**
+ * Configure Stripe
+ * **/
+Vue.use(stripe)
 /**
  * Configure Toast
  * **/
