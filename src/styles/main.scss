@@ -692,6 +692,54 @@ max-width: 270px;
   margin-bottom: 35px;
 }
 
+
+// Checkout / Card Related
+
+#card-container-row {
+  position: fixed;
+  width:100%;
+  height:100%;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  background: #00000082;
+  z-index:1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 50px;
+}
+#card-container {
+  background: #edeff1;
+  height: auto;
+  width:auto;
+  border-radius: 3px;
+  border:#dcdcdc solid 1px;
+  min-width: 500px;
+  padding: 10px 50px 25px 50px;
+  box-shadow:0px 2px 4px 2px #595a5a;
+}
+.card-container-input-text {
+  width: 80%;
+  border:none;
+  border-radius: 3px;
+  font-size: 15px;
+
+    color: #011321;
+    padding-left: 15px;
+}
+.card-container-input-text:focus {
+    outline: none;
+}
+#card-info {
+  margin-top: 5px;
+}
+
+
+
+
+
+
 @media only screen and (max-width: 915px) {
   #signup-marketing-container {
     // display:none;
