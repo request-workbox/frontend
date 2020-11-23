@@ -16,12 +16,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-#footer {
-  width: 100%;
-  min-height: 1000px;
-
-  background: #d7dbde;
-}
-</style>

@@ -50,10 +50,9 @@ export default {
       }
 
       try {
-        await this.$store.dispatch('cognito/fetchSession')
         await this.getAccountDetails()
       } catch(err) {
-        this.changeAccountOption('user')
+        // console.log(err)
       }
     },
   },

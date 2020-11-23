@@ -56,6 +56,19 @@
     justify-content: space-between;
     box-shadow: 0px 2px 4px 0px #bac7d0;
   }
+
+  #footer {
+    width: 100%;
+    min-height: 1000px;
+  
+    background: #d7dbde;
+  }
+  .small-footer {
+    width: 100%;
+    min-height: 500px;
+  
+    background: #d7dbde;
+  }
   
   #table-row {
     background: #f3f3f3;
@@ -174,6 +187,12 @@
   .column-50 {
     width: 50%;
   }
+  .column-60 {
+    width: 60%;
+  }
+  .column-75 {
+    width: 75%;
+  }
 
   .column-300 {
     width: 300px;
@@ -199,6 +218,24 @@
   }
   .tiny-text-spaced {
     margin-right: 17px;
+  }
+  .text-12 {
+    font-size:12px !important;
+  }
+
+  .margin-bottom-5 {
+    margin-bottom: 5px !important;
+  }
+  .margin-bottom-10 {
+    margin-bottom: 10px !important;
+  }
+  .margin-top-10 {
+    margin-top: 10px !important;
+  }
+
+  .small-image {
+    width:38px !important;
+    max-width:38px !important;
   }
 
   .action {
@@ -440,6 +477,29 @@
     text-transform: uppercase;
     font-weight: 600;
   }
+
+  .lineitem-text {
+    font-size: 12px;
+    color: #060b3e;
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-weight: 600;
+  }
+  .lineitem-subtext {
+    font-size: 11px;
+    color: #060b3e;
+    margin-top: 0;
+    margin-bottom: 10px;
+
+    max-width: 450px;
+  }
+  .lineitem-price {
+    font-size: 13px;
+    color: #060b3e;
+    margin-top: 11px;
+    margin-bottom: 11px;
+    font-weight: 600;
+  }
   
   .column-button {
     background: #008eff;
@@ -538,6 +598,10 @@
   width: 14px;
   margin-top: 7px;
   margin-right: 9px;
+}
+
+.checkmark-list-item {
+  width: 14px;
 }
 
 #marketing-container {
