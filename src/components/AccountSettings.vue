@@ -4,6 +4,7 @@
       <AccountSettingsContactInfo />
       <AccountSettingsEmailAlerts />
       <AccountSettingsWorkflowStatus />
+      <AccountSettingsTokens />
     </div>
   </div>
 </template>
@@ -14,13 +15,15 @@ import { mapState, mapActions } from 'vuex'
 import AccountSettingsContactInfo from './AccountSettingsContactInfo'
 import AccountSettingsEmailAlerts from './AccountSettingsEmailAlerts'
 import AccountSettingsWorkflowStatus from './AccountSettingsWorkflowStatus'
+import AccountSettingsTokens from './AccountSettingsTokens'
 
 export default {
   name: 'AccountSettings',
   components: {
     AccountSettingsContactInfo,
     AccountSettingsEmailAlerts,
-    AccountSettingsWorkflowStatus
+    AccountSettingsWorkflowStatus,
+    AccountSettingsTokens,
   },
   computed: {
     userAttributeEmail: function () {
