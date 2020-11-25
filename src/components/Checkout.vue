@@ -3,7 +3,7 @@
     <div class="row row-border-bottom">
       <div class="column column-full-width">
 
-        <div class="row row-border-bottom row-align-start" id="checkout-row">
+        <div class="row row-border-bottom row-align-start padding-bottom-150" id="checkout-row">
           <div class="column column-10"></div>
 
           <div class="column column-50 column-padding-20">
@@ -31,7 +31,6 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 import CheckoutFormAccountSummary from './CheckoutFormAccountSummary'
 import CheckoutFormOrderSummary from './CheckoutFormOrderSummary'
 import CheckoutFormBillingInformation from './CheckoutFormBillingInformation'
-import CheckoutFormPaymentInformation from './CheckoutFormPaymentInformation'
 
 export default {
   name: "Checkout",
@@ -39,7 +38,6 @@ export default {
     CheckoutFormAccountSummary,
     CheckoutFormOrderSummary,
     CheckoutFormBillingInformation,
-    CheckoutFormPaymentInformation,
   },
 };
 </script>

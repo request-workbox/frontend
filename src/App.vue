@@ -24,7 +24,6 @@ export default {
   },
   mounted: async function() {
     try {
-      return
       await this.$store.dispatch('cognito/fetchSession')
 
       if (!this.$route.name) {
