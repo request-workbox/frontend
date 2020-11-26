@@ -65,16 +65,17 @@ const actions = {
     },
     async createSetupIntent({ commit, state, rootState }, payload) {
         const requestUrl = `${state.billingUrl}/create-setup-intent`
-        const requestBody = { stripeCustomerId: state.stripeCustomerId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
+        const request = await Vue.$axios.post(requestUrl)
         return request
     },
     async updatePaymentMethod({ commit, state, rootState }, payload) {
         const requestUrl = `${state.billingUrl}/update-payment-method`
-        const requestBody = { stripeCustomerId: state.stripeCustomerId, paymentMethodId: payload }
+        const requestBody = { paymentMethodId: payload }
         const request = await Vue.$axios.post(requestUrl, requestBody)
-        console.log(request)
-        // return request
+    },
+    async removePaymentMethod({ commit, state, rootState }, payload) {
+        const requestUrl = `${state.billingUrl}/remove-payment-method`
+        const request = await Vue.$axios.post(requestUrl)
     },
 }
 

@@ -21,7 +21,7 @@
           Use existing billing information
         </div>
         <div class="column column-grow text-12 text-weight-600">
-          VISA 4444
+          {{ card }}
         </div>
       </div>
 
@@ -196,6 +196,7 @@ export default {
     ...mapState('billing', ['card']),
   },
   methods: {
+    ...mapMutations('billing', ['toggleUpdateCardView']),
     ...mapActions('billing', ['createSetupIntent', 'updatePaymentMethod']),
     changeBillingType: function(billingType) {
       this.billingType = billingType
@@ -217,6 +218,11 @@ export default {
     },
     saveCardAction: async function() {
       try {
+        if (this.billingType === 'existing' && this.$route.name === 'Account') {
+          this.$router.replace({ path: this.$route.name, query: { option: 'billing' }}).catch((err) => err)
+          return this.toggleUpdateCardView()
+        }
+
         this.saving = true
         this.nameError = false
         this.emailError = false

@@ -12,11 +12,11 @@
             disabled
           />
         </div>
-        <span class="tiny-text tiny-text-spaced" v-if="card">VISA 4444</span>
-        <div class="column text-button action" v-on:click="toggleUpdateCardView" v-if="card">
+        <span class="tiny-text tiny-text-spaced" v-if="card">{{ card }}</span>
+        <div class="column text-button action" v-on:click="updateCardAction" v-if="card">
           <span>Update Card</span>
         </div>
-        <div class="column text-button action" v-if="card">
+        <div class="column text-button action" v-on:click="removeCardAction" v-if="card">
           <span>Remove Card</span>
         </div>
         <div class="column text-button action"  v-on:click="addCardAction" v-if="!card">
@@ -38,9 +38,25 @@ export default {
   },
   methods: {
     ...mapMutations('billing', ['toggleUpdateCardView']),
+    ...mapActions('billing', ['removePaymentMethod']),
     addCardAction: function() {
       this.$router.replace({ path: this.$route.name, query: { option: 'billing', card: 'update' }}).catch((err) => err)
       this.toggleUpdateCardView()
+    },
+    updateCardAction: function() {
+      this.$router.replace({ path: this.$route.name, query: { option: 'billing', card: 'update' }}).catch((err) => err)
+      this.toggleUpdateCardView()
+    },
+    removeCardAction: async function() {
+      try {
+        const confirm = window.confirm('Are you sure you want to remove this card?')
+        if (confirm) {
+          await this.removePaymentMethod()
+        }
+        location.reload()
+      } catch(err) {
+        console.log(err)
+      }
     },
   }
 }
