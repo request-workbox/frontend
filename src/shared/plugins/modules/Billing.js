@@ -13,6 +13,8 @@ const state = () => ({
 
     balance: 0,
     card: null,
+
+    stripeCustomerId: '',
     
     tokens: [],
 })
@@ -26,6 +28,7 @@ const actions = {
     async getAccountDetails({ commit, state, rootState }) {
         const requestUrl = `${state.billingUrl}/get-account-details`
         const request = await Vue.$axios.post(requestUrl)
+        commit('changeStripeCustomerId', request.data.stripeCustomerId)
         commit('changeAccountType', request.data)
         commit('updateSettings', request.data.setting)
         commit('updateCard', request.data.card)
@@ -60,9 +63,25 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('removeToken', snippet)
     },
+    async createSetupIntent({ commit, state, rootState }, payload) {
+        const requestUrl = `${state.billingUrl}/create-setup-intent`
+        const requestBody = { stripeCustomerId: state.stripeCustomerId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        return request
+    },
+    async updatePaymentMethod({ commit, state, rootState }, payload) {
+        const requestUrl = `${state.billingUrl}/update-payment-method`
+        const requestBody = { stripeCustomerId: state.stripeCustomerId, paymentMethodId: payload }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        console.log(request)
+        // return request
+    },
 }
 
 const mutations = {
+    changeStripeCustomerId(state, payload) {
+        state.stripeCustomerId = payload
+    },
     changeAccountType(state, { accountType }) {
         state.accountType = accountType
     },

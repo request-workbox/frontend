@@ -38,7 +38,7 @@ import Vue from 'vue'
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'AccountSettingsTokens',
+  name: 'AccountTokens',
   data: function() {
     return {
       loading: false,

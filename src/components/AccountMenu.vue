@@ -4,7 +4,7 @@
         <div class="row">
           <div class="column text-button" v-if="this.$store.getters['cognito/isLoggedIn']" v-on:click="changeAccountOptionAction('settings')" v-bind:class="{'text-button-selected':shouldBeSelected('settings')}">Settings</div>
           <div class="column text-button" v-if="this.$store.getters['cognito/isLoggedIn']" v-on:click="changeAccountOptionAction('billing')" v-bind:class="{'text-button-selected':shouldBeSelected('billing')}">Billing</div>
-          <div class="column text-button" v-if="this.option !=='user' && !this.$store.getters['cognito/isLoggedIn']" v-on:click="changeAccountOptionAction('user')" v-bind:class="{'text-button-selected':shouldBeSelected('user')}">User</div>
+          <div class="column text-button" v-if="this.$store.getters['cognito/isLoggedIn']" v-on:click="changeAccountOptionAction('tokens')" v-bind:class="{'text-button-selected':shouldBeSelected('tokens')}">API</div>
         </div>
       </div>
     </div>

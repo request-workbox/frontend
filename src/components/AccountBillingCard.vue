@@ -19,7 +19,7 @@
         <div class="column text-button action" v-if="card">
           <span>Remove Card</span>
         </div>
-        <div class="column text-button action"  v-on:click="toggleUpdateCardView" v-if="!card">
+        <div class="column text-button action"  v-on:click="addCardAction" v-if="!card">
           <span>Add Card</span>
         </div>
       </div>
@@ -38,6 +38,10 @@ export default {
   },
   methods: {
     ...mapMutations('billing', ['toggleUpdateCardView']),
+    addCardAction: function() {
+      this.$router.replace({ path: this.$route.name, query: { option: 'billing', card: 'update' }}).catch((err) => err)
+      this.toggleUpdateCardView()
+    },
   }
 }
 </script>
