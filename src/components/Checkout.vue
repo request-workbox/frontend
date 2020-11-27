@@ -34,11 +34,31 @@ import CheckoutFormBillingInformation from './CheckoutFormBillingInformation'
 
 export default {
   name: "Checkout",
+  mounted: async function() {
+    if (this.$route.query && this.$route.query.type) {
+      this.changeCheckoutType(this.$route.query.type)
+    }
+
+    try {
+        await this.getAccountDetails()
+        await this.previewCheckoutPrice(this.$route.query.type)
+      } catch(err) {
+        console.log(err)
+      }
+  },
   components: {
     CheckoutFormAccountSummary,
     CheckoutFormOrderSummary,
     CheckoutFormBillingInformation,
   },
+  computed: {
+    ...mapState('checkout', ['checkoutType']),
+  },
+  methods: {
+    ...mapMutations('checkout', ['changeCheckoutType']),
+    ...mapActions('billing', ['getAccountDetails',]),
+    ...mapActions('checkout', ['previewCheckoutPrice']),
+  }
 };
 </script>
 

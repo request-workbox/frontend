@@ -3,10 +3,9 @@
     <div class="column column-full-width">
 
       <AccountBillingType />
-      <AccountBillingCredit />
+      <!-- <AccountBillingCredit /> -->
       <AccountBillingCard />
       <AccountBillingUsage />
-      <AccountBillingBeta />
       <AccountBillingCardForm v-if="updateCardView"/>
 
     </div>
@@ -16,7 +15,6 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
 
-import AccountBillingBeta from './AccountBillingBeta'
 import AccountBillingUsage from './AccountBillingUsage'
 import AccountBillingType from './AccountBillingType'
 import AccountBillingCredit from './AccountBillingCredit'
@@ -26,7 +24,6 @@ import AccountBillingCardForm from './AccountBillingCardForm'
 export default {
   name: 'AccountBilling',
   components: {
-    AccountBillingBeta,
     AccountBillingUsage,
     AccountBillingType,
     AccountBillingCredit,

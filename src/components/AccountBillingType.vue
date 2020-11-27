@@ -15,16 +15,16 @@
             disabled
           />
         </div>
-        <div class="column text-button action" v-on:click="updateAccountTypeAction('free')" v-bind:class="{ 'text-button-selected-blue':isAccountType('free') }">
+        <div class="column text-button action" v-on:click="upgradeTo('free')" v-bind:class="{ 'text-button-selected-blue':isAccountType('free') }">
           <span>Free</span>
         </div>
-        <div class="column text-button action" v-on:click="updateAccountTypeAction('standard')" v-bind:class="{ 'text-button-selected-blue':isAccountType('standard') }">
+        <div class="column text-button action" v-on:click="upgradeTo('standard')" v-bind:class="{ 'text-button-selected-blue':isAccountType('standard') }">
           <span>Standard</span>
         </div>
-        <div class="column text-button action" v-on:click="updateAccountTypeAction('developer')" v-bind:class="{ 'text-button-selected-blue':isAccountType('developer') }">
+        <div class="column text-button action" v-on:click="upgradeTo('developer')" v-bind:class="{ 'text-button-selected-blue':isAccountType('developer') }">
           <span>Developer</span>
         </div>
-        <div class="column text-button action" v-on:click="updateAccountTypeAction('professional')" v-bind:class="{ 'text-button-selected-blue':isAccountType('professional') }">
+        <div class="column text-button action" v-on:click="upgradeTo('professional')" v-bind:class="{ 'text-button-selected-blue':isAccountType('professional') }">
           <span>Professional</span>
         </div>
         <div class="column column-grow"></div>
@@ -41,10 +41,19 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
   name: 'AccountBillingType',
   computed: {
-    ...mapState('billing', ['accountType']),
+    ...mapState('billing', ['accountType','card']),
   },
   methods: {
     ...mapActions('billing', ['updateAccountType']),
+    upgradeTo: async function(accountType) {
+      if (accountType === 'free') return;
+      
+      if (this.card) {
+        location.assign(`/checkout?card=existing&type=${accountType}`)
+      } else {
+        location.assign(`/checkout?card=update&type=${accountType}`)
+      }
+    },
     updateAccountTypeAction: async function(accountType) {
       try {
         await this.updateAccountType({ accountType: accountType })

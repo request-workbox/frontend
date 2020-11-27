@@ -52,8 +52,8 @@ export default {
         const confirm = window.confirm('Are you sure you want to remove this card?')
         if (confirm) {
           await this.removePaymentMethod()
+          location.reload()
         }
-        location.reload()
       } catch(err) {
         console.log(err)
       }
