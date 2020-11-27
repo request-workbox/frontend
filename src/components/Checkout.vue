@@ -41,7 +41,7 @@ export default {
 
     try {
         await this.getAccountDetails()
-        await this.previewCheckoutPrice(this.$route.query.type)
+        await this.previewCheckoutPrice({ checkoutType: this.$route.query.type })
       } catch(err) {
         console.log(err)
       }

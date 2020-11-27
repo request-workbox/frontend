@@ -17,7 +17,10 @@ const getters = {
 const actions = {
     async previewCheckoutPrice({ commit, state, rootState }, payload) {
         const requestUrl = `${state.billingUrl}/preview-checkout-price`
-        const requestBody = { checkoutType: payload }
+        const requestBody = { checkoutType: payload.checkoutType, }
+        if (payload.coupon) {
+            requestBody.coupon = payload.coupon
+        }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('changeCheckoutPrices', request.data)
     },

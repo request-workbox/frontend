@@ -19,11 +19,14 @@
         <div class="column column-grow">
           <div class="row">
             <div class="column column-60">
-              <input type="text" class="user-form-input user-form-input-stretch" placeholder="Discount Code">
+              <input type="text" class="user-form-input user-form-input-stretch" placeholder="Discount Code" v-model="coupon" :disabled="this.checkoutDiscount !== 0 && this.checkoutDiscount !== ''">
             </div>
             <div class="spacer"></div>
-            <div class="column">
+            <div class="column" v-on:click="applyCode" v-if="this.checkoutDiscount === 0 || this.checkoutDiscount === ''">
               <p class="column-left-heading-cancel-text">Apply Code</p>
+            </div>
+            <div class="column" v-if="this.checkoutDiscount !== 0 && this.checkoutDiscount !== ''">
+              <p class="column-left-heading-cancel-text">Code Applied</p>
             </div>
           </div>
         </div>
@@ -81,6 +84,11 @@ import _ from 'lodash'
 
 export default {
   name: "CheckoutFormOrderSummary",
+  data: function() {
+    return {
+      coupon: '',
+    }
+  },
   computed: {
     ...mapState('checkout', ['checkoutType', 'checkoutPrice', 'checkoutDiscount', 'checkoutTotal']),
     checkoutTypeFriendlyName: function() {
@@ -110,6 +118,18 @@ export default {
       } else {
         const price = (this.checkoutTotal / 100).toFixed(2)
         return `$${price}`
+      }
+    },
+  },
+  methods: {
+    ...mapActions('checkout', ['previewCheckoutPrice']),
+    applyCode: async function() {
+      if (this.coupon === '') return;
+      
+      try {
+        await this.previewCheckoutPrice({ checkoutType: this.checkoutType, coupon: this.coupon })
+      } catch(err) {
+        console.log(err)
       }
     },
   }
