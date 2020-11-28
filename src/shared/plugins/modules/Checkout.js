@@ -47,7 +47,10 @@ const actions = {
             requestBody.coupon = payload.coupon
         }
         const request = await Vue.$axios.post(requestUrl, requestBody)
-        console.log(request)
+    },
+    async cancelSubscription({ commit, state, rootState }, payload) {
+        const requestUrl = `${state.billingUrl}/cancel-subscription`
+        const request = await Vue.$axios.post(requestUrl)
     },
 }
 

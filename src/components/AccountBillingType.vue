@@ -15,17 +15,20 @@
             disabled
           />
         </div>
-        <div class="column text-button action" v-on:click="upgradeTo('free')" v-bind:class="{ 'text-button-selected-blue':isAccountType('free') }">
+        <div class="column text-button action" v-if="this.accountType === 'free'" v-on:click="upgradeTo('free')" v-bind:class="{ 'text-button-selected-blue':isAccountType('free') }">
           <span>Free</span>
         </div>
-        <div class="column text-button action" v-on:click="upgradeTo('standard')" v-bind:class="{ 'text-button-selected-blue':isAccountType('standard') }">
+        <div class="column text-button action" v-if="this.accountType === 'free' || this.accountType === 'standard'" v-on:click="upgradeTo('standard')" v-bind:class="{ 'text-button-selected-blue':isAccountType('standard') }">
           <span>Standard</span>
         </div>
-        <div class="column text-button action" v-on:click="upgradeTo('developer')" v-bind:class="{ 'text-button-selected-blue':isAccountType('developer') }">
+        <div class="column text-button action" v-if="this.accountType === 'free' || this.accountType === 'developer'"  v-on:click="upgradeTo('developer')" v-bind:class="{ 'text-button-selected-blue':isAccountType('developer') }">
           <span>Developer</span>
         </div>
-        <div class="column text-button action" v-on:click="upgradeTo('professional')" v-bind:class="{ 'text-button-selected-blue':isAccountType('professional') }">
+        <div class="column text-button action" v-if="this.accountType === 'free' || this.accountType === 'professional'"  v-on:click="upgradeTo('professional')" v-bind:class="{ 'text-button-selected-blue':isAccountType('professional') }">
           <span>Professional</span>
+        </div>
+        <div class="column text-button action" v-if="showCancel()" v-on:click="cancelSubscriptionAction()">
+          <span>Cancel Subscription</span>
         </div>
         <div class="column column-grow"></div>
         <span class="tiny-text tiny-text-spaced">Billed on the 1st (prorated)</span>
@@ -44,8 +47,10 @@ export default {
     ...mapState('billing', ['accountType','card']),
   },
   methods: {
+    ...mapActions('checkout', ['cancelSubscription']),
     upgradeTo: async function(accountType) {
       if (accountType === 'free') return;
+      if (accountType === this.accountType) return;
       
       if (this.card) {
         location.assign(`/checkout?card=existing&type=${accountType}`)
@@ -56,6 +61,23 @@ export default {
     isAccountType: function(accountType) {
       if (accountType === this.accountType) return true
       else return false
+    },
+    showCancel: function() {
+      if (this.accountType === 'standard') return true
+      else if (this.accountType === 'developer') return true
+      else if (this.accountType === 'professional') return true
+      else return false
+    },
+    cancelSubscriptionAction: async function() {
+      try {
+        const confirm = window.confirm('Are you sure you want to cancel your subscription?')
+        if (confirm) {
+          await this.cancelSubscription()
+          location.reload()
+        }
+      } catch(err) {
+        console.log(err)
+      }
     }
   }
 }
