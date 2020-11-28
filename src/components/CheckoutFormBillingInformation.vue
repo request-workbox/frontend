@@ -132,11 +132,14 @@
       </div>
 
       <!-- Pay Button -->
-      <div class="row row-justify-between row-shadow row-white margin-top-10" v-if="this.$route.name === 'Checkout'">
+      <div class="row row-justify-between row-shadow row-white margin-top-10" v-on:click="upgradeAccountAction" v-if="this.$route.name === 'Checkout'">
         <div class="column column-grow">
           <div class="row">
-            <div class="column column-grow pay-button">
+            <div class="column column-grow pay-button" v-if="!saving">
               <p class="pay-button-text">Upgrade Account</p>
+            </div>
+            <div class="column column-grow pay-button" v-if="saving">
+              <p class="pay-button-text">Upgrading...</p>
             </div>
           </div>
         </div>
@@ -194,10 +197,11 @@ export default {
   },
   computed: {
     ...mapState('billing', ['card']),
+    ...mapState('checkout',['coupon']),
   },
   methods: {
     ...mapMutations('billing', ['toggleUpdateCardView']),
-    ...mapActions('billing', ['createSetupIntent', 'updatePaymentMethod']),
+    ...mapActions('checkout', ['createSetupIntent', 'updatePaymentMethod','createSubscription']),
     changeBillingType: function(billingType) {
       this.billingType = billingType
 
@@ -217,6 +221,8 @@ export default {
       }
     },
     saveCardAction: async function() {
+      if (this.saving) return;
+
       try {
         if (this.billingType === 'existing' && this.$route.name === 'Account') {
           this.$router.replace({ path: this.$route.name, query: { option: 'billing' }}).catch((err) => err)
@@ -227,13 +233,19 @@ export default {
         this.nameError = false
         this.emailError = false
 
-        if (this.name === '') return this.nameError = true
-        if (this.email === '') return this.emailError = true
-        if (this.cardError) return
+        if (this.name === '') {
+          this.nameError = true
+          throw new Error()
+        }
+        if (this.email === '') {
+          this.emailError = true
+          throw new Error()
+        }
+        if (this.cardError) throw new Error()
         if (!this.cardReady) {
           this.cardError = true
           this.cardMessage = 'Please confirm card'
-          return
+          throw new Error()
         }
 
         const setupIntent = await this.createSetupIntent()
@@ -252,20 +264,42 @@ export default {
 
         const updateCustomer = await this.updatePaymentMethod(paymentMethodId)
 
-        Vue.$toast.open({
-          message: 'Success! One moment please...',
-          type: 'success',
-        })
+        if (this.$route.name === 'Account') {
+          Vue.$toast.open({
+            message: 'Success! One moment please...',
+            type: 'success',
+          })
 
-        this.$router.replace({ path: this.$route.name, query: { option: 'billing' }}).catch((err) => err)
-        location.reload()
+          this.$router.replace({ path: this.$route.name, query: { option: 'billing' }}).catch((err) => err)
+          location.reload()
+        }
 
+      } catch(err) {
+        console.log(err)
+        throw new Error()
+      } finally {
+        this.saving = false
+      }
+    },
+    upgradeAccountAction: async function() {
+      if (this.saving) return
+
+      try {
+        if (this.billingType === 'existing') {
+          this.createSubscription({ checkoutType: this.$route.query.type, coupon: this.coupon })
+        } else if (this.billingType === 'update') {
+          await this.saveCardAction()
+          this.saving = true
+          await this.createSubscription({ checkoutType: this.$route.query.type, coupon: this.coupon })
+        }
+
+        location.assign('/account')
       } catch(err) {
         console.log(err)
       } finally {
         this.saving = false
       }
-    }
+    },
   }
 };
 </script>

@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     ...mapMutations('billing', ['toggleUpdateCardView']),
-    ...mapActions('billing', ['removePaymentMethod']),
+    ...mapActions('checkout', ['removePaymentMethod']),
     addCardAction: function() {
       this.$router.replace({ path: this.$route.name, query: { option: 'billing', card: 'update' }}).catch((err) => err)
       this.toggleUpdateCardView()

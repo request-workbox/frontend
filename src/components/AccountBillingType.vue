@@ -44,7 +44,6 @@ export default {
     ...mapState('billing', ['accountType','card']),
   },
   methods: {
-    ...mapActions('billing', ['updateAccountType']),
     upgradeTo: async function(accountType) {
       if (accountType === 'free') return;
       
@@ -52,13 +51,6 @@ export default {
         location.assign(`/checkout?card=existing&type=${accountType}`)
       } else {
         location.assign(`/checkout?card=update&type=${accountType}`)
-      }
-    },
-    updateAccountTypeAction: async function(accountType) {
-      try {
-        await this.updateAccountType({ accountType: accountType })
-      } catch(err) {
-        console.log(err)
       }
     },
     isAccountType: function(accountType) {

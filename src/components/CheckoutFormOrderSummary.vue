@@ -122,12 +122,17 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('checkout', ['updateCoupon']),
     ...mapActions('checkout', ['previewCheckoutPrice']),
     applyCode: async function() {
       if (this.coupon === '') return;
       
       try {
         await this.previewCheckoutPrice({ checkoutType: this.checkoutType, coupon: this.coupon })
+
+        if (this.checkoutDiscount !== 0 && this.checkoutDiscount !== '') {
+          this.updateCoupon(this.coupon)
+        }
       } catch(err) {
         console.log(err)
       }

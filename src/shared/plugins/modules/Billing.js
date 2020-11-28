@@ -35,12 +35,6 @@ const actions = {
         commit('updateBalance', request.data.balance)
         commit('updateTokens', request.data.tokens)
     },
-    async updateAccountType({ commit, state, rootState }, { accountType }) {
-        const requestUrl = `${state.billingUrl}/update-account-type`
-        const requestBody = { accountType }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        location.reload()
-    },
     async updateEmailAlert({ commit, state, rootState }, payload) {
         const requestUrl = `${state.billingUrl}/update-email-alert`
         const requestBody = payload
@@ -62,20 +56,6 @@ const actions = {
         const requestBody = { snippet,}
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('removeToken', snippet)
-    },
-    async createSetupIntent({ commit, state, rootState }, payload) {
-        const requestUrl = `${state.billingUrl}/create-setup-intent`
-        const request = await Vue.$axios.post(requestUrl)
-        return request
-    },
-    async updatePaymentMethod({ commit, state, rootState }, payload) {
-        const requestUrl = `${state.billingUrl}/update-payment-method`
-        const requestBody = { paymentMethodId: payload }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-    },
-    async removePaymentMethod({ commit, state, rootState }, payload) {
-        const requestUrl = `${state.billingUrl}/remove-payment-method`
-        const request = await Vue.$axios.post(requestUrl)
     },
 }
 
