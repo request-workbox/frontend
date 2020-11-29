@@ -5,17 +5,18 @@
       <div class="row" id="site-header-container">
         <div class="column column-full-width">
           <div class="row">
-            <div class="column text-button" id="site-header" v-if="!this.$store.getters['cognito/isLoggedIn']">
+            <div class="column text-button" id="site-header" v-if="!this.$store.getters['cognito/isLoggedIn']" v-on:click="assignHome">
               Request Workbox
             </div>
-            <div class="column text-button" id="site-header-hidden" v-if="this.$store.getters['cognito/isLoggedIn']">
+            <div class="column text-button" id="site-header-hidden" v-if="this.$store.getters['cognito/isLoggedIn']" v-on:click="assignHome">
               Request Workbox
             </div>
             <div class="column column-grow"></div>
             <div class="column text-button" id="support-button" v-if="!displaySupportEmail" v-on:click="displaySupportEmailAction">Support</div>
             <div class="column text-button" id="support-button-email" v-if="displaySupportEmail">support@requestworkbox.com</div>
             <div class="column text-button" id="feedback-button" v-on:click="changeDisplayFormAction(true)" v-if="this.$store.getters['cognito/isLoggedIn']">Feedback</div>
-            <div class="column text-button" id="docs-button">Docs</div>
+            <div class="column text-button" id="docs-button" v-on:click="openDocs">Docs</div>
+            <div class="column text-button" id="docs-button" v-on:click="openDiscord">Discord</div>
           </div>
         </div>
       </div>
@@ -46,7 +47,16 @@ export default {
       },
       displaySupportEmailAction: function() {
         this.displaySupportEmail = true
-      }
+      },
+      assignHome: function() {
+        location.assign('/')
+      },
+      openDocs: function() {
+        window.open('https://requestworkbox.zendesk.com/hc/en-us')
+      },
+      openDiscord: function() {
+        window.open('https://discord.gg/XuG5x3HV98')
+      },
   }
 };
 </script>
