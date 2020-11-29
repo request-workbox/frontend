@@ -13,7 +13,6 @@ import _ from 'lodash'
 import AccountMenu from './AccountMenu'
 import AccountBilling from './AccountBilling'
 import AccountSettings from './AccountSettings'
-import AccountTokens from './AccountTokens'
 import Footer from './Footer'
 
 export default {
@@ -22,7 +21,6 @@ export default {
     AccountMenu,
     AccountBilling,
     AccountSettings,
-    AccountTokens,
     Footer,
   },
   mounted: function () {
