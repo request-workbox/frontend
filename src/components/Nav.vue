@@ -23,6 +23,12 @@
           <div class="column text-button-nav" v-if="shouldBeShown('statistics') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('statistics') }" v-on:click="navigateToRoute('statistics')">
             <p class="text-button-nav-text">Stats</p>
           </div>
+          <div class="column text-button-nav" v-if="shouldBeShown('tools')">
+            <p class="text-button-nav-text-header">Tools</p>
+          </div>
+          <div class="column text-button-nav" v-if="shouldBeShown('statuscheck') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('statuscheck') }" v-on:click="navigateToRoute('statuscheck')">
+            <p class="text-button-nav-text">Status Check</p>
+          </div>
           <div class="column text-button-nav">
             <p class="text-button-nav-text-header">Settings</p>
           </div>
@@ -83,6 +89,8 @@ export default {
         return true
       } else if (this.$route.name === 'Statistics' && route == 'statistics') {
         return true
+      } else if (this.$route.name === 'Statuscheck' && route == 'statuscheck') {
+        return true
       } else if (this.$route.name === 'Account' && route == 'account') {
         return true
       } else {
@@ -106,6 +114,8 @@ export default {
         location.assign(`/projects/${this.projectId}/storage`)
       } else if (route === 'statistics') {
         location.assign(`/projects/${this.projectId}/statistics`)
+      } else if (route === 'statuscheck') {
+        location.assign(`/projects/${this.projectId}/statuscheck`)
       } else if (route === 'projects') {
         location.assign(`/projects`)
       } else if (route === 'account') {

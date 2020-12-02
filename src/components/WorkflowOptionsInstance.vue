@@ -93,19 +93,19 @@ export default {
       if (!this.apiUrl) return ''
       if (!this.selectedData() || !this.selectedData()._id) return ''
       
-      return `POST ${this.apiUrl}/return-workflow/${this.selectedData()._id}`
+      return `${this.apiUrl}/return-workflow/${this.selectedData()._id}`
     },
     queueInstanceUrl: function() {
       if (!this.apiUrl) return ''
       if (!this.selectedData() || !this.selectedData()._id) return ''
       
-      return `POST ${this.apiUrl}/queue-workflow/${this.selectedData()._id}`
+      return `${this.apiUrl}/queue-workflow/${this.selectedData()._id}`
     },
     scheduleInstanceUrl: function() {
       if (!this.apiUrl) return ''
       if (!this.selectedData() || !this.selectedData()._id) return ''
       
-      return `POST ${this.apiUrl}/schedule-workflow/${this.selectedData()._id}?date=[ISO 8601]`
+      return `${this.apiUrl}/schedule-workflow/${this.selectedData()._id}?date=[ISO 8601]`
     },
   },
   methods: {

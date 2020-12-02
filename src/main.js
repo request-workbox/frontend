@@ -36,6 +36,7 @@ import Statistic from './components/Statistic'
 import Storage from './components/Storage'
 import Account from './components/Account'
 import Checkout from './components/Checkout'
+import Statuscheck from './components/Statuscheck'
 
 import Register from './components/UserRegister'
 import Confirm from './components/UserConfirm'
@@ -89,6 +90,12 @@ const router = new VueRouter({
       props: true,
     },
     {
+      path: '/projects/:projectId/statuscheck',
+      name: 'Statuscheck',
+      component: Statuscheck,
+      props: true,
+    },
+    {
       path: '/register',
       name: 'Register',
       component: Register,
@@ -132,6 +139,7 @@ import billingModule from './shared/plugins/modules/Billing'
 import headerModule from './shared/plugins/modules/Header'
 import scheduleModule from './shared/plugins/modules/Schedule'
 import checkoutModule from './shared/plugins/modules/Checkout'
+import statuscheckModule from './shared/plugins/modules/Statuscheck'
 
 Vue.use(vuex)
 const store = new vuex.Store({
@@ -146,6 +154,7 @@ const store = new vuex.Store({
     header: headerModule,
     schedule: scheduleModule,
     checkout: checkoutModule,
+    statuscheck: statuscheckModule,
   }
 })
 /**

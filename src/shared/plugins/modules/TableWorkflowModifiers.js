@@ -116,10 +116,10 @@ const actions = {
 }
 
 const mutations = {
+    // WORKFLOW MUTATIONS
     updateForceComputedForWebhookCancelChanges(state, payload) {
         state.forceComputedForWebhookCancelChanges = state.forceComputedForWebhookCancelChanges + 1
     },
-    // WORKFLOW MUTATIONS
     updateWorkflow(state, payload) {
         _.each(state.allData, (data) => {
             if (data._id === payload._id) {
