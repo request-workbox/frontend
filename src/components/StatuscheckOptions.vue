@@ -16,7 +16,9 @@
         </div>
         <div class="spacer"></div>
         <div class="column column-20">
-          <select class="column-input-select column-input-select-grow">
+          <select class="column-input-select column-input-select-grow"  
+            v-on:input="editStatuscheckAction('onWorkflowTaskError', $event)"
+            :value="statuscheck.onWorkflowTaskError">
             <option
                   v-for="(option) in onWorkflowTaskErrorOptions"
                   :key="option.key"
@@ -37,7 +39,9 @@
         </div>
         <div class="spacer"></div>
         <div class="column column-20">
-          <select class="column-input-select column-input-select-grow">
+          <select class="column-input-select column-input-select-grow" 
+            v-on:input="editStatuscheckAction('sendWorkflowWebhook', $event)"
+            :value="statuscheck.sendWorkflowWebhook">
             <option
                   v-for="(option) in sendWorkflowWebhookOptions"
                   :key="option.key"
@@ -58,7 +62,9 @@
         </div>
         <div class="spacer"></div>
         <div class="column column-20">
-          <select class="column-input-select column-input-select-grow">
+          <select class="column-input-select column-input-select-grow" 
+            v-on:input="editStatuscheckAction('interval', $event)"
+            :value="statuscheck.interval">
             <option
                   v-for="(option) in statuscheckIntervalOptions"
                   :key="option.key"
@@ -97,6 +103,13 @@ export default {
   },
   computed: {
     ...mapState('statuscheck', ['selectedWorkflowId']),
+    ...mapGetters('statuscheck', ['statuscheck']),
+  },
+  methods: {
+    ...mapMutations('statuscheck', ['editStatuscheck']),
+    editStatuscheckAction: function(statuscheckKey, statuscheckEvent) {
+      this.editStatuscheck({ key: statuscheckKey, value: statuscheckEvent.target.value })
+    },
   }
 }
 </script>
