@@ -1,5 +1,5 @@
 <template>
-  <div class="row row-border-bottom" v-if="this.selectedWorkflow() !== ''">
+  <div class="row row-border-bottom" v-if="this.selectedWorkflowId !== ''">
     <div class="column column-full-width">
       <div class="row row-border-bottom">
         <div class="column column-data column-header-text column-grow column-group-header">Configuration</div>
@@ -96,7 +96,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('statuscheck', ['selectedWorkflow']),
+    ...mapState('statuscheck', ['selectedWorkflowId']),
   }
 }
 </script>

@@ -5,7 +5,7 @@
         <div class="column column-30 column-padded">
           <select
               class="input-select-stretch min-height-35 text-15 text-weight-500"
-              :value="selectedWorkflow()"
+              :value="selectedWorkflowId"
               v-on:input="changeSelectedWorkflowId($event)"
             >
               <option value="">Select Workflow</option>
@@ -23,12 +23,13 @@
 
 <script>
 import Vue from 'vue'
-import { mapMutations, mapActions, mapGetters } from "vuex";
+import { mapMutations, mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: "StatuscheckSelect",
   computed: {
-    ...mapGetters('statuscheck', ['selectedWorkflow', 'workflowsForSelect']),
+    ...mapState('statuscheck', ['selectedWorkflowId']),
+    ...mapGetters('statuscheck', ['workflowsForSelect']),
   },
   methods: {
     ...mapMutations('statuscheck', ['changeSelectedWorkflowId'])

@@ -1,5 +1,5 @@
 <template>
-  <div class="row row-border-bottom" v-if="this.selectedWorkflow() !== ''">
+  <div class="row row-border-bottom" v-if="this.selectedWorkflowId !== ''">
     <div class="column column-full-width">
       <div class="row row-justify-between">
         <div class="column">
@@ -31,8 +31,7 @@ import { mapState, mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'StatuscheckToolbarActions',
   computed: {
-    ...mapState('statuscheck',['editing']),
-    ...mapGetters('statuscheck', ['selectedWorkflow']),
+    ...mapState('statuscheck',['editing', 'selectedWorkflowId']),
   }
 }
 </script>

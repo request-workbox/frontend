@@ -11,8 +11,6 @@ const state = () => ({
 
     selectedWorkflowId: '',
     workflowsForSelectOptions: [],
-
-    selectedRequestId: '',
     requestsForSelectOptions: [],
 
     statuschecks: [],
@@ -26,18 +24,11 @@ const getters = {
             else return false
         })
     },
-    selectedWorkflow: (state, getters, rootState) => () => {
-        return state.selectedWorkflowId
-    },
-
     requestsForSelect: (state, getters, rootState) => () => {
         return _.filter(state.requestsForSelectOptions, (data) => {
             if (data.active) return true;
             else return false
         })
-    },
-    selectedRequest: (state, getters, rootState) => () => {
-        return state.selectedRequestId
     },
 
     tasks: (state, getters, rootState) => {
@@ -61,6 +52,7 @@ const getters = {
             }
         })
     },
+
 }
 
 const actions = {
@@ -92,17 +84,12 @@ const mutations = {
     replaceWorkflowsForSelectOptions(state, payload) {
         state.workflowsForSelectOptions = payload.data
     },
-    changeSelectedWorkflowId(state, payload) {
-        state.selectedWorkflowId = payload.target.value
-    },
-
     replaceRequestsForSelectOptions(state, payload) {
         state.requestsForSelectOptions = payload.data
     },
-    changeSelectedRequestId(state, payload) {
-        state.selectedRequestId = payload.target.value
+    changeSelectedWorkflowId(state, payload) {
+        state.selectedWorkflowId = payload.target.value
     },
-
     replaceStatuschecks(state, payload) {
         state.statuschecks = payload.data
     },
