@@ -11,7 +11,7 @@
       <div class="column column-data column-header column-10 column-padded">Status</div>
       <div class="column column-data column-header column-10 column-padded">Queue Type</div>
       <div class="column column-data column-header column-20 column-padded">Workflow Name</div>
-      <div class="column column-data column-header column-15 column-padded">
+      <div class="column column-data column-header column-grow column-padded">
         <span class="column-text-button" v-on:click="toggleScheduleOrderDirection('createdAt')">Created</span>
       </div>
     </div>
@@ -30,8 +30,8 @@
       <div class="column column-data column-10 column-padded">{{ formattedQueueType(stat.queueType) }}</div>
       <div class="column column-data column-20 column-padded">{{ stat.workflowName }}</div>
       <div class="column column-data column-15 column-padded">{{ formattedDate(stat.createdAt) }}</div>
-      <div class="column column-data column-grow column-padded" v-if="canRemoveSchedule(stat.status)" v-on:click="archiveQueueAction(stat._id)">
-        <span class="column-text-button">Remove</span>
+      <div class="column column-data column-grow column-padded">
+        <span class="column-text-button" v-if="canRemoveSchedule(stat.status)" v-on:click="archiveQueueAction(stat._id)">Remove</span>
       </div>
     </div>
 

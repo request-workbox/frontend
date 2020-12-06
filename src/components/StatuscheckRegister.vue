@@ -5,7 +5,7 @@
         <div class="column column-grow column-padded">
           <span class="text-17 text-weight-600">Status Check</span>
         </div>
-        <div class="column text-button-blue action margin-right-15"><span>Get Started</span></div>
+        <div class="column text-button-blue action margin-right-15"><span>Currently in beta</span></div>
       </div>
     </div>
   </div>

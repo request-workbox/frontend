@@ -27,10 +27,16 @@
             <p class="text-button-nav-text-header">Tools</p>
           </div>
           <div class="column text-button-nav" v-if="shouldBeShown('statuscheck') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('statuscheck') }" v-on:click="navigateToRoute('statuscheck')">
-            <p class="text-button-nav-text">Status Check</p>
+            <p class="text-button-nav-text">
+              <span>Status Check</span>
+              <span class="beta">New</span>
+            </p>
           </div>
-          <div class="column text-button-nav" v-if="shouldBeShown('webhooks') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('webhooks') }" v-on:click="navigateToRoute('webhooks')">
-            <p class="text-button-nav-text">Webhooks</p>
+          <div class="column text-button-nav" v-if="shouldBeShown('webhook') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('webhook') }" v-on:click="navigateToRoute('webhook')">
+            <p class="text-button-nav-text">
+              <span>Webhooks</span>
+              <span class="beta">New</span>
+            </p>
           </div>
           <div class="column text-button-nav">
             <p class="text-button-nav-text-header">Settings</p>
@@ -94,7 +100,7 @@ export default {
         return true
       } else if (this.$route.name === 'Statuscheck' && route == 'statuscheck') {
         return true
-      } else if (this.$route.name === 'Webhooks' && route == 'webhooks') {
+      } else if (this.$route.name === 'Webhook' && route == 'webhook') {
         return true
       } else if (this.$route.name === 'Account' && route == 'account') {
         return true
@@ -121,7 +127,7 @@ export default {
         location.assign(`/projects/${this.projectId}/statistics`)
       } else if (route === 'statuscheck') {
         location.assign(`/projects/${this.projectId}/statuscheck`)
-      } else if (route === 'webhooks') {
+      } else if (route === 'webhook') {
         location.assign(`/projects/${this.projectId}/webhooks`)
       } else if (route === 'projects') {
         location.assign(`/projects`)
@@ -132,3 +138,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.beta {
+  margin-left: 5px;
+  color: #5cc549;
+}
+</style>
