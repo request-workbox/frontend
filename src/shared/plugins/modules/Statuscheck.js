@@ -14,6 +14,8 @@ const state = () => ({
     requestsForSelectOptions: [],
 
     statuschecks: [],
+
+    lastInstance: {},
 })
 
 const getters = {
@@ -61,6 +63,22 @@ const getters = {
         })[0]
 
         return statuscheck
+    },
+    requestStats: (state, getters, rootState) => (requestId) => {
+        if (!state.selectedWorkflowId) return {}
+        if (!requestId) return {}
+
+        if (state.lastInstance.workflow !== state.selectedWorkflowId) return {}
+
+        const requestStat = _.filter(state.lastInstance.stats, (stat) => {
+            if (stat.requestId === requestId) return true
+            else return false
+        })
+        
+        if (!_.size(requestStat)) return {}
+        else {
+            return requestStat[0]
+        }
     },
 }
 
@@ -160,14 +178,7 @@ const mutations = {
     addStatuscheckResults(state, payload) {
         if (!payload.instanceDoc) return;
 
-        const instance = payload.instanceDoc
-        state.statuschecks = _.map(state.statuschecks, (statuscheck) => {
-            if (statuscheck.workflowId !== instance.workflow) return statuscheck
-
-            console.log('incoming instance', instance)
-
-            return statuscheck
-        })
+        state.lastInstance = payload.instanceDoc
     },
 }
 

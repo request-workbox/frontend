@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     ...mapMutations('table',['setCurrentRoute']),
-    ...mapMutations('webhook',['addStatuscheckResults']),
+    ...mapMutations('statuscheck',['addStatuscheckResults']),
     ...mapActions("project", ["getProjectName"]),
     ...mapActions('statuscheck', ['getWorkflowsForSelectOptions', 'getRequestsForSelectOptions','getStatuschecks']),
     init: async function () {
