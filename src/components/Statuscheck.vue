@@ -45,6 +45,7 @@ export default {
   },
   methods: {
     ...mapMutations('table',['setCurrentRoute']),
+    ...mapMutations('webhook',['addStatuscheckResults']),
     ...mapActions("project", ["getProjectName"]),
     ...mapActions('statuscheck', ['getWorkflowsForSelectOptions', 'getRequestsForSelectOptions','getStatuschecks']),
     init: async function () {
@@ -54,6 +55,13 @@ export default {
       await this.getWorkflowsForSelectOptions({ projectId: this.projectId })
       await this.getRequestsForSelectOptions({ projectId: this.projectId })
       await this.getStatuschecks({ projectId: this.projectId })
+
+      // Listen to socket
+      await this.$store.dispatch('cognito/fetchSession')
+      const userSub = this.$store.getters['cognito/userSub']
+      if (userSub) {
+        Vue.$jobsSocket.on(userSub, this.addStatuscheckResults)
+      }
     },
   },
 };

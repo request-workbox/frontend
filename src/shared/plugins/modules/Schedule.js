@@ -176,6 +176,8 @@ const mutations = {
         state.schedule = payload
     },
     addToSchedule(state, socketStat) {
+        if (!socketStat.queueDoc) return;
+        
         const schedulesFound = _.filter(state.schedule, (data) => {
             if (data._id === socketStat.queueDoc._id) return true;
             else return false

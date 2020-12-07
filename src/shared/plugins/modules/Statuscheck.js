@@ -157,6 +157,18 @@ const mutations = {
     stopEditing(state, payload) {
         state.editing = false
     },
+    addStatuscheckResults(state, payload) {
+        if (!payload.instanceDoc) return;
+
+        const instance = payload.instanceDoc
+        state.statuschecks = _.map(state.statuschecks, (statuscheck) => {
+            if (statuscheck.workflowId !== instance.workflow) return statuscheck
+
+            console.log('incoming instance', instance)
+
+            return statuscheck
+        })
+    },
 }
 
 export default {
