@@ -19,7 +19,7 @@ import axios from './shared/plugins/network/axios'
  * **/
 import socket from './shared/plugins/network/socket'
 /**
- * Import socket
+ * Import stripe
  * **/
 import stripe from './shared/plugins/network/stripe'
 /**

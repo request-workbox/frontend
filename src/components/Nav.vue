@@ -80,7 +80,7 @@ export default {
       try {
         this.loading = true
         await this.logoutUser()
-        location.assign('/account')
+        location.assign('/login')
       } catch(err) {
         // console.log(err)
       } finally {
