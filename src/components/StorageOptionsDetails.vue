@@ -129,17 +129,13 @@ export default {
         const fileDataResponse = await this.getFileStorageData({ storageId: this.selectedData()._id })
         const fileData = fileDataResponse.data
 
-        if (this.selectedData().mimetype === 'application/json') {
-          const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(fileData))
-          const downloadAnchorNode = document.createElement('a')
-          downloadAnchorNode.setAttribute("href",     dataStr)
-          downloadAnchorNode.setAttribute("download", this.selectedData().originalname)
-          document.body.appendChild(downloadAnchorNode)
-          downloadAnchorNode.click()
-          downloadAnchorNode.remove()
-        } else {
-          return download(fileData, this.selectedData().originalname, fileDataResponse.headers['content-type'])
-        }
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(fileData))
+        const downloadAnchorNode = document.createElement('a')
+        downloadAnchorNode.setAttribute("href",     dataStr)
+        downloadAnchorNode.setAttribute("download", this.selectedData().originalname)
+        document.body.appendChild(downloadAnchorNode)
+        downloadAnchorNode.click()
+        downloadAnchorNode.remove()
       } catch(err) {
         // console.log(err)
       } finally {
