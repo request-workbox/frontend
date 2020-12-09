@@ -127,6 +127,7 @@
           <span class="column-text-button" v-on:click="toggleOrderDirection">Date Created</span>
         </div>
         <div class="column column-data column-header column-grow">Workflow Name</div>
+        <div class="column column-data column-header column-20">Queue Type</div>
         <div class="column column-data column-header column-20">Instance ID</div>
       </div>
 
@@ -144,6 +145,7 @@
         >
           <div class="column column-data column-20">{{ dateCreated(data.createdAt) }}</div>
           <div class="column column-data column-grow">{{ data.workflowName }}</div>
+          <div class="column column-data column-20">{{ queueType(data.queueType) }}</div>
           <div class="column column-data column-20">{{ data._id }}</div>
         </div>
       </template>
@@ -200,6 +202,9 @@ export default {
     dateCreated: function(createdAt) {
       if (!createdAt) return ''
       return `${moment(createdAt).format('M-D-YYYY, h:mm a')}`
+    },
+    queueType: function(queueType) {
+      return _.upperFirst(queueType)
     },
     selectOrDeselectRowAction: function(payload) {
       if (this.selectedId === payload._id) {

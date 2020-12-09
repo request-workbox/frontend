@@ -14,7 +14,7 @@
       <div class="column column-data column-10 column-padded">{{ stat.status }}</div>
       <div class="column column-data column-10 column-padded">{{ stat.statusText }}</div>
       <div class="column column-data column-10 column-padded">{{ stat.requestName }}</div>
-      <div class="column column-data column-20 column-padded">{{ stat.requestType }}</div>
+      <div class="column column-data column-20 column-padded">{{ requestType(stat.requestType) }}</div>
       <div class="column column-data column-grow column-padded">{{ statisticCreatedAt(stat.createdAt) }}</div>
     </div>
 
@@ -94,6 +94,9 @@ export default {
     shouldBeSelected: function(statId) {
       if (statId === this.selectedStatId) return true
       else return false
+    },
+    requestType: function(requestType) {
+      return _.upperFirst(requestType)
     }
   }
 };
