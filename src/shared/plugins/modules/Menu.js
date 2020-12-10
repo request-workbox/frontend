@@ -12,7 +12,7 @@ const getters = {
 
 const actions = {
     async newRequest({ commit, state, rootState }, { projectId }) {
-        const requestUrl = `${state.apiUrl}/new-request`
+        const requestUrl = `${state.apiUrl}/create-request`
         const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         return location.assign(`/projects/${projectId}/requests`)
