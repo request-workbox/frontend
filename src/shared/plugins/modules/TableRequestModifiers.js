@@ -41,7 +41,7 @@ const actions = {
     async cancelRequestChanges({ commit, state, getters, rootState }, { _id }) {
         if (!state.editing) return;
 
-        const requestUrl = `${state.apiUrl}/get-request-details`
+        const requestUrl = `${state.apiUrl}/get-request`
         const requestBody = { requestId: _id }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('updateRequest', request.data)
@@ -67,7 +67,7 @@ const actions = {
         const requestUrl = `${state.apiUrl}/add-request-detail-item`
         const requestBody = { _id: untrackedPayload._id, requestDetailOption: untrackedPayload.option }
         const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('updateRequestDetailItem', { requestDetailOption: untrackedPayload.option, item: request.data, requestId: untrackedPayload._id })
+        commit('updateRequest', request.data)
     },
     async deleteRequestDetailItem({ commit, state, getters, rootState }, payload) {
         const untrackedPayload = JSON.parse(JSON.stringify(payload))
