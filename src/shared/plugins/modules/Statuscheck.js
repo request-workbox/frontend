@@ -86,14 +86,14 @@ const actions = {
     updateField,
     async getWorkflowsForSelectOptions({ commit, state, getters, rootState }, payload) {
         const projectId = payload.projectId
-        const requestUrl = `${state.apiUrl}/get-workflows`
+        const requestUrl = `${state.apiUrl}/list-workflows`
         const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('replaceWorkflowsForSelectOptions', { data: request.data })
     },
     async getRequestsForSelectOptions({ commit, state, getters, rootState }, payload) {
         const projectId = payload.projectId
-        const requestUrl = `${state.apiUrl}/get-requests`
+        const requestUrl = `${state.apiUrl}/list-requests`
         const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('replaceRequestsForSelectOptions', { data: request.data })

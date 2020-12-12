@@ -31,21 +31,20 @@ const getters = {
 
 const actions = {
     async getProjectName({ commit, state, rootState }, { projectId }) {
-        const requestUrl = `${state.apiUrl}/get-project-name`
+        const requestUrl = `${state.apiUrl}/get-project`
         const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
-        const projectName = request.data.projectName
-        commit('changeProjectId', { projectId })
-        commit('changeProjectName', { projectName })
+        commit('changeProjectId', { projectId: request.data._id })
+        commit('changeProjectName', { projectName: request.data.name })
     },
     async updateProjectName({ commit, state, rootState }, { projectName }) {
-        const requestUrl = `${state.apiUrl}/update-project-name`
-        const requestBody = { projectId: state.projectId, projectName }
+        const requestUrl = `${state.apiUrl}/update-project`
+        const requestBody = { projectId: state.projectId, name: projectName }
         await Vue.$axios.post(requestUrl, requestBody)
         commit('changeProjectName', { projectName })
     },
     async getProjects({ commit, state, getters, rootState }, payload) {
-        const requestUrl = `${state.apiUrl}/get-projects`
+        const requestUrl = `${state.apiUrl}/list-projects`
         const request = await Vue.$axios.post(requestUrl)
         commit('changeProjects', request.data)
     },

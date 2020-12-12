@@ -17,7 +17,7 @@ const actions = {
     // REQUEST ACTIONS
     async getRequests({ commit, state, getters, rootState }, payload) {
         const projectId = (payload && payload.projectId) ? payload.projectId : rootState.project.projectInfo.projectId
-        const requestUrl = `${state.apiUrl}/get-requests`
+        const requestUrl = `${state.apiUrl}/list-requests`
         const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('replaceAllData', { data: request.data })
@@ -33,7 +33,7 @@ const actions = {
     },
     async getRequestsForSelectOptions({ commit, state, getters, rootState }, payload) {
         const projectId = (payload && payload.projectId) ? payload.projectId : rootState.project.projectInfo.projectId
-        const requestUrl = `${state.apiUrl}/get-requests`
+        const requestUrl = `${state.apiUrl}/list-requests`
         const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('replaceRequestsForSelectOptions', { data: request.data })

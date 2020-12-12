@@ -16,7 +16,7 @@ const actions = {
     // WORKFLOW ACTIONS
     async getWorkflows({ commit, state, getters, rootState }, payload) {
         const projectId = payload.projectId
-        const requestUrl = `${state.apiUrl}/get-workflows`
+        const requestUrl = `${state.apiUrl}/list-workflows`
         const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('replaceAllData', { data: request.data })
@@ -26,14 +26,14 @@ const actions = {
         const requestUrl = `${state.apiUrl}/get-workflow`
         const requestBody = { projectId: payload.projectId, workflowId: payload.workflowId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('replaceAllData', { data: request.data })
+        commit('replaceAllData', { data: [request.data] })
         commit('resetPage')
-        commit('changeSelectedId', { selectedId: request.data[0]._id })
+        commit('changeSelectedId', { selectedId: request.data._id })
     },
     async cancelWorkflowChanges({ commit, state, getters, rootState }, { _id }) {
         if (!state.editing) return;
 
-        const requestUrl = `${state.apiUrl}/get-workflow-details`
+        const requestUrl = `${state.apiUrl}/get-workflow`
         const requestBody = { workflowId: _id }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('updateWorkflow', request.data)
@@ -64,7 +64,7 @@ const actions = {
         const requestUrl = `${state.apiUrl}/add-workflow-task`
         const requestBody = { _id: payload.workflowId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('updateWorkflowTask', { item: request.data, workflowId: payload.workflowId })
+        commit('updateWorkflow', request.data)
     },
     async deleteWorkflowTask({ commit, state, getters, rootState }, payload) {
         const requestUrl = `${state.apiUrl}/delete-workflow-task`
