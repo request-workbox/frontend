@@ -17,7 +17,7 @@ const actions = {
     // STORAGE ACTIONS
     async getStorages({ commit, state, getters, rootState }, payload) {
         const projectId = payload.projectId
-        const requestUrl = `${state.apiUrl}/get-storages`
+        const requestUrl = `${state.apiUrl}/list-storages`
         const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('replaceAllData', { data: request.data })
@@ -28,13 +28,13 @@ const actions = {
         const requestUrl = `${state.apiUrl}/get-storage`
         const requestBody = { projectId: payload.projectId, storageId: payload.storageId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('replaceAllData', { data: request.data })
+        commit('replaceAllData', { data: [request.data] })
         commit('resetPage')
-        commit('changeSelectedId', { selectedId: request.data[0]._id })
+        commit('changeSelectedId', { selectedId: request.data._id })
     },
     async getStoragesForSelectOptions({ commit, state, getters, rootState }, payload) {
         const projectId = payload.projectId
-        const requestUrl = `${state.apiUrl}/get-storages`
+        const requestUrl = `${state.apiUrl}/list-storages`
         const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('replaceStoragesForSelectOptions', { data: request.data })
@@ -52,21 +52,21 @@ const actions = {
         return request
     },
     async updateTextStorageData({ commit, state, getters, rootState }, { storageId, storageValue }) {
-        const requestUrl = `${state.apiUrl}/update-text-storage-data?storageid=${storageId}`
+        const requestUrl = `${state.apiUrl}/update-text-storage-data?storageId=${storageId}`
         const requestHeaders = { 'Content-Type': 'multipart/form-data' }
         const request = await Vue.$axios.post(requestUrl, { storageValue }, requestHeaders)
     },
     async updateFileStorageData({ commit, state, getters, rootState }, { storageId, storageValue }) {
         const formData = new FormData()
         formData.append('file', storageValue)
-        const requestUrl = `${state.apiUrl}/update-file-storage-data?storageid=${storageId}`
+        const requestUrl = `${state.apiUrl}/update-file-storage-data?storageId=${storageId}`
         const requestHeaders = { 'Content-Type': 'multipart/form-data' }
         const request = await Vue.$axios.post(requestUrl, formData, requestHeaders)
     },
     async cancelStorageChanges({ commit, state, getters, rootState }, { _id }) {
         if (!state.editing) return;
 
-        const requestUrl = `${state.apiUrl}/get-storage-details`
+        const requestUrl = `${state.apiUrl}/get-storage`
         const requestBody = { storageId: _id }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('updateStorage', request.data)

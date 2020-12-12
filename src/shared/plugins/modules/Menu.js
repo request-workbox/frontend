@@ -30,7 +30,7 @@ const actions = {
         location.assign(`/projects/${projectId}/requests`)
     },
     async newStorage({ commit, state, rootState }, { projectId, storageType }) {
-        const requestUrl = `${state.apiUrl}/new-storage`
+        const requestUrl = `${state.apiUrl}/create-storage`
         const requestBody = { projectId, storageType }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         location.assign(`/projects/${projectId}/storage`)
