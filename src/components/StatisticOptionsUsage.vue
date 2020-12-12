@@ -67,7 +67,11 @@ export default {
       }
     },
     usageUppercase: function(usage) {
-      return _.upperFirst(usage)
+      if (usage === 'api') {
+        return 'API'
+      } else {
+        return _.upperFirst(usage)
+      }
     },
     usageCreatedAt: function(createdAt) {
       if (!createdAt) return ''

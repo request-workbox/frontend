@@ -50,7 +50,7 @@ const actions = {
     // STATISTIC ACTIONS
     async getInstances({ commit, state, getters, rootState }, payload) {
         const projectId = payload.projectId
-        const requestUrl = `${state.apiUrl}/get-instances`
+        const requestUrl = `${state.apiUrl}/list-instances`
         const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('replaceAllData', { data: request.data })
@@ -60,9 +60,9 @@ const actions = {
         const requestUrl = `${state.apiUrl}/get-instance`
         const requestBody = { projectId: payload.projectId, instanceId: payload.instanceId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('replaceAllData', { data: request.data })
+        commit('replaceAllData', { data: [request.data] })
         commit('resetPage')
-        commit('changeSelectedId', { selectedId: request.data[0]._id })
+        commit('changeSelectedId', { selectedId: request.data._id })
     },
     async getInstanceDetail({ commit, state, getters, rootState }, payload) {
         const instanceId = payload.instanceId
