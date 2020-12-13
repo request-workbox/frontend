@@ -65,14 +65,14 @@ const actions = {
     updateField,
     async getWebhooks({ commit, state, getters, rootState }, payload) {
         const projectId = payload.projectId
-        const requestUrl = `${state.apiUrl}/get-webhooks`
+        const requestUrl = `${state.apiUrl}/list-webhooks`
         const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('replaceWebhooks', request.data)
     },
     async newWebhook({ commit, state, getters, rootState }, payload) {
         const projectId = payload.projectId
-        const requestUrl = `${state.apiUrl}/new-webhook`
+        const requestUrl = `${state.apiUrl}/create-webhook`
         const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('addWebhook', request.data)
