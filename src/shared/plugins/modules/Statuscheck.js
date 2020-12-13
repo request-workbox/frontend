@@ -100,7 +100,7 @@ const actions = {
     },
     async getStatuschecks({ commit, state, getters, rootState }, payload) {
         const projectId = payload.projectId
-        const requestUrl = `${state.apiUrl}/get-statuschecks`
+        const requestUrl = `${state.apiUrl}/list-statuschecks`
         const requestBody = { projectId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('replaceStatuschecks', { data: request.data })
