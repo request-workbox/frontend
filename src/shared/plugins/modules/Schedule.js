@@ -138,8 +138,8 @@ const actions = {
     updateField,
     async getSchedule({ commit, state, getters, rootState }, payload) {
         try {
-            const requestUrl = `${state.apiUrl}/get-schedule`
-            const requestBody = { workflow: payload.workflowId, date: payload.date }
+            const requestUrl = `${state.apiUrl}/list-queues`
+            const requestBody = { workflowId: payload.workflowId, date: payload.date }
             const request = await Vue.$axios.post(requestUrl, requestBody)
             
             _.each(request.data, (data) => {
@@ -152,7 +152,7 @@ const actions = {
     },
     async archiveAllQueue({ commit, state, getters, rootState }, payload) {
         try {
-            const requestUrl = `${state.apiUrl}/archive-all-queue`
+            const requestUrl = `${state.apiUrl}/archive-all-queues`
             const request = await Vue.$axios.post(requestUrl, payload)
         } catch(err) {
             console.log(err)

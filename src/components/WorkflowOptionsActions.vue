@@ -238,7 +238,7 @@ export default {
         try {
           const payload = {
             date: date,
-            workflow: workflow,
+            workflowId: workflow,
             queueType: queueType,
           }
           await this.archiveAllQueue(payload)
