@@ -24,7 +24,7 @@
                   v-for="(request) in requestsForSelect()"
                   :key="request._id"
                   :value="request._id"
-                >{{ request.url.name }}</option>
+                >{{ request.name }}</option>
               </select>
             </div>
           </div>

@@ -6,36 +6,69 @@
         <div class="column column-data column-header-text column-grow" id="options-header-2">Value</div>
       </div>
 
-      <div class="row row-border-bottom row-border-bottom-tall" v-for="(value, key) in this.selectedData().url" :key="key">
+    <!-- URL -->
+      <div class="row row-border-bottom row-border-bottom-tall">
         <div class="column column-data column-10">
           <input
             type="text"
             placeholder="Key"
             class="column-input-text"
-            :value="key | capitalize"
+            value="URL"
             disabled
           />
         </div>
-        <template v-if="key === 'method'">
-          <div class="column column-data column-grow">
-            <select class="column-input-select column-input-select-min-width" :value="value" v-on:input="edit('url', key, $event)">
+        <div class="column column-data column-grow">
+          <input
+            type="text"
+            placeholder="Value"
+            class="column-input-text"
+            :value="this.selectedData().url"
+            v-on:input="edit('url', $event)"
+          />
+        </div>
+      </div>
+
+      <!-- Name -->
+      <div class="row row-border-bottom row-border-bottom-tall">
+        <div class="column column-data column-10">
+          <input
+            type="text"
+            placeholder="Key"
+            class="column-input-text"
+            value="Name"
+            disabled
+          />
+        </div>
+        <div class="column column-data column-grow">
+          <input
+            type="text"
+            placeholder="Value"
+            class="column-input-text"
+            :value="this.selectedData().name"
+            v-on:input="edit('name', $event)"
+          />
+        </div>
+      </div>
+
+      <!-- Method -->
+      <div class="row row-border-bottom row-border-bottom-tall">
+        <div class="column column-data column-10">
+          <input
+            type="text"
+            placeholder="Key"
+            class="column-input-text"
+            value="Method"
+            disabled
+          />
+        </div>
+        <div class="column column-data column-grow">
+            <select class="column-input-select column-input-select-min-width" :value="this.selectedData().method" v-on:input="edit('method', $event)">
               <option value="GET">GET</option>
               <option value="POST">POST</option>
             </select>
           </div>
-        </template>
-        <template v-if="key !== 'method'">
-          <div class="column column-data column-grow">
-            <input
-              type="text"
-              placeholder="Value"
-              class="column-input-text"
-              :value="value"
-              v-on:input="edit('url', key, $event)"
-            />
-          </div>
-        </template>
       </div>
+
     </div>
   </div>
 </template>
@@ -49,9 +82,9 @@ export default {
     ...mapGetters("table", ['selectedData']),
   },
   methods: {
-    ...mapMutations('table', ['editRequestDetail']),
-    edit: function(type, key, event) {
-      this.editRequestDetail({type, key, value: event.target.value, requestId: this.selectedData()._id})
+    ...mapMutations('table', ['editRequestKey']),
+    edit: function(key, event) {
+      this.editRequestKey({key, value: event.target.value, requestId: this.selectedData()._id})
     }
   },
   filters: {

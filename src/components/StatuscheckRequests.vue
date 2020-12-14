@@ -21,10 +21,10 @@
           <p class="margin-bottom-5 margin-top-5">{{ findRequestStat(task.requestId, 'createdAt') }}</p>
         </div>
         <div class="column column-20 text-13">
-          <p class="margin-bottom-5 margin-top-5 column-text-button" v-on:click="navigateToRequest(task.requestId)">{{ task.url.name }}</p>
+          <p class="margin-bottom-5 margin-top-5 column-text-button" v-on:click="navigateToRequest(task.requestId)">{{ task.name }}</p>
         </div>
         <div class="column column-grow text-13">
-          <p class="margin-bottom-5 margin-top-5">{{ task.url.url }}</p>
+          <p class="margin-bottom-5 margin-top-5">{{ task.url }}</p>
         </div>
         <div class="column column-10 text-13">
           <p class="margin-bottom-5 margin-top-5">Every {{ statuscheck.interval }} seconds</p>

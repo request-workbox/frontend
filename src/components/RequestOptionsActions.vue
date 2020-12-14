@@ -1,5 +1,5 @@
 <template>
-  <div class="row row-border-bottom">
+  <div class="row row-border-bottom" v-if="this.selectedData()._id">
     <div class="column column-full-width">
       <div class="row row-justify-between">
         <div class="column">

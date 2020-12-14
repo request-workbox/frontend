@@ -20,8 +20,8 @@
           v-on:click="selectOrDeselectRowAction(data)"
         >
           <div class="column column-data column-20">{{ dateCreated(data.createdAt) }}</div>
-          <div class="column column-data column-10">{{ data.url.name }}</div>
-          <div class="column column-data column-grow">{{ data.url.url }}</div>
+          <div class="column column-data column-10">{{ data.name }}</div>
+          <div class="column column-data column-grow">{{ data.url }}</div>
           <div class="column column-data column-20">{{ data._id }}</div>
         </div>
       </template>
@@ -174,7 +174,7 @@ import _ from 'lodash'
 export default {
   name: "Table",
   computed: {
-    ...mapState("table", ["allData", "selectedId", 'option']),
+    ...mapState("table", ["allData", "selectedId", 'option','editing']),
     ...mapGetters("table", ["viewableData"]),
     currentRoute: function () {
       return this.$route.name;
@@ -207,6 +207,8 @@ export default {
       return _.upperFirst(queueType)
     },
     selectOrDeselectRowAction: function(payload) {
+      if (this.editing) return;
+
       if (this.selectedId === payload._id) {
         this.$router.replace({ path: this.$route.name, query: { option: this.option, }}).catch((err) => err)
       } else {

@@ -35,7 +35,7 @@ import { mapState, mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'TableOptionsToolbar',
   computed: {
-    ...mapState('table', ['option']),
+    ...mapState('table', ['option','editing']),
     ...mapGetters('table', ['selectedData']),
     ...mapGetters('schedule', ['pendingQueues']),
   },
@@ -53,6 +53,8 @@ export default {
       }
     },
     changeOptionAction: function(option) {
+      if (this.editing) return;
+
       if (this.selectedData()._id) {
         this.$router.replace({ path: this.$route.name, query: { id: this.selectedData()._id, option: option }}).catch((err) => err)
       } else {

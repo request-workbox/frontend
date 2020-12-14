@@ -112,6 +112,15 @@ const mutations = {
             }
         })
     },
+    editRequestKey(state, payload) {
+        state.editing = true
+
+        _.each(state.allData, (data) => {
+            if (data._id === payload.requestId) {
+                data[payload.key] = payload.value
+            }
+        })
+    },
     editRequestDetail(state, payload) {
         state.editing = true
 

@@ -63,7 +63,7 @@ const getters = {
             if (state.searchTerm === '') return true
 
             if (state.currentRoute === 'Requests') {
-                if (_.includes(data.url.name, state.searchTerm) || _.includes(data.url.url, state.searchTerm)) return true;
+                if (_.includes(data.name, state.searchTerm) || _.includes(data.url, state.searchTerm)) return true;
                 else return false;
             } else if (state.currentRoute === 'Workflows') {
                 if (_.includes(data.name, state.searchTerm)) return true;

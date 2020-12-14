@@ -28,8 +28,8 @@ export default {
     requestName: function() {
       const requestDetails = this.selectedData()
 
-      if (!requestDetails.url || !requestDetails.url.name) return ''
-      return requestDetails.url.name
+      if (!requestDetails.name) return ''
+      return requestDetails.name
     },
     requestLastEdited: function() {
       const requestDetails = this.selectedData()
