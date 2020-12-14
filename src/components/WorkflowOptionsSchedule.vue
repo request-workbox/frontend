@@ -22,7 +22,7 @@
       v-on:click="selectQueueStatAction(stat)"
       class="row row-border-bottom table-row-selectable schedule-row">
       <div class="column column-data column-5 column-padded">
-        <a :href="instanceStatUrl(stat.instance)" target="_blank">View</a>
+        <a :href="instanceStatUrl(stat.instanceId)" target="_blank">View</a>
       </div>
       
       <div class="column column-data column-20 column-padded">{{ formattedDate(stat.date) }}</div>

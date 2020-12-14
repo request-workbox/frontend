@@ -229,7 +229,7 @@ export default {
       if (!this.selectedData()._id) return;
 
       const date = moment(this.scheduleDate)
-      const workflow = this.selectedData()._id
+      const workflowId = this.selectedData()._id
       const queueType = this.scheduleType
 
       const confirm = window.confirm(`Are you sure you want to unschedule [${queueType}] queue types occurring on [${this.scheduleDate}]?`)
@@ -238,7 +238,7 @@ export default {
         try {
           const payload = {
             date: date,
-            workflowId: workflow,
+            workflowId: workflowId,
             queueType: queueType,
           }
           await this.archiveAllQueue(payload)

@@ -68,7 +68,7 @@ const getters = {
         if (!state.selectedWorkflowId) return {}
         if (!requestId) return {}
 
-        if (state.lastInstance.workflow !== state.selectedWorkflowId) return {}
+        if (state.lastInstance.workflowId !== state.selectedWorkflowId) return {}
 
         const requestStat = _.filter(state.lastInstance.stats, (stat) => {
             if (stat.requestId === requestId) return true

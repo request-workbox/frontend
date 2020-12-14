@@ -33,7 +33,7 @@ const getters = {
         if (!workflowId) return []
 
         const workflow = _.filter(state.schedule, (data) => {
-            if (data.workflow === workflowId) return true;
+            if (data.workflowId === workflowId) return true;
             else return false
         })
 
