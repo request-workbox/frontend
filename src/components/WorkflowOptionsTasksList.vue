@@ -29,12 +29,22 @@
                 >{{ request.name }}</option>
               </select>
             </div>
+
+            <div class="column column-data column-20">
+              <input
+                type="text"
+                placeholder="Runtime result name"
+                class="column-input-text"
+                :value="task.runtimeResultName"
+                v-on:input="editWorkflowTaskAction('tasks', task._id, 'runtimeResultName', $event)"
+              />
+            </div>
+
             <div
               class="column text-button action"
               v-on:click="deleteWorkflowTaskAction('tasks', task._id )"
             >Remove</div>
           </div>
-
         </div>
       </div>
     </div>

@@ -127,15 +127,23 @@ export default {
       try {
         this.downloading = true
         const fileDataResponse = await this.getFileStorageData({ storageId: this.selectedData()._id })
-        const fileData = fileDataResponse.data
 
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(fileData))
+        let fileData;
+
+        if (this.selectedData().mimetype && this.selectedData().mimetype === 'text/plain') {
+          fileData = fileDataResponse.data
+        } else if (this.selectedData().mimetype && this.selectedData().mimetype === 'application/json') {
+          fileData = JSON.stringify(fileDataResponse.data)
+        }
+
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(fileData)
         const downloadAnchorNode = document.createElement('a')
         downloadAnchorNode.setAttribute("href",     dataStr)
         downloadAnchorNode.setAttribute("download", this.selectedData().originalname)
         document.body.appendChild(downloadAnchorNode)
         downloadAnchorNode.click()
         downloadAnchorNode.remove()
+
       } catch(err) {
         // console.log(err)
       } finally {

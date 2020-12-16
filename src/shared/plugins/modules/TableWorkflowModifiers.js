@@ -45,14 +45,8 @@ const actions = {
             if (!state.editing) return;
 
             const requestUrl = `${state.apiUrl}/save-workflow-changes`
+            await Vue.$axios.post(requestUrl, workflow)
 
-            let requestBody = workflow
-
-            if (requestBody.webhookRequestId === '') {
-                delete requestBody.webhookRequestId
-            }
-            
-            await Vue.$axios.post(requestUrl, requestBody)
             commit('stopEditing')
         } catch(err) {
             if (err.response && err.response.data) {
@@ -129,6 +123,25 @@ const mutations = {
         _.each(state.allData, (data) => {
             if (data._id === payload.workflowId) {
                 data[payload.key] = payload.value
+            }
+        })
+    },
+    editWorkflowWebhook(state, payload) {
+        state.editing = true
+
+        _.each(state.allData, (data) => {
+            if (data._id === payload.workflowId) {
+                if (payload.value === '') {
+                    data.webhooks = _.map(data.webhooks, (webhook) => {
+                        delete webhook.requestId
+                        return webhook
+                    })
+                } else {
+                    data.webhooks = _.map(data.webhooks, (webhook) => {
+                        webhook.requestId = payload.value
+                        return webhook
+                    })
+                }
             }
         })
     },

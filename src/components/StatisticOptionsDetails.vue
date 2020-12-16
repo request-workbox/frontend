@@ -62,6 +62,7 @@ export default {
         await this.getInstanceDetail({instanceId: this.selectedData()._id})
       } catch(err) {
         console.log('Error getting instance details')
+        console.log(err)
       } finally {
         this.loading = false
       }

@@ -100,14 +100,22 @@ const mutations = {
         _.each(state.allData, (instance) => {
             if (instance._id === payload.instanceId) {
                 instance.stats = _.map(instance.stats, (stat) => {
-                    const statUpdate = _.filter(payload.data, (statUpdate, statUpdateId) => {
-                        if (statUpdateId === stat._id) return true
-                        else return false
-                    })[0]
-                    stat.requestPayload = statUpdate.requestPayload
-                    stat.responsePayload = statUpdate.responsePayload
-                    stat.downloadPayload = statUpdate.downloadPayload
+                    const 
+                        taskId = stat.taskId,
+                        taskField = stat.taskField;
+
+                    const taskStats = payload.data[taskField]
+
+                    _.each(taskStats, (taskStat) => {
+                        if (taskStat._id === taskId) {
+                            stat.requestPayload = taskStat.requestPayload
+                            stat.responsePayload = taskStat.responsePayload
+                            stat.downloadPayload = taskStat.downloadPayload
+                        }
+                    })
+
                     return stat
+                    
                 })
             }
         })

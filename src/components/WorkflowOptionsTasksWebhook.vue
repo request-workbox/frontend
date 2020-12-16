@@ -17,7 +17,7 @@
               <select
                 class="column-input-select column-input-select-grow"
                 :value="webhookRequestId()"
-                v-on:input="editWorkflowWebhookAction('webhookRequestId', $event)"
+                v-on:input="editWorkflowWebhookAction($event)"
               >
                 <option value="">No Webhook</option>
                 <option
@@ -53,18 +53,21 @@ export default {
     },
   },
   methods: {
-    ...mapMutations("table", ["editWorkflowTask", "changeTaskPosition", 'editWorkflowDetail']),
+    ...mapMutations("table", ["editWorkflowTask", "changeTaskPosition", 'editWorkflowWebhook']),
     ...mapActions("table", ["deleteWorkflowTask",'forceComputedForWebhookCancelChangesAction']),
-    editWorkflowWebhookAction: function (type, event) {
-      this.editWorkflowDetail({
-        key: type,
+    editWorkflowWebhookAction: function (event) {
+      this.editWorkflowWebhook({
         value: event.target.value,
         workflowId: this.selectedData()._id,
       });
     },
     webhookRequestId: function() {
-      if (_.size(this.selectedData().webhookRequestId) > 1) return this.selectedData().webhookRequestId
-      return ''
+      if (this.selectedData().webhooks && this.selectedData().webhooks[0]) {
+        if (this.selectedData().webhooks[0].requestId) return this.selectedData().webhooks[0].requestId
+        else return ''
+      } else {
+        return ''
+      }
     },
   },
 };

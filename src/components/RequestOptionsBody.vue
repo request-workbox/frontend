@@ -46,7 +46,7 @@
         <div class="column column-data column-20" v-if="value.valueType === 'runtimeResult'">
           <input
             type="text"
-            placeholder="Request Name"
+            placeholder="Request result name"
             class="column-input-text"
             :value="value.value"
             v-on:input="editValue('body', value._id, $event)"
