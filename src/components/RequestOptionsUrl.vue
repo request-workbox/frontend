@@ -2,8 +2,8 @@
   <div class="row">
     <div class="column column-full-width">
       <div class="row row-border-bottom row-border-bottom-tall">
-        <div class="column column-data column-header-text column-10" id="options-header-1">Key</div>
-        <div class="column column-data column-header-text column-grow" id="options-header-2">Value</div>
+        <div class="column column-data column-header-text column-10">Key</div>
+        <div class="column column-data column-header-text column-grow">Value</div>
       </div>
 
     <!-- URL -->

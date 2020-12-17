@@ -11,6 +11,7 @@ import _ from "lodash";
 import RequestOptionsQuery from "./RequestOptionsQuery";
 import RequestOptionsHeaders from "./RequestOptionsHeaders";
 import RequestOptionsBody from "./RequestOptionsBody";
+import RequestOptionsAuthorization from './RequestOptionsAuthorization'
 import RequestOptionsUrl from "./RequestOptionsUrl";
 
 export default {
@@ -19,6 +20,7 @@ export default {
     RequestOptionsQuery,
     RequestOptionsHeaders,
     RequestOptionsBody,
+    RequestOptionsAuthorization,
     RequestOptionsUrl,
   },
   computed: {

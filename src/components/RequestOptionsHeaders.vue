@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="column column-full-width">
-      <div class="row row-border-bottom">
+      <div class="row row-border-bottom row-border-bottom-tall">
         <div class="column column-data column-header-text column-10">Key</div>
         <div class="column column-data column-header-text column-20">Type</div>
         <div class="column column-data column-header-text column-20">Value</div>

@@ -346,6 +346,9 @@
   .stretch {
     width: stretch !important;
   }
+  .column-input-select-stretch {
+    width: stretch !important;
+  }
 
   .action {
     padding: 4px 12px !important;
@@ -888,6 +891,14 @@ max-width: 270px;
 }
 .row-align-start {
   align-items: start !important;
+}
+
+.break-spaces {
+  white-space: break-spaces;
+}
+
+.padding-10 {
+  padding: 10px;
 }
 
 .column-right-border {

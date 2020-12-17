@@ -3,6 +3,7 @@
       <div class="column">
         <div class="row" v-if="this.$route.name === 'Requests'">
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('url')}" v-on:click="changeOptionAction('url')">URL</div>
+          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('authorization')}" v-on:click="changeOptionAction('authorization')">Authorization</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('query')}" v-on:click="changeOptionAction('query')">Parameters</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('headers')}" v-on:click="changeOptionAction('headers')">Headers</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('body')}" v-on:click="changeOptionAction('body')">Body</div>
