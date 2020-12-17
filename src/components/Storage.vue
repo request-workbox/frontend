@@ -80,5 +80,7 @@ export default {
   align-items: flex-start;
 
   overflow-x: hidden;
+
+  min-width: 700px;
 }
 </style>

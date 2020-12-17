@@ -14,8 +14,60 @@
           </select>
           <p>The authorization header will be automatically generated when you send the request. Learn more about authorization</p>
         </div>
-        <div class="column column-data column-header-text column-grow padding-10">
-          asd
+        <div class="column column-data column-full-width column-grow">
+
+            <div class="row row-border-bottom">
+              <div class="column column-data column-10">
+                <input
+                  type="text"
+                  placeholder="Key"
+                  class="column-input-text user-form-input-slim user-form-input-stretch"
+                />
+              </div>
+              <div class="column column-data column-10">
+                <select class="column-input-select column-input-select-stretch">
+                    <option value="textInput">Text Input</option>
+                    <option value="storage">Storage</option>
+                    <option value="runtimeResult">Runtime Result</option>
+                    <option value="incomingField">Incoming Field</option>
+                  </select>
+              </div>
+              <div class="column column-10" v-if="valueType === 'textInput'">
+                <input
+                  type="text"
+                  placeholder="Text Input Value"
+                  class="column-input-text user-form-input-slim user-form-input-stretch"
+                />
+              </div>
+              <div class="column column-data column-10" v-if="valueType === 'storage'">
+                <select class="column-input-select column-input-select-stretch">
+                    <option
+                        v-for="(storage) in storagesForSelect()"
+                        :key="storage._id"
+                        :value="storage._id"
+                      >{{ storage.name }}</option>
+                  </select>
+              </div>
+              <div class="column column-data column-10" v-if="valueType === 'runtimeResult'">
+                <input
+                  type="text"
+                  placeholder="Request result name"
+                  class="column-input-text user-form-input-slim user-form-input-stretch"
+                />
+              </div>
+              <div class="column column-data column-10" v-if="valueType === 'incomingField'">
+                <input
+                  type="text"
+                  placeholder="Field Name"
+                  class="column-input-text user-form-input-slim user-form-input-stretch"
+                />
+              </div>
+              <div class="column text-button action">
+                Clear Auth
+              </div>
+            </div>
+
+
         </div>
       </div>
 
@@ -28,8 +80,14 @@ import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
 
 export default {
   name: "RequestOptionsAuthorization",
+  data: function() {
+    return {
+      valueType: 'incomingField',
+    }
+  },
   computed: {
     ...mapGetters("table", ['selectedData']),
+    ...mapGetters("table", ["selectedData",'storagesForSelect']),
   },
   methods: {
     ...mapMutations('table', ['editRequestKey']),

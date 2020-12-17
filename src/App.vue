@@ -61,8 +61,25 @@ body {
   background:#edeff1;
   
 }
+
 #main-view {
   width: 100%;
+  width: -webkit-fill-available;
+}
+
+@media (min-width:320px)  {
+   /* tablet, landscape iPad, lo-res laptops ands desktops */ 
+   #main-view {
+    width: fit-content;
+  }
+}
+
+@media (min-width:600px)  {
+   /* portrait tablets, portrait iPad, e-readers (Nook/Kindle), landscape 800x480 phones (Android) */
+   #main-view {
+    width: 100%;
+    width: -webkit-fill-available;
+  }
 }
 
 .v-toast-text {

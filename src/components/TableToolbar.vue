@@ -186,3 +186,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.table-toolbar-pagination {
+  min-width: 25px;
+}
+</style>
