@@ -53,7 +53,7 @@ export default {
     },
     startStatuscheckAction: async function() {
       try {
-        const confirm = window.confirm('Are you sure you want to start this status check?')
+        const confirm = window.confirm('Are you sure you want to start this statuscheck?')
         if (confirm) {
           await this.startStatuscheck({ statuscheckId: this.statuscheck._id })
         }
@@ -63,7 +63,7 @@ export default {
     },
     stopStatuscheckAction: async function() {
       try {
-        const confirm = window.confirm('Are you sure you want to stop this status check?')
+        const confirm = window.confirm('Are you sure you want to stop this statuscheck?')
         if (confirm) {
           await this.stopStatuscheck({ statuscheckId: this.statuscheck._id })
         }

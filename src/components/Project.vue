@@ -2,6 +2,9 @@
   <div id="project-container">
     <Menu />
     <ProjectList />
+    <ProjectDetails />
+    <ProjectSettings />
+
     <GetStarted />
     <Footer />
   </div>
@@ -12,6 +15,8 @@ import { mapMutations, mapActions } from "vuex";
 
 import Menu from "./Menu";
 import ProjectList from './ProjectList'
+import ProjectDetails from './ProjectDetails'
+import ProjectSettings from './ProjectSettings'
 import Footer from './Footer'
 import GetStarted from './GetStarted'
 
@@ -20,6 +25,8 @@ export default {
   components: {
     Menu,
     ProjectList,
+    ProjectDetails,
+    ProjectSettings,
     Footer,
     GetStarted,
   },

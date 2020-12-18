@@ -76,9 +76,15 @@
     background: #f3f3f3;
   }
   .table-row-data {
-    margin: 5px 20px;
-    border: #d4d4d4 solid 1px;
+    margin: 2px;
+    // border: #d4d4d4 solid 1px;
     border-radius: 2px;
+  }
+
+  .table-row-data-light {
+    margin: 0;
+    // border: #d4d4d4 solid 1px;
+    border-radius: 0;
   }
   .table-row-selectable {
     cursor: pointer;
@@ -274,6 +280,13 @@
   }
   .margin-top-10 {
     margin-top: 10px !important;
+  }
+
+  .margin-top-100 {
+    margin-top: 100px !important;
+  }
+  .margin-bottom-100 {
+    margin-bottom: 100px !important;
   }
   
   .padding-bottom-150 {
@@ -540,6 +553,9 @@
   .filter-button-right {
     border-radius: 0 4px 4px 0;
   }
+  .filter-button-round {
+    border-radius: 4px;
+  }
   
   .section-header {
     font-weight: 600;
@@ -586,6 +602,13 @@
     background: #dcf0ff;
       border-top: #2196f3 solid 1px;
       border-bottom: #2196f3 solid 1px;
+  }
+
+  .project-row-light {
+    cursor:pointer;
+  }
+  .project-row-light:hover {
+    background: #fbfbfb;
   }
 
   .table-detail-row {

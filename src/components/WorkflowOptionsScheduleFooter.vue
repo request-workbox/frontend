@@ -56,6 +56,7 @@ export default {
   display: flex;
   position: fixed;
   bottom: 0;
+  left: 0;
   overflow:auto;
   background:white;
   box-shadow: 2px -2px 7px 0px #b5b5b5;

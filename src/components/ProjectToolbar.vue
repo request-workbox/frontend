@@ -7,6 +7,23 @@
             <div class="row">
               <div class="column spacer"></div>
               <div
+                class="column filter-button filter-button-left filter-button-active"
+              >Owner</div>
+              <div
+                class="column filter-button"
+              >Team</div>
+              <div
+                class="column filter-button filter-button-right"
+              >Invites</div>
+            </div>
+          </div>
+
+          <div class="column spacer"></div>
+
+          <div class="column">
+            <div class="row">
+              <div class="column spacer"></div>
+              <div
                 class="column filter-button filter-button-left"
                 v-bind:class="{ 'filter-button-active': filterIsActive('active') }"
                 id="table-toolbar-filter-active"
@@ -20,15 +37,16 @@
               >Archived</div>
             </div>
           </div>
-          <div class="column spacer"></div>
-          <div class="column text-button text-button-and-logo" v-on:click="archiveProjectAction" v-if="filterIsActive('active') && projectIsSelected()">
+
+
+          <!-- <div class="column text-button text-button-and-logo" v-on:click="archiveProjectAction" v-if="filterIsActive('active') && projectIsSelected()">
             <img src="/box.svg" alt="">
             <span>Archive Project</span>
           </div>
           <div class="column text-button text-button-and-logo" v-on:click="restoreProjectAction" v-if="filterIsActive('archived') && projectIsSelected()">
             <img src="/file-1.svg" alt="">
             <span>Restore Project</span>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

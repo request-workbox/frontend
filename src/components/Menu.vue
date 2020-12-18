@@ -1,5 +1,5 @@
 <template>
-    <div class="row row-border-bottom">
+    <div class="row row-border-bottom" v-if="this.$route.name !== 'Statistics'">
       <div class="column">
         <div class="row">
           <div class="column text-button text-button-and-logo" v-if="shouldBeShown('newProject')" id="menu-new-project" v-on:click="newProject()">
@@ -22,14 +22,6 @@
             <img src="/file.svg" alt="">
             <span>New File Storage</span>
           </div>
-          <!-- <div class="column text-button text-button-and-logo text-button-warning" v-if="shouldBeShown('deleteEntireProject') && !loading && this.$route.name === 'Projects'" v-on:click="deleteEntireProjectAction">
-            <img src="/trash.svg" alt="">
-            <span>Delete Entire Project</span>
-          </div>
-          <div class="column text-button text-button-and-logo text-button-warning" v-if="loading">
-            <img src="/trash.svg" alt="">
-            <span>Deleting...</span>
-          </div> -->
         </div>
       </div>
     </div>

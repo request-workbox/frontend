@@ -28,7 +28,7 @@
           </div>
           <div class="column text-button-nav" v-if="shouldBeShown('statuscheck') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('statuscheck') }" v-on:click="navigateToRoute('statuscheck')">
             <p class="text-button-nav-text">
-              <span>Status Check</span>
+              <span>Statuscheck</span>
               <span class="beta">New</span>
             </p>
           </div>

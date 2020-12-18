@@ -9,6 +9,8 @@ const state = () => ({
     projects: [],
     
     filter: 'active',
+
+    option: 'settings',
 })
 
 const getters = {
