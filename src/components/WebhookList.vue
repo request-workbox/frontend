@@ -6,16 +6,16 @@
         <div class="column column-data column-header column-15 column-padded">
           <span class="column-text-button" v-on:click="toggleWebhookOrderDirection">Date Created</span>
         </div>
-        <div class="column column-data column-header column-25 column-padded">Webhook Name</div>
+        <div class="column column-data column-header column-15 column-padded">Webhook Name</div>
         <div class="column column-data column-header column-grow column-padded">URL</div>
-        <div class="column column-data column-header column-10 column-padded">Status</div>
+        <div class="column column-data column-header column-5 column-padded">Status</div>
       </div>
 
       <div class="row row-border-bottom table-row-selectable" v-for="(webhook) in sortedWebhooks" :key="webhook._id" v-on:click="selectWebhookAction(webhook._id)" v-bind:class="{'table-row-selected':shouldBeSelected(webhook._id)}">
         <div class="column column-data column-15 column-padded">{{ webhookCreatedAt(webhook.createdAt) }}</div>
-        <div class="column column-data column-25 column-padded">{{ webhook.name }}</div>
+        <div class="column column-data column-15 column-padded">{{ webhook.name }}</div>
         <div class="column column-data column-grow column-padded">{{ webhookURL(webhook._id) }}</div>
-        <div class="column column-data column-10 column-padded">{{ webhookStatus(webhook.active) }}</div>
+        <div class="column column-data column-5 column-padded">{{ webhookStatus(webhook.active) }}</div>
       </div>
 
     </div>

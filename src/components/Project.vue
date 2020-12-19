@@ -4,8 +4,6 @@
     <ProjectList />
     <ProjectDetails />
     <ProjectSettings />
-
-    <GetStarted />
     <Footer />
   </div>
 </template>
@@ -18,7 +16,6 @@ import ProjectList from './ProjectList'
 import ProjectDetails from './ProjectDetails'
 import ProjectSettings from './ProjectSettings'
 import Footer from './Footer'
-import GetStarted from './GetStarted'
 
 export default {
   name: "Project",
@@ -28,7 +25,6 @@ export default {
     ProjectDetails,
     ProjectSettings,
     Footer,
-    GetStarted,
   },
   mounted: function () {
     this.init();

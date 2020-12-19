@@ -16,7 +16,7 @@
         </div>
         <div class="spacer"></div>
         <div class="column column-20">
-          <select class="column-input-select column-input-select-grow"  
+          <select class="column-input-select border-hidden column-input-select-grow"  
             v-on:input="editStatuscheckAction('onWorkflowTaskError', $event)"
             :value="statuscheck.onWorkflowTaskError">
             <option
@@ -39,7 +39,7 @@
         </div>
         <div class="spacer"></div>
         <div class="column column-20">
-          <select class="column-input-select column-input-select-grow" 
+          <select class="column-input-select border-hidden column-input-select-grow" 
             v-on:input="editStatuscheckAction('sendWorkflowWebhook', $event)"
             :value="statuscheck.sendWorkflowWebhook">
             <option
@@ -62,7 +62,7 @@
         </div>
         <div class="spacer"></div>
         <div class="column column-20">
-          <select class="column-input-select column-input-select-grow" 
+          <select class="column-input-select border-hidden column-input-select-grow" 
             v-on:input="editStatuscheckAction('interval', $event)"
             :value="statuscheck.interval">
             <option

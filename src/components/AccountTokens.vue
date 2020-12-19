@@ -7,7 +7,7 @@
       </div>
 
       <div class="row row-border-bottom">
-        <div class="column column-data column-20">
+        <div class="column column-data column-15">
           <div class="column text-button action text-center" v-if="!loading" v-on:click="generateTokenAction"><span>Generate API Token</span></div>
           <div class="column text-button action text-center" v-if="loading"><span>Generating...</span></div>
         </div>
@@ -15,16 +15,15 @@
       </div>
 
       <div class="row row-border-bottom" v-for="(token) in tokens" :key="token.snippet">
-        <div class="column column-data column-20">
+        <div class="column column-data column-15">
           <input
             type="text"
             placeholder=""
             class="column-input-text"
-            value=""
+            :value="token.snippet"
             disabled
           />
         </div>
-        <span class="tiny-text tiny-text-spaced">{{ token.snippet }}</span>
         <div class="column text-button action" v-if="!revoking" v-on:click="revokeTokenAction(token.snippet)"><span>Revoke API Token</span></div>
         <div class="column text-button action" v-if="revoking"><span>Revoke API Token</span></div>
       </div>

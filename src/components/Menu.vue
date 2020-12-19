@@ -2,7 +2,7 @@
     <div class="row row-border-bottom" v-if="this.$route.name !== 'Statistics'">
       <div class="column">
         <div class="row">
-          <div class="column text-button text-button-and-logo" v-if="shouldBeShown('newProject')" id="menu-new-project" v-on:click="newProject()">
+          <div class="column text-button text-button-and-logo" v-if="shouldBeShown('newProject')" id="menu-new-project" v-on:click="createProject()">
             <img src="/folder.svg" alt="">
             <span>New Project</span>
           </div>
@@ -42,12 +42,12 @@ export default {
   },
   methods: {
     ...mapActions('menu', [
-      'newRequest',
-      'newWorkflow',
-      'newProject',
-      'newStorage',
       'deleteEntireProject'
     ]),
+    ...mapActions('project', ['createProject',]),
+    ...mapActions('table', ['createRequest']),
+    ...mapActions('table', ['createWorkflow']),
+    ...mapActions('table', ['createStorage']),
     shouldBeShown: function(action) {
       if (!this.projectId || this.projectId === '') {
         if (action === 'newProject' && this.$route.name === 'Projects') return true
@@ -60,13 +60,13 @@ export default {
       if (action === 'newStorage' && this.$route.name === 'Storage') return true
     },
     newRequestAction: function() {
-      this.newRequest({ projectId: this.projectId })
+      this.createRequest({ projectId: this.projectId })
     },
     newWorkflowAction: function() {
-      this.newWorkflow({ projectId: this.projectId })
+      this.createWorkflow({ projectId: this.projectId })
     },
     newStorageAction: function(storageType) {
-      this.newStorage({ projectId: this.projectId, storageType })
+      this.createStorage({ projectId: this.projectId, storageType })
     },
     deleteEntireProjectAction: async function() {
       try {

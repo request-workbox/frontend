@@ -11,12 +11,12 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'ProjectInfo',
   computed: {
-    ...mapState('project', ['projectName']),
+    ...mapState('project',['projectName']),
   },
 }
 </script>

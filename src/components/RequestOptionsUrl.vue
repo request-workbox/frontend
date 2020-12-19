@@ -69,6 +69,20 @@
           </div>
       </div>
 
+      <!-- Locked / Sensitive -->
+      <div class="row row-border-bottom row-border-bottom-tall">
+        <div class="column column-data column-grow">
+          <input type="checkbox" id="team" name="permission" value="team">
+          <label for="team">Locked Resource</label>
+          <input type="checkbox" id="prevent" name="prevent" value="prevent">
+          <label for="prevent">Prevent Execution</label>
+          <input type="checkbox" id="owner" name="permission" value="owner">
+          <label for="owner">Sensitive Response</label>
+          <input type="checkbox" id="owner" name="permission" value="owner">
+          <label for="owner">Health Check API Endpoint</label>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -95,3 +109,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+label {
+  margin-left: 5px;
+}
+</style>

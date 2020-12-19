@@ -139,10 +139,16 @@ export default {
     },
     // requests
     archiveRequestAction: function() {
-      this.archiveRequest({ requestId: this.selectedId })
+      const confirm = window.confirm('Are you sure you want to archive this request?')
+      if (confirm) {
+        this.archiveRequest({ requestId: this.selectedId })
+      }
     },
     restoreRequestAction: function() {
-      this.restoreRequest({ requestId: this.selectedId })
+      const confirm = window.confirm('Are you sure you want to restore this request?')
+      if (confirm) {
+        this.restoreRequest({ requestId: this.selectedId })
+      }
     },
     deleteRequestAction: function() {
       const confirm = window.confirm('Are you sure you want to delete this request?')
@@ -152,10 +158,16 @@ export default {
     },
     // workflows
     archiveWorkflowAction: function() {
-      this.archiveWorkflow({ workflowId: this.selectedId })
+      const confirm = window.confirm('Are you sure you want to archive this workflow?')
+      if (confirm) {
+        this.archiveWorkflow({ workflowId: this.selectedId })
+      }
     },
     restoreWorkflowAction: function() {
-      this.restoreWorkflow({ workflowId: this.selectedId })
+      const confirm = window.confirm('Are you sure you want to restore this workflow?')
+      if (confirm) {
+        this.restoreWorkflow({ workflowId: this.selectedId })
+      }
     },
     deleteWorkflowAction: function() {
       const confirm = window.confirm('Are you sure you want to delete this workflow?')
@@ -165,10 +177,16 @@ export default {
     },
     // storage
     archiveStorageAction: function() {
-      this.archiveStorage({ storageId: this.selectedId })
+      const confirm = window.confirm('Are you sure you want to archive this storage?')
+      if (confirm) {
+        this.archiveStorage({ storageId: this.selectedId })
+      }
     },
     restoreStorageAction: function() {
-      this.restoreStorage({ storageId: this.selectedId })
+      const confirm = window.confirm('Are you sure you want to restore this storage?')
+      if (confirm) {
+        this.restoreStorage({ storageId: this.selectedId })
+      }
     },
     deleteStorageAction: function() {
       const confirm = window.confirm('Are you sure you want to delete this storage?')

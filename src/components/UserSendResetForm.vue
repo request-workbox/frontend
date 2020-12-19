@@ -34,7 +34,7 @@
                       <label class="user-form-label">Username</label>
                     </div>
                     <div class="column user-help-text-small column-full-width column-left-heading user-form-label-container">
-                      <span class="user-help-text-button-grey" v-on:click="goToResetUser">Already have a code?</span>
+                      <span class="user-help-text-button-grey" v-on:click="goToResetUser">Have a reset code?</span>
                     </div>
                   </div>
                   <div class="row">

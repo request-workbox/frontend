@@ -15,6 +15,15 @@ const getters = {
 
 const actions = {
     // REQUEST ACTIONS
+    async createRequest({ commit, state, rootState }, { projectId }) {
+        const requestUrl = `${state.apiUrl}/create-request`
+        const requestBody = { projectId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+
+        commit('addRequest', request.data)
+        commit('changeSelectedId', { selectedId: request.data._id })
+        Vue.$toast.open({ message: 'Request created', type: 'info' })
+    },
     async getRequests({ commit, state, getters, rootState }, payload) {
         const projectId = (payload && payload.projectId) ? payload.projectId : rootState.project.projectInfo.projectId
         const requestUrl = `${state.apiUrl}/list-requests`
@@ -85,6 +94,8 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('editRequestToArchive', { requestId: payload.requestId })
         commit('changeSelectedId', { selectedId: '' })
+
+        Vue.$toast.open({ message: 'Archived', type: 'info' })
     },
     async restoreRequest({ commit, state, getters, rootState }, payload) {
         const requestUrl = `${state.apiUrl}/restore-request`
@@ -92,6 +103,8 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('editRequestToRestore', { requestId: payload.requestId })
         commit('changeSelectedId', { selectedId: '' })
+
+        Vue.$toast.open({ message: 'Restored', type: 'info' })
     },
     async deleteRequest({ commit, state, getters, rootState }, payload) {
         const requestUrl = `${state.apiUrl}/delete-request`
@@ -103,6 +116,9 @@ const actions = {
 
 const mutations = {
     // REQUEST MUTATIONS
+    addRequest(state, payload) {
+        state.allData.push(payload)
+    },
     updateRequest(state, payload) {
         _.each(state.allData, (data) => {
             if (data._id === payload._id) {

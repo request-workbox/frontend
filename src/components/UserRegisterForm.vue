@@ -40,7 +40,7 @@
           </div>
           <div class="row">
             <div class="column column-full-width">
-              <input type="text" class="user-form-input" autocomplete="username" v-model="username" v-bind:class="{ 'user-form-input-danger':usernameError }">
+              <input type="text" class="user-form-input" v-model="username" v-bind:class="{ 'user-form-input-danger':usernameError }">
             </div>
           </div>
           <div class="row">
@@ -113,6 +113,11 @@
           <div class="row row-justify-center">
             <div class="column user-help-text">
               <span class="user-help-text-text">Have an account?</span><span class="user-help-text-button" v-on:click="goToLoginUser">Sign in</span>
+            </div>
+          </div>
+          <div class="row row-justify-center">
+            <div class="column user-help-text">
+              <span class="user-help-text-text">Have a sign up code?</span><span class="user-help-text-button" v-on:click="goToConfirmUser">Enter code</span>
             </div>
           </div>
         </div>
@@ -216,6 +221,12 @@ export default {
         } else if (err.message === 'Password did not conform with policy: Password must have symbol characters') {
           this.passwordMessage = 'Password should contain at least one symbol'
           this.passwordError = true
+        } else if (err.message === 'Username cannot be email') {
+          this.usernameMessage = err.message
+          this.usernameError = true
+        } else if (err.message === 'Only alphanumeric characters allowed') {
+          this.usernameMessage = err.message
+          this.usernameError = true
         } else {
           this.passwordMessage = err.message
           this.passwordError = true
@@ -226,7 +237,10 @@ export default {
     },
     goToLoginUser: function() {
       location.assign('/login')
-    }
+    },
+    goToConfirmUser: function() {
+      location.assign('/confirm')
+    },
   }
 }
 </script>

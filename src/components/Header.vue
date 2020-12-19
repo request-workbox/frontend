@@ -16,6 +16,7 @@
             <div class="column text-button" id="support-button-email" v-if="displaySupportEmail">support@requestworkbox.com</div>
             <div class="column text-button" id="feedback-button" v-on:click="changeDisplayFormAction(true)" v-if="this.$store.getters['cognito/isLoggedIn']">Feedback</div>
             <div class="column text-button" id="docs-button" v-on:click="openDocs">Docs</div>
+            <div class="column text-button" id="docs-button" v-on:click="openAPI">API</div>
             <!-- <div class="column text-button" id="docs-button" v-on:click="openDiscord">Discord</div> -->
           </div>
         </div>
@@ -56,6 +57,9 @@ export default {
       },
       openDiscord: function() {
         window.open('https://discord.gg/XuG5x3HV98')
+      },
+      openAPI: function() {
+        window.open('https://www.npmjs.com/package/request-workbox')
       },
   }
 };

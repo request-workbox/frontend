@@ -14,6 +14,15 @@ const actions = {
         return state.forceComputedForWebhookCancelChanges
     },
     // WORKFLOW ACTIONS
+    async createWorkflow({ commit, state, rootState }, { projectId }) {
+        const requestUrl = `${state.apiUrl}/create-workflow`
+        const requestBody = { projectId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+
+        commit('addWorkflow', request.data)
+        commit('changeSelectedId', { selectedId: request.data._id })
+        Vue.$toast.open({ message: 'Workflow created', type: 'info' })
+    },
     async getWorkflows({ commit, state, getters, rootState }, payload) {
         const projectId = payload.projectId
         const requestUrl = `${state.apiUrl}/list-workflows`
@@ -87,6 +96,8 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('editWorkflowToArchive', { workflowId: payload.workflowId })
         commit('changeSelectedId', { selectedId: '' })
+
+        Vue.$toast.open({ message: 'Archived', type: 'info' })
     },
     async restoreWorkflow({ commit, state, getters, rootState }, payload) {
         const requestUrl = `${state.apiUrl}/restore-workflow`
@@ -94,6 +105,8 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('editWorkflowToRestore', { workflowId: payload.workflowId })
         commit('changeSelectedId', { selectedId: '' })
+
+        Vue.$toast.open({ message: 'Restored', type: 'info' })
     },
     async deleteWorkflow({ commit, state, getters, rootState }, payload) {
         const requestUrl = `${state.apiUrl}/delete-workflow`
@@ -105,6 +118,9 @@ const actions = {
 
 const mutations = {
     // WORKFLOW MUTATIONS
+    addWorkflow(state, payload) {
+        state.allData.push(payload)
+    },
     updateForceComputedForWebhookCancelChanges(state, payload) {
         state.forceComputedForWebhookCancelChanges = state.forceComputedForWebhookCancelChanges + 1
     },

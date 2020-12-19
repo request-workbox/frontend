@@ -25,6 +25,14 @@
           />
         </div>
       </div>
+
+      <!-- Locked / Sensitive -->
+      <div class="row row-border-bottom row-border-bottom-tall" v-if="this.selectedData()._id">
+        <div class="column column-data column-grow">
+          <input type="checkbox" id="team" name="permission" value="team">
+          <label for="team">Locked Resource</label>
+        </div>
+      </div>
       
       <div class="row row-border-bottom">
         <div class="column column-data column-header-text column-grow column-group-header">Instance API</div>

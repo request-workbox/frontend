@@ -80,6 +80,16 @@
         </div>
       </div>
 
+      <!-- Locked / Sensitive -->
+      <div class="row row-border-bottom row-border-bottom-tall" v-if="this.selectedData()._id">
+        <div class="column column-data column-grow">
+          <input type="checkbox" id="team" name="permission" value="team">
+          <label for="team">Locked Resource</label>
+          <input type="checkbox" id="owner" name="permission" value="owner">
+          <label for="owner">Sensitive Data</label>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>

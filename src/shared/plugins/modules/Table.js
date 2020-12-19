@@ -153,6 +153,14 @@ const mutations = {
     },
     resetPage(state) {
         state.page = 0
+
+        if (state.allData && _.size(state.allData)) {
+            if (state.orderDirection === 'descending') {
+                state.selectedId = state.allData[0]._id
+            } else {
+                state.selectedId = state.allData[_.size(state.allData) - 1]._id
+            }
+        }
     },
     changeFilter(state, { filter }) {
         state.filter = filter
@@ -194,6 +202,9 @@ const mutations = {
         }
 
         localStorage.setItem('orderDirection', state.orderDirection)
+
+        state.page = 0
+        state.selectedId = ''
     },
 
     // REQUEST MUTATIONS

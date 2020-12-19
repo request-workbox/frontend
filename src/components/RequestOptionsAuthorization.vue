@@ -24,11 +24,11 @@
                 <input
                   type="text"
                   placeholder=""
-                  class="column-input-text user-form-input-slim user-form-input-stretch"
+                  class="column-input-select border-hidden column-input-select-stretch"
                 />
               </div> -->
               <div class="column column-data column-10">
-                <select class="column-input-select column-input-select-stretch">
+                <select class="column-input-select border-hidden column-input-select-stretch">
                     <option value="textInput">Text Input</option>
                     <option value="storage">Storage</option>
                     <option value="runtimeResult">Runtime Result</option>
@@ -39,11 +39,11 @@
                 <input
                   type="text"
                   placeholder="Text Input Value"
-                  class="column-input-text user-form-input-slim user-form-input-stretch"
+                  class="column-input-select border-hidden column-input-select-stretch"
                 />
               </div>
               <div class="column column-data column-10" v-if="valueType === 'storage'">
-                <select class="column-input-select column-input-select-stretch">
+                <select class="column-input-select border-hidden column-input-select-stretch">
                     <option
                         v-for="(storage) in storagesForSelect()"
                         :key="storage._id"
@@ -55,14 +55,14 @@
                 <input
                   type="text"
                   placeholder="Request result name"
-                  class="column-input-text user-form-input-slim user-form-input-stretch"
+                  class="column-input-select border-hidden column-input-select-stretch"
                 />
               </div>
               <div class="column column-data column-10" v-if="valueType === 'incomingField'">
                 <input
                   type="text"
                   placeholder="Field Name"
-                  class="column-input-text user-form-input-slim user-form-input-stretch"
+                  class="column-input-select border-hidden column-input-select-stretch"
                 />
               </div>
               <div class="column text-button action">
@@ -78,11 +78,11 @@
                 <input
                   type="text"
                   placeholder=""
-                  class="column-input-text user-form-input-slim user-form-input-stretch"
+                  class="column-input-select border-hidden column-input-select-stretch"
                 />
               </div> -->
               <div class="column column-data column-10">
-                <select class="column-input-select column-input-select-stretch">
+                <select class="column-input-select border-hidden column-input-select-stretch">
                     <option value="textInput">Text Input</option>
                     <option value="storage">Storage</option>
                     <option value="runtimeResult">Runtime Result</option>
@@ -93,11 +93,11 @@
                 <input
                   type="text"
                   placeholder="Text Input Value"
-                  class="column-input-text user-form-input-slim user-form-input-stretch"
+                  class="column-input-select border-hidden column-input-select-stretch"
                 />
               </div>
               <div class="column column-data column-10" v-if="valueType === 'storage'">
-                <select class="column-input-select column-input-select-stretch">
+                <select class="column-input-select border-hidden column-input-select-stretch">
                     <option
                         v-for="(storage) in storagesForSelect()"
                         :key="storage._id"
@@ -109,14 +109,14 @@
                 <input
                   type="text"
                   placeholder="Request result name"
-                  class="column-input-text user-form-input-slim user-form-input-stretch"
+                  class="column-input-select border-hidden column-input-select-stretch"
                 />
               </div>
               <div class="column column-data column-10" v-if="valueType === 'incomingField'">
                 <input
                   type="text"
                   placeholder="Field Name"
-                  class="column-input-text user-form-input-slim user-form-input-stretch"
+                  class="column-input-select border-hidden column-input-select-stretch"
                 />
               </div>
               <div class="column text-button action">

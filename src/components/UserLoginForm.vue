@@ -93,6 +93,11 @@
                       <span class="user-help-text-text">Don't have an account?</span><span class="user-help-text-button" v-on:click="goToRegisterUser">Sign up</span>
                     </div>
                   </div>
+                  <div class="row row-justify-center">
+                    <div class="column user-help-text">
+                      <span class="user-help-text-text">Have a sign up code?</span><span class="user-help-text-button" v-on:click="goToConfirmUser">Enter code</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -186,6 +191,9 @@ export default {
     },
     goToSendResetUser: function() {
       location.assign('/send-reset-password')
+    },
+    goToConfirmUser: function() {
+      location.assign('/confirm')
     },
   }
 }

@@ -28,7 +28,7 @@
           </div>
           <div class="column text-button-nav" v-if="shouldBeShown('statuscheck') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('statuscheck') }" v-on:click="navigateToRoute('statuscheck')">
             <p class="text-button-nav-text">
-              <span>Statuscheck</span>
+              <span>Status Check</span>
               <span class="beta">New</span>
             </p>
           </div>
@@ -38,6 +38,18 @@
               <span class="beta">New</span>
             </p>
           </div>
+          <!-- <div class="column text-button-nav-off" v-if="shouldBeShown('endpoints') && this.$store.getters['cognito/isLoggedIn']">
+            <p class="text-button-nav-text">
+              <span class="text-11">Endpoints</span>
+              <span class="beta">New</span>
+            </p>
+          </div>
+          <div class="column text-button-nav-off" v-if="shouldBeShown('batching') && this.$store.getters['cognito/isLoggedIn']">
+            <p class="text-button-nav-text">
+              <span class="text-11">Batching</span>
+              <span class="beta">New</span>
+            </p>
+          </div> -->
           <div class="column text-button-nav">
             <p class="text-button-nav-text-header">Settings</p>
           </div>

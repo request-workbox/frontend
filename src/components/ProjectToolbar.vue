@@ -7,13 +7,19 @@
             <div class="row">
               <div class="column spacer"></div>
               <div
-                class="column filter-button filter-button-left filter-button-active"
+                class="column filter-button filter-button-left"
+                v-bind:class="{ 'filter-button-active': projectTypeIsActive('owner') }"
+                v-on:click="changeProjectTypeOption('owner')"
               >Owner</div>
               <div
                 class="column filter-button"
+                v-bind:class="{ 'filter-button-active': projectTypeIsActive('team') }"
+                v-on:click="changeProjectTypeOption('team')"
               >Team</div>
               <div
                 class="column filter-button filter-button-right"
+                v-bind:class="{ 'filter-button-active': projectTypeIsActive('invites') }"
+                v-on:click="changeProjectTypeOption('invites')"
               >Invites</div>
             </div>
           </div>
@@ -26,27 +32,28 @@
               <div
                 class="column filter-button filter-button-left"
                 v-bind:class="{ 'filter-button-active': filterIsActive('active') }"
-                id="table-toolbar-filter-active"
                 v-on:click="changeFilter({ filter: 'active' })"
+                v-if="projectTypeOption !== 'invites'"
               >Active</div>
               <div
                 class="column filter-button filter-button-right"
                 v-bind:class="{ 'filter-button-active': filterIsActive('archived') }"
-                id="table-toolbar-filter-archived"
                 v-on:click="changeFilter({ filter: 'archived' })"
+                v-if="projectTypeOption !== 'invites'"
               >Archived</div>
             </div>
           </div>
+          
+          <div class="spacer"></div>
 
-
-          <!-- <div class="column text-button text-button-and-logo" v-on:click="archiveProjectAction" v-if="filterIsActive('active') && projectIsSelected()">
+          <div class="column text-button text-button-and-logo" v-on:click="archiveProjectAction" v-if="!this.editing && filterIsActive('active') && projectIsSelected()">
             <img src="/box.svg" alt="">
             <span>Archive Project</span>
           </div>
-          <div class="column text-button text-button-and-logo" v-on:click="restoreProjectAction" v-if="filterIsActive('archived') && projectIsSelected()">
+          <div class="column text-button text-button-and-logo" v-on:click="restoreProjectAction" v-if="!this.editing && filterIsActive('archived') && projectIsSelected()">
             <img src="/file-1.svg" alt="">
             <span>Restore Project</span>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
@@ -58,10 +65,10 @@ import { mapActions, mapState, mapMutations, } from 'vuex'
 export default {
   name: 'ProjectToolbar',
   computed: {
-    ...mapState('project', ['filter', 'projectId']),
+    ...mapState('project', ['filter', 'projectId','projectTypeOption','editing']),
   },
   methods: {
-    ...mapMutations('project', ['changeFilter']),
+    ...mapMutations('project', ['changeFilter','changeProjectTypeOption']),
     ...mapActions('project',['archiveProject','restoreProject']),
     filterIsActive: function(filterButton) {
       if (filterButton === this.filter) return true;
@@ -82,6 +89,10 @@ export default {
       if (confirm) {
         await this.restoreProject({ projectId: this.projectId })
       }
+    },
+    projectTypeIsActive: function(projectType) {
+      if (projectType === this.projectTypeOption) return true
+      else return false
     },
   }
 }

@@ -3,10 +3,13 @@
     <div class="column column-full-width">
       <!-- Request Settings Header -->
       <div class="row row-border-bottom column-group-header">
-        <div class="column column-data column-header-text column-grow">Select Requests</div>
+        <div class="column column-data column-header-text column-grow">Request Tasks</div>
       </div>
 
       <div class="row row-border-bottom" v-for="task in this.selectedData().tasks" :key="task._id">
+        <div class="column column-data column-uparrow-hidden">
+          <input type="checkbox" value="team">
+        </div>
         <div class="column column-full-width">
           <!-- Request Settings Row -->
           <div class="row">
@@ -18,7 +21,7 @@
             </div>
             <div class="column column-data column-20">
               <select
-                class="column-input-select column-input-select-grow"
+                class="column-input-select border-hidden column-input-select-grow"
                 :value="task.requestId"
                 v-on:input="editWorkflowTaskAction('tasks', task._id, 'requestId', $event)"
               >

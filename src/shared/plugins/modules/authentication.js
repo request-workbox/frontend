@@ -101,6 +101,14 @@ export default {
                     throw new Error('Passwords must match')
                 }
 
+                if (_.includes(state.signup.email, '@')) {
+                    throw new Error('Username cannot be email')
+                }
+
+                if (!state.signup.email.test(/^[a-zA-Z0-9_]*$/)) {
+                    throw new Error('Only alphanumeric characters allowed')
+                }
+
                 
 
                 const newUser = await dispatch('cognito/registerUser', {
@@ -175,6 +183,20 @@ export default {
                 await dispatch('cognito/confirmUser', {
                     username: state.confirm.username,
                     code: state.confirm.code
+                }, { root: true })
+            } catch (err) {
+                if (err.message) throw new Error(err.message)
+                else throw new Error(err)
+            }
+        },
+        async resendConfirmation({ commit, state, dispatch }) {
+            try {
+                if (state.confirm.username === '') {
+                    throw new Error('Please confirm username')
+                }
+
+                await dispatch('cognito/resendConfirmation', {
+                    username: state.confirm.username,
                 }, { root: true })
             } catch (err) {
                 if (err.message) throw new Error(err.message)

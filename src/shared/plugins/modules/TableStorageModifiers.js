@@ -15,6 +15,15 @@ const getters = {
 
 const actions = {
     // STORAGE ACTIONS
+    async createStorage({ commit, state, rootState }, { projectId, storageType }) {
+        const requestUrl = `${state.apiUrl}/create-storage`
+        const requestBody = { projectId, storageType }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+        
+        commit('addStorage', request.data)
+        commit('changeSelectedId', { selectedId: request.data._id })
+        Vue.$toast.open({ message: 'Storage created', type: 'info' })
+    },
     async getStorages({ commit, state, getters, rootState }, payload) {
         const projectId = payload.projectId
         const requestUrl = `${state.apiUrl}/list-storages`
@@ -86,6 +95,8 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('editStorageToArchive', { storageId: payload.storageId })
         commit('changeSelectedId', { selectedId: '' })
+
+        Vue.$toast.open({ message: 'Archived', type: 'info' })
     },
     async restoreStorage({ commit, state, getters, rootState }, payload) {
         const requestUrl = `${state.apiUrl}/restore-storage`
@@ -93,6 +104,8 @@ const actions = {
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('editStorageToRestore', { storageId: payload.storageId })
         commit('changeSelectedId', { selectedId: '' })
+
+        Vue.$toast.open({ message: 'Restored', type: 'info' })
     },
     async deleteStorage({ commit, state, getters, rootState }, payload) {
         const requestUrl = `${state.apiUrl}/delete-storage`
@@ -112,6 +125,9 @@ const actions = {
 
 const mutations = {
     // STORAGE MUTATIONS
+    addStorage(state, payload) {
+        state.allData.push(payload)
+    },
     updateStorage(state, payload) {
         _.each(state.allData, (data) => {
             if (data._id === payload._id) {

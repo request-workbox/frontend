@@ -142,8 +142,16 @@
     justify-content: center;
     color: transparent;
   }
+
+  .border-hidden {
+    border-width: 1px;
+    border-style: solid;
+    border-color: white;
+    border-radius: 3px;
+  }
   .column-input-select {
     min-height: 25px;
+    font-size: 13px;
   }
   .column-input-select-min-width {
     min-width: 125px;
@@ -157,7 +165,7 @@
     width: 98%;
   
     font-weight: 400;
-    font-size: 15px;
+    font-size: 13px;
     min-height:25px;
   }
   .column-input-text:focus {
@@ -458,6 +466,19 @@
       font-weight: 600;
     }
   }
+
+
+  .text-button-nav-off {
+    background: white;
+    color: #395b75;
+    font-size: 12px;
+    border-radius: 2px;
+
+    width: 100%;
+  }
+
+
+
   .text-button-nav-text {
     padding-left: 25px;
 
