@@ -89,46 +89,6 @@
         </div>
       </div>
 
-      <div class="row row-border-bottom">
-        <div class="column column-data column-20">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            value="Statuscheck Workflow"
-            disabled
-          />
-        </div>
-        <div class="column column-data column-grow">
-          <input type="radio" id="statuscheckWorkflowOwner" value="owner" v-model="statuscheckWorkflowPermissions">
-          <label for="statuscheckWorkflowOwner">Owner</label>
-          <input type="radio" id="statuscheckWorkflowTeam" value="team" v-model="statuscheckWorkflowPermissions">
-          <label for="statuscheckWorkflowTeam">Team</label>
-          <input type="radio" id="statuscheckWorkflowPublic" value="public" v-model="statuscheckWorkflowPermissions">
-          <label for="statuscheckWorkflowPublic">Public (allow unauthenticated requests)</label>
-        </div>
-      </div>
-
-      <div class="row row-border-bottom">
-        <div class="column column-data column-20">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            value="Webhook Endpoint"
-            disabled
-          />
-        </div>
-        <div class="column column-data column-grow">
-          <input type="radio" id="webhookEndpointOwner" value="owner" v-model="webhookEndpointPermissions">
-          <label for="webhookEndpointOwner">Owner</label>
-          <input type="radio" id="webhookEndpointTeam" value="team" v-model="webhookEndpointPermissions">
-          <label for="webhookEndpointTeam">Team</label>
-          <input type="radio" id="webhookEndpointPublic" value="public" v-model="webhookEndpointPermissions">
-          <label for="webhookEndpointPublic">Public (allow unauthenticated requests)</label>
-        </div>
-      </div>
-
     </div>
   </div>
 </template>
@@ -177,32 +137,6 @@ export default {
         this.changePermissions({
           projectId: this.selectedData()._id,
           permissionKey: 'scheduleWorkflow',
-          value,
-        })
-      }
-    },
-    statuscheckWorkflowPermissions: {
-      get() {
-        if (!this.selectedData() || !this.selectedData().statuscheckWorkflow) return ''
-        return this.selectedData().statuscheckWorkflow || ''
-      },
-      set (value) {
-        this.changePermissions({
-          projectId: this.selectedData()._id,
-          permissionKey: 'statuscheckWorkflow',
-          value,
-        })
-      }
-    },
-    webhookEndpointPermissions: {
-      get() {
-        if (!this.selectedData() || !this.selectedData().webhookEndpoint) return ''
-        return this.selectedData().webhookEndpoint || ''
-      },
-      set (value) {
-        this.changePermissions({
-          projectId: this.selectedData()._id,
-          permissionKey: 'webhookEndpoint',
           value,
         })
       }

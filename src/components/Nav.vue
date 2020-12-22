@@ -23,33 +23,6 @@
           <div class="column text-button-nav" v-if="shouldBeShown('statistics') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('statistics') }" v-on:click="navigateToRoute('statistics')">
             <p class="text-button-nav-text">Stats</p>
           </div>
-          <div class="column text-button-nav" v-if="shouldBeShown('tools')">
-            <p class="text-button-nav-text-header">Tools</p>
-          </div>
-          <div class="column text-button-nav" v-if="shouldBeShown('statuscheck') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('statuscheck') }" v-on:click="navigateToRoute('statuscheck')">
-            <p class="text-button-nav-text">
-              <span>Status Check</span>
-              <span class="beta">New</span>
-            </p>
-          </div>
-          <div class="column text-button-nav" v-if="shouldBeShown('webhook') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('webhook') }" v-on:click="navigateToRoute('webhook')">
-            <p class="text-button-nav-text">
-              <span>Webhooks</span>
-              <span class="beta">New</span>
-            </p>
-          </div>
-          <!-- <div class="column text-button-nav-off" v-if="shouldBeShown('endpoints') && this.$store.getters['cognito/isLoggedIn']">
-            <p class="text-button-nav-text">
-              <span class="text-11">Endpoints</span>
-              <span class="beta">New</span>
-            </p>
-          </div>
-          <div class="column text-button-nav-off" v-if="shouldBeShown('batching') && this.$store.getters['cognito/isLoggedIn']">
-            <p class="text-button-nav-text">
-              <span class="text-11">Batching</span>
-              <span class="beta">New</span>
-            </p>
-          </div> -->
           <div class="column text-button-nav">
             <p class="text-button-nav-text-header">Settings</p>
           </div>
@@ -110,10 +83,6 @@ export default {
         return true
       } else if (this.$route.name === 'Statistics' && route == 'statistics') {
         return true
-      } else if (this.$route.name === 'Statuscheck' && route == 'statuscheck') {
-        return true
-      } else if (this.$route.name === 'Webhook' && route == 'webhook') {
-        return true
       } else if (this.$route.name === 'Account' && route == 'account') {
         return true
       } else {
@@ -137,10 +106,6 @@ export default {
         location.assign(`/projects/${this.projectId}/storage`)
       } else if (route === 'statistics') {
         location.assign(`/projects/${this.projectId}/statistics`)
-      } else if (route === 'statuscheck') {
-        location.assign(`/projects/${this.projectId}/statuscheck`)
-      } else if (route === 'webhook') {
-        location.assign(`/projects/${this.projectId}/webhooks`)
       } else if (route === 'projects') {
         location.assign(`/projects`)
       } else if (route === 'account') {

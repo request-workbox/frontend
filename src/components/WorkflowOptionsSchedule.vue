@@ -66,7 +66,6 @@ export default {
       if (queueType === 'return') return 'Return'
       if (queueType === 'queue') return 'Queue'
       if (queueType === 'schedule') return 'Schedule'
-      if (queueType === 'statuscheck') return 'Statuscheck'
     },
     formattedQueueStatus: (queueType) => {
       return _.upperFirst(queueType)
