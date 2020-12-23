@@ -29,6 +29,28 @@
         <div class="column column-data column-header-text column-grow column-group-header">Permissions</div>
       </div>
 
+      <!-- Return request -->
+      <div class="row row-border-bottom">
+        <div class="column column-data column-20">
+          <input
+            type="text"
+            placeholder="Key"
+            class="column-input-text"
+            value="Return Request"
+            disabled
+          />
+        </div>
+        <div class="column column-data column-grow">
+          <input type="radio" id="returnRequestOwner" value="owner" v-model="returnRequestPermissions">
+          <label for="returnRequestOwner">Owner</label>
+          <input type="radio" id="returnRequestTeam" value="team" v-model="returnRequestPermissions">
+          <label for="returnRequestTeam">Team</label>
+          <input type="radio" id="returnRequestPublic" value="public" v-model="returnRequestPermissions">
+          <label for="returnRequestPublic">Public (allow unauthenticated requests)</label>
+        </div>
+      </div>
+
+      <!-- Return workflow -->
       <div class="row row-border-bottom">
         <div class="column column-data column-20">
           <input
@@ -49,6 +71,28 @@
         </div>
       </div>
 
+      <!-- Queue request -->
+      <div class="row row-border-bottom">
+        <div class="column column-data column-20">
+          <input
+            type="text"
+            placeholder="Key"
+            class="column-input-text"
+            value="Queue Request"
+            disabled
+          />
+        </div>
+        <div class="column column-data column-grow">
+          <input type="radio" id="queueRequestOwner" value="owner" v-model="queueRequestPermissions">
+          <label for="queueRequestOwner">Owner</label>
+          <input type="radio" id="queueRequestTeam" value="team" v-model="queueRequestPermissions">
+          <label for="queueRequestTeam">Team</label>
+          <input type="radio" id="queueRequestPublic" value="public" v-model="queueRequestPermissions">
+          <label for="queueRequestPublic">Public (allow unauthenticated requests)</label>
+        </div>
+      </div>
+
+      <!-- Queue workflow -->
       <div class="row row-border-bottom">
         <div class="column column-data column-20">
           <input
@@ -69,6 +113,28 @@
         </div>
       </div>
 
+      <!-- Schedule request -->
+      <div class="row row-border-bottom">
+        <div class="column column-data column-20">
+          <input
+            type="text"
+            placeholder="Key"
+            class="column-input-text"
+            value="Schedule Request"
+            disabled
+          />
+        </div>
+        <div class="column column-data column-grow">
+          <input type="radio" id="scheduleRequestOwner" value="owner" v-model="scheduleRequestPermissions">
+          <label for="scheduleRequestOwner">Owner</label>
+          <input type="radio" id="scheduleRequestTeam" value="team" v-model="scheduleRequestPermissions">
+          <label for="scheduleRequestTeam">Team</label>
+          <input type="radio" id="scheduleRequestPublic" value="public" v-model="scheduleRequestPermissions">
+          <label for="scheduleRequestPublic">Public (allow unauthenticated requests)</label>
+        </div>
+      </div>
+      
+      <!-- Schedule workflow -->
       <div class="row row-border-bottom">
         <div class="column column-data column-20">
           <input
@@ -102,6 +168,45 @@ export default {
   name: "ProjectSettingsSettings",
   computed: {
     ...mapGetters('project',['selectedData']),
+    returnRequestPermissions: {
+      get() {
+        if (!this.selectedData() || !this.selectedData().returnRequest) return ''
+        return this.selectedData().returnRequest || ''
+      },
+      set (value) {
+        this.changePermissions({
+          projectId: this.selectedData()._id,
+          permissionKey: 'returnRequest',
+          value,
+        })
+      }
+    },
+    queueRequestPermissions: {
+      get() {
+        if (!this.selectedData() || !this.selectedData().queueRequest) return ''
+        return this.selectedData().queueRequest || ''
+      },
+      set (value) {
+        this.changePermissions({
+          projectId: this.selectedData()._id,
+          permissionKey: 'queueRequest',
+          value,
+        })
+      }
+    },
+    scheduleRequestPermissions: {
+      get() {
+        if (!this.selectedData() || !this.selectedData().scheduleRequest) return ''
+        return this.selectedData().scheduleRequest || ''
+      },
+      set (value) {
+        this.changePermissions({
+          projectId: this.selectedData()._id,
+          permissionKey: 'scheduleRequest',
+          value,
+        })
+      }
+    },
     returnWorkflowPermissions: {
       get() {
         if (!this.selectedData() || !this.selectedData().returnWorkflow) return ''
