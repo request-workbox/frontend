@@ -159,6 +159,19 @@ const mutations = {
             }
         })
     },
+    editRequestDetailActive(state, payload) {
+        state.editing = true
+
+        _.each(state.allData, (data) => {
+            if (data._id === payload.requestId) {
+                _.each(data[payload.type], (obj) => {
+                    if (obj._id === payload.key) {
+                        obj.active = payload.value
+                    }
+                })
+            }
+        })
+    },
     editRequestDetailValue(state, payload) {
         state.editing = true
 
@@ -167,6 +180,19 @@ const mutations = {
                 _.each(data[payload.type], (obj) => {
                     if (obj._id === payload.key) {
                         obj.value = payload.value
+                    }
+                })
+            }
+        })
+    },
+    editRequestAuthorization(state, payload) {
+        state.editing = true
+
+        _.each(state.allData, (data) => {
+            if (data._id === payload.requestId) {
+                _.each(data.authorization, (obj) => {
+                    if (obj._id === payload._id) {
+                        obj[key] = payload.value
                     }
                 })
             }

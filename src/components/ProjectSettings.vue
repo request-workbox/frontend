@@ -1,5 +1,5 @@
 <template>
-    <div class="row row-justify-between row-border-bottom" v-if="this.projectId !== ''">
+    <div class="row row-justify-between row-border-bottom" v-if="this.projectId && this.selectedData().owner">
       <div class="column column-full-width">
 
         <div class="row row-border-bottom row-dark">
@@ -18,6 +18,13 @@
             v-bind:class="{ disabled: !this.editing }"
             v-on:click="saveProjectChangesAction"
           >Save Changes</div>
+          <div class="spacer"></div>
+          <div
+            class="column text-button action"
+            v-if="this.option === 'team'"
+            v-bind:class="{ disabled: this.editing }"
+            v-on:click="listTeamAction"
+          >List Team</div>
         </div>
 
         <div class="row">
@@ -51,18 +58,29 @@ export default {
     },
   },
   methods: {
-    ...mapActions('project', ['cancelProjectChanges','saveProjectChanges']),
+    ...mapActions('project', ['cancelProjectChanges','saveProjectChanges','listTeam','updateTeam']),
     ...mapMutations('project', ['changeOption']),
     optionIsSelected: function(option) {
       if (option === this.option) return true
       else return false
     },
+    listTeamAction: async function() {
+      await this.listTeam(this.selectedData()._id)
+    },
     cancelProjectChangesAction: async function() {
-      await this.cancelProjectChanges({ _id: this.selectedData()._id })
+      if (this.option === 'settings') {
+        await this.cancelProjectChanges({ _id: this.selectedData()._id })
+      } else if (this.option === 'team') {
+        await this.listTeam(this.selectedData()._id)
+      }
     },
     saveProjectChangesAction: async function() {
       try {
-        await this.saveProjectChanges(this.selectedData())
+        if (this.option === 'settings') {
+          await this.saveProjectChanges(this.selectedData())
+        } else if (this.option === 'team') {
+          await this.updateTeam(this.selectedData()._id)
+        }
       } catch(err) {
         Vue.$toast.open(err.message)
       }

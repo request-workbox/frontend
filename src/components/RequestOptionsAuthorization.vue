@@ -8,41 +8,47 @@
 
       <div class="row row-border-bottom row-border-bottom-tall row-align-start">
         <div class="column column-data column-20 padding-10 break-spaces">
-          <select class="column-input-select column-input-select-stretch">
-            <option value="textInput">No Auth</option>
-            <option value="storage">API Key</option>
-            <option value="storage">Bearer Token</option>
-            <option value="storage">Basic Auth</option>
+          <select class="column-input-select column-input-select-stretch" 
+            :value="this.authorizationType" 
+            v-on:input="editAuthorizationTypeAction($event)">
+            <option value="noAuth">No Auth</option>
+            <option value="basicAuth">Basic Auth</option>
           </select>
           <p>The authorization header will be automatically generated when you send the request. Learn more about authorization</p>
         </div>
         <div class="column column-data column-full-width column-grow">
 
-            <div class="row row-border-bottom">
+            <div class="row row-border-bottom" v-if="this.authorizationType === 'basicAuth'">
               <div class="column column-data column-5">Username</div>
-              <!-- <div class="column column-data column-10">
+              <div class="column column-data column-10">
                 <input
+                  disabled
                   type="text"
                   placeholder=""
                   class="column-input-select border-hidden column-input-select-stretch"
                 />
-              </div> -->
+              </div>
               <div class="column column-data column-10">
-                <select class="column-input-select border-hidden column-input-select-stretch">
+                <select 
+                  class="column-input-select border-hidden column-input-select-stretch"
+                  :value="this.authorizationUsername.valueType"
+                  v-on:input="editAuthorizationValueTypeAction('valueType', this.authorizationUsername._id, $event)">
                     <option value="textInput">Text Input</option>
                     <option value="storage">Storage</option>
                     <option value="runtimeResult">Runtime Result</option>
                     <option value="incomingField">Incoming Field</option>
                   </select>
               </div>
-              <div class="column column-10" v-if="valueType === 'textInput'">
+              <div class="column column-10" v-if="this.authorizationUsername.valueType === 'textInput'">
                 <input
                   type="text"
                   placeholder="Text Input Value"
                   class="column-input-select border-hidden column-input-select-stretch"
+                  :value="this.authorizationUsername.value"
+                  v-on:input="editValue('value', this.authorizationUsername._id, $event)"
                 />
               </div>
-              <div class="column column-data column-10" v-if="valueType === 'storage'">
+              <div class="column column-data column-10" v-if="this.authorizationUsername.valueType === 'storage'">
                 <select class="column-input-select border-hidden column-input-select-stretch">
                     <option
                         v-for="(storage) in storagesForSelect()"
@@ -51,18 +57,22 @@
                       >{{ storage.name }}</option>
                   </select>
               </div>
-              <div class="column column-data column-10" v-if="valueType === 'runtimeResult'">
+              <div class="column column-data column-10" v-if="this.authorizationUsername.valueType === 'runtimeResult'">
                 <input
                   type="text"
                   placeholder="Request result name"
                   class="column-input-select border-hidden column-input-select-stretch"
+                  :value="this.authorizationUsername.value"
+                  v-on:input="editValue('value', this.authorizationUsername._id, $event)"
                 />
               </div>
-              <div class="column column-data column-10" v-if="valueType === 'incomingField'">
+              <div class="column column-data column-10" v-if="this.authorizationUsername.valueType === 'incomingField'">
                 <input
                   type="text"
                   placeholder="Field Name"
                   class="column-input-select border-hidden column-input-select-stretch"
+                  :value="this.authorizationUsername.value"
+                  v-on:input="editValue('value', this.authorizationUsername._id, $event)"
                 />
               </div>
               <div class="column text-button action">
@@ -72,31 +82,36 @@
 
 
 
-            <div class="row row-border-bottom">
+            <div class="row row-border-bottom" v-if="this.authorizationType === 'basicAuth'">
               <div class="column column-data column-5">Password</div>
-              <!-- <div class="column column-data column-10">
+              <div class="column column-data column-10">
                 <input
+                  disabled
                   type="text"
                   placeholder=""
                   class="column-input-select border-hidden column-input-select-stretch"
                 />
-              </div> -->
+              </div>
               <div class="column column-data column-10">
-                <select class="column-input-select border-hidden column-input-select-stretch">
+                <select class="column-input-select border-hidden column-input-select-stretch"
+                :value="this.authorizationPassword.valueType"
+                v-on:input="editAuthorizationValueTypeAction('valueType', this.authorizationPassword._id, $event)">
                     <option value="textInput">Text Input</option>
                     <option value="storage">Storage</option>
                     <option value="runtimeResult">Runtime Result</option>
                     <option value="incomingField">Incoming Field</option>
                   </select>
               </div>
-              <div class="column column-10" v-if="valueType === 'textInput'">
+              <div class="column column-10" v-if="this.authorizationPassword.valueType === 'textInput'">
                 <input
                   type="text"
                   placeholder="Text Input Value"
                   class="column-input-select border-hidden column-input-select-stretch"
+                  :value="this.authorizationPassword.value"
+                  v-on:input="editValue('value', this.authorizationPassword._id, $event)"
                 />
               </div>
-              <div class="column column-data column-10" v-if="valueType === 'storage'">
+              <div class="column column-data column-10" v-if="this.authorizationPassword.valueType === 'storage'">
                 <select class="column-input-select border-hidden column-input-select-stretch">
                     <option
                         v-for="(storage) in storagesForSelect()"
@@ -105,18 +120,22 @@
                       >{{ storage.name }}</option>
                   </select>
               </div>
-              <div class="column column-data column-10" v-if="valueType === 'runtimeResult'">
+              <div class="column column-data column-10" v-if="this.authorizationPassword.valueType === 'runtimeResult'">
                 <input
                   type="text"
                   placeholder="Request result name"
                   class="column-input-select border-hidden column-input-select-stretch"
+                  :value="this.authorizationPassword.value"
+                  v-on:input="editValue('value', this.authorizationPassword._id, $event)"
                 />
               </div>
-              <div class="column column-data column-10" v-if="valueType === 'incomingField'">
+              <div class="column column-data column-10" v-if="this.authorizationPassword.valueType === 'incomingField'">
                 <input
                   type="text"
                   placeholder="Field Name"
                   class="column-input-select border-hidden column-input-select-stretch"
+                  :value="this.authorizationPassword.value"
+                  v-on:input="editValue('value', this.authorizationPassword._id, $event)"
                 />
               </div>
               <div class="column text-button action">
@@ -145,12 +164,35 @@ export default {
   computed: {
     ...mapGetters("table", ['selectedData']),
     ...mapGetters("table", ["selectedData",'storagesForSelect']),
+
+    authorizationType: function() {
+      if (!this.selectedData()._id) return {}
+
+      return this.selectedData().authorizationType      
+    },
+    authorizationUsername: function() {
+      if (!this.selectedData()._id) return {}
+
+      return this.selectedData().authorization[0]      
+    },
+    authorizationPassword: function() {
+      if (!this.selectedData()._id) return {}
+
+      return this.selectedData().authorization[1]      
+    },
   },
   methods: {
-    ...mapMutations('table', ['editRequestKey']),
+    ...mapMutations('table', ['editRequestKey', 'editRequestAuthorization']),
     edit: function(key, event) {
       this.editRequestKey({key, value: event.target.value, requestId: this.selectedData()._id})
-    }
+    },
+    editAuthorizationTypeAction: function(event) {
+      const value = event.target.value
+      this.editRequestKey({ key: 'authorizationType', value, requestId: this.selectedData()._id })
+    },
+    editAuthorizationValueTypeAction: function(taskType, taskId, event) {
+      this.editRequestAuthorization({ key: taskType, _id: taskId, value: event.target.value, requestId: this.selectedData()._id})
+    },
   },
   filters: {
     capitalize: function (key) {

@@ -46,6 +46,12 @@
           
           <div class="spacer"></div>
 
+          <div
+            class="column text-button action"
+            v-if="projectTypeOption === 'invites'"
+            v-on:click="listInvitesAction"
+          >List Invites</div>
+
           <div class="column text-button text-button-and-logo" v-on:click="archiveProjectAction" v-if="!this.editing && filterIsActive('active') && projectIsSelected()">
             <img src="/box.svg" alt="">
             <span>Archive Project</span>
@@ -65,11 +71,11 @@ import { mapActions, mapState, mapMutations, } from 'vuex'
 export default {
   name: 'ProjectToolbar',
   computed: {
-    ...mapState('project', ['filter', 'projectId','projectTypeOption','editing']),
+    ...mapState('project', ['filter', 'projectId','projectTypeOption','editing','option']),
   },
   methods: {
     ...mapMutations('project', ['changeFilter','changeProjectTypeOption']),
-    ...mapActions('project',['archiveProject','restoreProject']),
+    ...mapActions('project',['archiveProject','restoreProject','listInvites']),
     filterIsActive: function(filterButton) {
       if (filterButton === this.filter) return true;
       else return false;
@@ -77,6 +83,9 @@ export default {
     projectIsSelected: function() {
       if (!this.projectId || this.projectId === '') return false;
       else return true;
+    },
+    listInvitesAction: async function() {
+      this.listInvites()
     },
     archiveProjectAction: async function() {
       const confirm = window.confirm('Are you sure you want to archive this project?')

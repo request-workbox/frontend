@@ -3,7 +3,7 @@
     <div class="column column-full-width">
       <div class="row row-border-bottom row-border-bottom-tall">
         <div class="column column-data column-uparrow-hidden">
-          <input type="checkbox" value="team">
+          <input type="checkbox">
         </div>
         <div class="column column-data column-header-text column-10">Key</div>
         <div class="column column-data column-header-text column-20">Type</div>
@@ -12,7 +12,10 @@
 
       <div class="row row-border-bottom" v-for="value in this.selectedData().body" :key="value._id">
         <div class="column column-data column-uparrow-hidden">
-          <input type="checkbox" value="team">
+          <input 
+            type="checkbox"
+            :checked="value.active"
+            @change="editActive('body', value._id, $event)">
         </div>
         <div class="column column-data column-10">
           <input
@@ -84,7 +87,7 @@ export default {
     ...mapGetters("table", ["selectedData",'storagesForSelect']),
   },
   methods: {
-    ...mapMutations('table', ['editRequestDetailKey', 'editRequestDetailValue','editRequestDetailValueType']),
+    ...mapMutations('table', ['editRequestDetailKey', 'editRequestDetailValue','editRequestDetailValueType','editRequestDetailActive']),
     ...mapActions('table', ['deleteRequestDetailItem']),
     editKey: function(type, key, event) {
       this.editRequestDetailKey({type, key, value: event.target.value, requestId: this.selectedData()._id})
@@ -94,6 +97,9 @@ export default {
     },
     editValueType: function(type, key, event) {
       this.editRequestDetailValueType({type, key, value: event.target.value, requestId: this.selectedData()._id})
+    },
+    editActive: function(type, key, event) {
+      this.editRequestDetailActive({type, key, value: event.target.checked, requestId: this.selectedData()._id})
     },
     deleteRequestDetailItemAction: function(value) {
       const confirm = window.confirm('Are you sure you want to delete this item?')

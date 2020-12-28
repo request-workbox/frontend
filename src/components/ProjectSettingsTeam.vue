@@ -20,36 +20,48 @@
             type="text"
             class="column-input-text"
             placeholder="username"
+            v-model="username"
           />
         </div>
-        <div class="column text-button action">Send Invite</div>
+        <div class="column text-button action" v-on:click="createInviteAction">Send Invite</div>
       </div>
 
       <div class="row row-border-bottom">
         <div class="column column-data column-header-text column-grow column-group-header">Users</div>
       </div>
 
-      <div class="row row-border-bottom">
+      <div class="row row-border-bottom" v-for="(member) in teamData()" :key="member._id">
         <div class="column column-data column-10">
           <input
             type="text"
             placeholder="Key"
             class="column-input-text"
-            value="username"
+            :value="member.username"
             disabled
           />
         </div>
         <div class="column column-data column-15">
-          <select class="column-input-select border-hidden column-input-select-stretch">
-              <option value="textInput">Read</option>
-              <option value="storage">Read/Write</option>
+          <select class="column-input-select border-hidden column-input-select-stretch"
+            :value="member.permission"
+            :disabled="member.owner"
+            @change="updatePermissionAction(member._id, $event)">
+              <option value="read">Read</option>
+              <option value="write">Read/Write</option>
             </select>
         </div>
-        <div class="column column-data column-grow">
-          <input type="checkbox" id="team" name="permission" value="team">
-          <label for="team">Include sensitive</label>
+        <div class="column column-data column-10" >
+          <input 
+            :disabled="member.owner"
+            type="checkbox"
+            :id="member._id"
+            :checked="member.includeSensitive"
+            @change="updateIncludeSensitiveAction(member._id, $event)">
+          <label :for="member._id">Include sensitive</label>
         </div>
-        <div class="column text-button action">Remove</div>
+        <div class="column column-data column-grow" v-if="!member.owner">
+          {{ upperFirst(member.status) }}
+        </div>
+        <div class="column text-button action" v-if="!member.owner" v-on:click="removeInviteAction(member.username)">Remove</div>
       </div>
 
     </div>
@@ -60,9 +72,49 @@
 import Vue from 'vue'
 import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
 import moment from 'moment-timezone'
+import _ from 'lodash'
 
 export default {
   name: "ProjectSettingsTeam",
+  data: function() {
+    return {
+      username: ''
+    }
+  },
+
+  computed: {
+    ...mapState('project', ['projectId']),
+    ...mapGetters('project', ['teamData','selectedData']),
+  },
+  methods: {
+    ...mapMutations('project', ['updateIncludeSensitive', 'updatePermission']),
+    ...mapActions('project', ['createInvite','removeInvite']),
+    createInviteAction: async function() {
+      this.createInvite({ projectId: this.selectedData()._id, username: this.username })
+    },
+    upperFirst: function(string) {
+      return _.upperFirst(string)
+    },
+    removeInviteAction: async function(username) {
+      try {
+        const confirm = window.confirm('Are you sure you want to remove this team member?')
+        if (confirm) {
+          this.removeInvite({ projectId: this.selectedData()._id, username, })
+
+        }
+      } catch(err) {
+        console.log(err)
+      }
+    },
+    updateIncludeSensitiveAction: function(memberId, event) {
+      const value = event.target.checked
+      this.updateIncludeSensitive({ memberId, value, })
+    },
+    updatePermissionAction: function(memberId, event) {
+      const value = event.target.value
+      this.updatePermission({ memberId, value, })
+    },
+  }
 };
 </script>
 

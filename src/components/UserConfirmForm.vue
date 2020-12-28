@@ -78,7 +78,7 @@
               <div class="row row-justify-between">
                 <div class="column column-grow">
                   <div class="row">
-                    <div class="column column-grow column-button user-form-button" v-if="!loading" v-on:click="confirmUserAction">
+                    <div class="column column-grow column-button user-form-button" v-if="!loading" v-on:click="confirmUserAction(false)">
                       <p class="column-button-text">Confirm</p>
                     </div>
                     <div class="column column-grow column-button user-form-button" v-if="loading">

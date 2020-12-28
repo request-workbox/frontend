@@ -14,16 +14,17 @@ const state = () => ({
 
     projectTypeOption: 'owner',
 
+    orderDirection: 'descending',
+
     editing: false,
+
+    team: [],
+    invites: [],
 })
 
 const getters = {
-    viewableData: (state, getters) => () => {
-        return state.projects
-        return _.reverse(state.projects)
-    },
-    sortedData: (state, getters) => () => {
-        return _.filter(getters.viewableData(), (data) => {
+    filteredData: (state, getters) => () => {
+        return _.filter(state.projects, (data) => {
             if (state.filter === 'active') {
                 if (data.active) return true
                 else return false
@@ -31,6 +32,25 @@ const getters = {
                 if (!data.active) return true
                 else return false
             }
+        })
+
+    },
+    sortedData: (state, getters) => () => {
+        return getters.filteredData().sort(function compare(a, b) {
+            var dateA = new Date(a.createdAt)
+            var dateB = new Date(b.createdAt)
+            if (state.orderDirection === 'ascending') {
+                return dateA - dateB
+            } else if (state.orderDirection === 'descending') {
+                return dateB - dateA
+            }
+        })
+    },
+    finalData: (state, getters) => (projectTypeOption) => {
+        return _.filter(getters.sortedData(), (project) => {
+            if (projectTypeOption === 'owner' && project.owner) return true
+            else if (projectTypeOption === 'team' && project.owner === false) return true
+            else return false
         })
     },
     selectedData: (state, getters, rootState) => () => {
@@ -41,9 +61,72 @@ const getters = {
             else return false;
         })[0]
     },
+
+    teamData: (state, getters) => () => {
+        return _.map(state.team).sort(function compare(a, b) {
+            var dateA = new Date(a.createdAt)
+            var dateB = new Date(b.createdAt)
+            if (state.orderDirection === 'ascending') {
+                return dateA - dateB
+            } else if (state.orderDirection === 'descending') {
+                return dateB - dateA
+            }
+        })
+    },
+    inviteData: (state, getters) => () => {
+        return _.map(state.invites).sort(function compare(a, b) {
+            var dateA = new Date(a.createdAt)
+            var dateB = new Date(b.createdAt)
+            if (state.orderDirection === 'ascending') {
+                return dateA - dateB
+            } else if (state.orderDirection === 'descending') {
+                return dateB - dateA
+            }
+        })
+    },
 }
 
 const actions = {
+    async listTeam({ commit, state, rootState }, payload) {
+
+        const requestUrl = `${state.apiUrl}/list-team`
+        const requestBody = { projectId: payload }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+
+        commit('updateTeam', request.data)
+        commit('stopEditing')
+    },
+    async updateTeam({ commit, state, rootState }, projectId) {
+
+        const requestUrl = `${state.apiUrl}/update-team`
+        const requestBody = { team: state.team, projectId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+
+        commit('stopEditing')
+    },
+    async listInvites({ commit, state, rootState }, payload) {
+        if (state.editing) return
+
+        const requestUrl = `${state.apiUrl}/list-invites`
+        const request = await Vue.$axios.post(requestUrl)
+
+        commit('updateInvites', request.data)
+    },
+    async createInvite({ commit, state, rootState }, { projectId, username }) {
+        const requestUrl = `${state.apiUrl}/create-invite`
+        const requestBody = { projectId, username }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+    },
+    async acceptInvite({ commit, state, rootState }, projectId) {
+        const requestUrl = `${state.apiUrl}/accept-invite`
+        const requestBody = { projectId }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+    },
+    async removeInvite({ commit, state, rootState }, { projectId, username }) {
+        const requestUrl = `${state.apiUrl}/remove-invite`
+        const requestBody = { projectId, username }
+        const request = await Vue.$axios.post(requestUrl, requestBody)
+    },
     async createProject({ commit, state, rootState }) {
         const requestUrl = `${state.apiUrl}/create-project`
         const request = await Vue.$axios.post(requestUrl)
@@ -117,10 +200,38 @@ const mutations = {
             return dateB - dateA
         })
     },
+    updateTeam(state, payload) {
+        state.team = payload
+    },
+    updateInvites(state, payload) {
+        state.invites = payload
+    },
     updateProject(state, payload) {
         state.projects = _.map(state.projects, (project) => {
             if (project._id === payload._id) return payload
             else return project
+        })
+    },
+    updateIncludeSensitive(state, { memberId, value }) {
+        state.editing = true
+
+        state.team = _.map(state.team, (member) => {
+            if (member._id === memberId) {
+                member.includeSensitive = value
+            }
+
+            return member
+        })
+    },
+    updatePermission(state, { memberId, value }) {
+        state.editing = true
+
+        state.team = _.map(state.team, (member) => {
+            if (member._id === memberId) {
+                member.permission = value
+            }
+
+            return member
         })
     },
     stopEditing(state, option) {
@@ -159,14 +270,7 @@ const mutations = {
     changeProjects(state, payload) {
         if (!payload || !_.size(payload)) return
 
-        state.projects = _.map(payload).sort(function compare(a, b) {
-            var dateA = new Date(a.createdAt)
-            var dateB = new Date(b.createdAt)
-            
-            return dateB - dateA
-        })
-
-        state.projectId = state.projects[0]._id
+        state.projects = payload
     },
     changeFilter(state, { filter }) {
         if (state.editing) return
