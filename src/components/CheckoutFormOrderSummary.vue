@@ -34,7 +34,7 @@
 
       <hr>
 
-      <div class="row row-align-start">
+      <!-- <div class="row row-align-start">
         <div class="column column-grow">
           <p class="lineitem-text">1st GB Data Transfer Free (monthly)</p>
           <p class="lineitem-subtext">$0.003/mb/month</p>
@@ -42,7 +42,7 @@
         <div class="column">
           <p class="lineitem-price">$0.00</p>
         </div>
-      </div>
+      </div> -->
 
       <div class="row row-align-start" v-if="this.checkoutDiscount !== 0 && this.checkoutDiscount !== ''">
         <div class="column column-grow">
@@ -63,14 +63,6 @@
         </div>
         <div class="column">
           <p class="lineitem-price">{{ total }}</p>
-        </div>
-      </div>
-
-      <div class="row row-align-start margin-bottom-10">
-        <div class="column column-full-width">
-          <p class="lineitem-subtext">Total price does not include usage. Usage for this month will be included in the next billing cycle.
-              An invoice will be sent to you by email 3 days before the end of the billing cycle.
-          </p>
         </div>
       </div>
 

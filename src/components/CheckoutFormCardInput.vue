@@ -112,7 +112,7 @@
 
       <div class="row row-align-start margin-bottom-10 margin-top-10">
         <div class="column column-grow">
-          <p class="blue-text">I authorise Request Workbox to send instructions to the financial institution that issued my card to take payments from my card account in accordance with the terms of my agreement with you.
+          <p class="blue-text">I authorize Request Workbox to send instructions to the financial institution that issued my card to take payments from my card account in accordance with the terms of my agreement with you.
           </p>
         </div>
       </div>
@@ -154,7 +154,7 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 import Vue from 'vue'
 
 export default {
-  name: "CheckoutFormBillingInformation",
+  name: "CheckoutFormCardInput",
   data: function() {
     return {
       saving: false,

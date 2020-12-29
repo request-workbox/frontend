@@ -48,10 +48,6 @@ const actions = {
         }
         const request = await Vue.$axios.post(requestUrl, requestBody)
     },
-    async cancelSubscription({ commit, state, rootState }, payload) {
-        const requestUrl = `${state.billingUrl}/cancel-subscription`
-        const request = await Vue.$axios.post(requestUrl)
-    },
 }
 
 const mutations = {

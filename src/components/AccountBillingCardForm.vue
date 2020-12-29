@@ -11,7 +11,7 @@
         </div>
       </div>
 
-      <CheckoutFormBillingInformation />
+      <CheckoutFormCardInput />
 
     </div>
   </div>
@@ -20,14 +20,12 @@
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
 
-import CheckoutFormOrderSummary from './CheckoutFormOrderSummary'
-import CheckoutFormBillingInformation from './CheckoutFormBillingInformation'
+import CheckoutFormCardInput from './CheckoutFormCardInput'
 
 export default {
   name: "AccountBillingCardForm",
   components: {
-    CheckoutFormOrderSummary,
-    CheckoutFormBillingInformation,
+    CheckoutFormCardInput,
   },
   methods: {
     ...mapMutations('billing', ['toggleUpdateCardView']),

@@ -8,7 +8,7 @@
 
           <div class="column column-50 column-padding-20">
             <CheckoutFormAccountSummary />
-            <CheckoutFormBillingInformation />
+            <CheckoutFormCardInput />
           </div>
 
           <div class="column column-grow column-padding-20">
@@ -30,7 +30,7 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 
 import CheckoutFormAccountSummary from './CheckoutFormAccountSummary'
 import CheckoutFormOrderSummary from './CheckoutFormOrderSummary'
-import CheckoutFormBillingInformation from './CheckoutFormBillingInformation'
+import CheckoutFormCardInput from './CheckoutFormCardInput'
 
 export default {
   name: "Checkout",
@@ -49,7 +49,7 @@ export default {
   components: {
     CheckoutFormAccountSummary,
     CheckoutFormOrderSummary,
-    CheckoutFormBillingInformation,
+    CheckoutFormCardInput,
   },
   computed: {
     ...mapState('checkout', ['checkoutType']),
