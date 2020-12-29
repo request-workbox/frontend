@@ -13,6 +13,8 @@ import RequestOptionsHeaders from "./RequestOptionsHeaders";
 import RequestOptionsBody from "./RequestOptionsBody";
 import RequestOptionsAuthorization from './RequestOptionsAuthorization'
 import RequestOptionsUrl from "./RequestOptionsUrl";
+import RequestOptionsSocketqueue from "./RequestOptionsSocketqueue";
+import RequestOptionsSocketinstance from './RequestOptionsSocketinstance'
 
 export default {
   name: "RequestOptions",
@@ -22,6 +24,8 @@ export default {
     RequestOptionsBody,
     RequestOptionsAuthorization,
     RequestOptionsUrl,
+    RequestOptionsSocketqueue,
+    RequestOptionsSocketinstance,
   },
   computed: {
     ...mapState("table", ["option"]),

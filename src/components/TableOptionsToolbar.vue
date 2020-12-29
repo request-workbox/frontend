@@ -7,12 +7,16 @@
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('query')}" v-on:click="changeOptionAction('query')">Parameters</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('headers')}" v-on:click="changeOptionAction('headers')">Headers</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('body')}" v-on:click="changeOptionAction('body')">Body</div>
+          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('socketqueue')}" v-on:click="changeOptionAction('socketqueue')">Queue</div>
+          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('socketinstance')}" v-on:click="changeOptionAction('socketinstance')">Results</div>
         </div>
 
         <div class="row" v-if="this.$route.name === 'Workflows'">
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('instance')}" v-on:click="changeOptionAction('instance')">Instance</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('tasks')}" v-on:click="changeOptionAction('tasks')">Tasks</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('schedule')}" v-on:click="changeOptionAction('schedule')">Schedule</div>
+          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('queue')}" v-on:click="changeOptionAction('queue')">Queue</div>
+          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('results')}" v-on:click="changeOptionAction('results')">Results</div>
           <div class="column">
               <span class="tiny-text tiny-text-spaced">{{ pendingQueuesToolbar() }}</span>
             </div>

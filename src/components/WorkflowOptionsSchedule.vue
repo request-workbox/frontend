@@ -35,24 +35,17 @@
       </div>
     </div>
 
-    <WorkflowOptionsScheduleFooter />
-
     </div>
   </div>
 </template>
 
 <script>
-import WorkflowOptionsScheduleFooter from './WorkflowOptionsScheduleFooter'
-
 import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
 import moment from 'moment-timezone'
 import _ from 'lodash'
 
 export default {
   name: "WorkflowOptionsSchedule",
-  components: {
-    WorkflowOptionsScheduleFooter,
-  },
   computed: {
     ...mapState('table', ['selectedQueueStatId']),
     ...mapGetters("table", ["selectedData"]),

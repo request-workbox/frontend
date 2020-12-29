@@ -1,5 +1,5 @@
 <template>
-  <div class="row row-border-top" id="socket-footer" v-if="showQueueStats()">
+  <div class="row row-border-top" v-if="showQueueStats()">
     <div class="column column-full-width">
       <div class="row row-border-bottom">
         <div class="column column-data column-grow">Queue Stats - {{ this.selectedQueueStatId }}</div>
@@ -28,7 +28,7 @@ import Vue from 'vue'
 import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 
 export default {
-  name: 'WorkflowOptionsScheduleFooter',
+  name: 'Socketqueue',
   computed: {
     ...mapState('table', ['selectedQueueStatId']),
     ...mapGetters('schedule', ['getScheduleById']),
@@ -50,15 +50,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-#socket-footer {
-  display: flex;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  overflow:auto;
-  background:white;
-  box-shadow: 2px -2px 7px 0px #b5b5b5;
-}
-</style>
