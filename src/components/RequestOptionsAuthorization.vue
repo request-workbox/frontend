@@ -19,12 +19,11 @@
         <div class="column column-data column-full-width column-grow">
 
             <div class="row row-border-bottom" v-if="this.authorizationType === 'basicAuth'">
-              <div class="column column-data column-5">Username</div>
               <div class="column column-data column-10">
                 <input
                   disabled
                   type="text"
-                  placeholder=""
+                  value="Username"
                   class="column-input-select border-hidden column-input-select-stretch"
                 />
               </div>
@@ -43,7 +42,7 @@
                 <input
                   type="text"
                   placeholder="Text Input Value"
-                  class="column-input-select border-hidden column-input-select-stretch"
+                  class="column-input-text border-hidden column-input-select-stretch"
                   :value="this.authorizationUsername.value"
                   v-on:input="editValue('value', this.authorizationUsername._id, $event)"
                 />
@@ -61,7 +60,7 @@
                 <input
                   type="text"
                   placeholder="Request result name"
-                  class="column-input-select border-hidden column-input-select-stretch"
+                  class="column-input-text border-hidden column-input-select-stretch"
                   :value="this.authorizationUsername.value"
                   v-on:input="editValue('value', this.authorizationUsername._id, $event)"
                 />
@@ -70,7 +69,7 @@
                 <input
                   type="text"
                   placeholder="Field Name"
-                  class="column-input-select border-hidden column-input-select-stretch"
+                  class="column-input-text border-hidden column-input-select-stretch"
                   :value="this.authorizationUsername.value"
                   v-on:input="editValue('value', this.authorizationUsername._id, $event)"
                 />
@@ -83,12 +82,11 @@
 
 
             <div class="row row-border-bottom" v-if="this.authorizationType === 'basicAuth'">
-              <div class="column column-data column-5">Password</div>
               <div class="column column-data column-10">
                 <input
                   disabled
                   type="text"
-                  placeholder=""
+                  value="Password"
                   class="column-input-select border-hidden column-input-select-stretch"
                 />
               </div>
@@ -106,7 +104,7 @@
                 <input
                   type="text"
                   placeholder="Text Input Value"
-                  class="column-input-select border-hidden column-input-select-stretch"
+                  class="column-input-text border-hidden column-input-select-stretch"
                   :value="this.authorizationPassword.value"
                   v-on:input="editValue('value', this.authorizationPassword._id, $event)"
                 />
@@ -124,7 +122,7 @@
                 <input
                   type="text"
                   placeholder="Request result name"
-                  class="column-input-select border-hidden column-input-select-stretch"
+                  class="column-input-text border-hidden column-input-select-stretch"
                   :value="this.authorizationPassword.value"
                   v-on:input="editValue('value', this.authorizationPassword._id, $event)"
                 />
@@ -133,7 +131,7 @@
                 <input
                   type="text"
                   placeholder="Field Name"
-                  class="column-input-select border-hidden column-input-select-stretch"
+                  class="column-input-text border-hidden column-input-select-stretch"
                   :value="this.authorizationPassword.value"
                   v-on:input="editValue('value', this.authorizationPassword._id, $event)"
                 />

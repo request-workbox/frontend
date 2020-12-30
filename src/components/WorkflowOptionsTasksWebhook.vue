@@ -8,9 +8,7 @@
       <div class="row row-border-bottom" v-if="this.selectedData()._id">
         <div class="column column-data">
           <input 
-            type="checkbox"
-            :checked="value.active"
-            @change="editWorkflowTaskActive('tasks', task._id, 'active', $event)">
+            type="checkbox">
         </div>
         <div class="column column-full-width">
           <div class="row">

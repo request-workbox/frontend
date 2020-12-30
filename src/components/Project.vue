@@ -38,7 +38,7 @@ export default {
     ...mapActions("project", ["getProjects"]),
     init: function () {
       this.setCurrentRoute({ route: this.$route.name })
-      this.getProjects();
+      this.getProjects()
     },
   },
 };

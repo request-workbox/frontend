@@ -1,8 +1,8 @@
 <template>
   <div class="row">
     <div class="column column-full-width">
-      <AccountSettingsContactInfo />
-      <AccountTokens />
+      <AccountSettingsProjects />
+      <AccountSettingsTokens />
     </div>
   </div>
 </template>
@@ -10,19 +10,19 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 
-import AccountSettingsContactInfo from './AccountSettingsContactInfo'
-import AccountTokens from './AccountTokens'
+import AccountSettingsProjects from './AccountSettingsProjects'
+import AccountSettingsTokens from './AccountSettingsTokens'
 
 export default {
   name: 'AccountSettings',
   components: {
-    AccountSettingsContactInfo,
-    AccountTokens,
+    AccountSettingsProjects,
+    AccountSettingsTokens,
   },
   computed: {
     userAttributeEmail: function () {
       return this.$store.getters['cognito/userAttributes']['email']
     }
-  }
+  },
 }
 </script>

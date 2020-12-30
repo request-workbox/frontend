@@ -72,14 +72,21 @@
       <!-- Locked / Sensitive -->
       <div class="row row-border-bottom row-border-bottom-tall">
         <div class="column column-data column-grow">
-          <input type="checkbox" id="team" name="permission" value="team">
+          <input 
+            id="team"
+            type="checkbox"
+            :checked="this.selectedData().lockedResource">
           <label for="team">Locked Resource</label>
-          <input type="checkbox" id="prevent" name="prevent" value="prevent">
+          <input 
+            id="prevent"
+            type="checkbox"
+            :checked="this.selectedData().preventExecution">
           <label for="prevent">Prevent Execution</label>
-          <input type="checkbox" id="owner" name="permission" value="owner">
+          <input 
+            id="owner"
+            type="checkbox"
+            :checked="this.selectedData().sensitiveResponse">
           <label for="owner">Sensitive Response</label>
-          <input type="checkbox" id="owner" name="permission" value="owner">
-          <label for="owner">Health Check API Endpoint</label>
         </div>
       </div>
 

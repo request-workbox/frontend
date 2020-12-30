@@ -29,8 +29,16 @@
       <!-- Locked / Sensitive -->
       <div class="row row-border-bottom row-border-bottom-tall" v-if="this.selectedData()._id">
         <div class="column column-data column-grow">
-          <input type="checkbox" id="team" name="permission" value="team">
+          <input 
+            id="team"
+            type="checkbox"
+            :checked="this.selectedData().lockedResource">
           <label for="team">Locked Resource</label>
+          <input 
+            id="prevent"
+            type="checkbox"
+            :checked="this.selectedData().preventExecution">
+          <label for="prevent">Prevent Execution</label>
         </div>
       </div>
       

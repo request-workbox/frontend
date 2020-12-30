@@ -53,6 +53,12 @@ const getters = {
             else return false
         })
     },
+    ownerData: (state, getters) => (projectTypeOption) => {
+        return _.filter(getters.sortedData(), (project) => {
+            if (project.owner) return true
+            else return false
+        })
+    },
     selectedData: (state, getters, rootState) => () => {
         if (state.projectId === '') return {}
 

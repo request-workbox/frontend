@@ -6,7 +6,7 @@
       </div>
 
       <div class="row row-border-bottom">
-        <div class="column column-data column-20">
+        <div class="column column-data column-15">
           <input
             type="text"
             placeholder="Key"
@@ -26,7 +26,7 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'AccountSettingsContactInfo',
+  name: 'AccountBillingContactInfo',
   computed: {
     userAttributeEmail: function () {
       return this.$store.getters['cognito/userAttributes']['email']

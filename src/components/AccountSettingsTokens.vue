@@ -24,8 +24,8 @@
             disabled
           />
         </div>
-        <div class="column text-button action" v-if="!revoking" v-on:click="revokeTokenAction(token.snippet)"><span>Revoke API Token</span></div>
-        <div class="column text-button action" v-if="revoking"><span>Revoke API Token</span></div>
+        <div class="column text-button action" v-if="!revoking" v-on:click="revokeTokenAction(token.snippet)"><span>Revoke</span></div>
+        <div class="column text-button action" v-if="revoking"><span>Revoke</span></div>
       </div>
 
     </div>
@@ -37,7 +37,7 @@ import Vue from 'vue'
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'AccountTokens',
+  name: 'AccountSettingsTokens',
   data: function() {
     return {
       loading: false,

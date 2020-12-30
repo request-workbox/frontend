@@ -21,16 +21,16 @@ const actions = {
     async getAccountDetails({ commit, state, rootState }) {
         const requestUrl = `${state.billingUrl}/get-account-details`
         const request = await Vue.$axios.post(requestUrl)
-        commit('changeStripeCustomerId', request.data.stripeCustomerId)
-        commit('updateSettings', request.data.setting)
+
         commit('updateCard', request.data.card)
         commit('updateBalance', request.data.balance)
-        commit('updateTokens', request.data.tokens)
+        commit('updateStripeCustomerId', request.data.stripeCustomerId)
     },
-    async updateEmailAlert({ commit, state, rootState }, payload) {
-        const requestUrl = `${state.billingUrl}/update-email-alert`
-        const requestBody = payload
-        const request = await Vue.$axios.post(requestUrl, requestBody)
+    async listTokens({ commit, state, rootState }, payload) {
+        const requestUrl = `${state.billingUrl}/list-tokens`
+        const request = await Vue.$axios.post(requestUrl)
+
+        commit('updateTokens', request.data)
     },
     async generateToken({ commit, state, rootState }, payload) {
         const requestUrl = `${state.billingUrl}/generate-token`
@@ -46,20 +46,11 @@ const actions = {
 }
 
 const mutations = {
-    changeStripeCustomerId(state, payload) {
+    updateStripeCustomerId(state, payload) {
         state.stripeCustomerId = payload
     },
     toggleUpdateCardView(state) {
         state.updateCardView = !state.updateCardView
-    },
-    updateEmailPromotions(state, payload) {
-        state.emailPromotions = payload
-    },
-    updateEmailProducts(state, payload) {
-        state.emailProducts = payload
-    },
-    updateEmailSystemUpdates(state, payload) {
-        state.emailSystemUpdates = payload
     },
     updateCard(state, payload) {
         state.card = payload
@@ -71,7 +62,7 @@ const mutations = {
         state.tokens = payload
     },
     addToken(state, payload) {
-        state.tokens.push({snippet: payload})
+        state.tokens.push({ snippet: payload })
     },
     removeToken(state, payload) {
         state.tokens = _.filter(state.tokens, (token) => {
