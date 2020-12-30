@@ -58,7 +58,7 @@ const actions = {
         const requestUrl = `${state.apiUrl}/get-file-storage-data`
         const requestBody = { storageId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
-        return request
+        return request.data
     },
     async updateTextStorageData({ commit, state, getters, rootState }, { storageId, storageValue }) {
         const requestUrl = `${state.apiUrl}/update-text-storage-data?storageId=${storageId}`

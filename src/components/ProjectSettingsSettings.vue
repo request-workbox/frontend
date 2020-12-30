@@ -50,27 +50,6 @@
         </div>
       </div>
 
-      <!-- Return workflow -->
-      <div class="row row-border-bottom">
-        <div class="column column-data column-20">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            value="Return Workflow"
-            disabled
-          />
-        </div>
-        <div class="column column-data column-grow">
-          <input type="radio" id="returnWorkflowOwner" value="owner" v-model="returnWorkflowPermissions">
-          <label for="returnWorkflowOwner">Owner</label>
-          <input type="radio" id="returnWorkflowTeam" value="team" v-model="returnWorkflowPermissions">
-          <label for="returnWorkflowTeam">Team</label>
-          <input type="radio" id="returnWorkflowPublic" value="public" v-model="returnWorkflowPermissions">
-          <label for="returnWorkflowPublic">Public (allow unauthenticated requests)</label>
-        </div>
-      </div>
-
       <!-- Queue request -->
       <div class="row row-border-bottom">
         <div class="column column-data column-20">
@@ -89,6 +68,48 @@
           <label for="queueRequestTeam">Team</label>
           <input type="radio" id="queueRequestPublic" value="public" v-model="queueRequestPermissions">
           <label for="queueRequestPublic">Public (allow unauthenticated requests)</label>
+        </div>
+      </div>
+
+      <!-- Schedule request -->
+      <div class="row row-border-bottom">
+        <div class="column column-data column-20">
+          <input
+            type="text"
+            placeholder="Key"
+            class="column-input-text"
+            value="Schedule Request"
+            disabled
+          />
+        </div>
+        <div class="column column-data column-grow">
+          <input type="radio" id="scheduleRequestOwner" value="owner" v-model="scheduleRequestPermissions">
+          <label for="scheduleRequestOwner">Owner</label>
+          <input type="radio" id="scheduleRequestTeam" value="team" v-model="scheduleRequestPermissions">
+          <label for="scheduleRequestTeam">Team</label>
+          <input type="radio" id="scheduleRequestPublic" value="public" v-model="scheduleRequestPermissions">
+          <label for="scheduleRequestPublic">Public (allow unauthenticated requests)</label>
+        </div>
+      </div>
+
+      <!-- Return workflow -->
+      <div class="row row-border-bottom">
+        <div class="column column-data column-20">
+          <input
+            type="text"
+            placeholder="Key"
+            class="column-input-text"
+            value="Return Workflow"
+            disabled
+          />
+        </div>
+        <div class="column column-data column-grow">
+          <input type="radio" id="returnWorkflowOwner" value="owner" v-model="returnWorkflowPermissions">
+          <label for="returnWorkflowOwner">Owner</label>
+          <input type="radio" id="returnWorkflowTeam" value="team" v-model="returnWorkflowPermissions">
+          <label for="returnWorkflowTeam">Team</label>
+          <input type="radio" id="returnWorkflowPublic" value="public" v-model="returnWorkflowPermissions">
+          <label for="returnWorkflowPublic">Public (allow unauthenticated requests)</label>
         </div>
       </div>
 
@@ -113,27 +134,7 @@
         </div>
       </div>
 
-      <!-- Schedule request -->
-      <div class="row row-border-bottom">
-        <div class="column column-data column-20">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            value="Schedule Request"
-            disabled
-          />
-        </div>
-        <div class="column column-data column-grow">
-          <input type="radio" id="scheduleRequestOwner" value="owner" v-model="scheduleRequestPermissions">
-          <label for="scheduleRequestOwner">Owner</label>
-          <input type="radio" id="scheduleRequestTeam" value="team" v-model="scheduleRequestPermissions">
-          <label for="scheduleRequestTeam">Team</label>
-          <input type="radio" id="scheduleRequestPublic" value="public" v-model="scheduleRequestPermissions">
-          <label for="scheduleRequestPublic">Public (allow unauthenticated requests)</label>
-        </div>
-      </div>
-      
+
       <!-- Schedule workflow -->
       <div class="row row-border-bottom">
         <div class="column column-data column-20">
