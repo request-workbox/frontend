@@ -32,12 +32,14 @@
           <input 
             id="team"
             type="checkbox"
-            :checked="this.selectedData().lockedResource">
+            :checked="this.selectedData().lockedResource"
+            @change="editPermission('lockedResource', $event)">
           <label for="team">Locked Resource</label>
           <input 
             id="prevent"
             type="checkbox"
-            :checked="this.selectedData().preventExecution">
+            :checked="this.selectedData().preventExecution"
+            @change="editPermission('preventExecution', $event)">
           <label for="prevent">Prevent Execution</label>
         </div>
       </div>
@@ -128,6 +130,9 @@ export default {
     ...mapMutations('table', ['editWorkflowDetail']),
     editWorkflowDetailAction: function(key, event) {
       this.editWorkflowDetail({key, value: event.target.value, workflowId: this.selectedData()._id})
+    },
+    editPermission: function(key, event) {
+      this.editWorkflowDetail({key, value: event.target.checked, workflowId: this.selectedData()._id})
     },
     copyToClipboard: function(queueType) {
       const queueTypeRef = `${queueType}Url`

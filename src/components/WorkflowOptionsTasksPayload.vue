@@ -5,10 +5,13 @@
         <div class="column column-data column-header-text column-grow">Body Payload</div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.selectedData()._id">
+      <div class="row row-border-bottom" v-for="payload in this.selectedData().payloads" :key="payload._id">
         <div class="column column-data">
           <input 
-            type="checkbox">
+            id="team"
+            type="checkbox"
+            :checked="payload.active"
+            @change="editWorkflowTaskActive('payloads', payload._id, 'active', $event)">
         </div>
         <div class="column column-full-width">
           <div class="row">

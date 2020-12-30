@@ -5,10 +5,13 @@
         <div class="column column-data column-header-text column-grow">Webhook</div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.selectedData()._id">
+      <div class="row row-border-bottom" v-for="webhook in this.selectedData().webhooks" :key="webhook._id">
         <div class="column column-data">
           <input 
-            type="checkbox">
+            id="team"
+            type="checkbox"
+            :checked="webhook.active"
+            @change="editWorkflowTaskActive('webhooks', webhook._id, 'active', $event)">
         </div>
         <div class="column column-full-width">
           <div class="row">

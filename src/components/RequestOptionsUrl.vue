@@ -2,13 +2,13 @@
   <div class="row">
     <div class="column column-full-width">
       <div class="row row-border-bottom row-border-bottom-tall">
-        <div class="column column-data column-header-text column-10">Key</div>
+        <div class="column column-data column-header-text column-20">Key</div>
         <div class="column column-data column-header-text column-grow">Value</div>
       </div>
 
     <!-- URL -->
       <div class="row row-border-bottom row-border-bottom-tall">
-        <div class="column column-data column-10">
+        <div class="column column-data column-20">
           <input
             type="text"
             placeholder="Key"
@@ -30,7 +30,7 @@
 
       <!-- Name -->
       <div class="row row-border-bottom row-border-bottom-tall">
-        <div class="column column-data column-10">
+        <div class="column column-data column-20">
           <input
             type="text"
             placeholder="Key"
@@ -52,7 +52,7 @@
 
       <!-- Method -->
       <div class="row row-border-bottom row-border-bottom-tall">
-        <div class="column column-data column-10">
+        <div class="column column-data column-20">
           <input
             type="text"
             placeholder="Key"
@@ -75,17 +75,20 @@
           <input 
             id="team"
             type="checkbox"
-            :checked="this.selectedData().lockedResource">
+            :checked="this.selectedData().lockedResource"
+            @change="editPermission('lockedResource', $event)">
           <label for="team">Locked Resource</label>
           <input 
             id="prevent"
             type="checkbox"
-            :checked="this.selectedData().preventExecution">
+            :checked="this.selectedData().preventExecution"
+            @change="editPermission('preventExecution', $event)">
           <label for="prevent">Prevent Execution</label>
           <input 
             id="owner"
             type="checkbox"
-            :checked="this.selectedData().sensitiveResponse">
+            :checked="this.selectedData().sensitiveResponse"
+            @change="editPermission('sensitiveResponse', $event)">
           <label for="owner">Sensitive Response</label>
         </div>
       </div>
@@ -106,6 +109,9 @@ export default {
     ...mapMutations('table', ['editRequestKey']),
     edit: function(key, event) {
       this.editRequestKey({key, value: event.target.value, requestId: this.selectedData()._id})
+    },
+    editPermission: function(key, event) {
+      this.editRequestKey({key, value: event.target.checked, requestId: this.selectedData()._id})
     }
   },
   filters: {

@@ -86,17 +86,20 @@
           <input 
             id="team"
             type="checkbox"
-            :checked="this.selectedData().lockedResource">
+            :checked="this.selectedData().lockedResource"
+            @change="editPermission('lockedResource', $event)">
           <label for="team">Locked Resource</label>
           <input 
             id="prevent"
             type="checkbox"
-            :checked="this.selectedData().preventExecution">
+            :checked="this.selectedData().preventExecution"
+            @change="editPermission('preventExecution', $event)">
           <label for="prevent">Prevent Execution</label>
           <input 
             id="owner"
             type="checkbox"
-            :checked="this.selectedData().sensitiveResponse">
+            :checked="this.selectedData().sensitiveResponse"
+            @change="editPermission('sensitiveResponse', $event)">
           <label for="owner">Sensitive Response</label>
         </div>
       </div>
@@ -130,6 +133,9 @@ export default {
     ...mapActions('table', ['getTextStorageData', 'getFileStorageData', 'updateTextStorageData','updateFileStorageData']),
     editStorageDetailAction: function(key, event) {
       this.editStorageDetail({key, value: event.target.value, storageId: this.selectedData()._id})
+    },
+    editPermission: function(key, event) {
+      this.editStorageDetail({key, value: event.target.checked, storageId: this.selectedData()._id})
     },
     editStorageValueAction: function(key, event) {
       this.editStorageValue({key, value: event.target.value, storageId: this.selectedData()._id})

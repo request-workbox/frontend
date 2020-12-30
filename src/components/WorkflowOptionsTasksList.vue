@@ -9,10 +9,13 @@
       <div class="row row-border-bottom" v-for="task in this.selectedData().tasks" :key="task._id">
         <div class="column column-data">
           <input 
-            type="checkbox">
+            id="team"
+            type="checkbox"
+            :checked="task.active"
+            @change="editWorkflowTaskActive('tasks', task._id, 'active', $event)">
         </div>
         <div class="column column-full-width">
-          <!-- Request Settings Row -->
+          <!-- Request Settings Row --> 
           <div class="row">
             <div
               class="column column-data column-uparrow"
