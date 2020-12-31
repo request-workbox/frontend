@@ -18,7 +18,7 @@
       <div class="row row-justify-between">
         <div class="column column-grow">
           <div class="row">
-            <div class="column column-60">
+            <div class="column column-60 column-min-width-0">
               <input type="text" class="user-form-input user-form-input-stretch" placeholder="Discount Code" v-model="coupon" :disabled="this.checkoutDiscount !== 0 && this.checkoutDiscount !== ''">
             </div>
             <div class="spacer"></div>
@@ -34,7 +34,7 @@
 
       <hr>
 
-      <!-- <div class="row row-align-start">
+      <div class="row row-align-start">
         <div class="column column-grow">
           <p class="lineitem-text">1st GB Data Transfer Free (monthly)</p>
           <p class="lineitem-subtext">$0.003/mb/month</p>
@@ -42,7 +42,7 @@
         <div class="column">
           <p class="lineitem-price">$0.00</p>
         </div>
-      </div> -->
+      </div>
 
       <div class="row row-align-start" v-if="this.checkoutDiscount !== 0 && this.checkoutDiscount !== ''">
         <div class="column column-grow">
@@ -59,7 +59,7 @@
       <div class="row row-align-start margin-bottom-10">
         <div class="column column-grow">
           <p class="lineitem-text">Pay Today</p>
-          <p class="lineitem-subtext">Billed monthly on the 21st</p>
+          <p class="lineitem-subtext">One-time purchase</p>
         </div>
         <div class="column">
           <p class="lineitem-price">{{ total }}</p>

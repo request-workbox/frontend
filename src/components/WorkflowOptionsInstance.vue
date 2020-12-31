@@ -45,7 +45,7 @@
       </div>
       
       <div class="row row-border-bottom">
-        <div class="column column-data column-header-text column-grow column-group-header">Instance API</div>
+        <div class="column column-data column-header-text column-grow column-group-header">Workflow API</div>
       </div>
 
       <div class="row row-border-bottom" v-if="this.selectedData()._id">

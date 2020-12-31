@@ -1,6 +1,6 @@
 <template>
   <keep-alive>
-    <component :is="`RequestOptions${upperFirstOption}`" v-if="this.option !== '' && this.selectedData()._id"></component>
+    <component :is="componentName" v-if="this.option !== '' && this.selectedData()._id"></component>
   </keep-alive>
 </template>
 
@@ -13,8 +13,7 @@ import RequestOptionsHeaders from "./RequestOptionsHeaders";
 import RequestOptionsBody from "./RequestOptionsBody";
 import RequestOptionsAuthorization from './RequestOptionsAuthorization'
 import RequestOptionsUrl from "./RequestOptionsUrl";
-import RequestOptionsSocketqueue from "./RequestOptionsSocketqueue";
-import RequestOptionsSocketinstance from './RequestOptionsSocketinstance'
+import SocketQueue from "./SocketQueue";
 
 export default {
   name: "RequestOptions",
@@ -24,14 +23,20 @@ export default {
     RequestOptionsBody,
     RequestOptionsAuthorization,
     RequestOptionsUrl,
-    RequestOptionsSocketqueue,
-    RequestOptionsSocketinstance,
+    SocketQueue,
   },
   computed: {
     ...mapState("table", ["option"]),
     ...mapGetters('table',['selectedData']),
     upperFirstOption: function() {
       return _.upperFirst(this.option);
+    },
+    componentName: function() {
+      if (this.option === 'socketqueue') {
+        return 'SocketQueue'
+      } else {
+        return `RequestOptions${this.upperFirstOption}`
+      }
     }
   }
 };

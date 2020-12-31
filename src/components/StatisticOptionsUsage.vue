@@ -61,7 +61,7 @@ export default {
         this.loadingUsage = true
         await this.getInstanceUsage({instanceId: this.selectedData()._id})
       } catch(err) {
-        console.log('Error getting instance usage')
+        // console.log('Error getting instance usage')
       } finally {
         this.loadingUsage = false
       }

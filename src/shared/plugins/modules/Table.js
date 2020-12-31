@@ -28,6 +28,7 @@ const state = () => ({
 
     selectedStatId: '',
     selectedQueueStatId: '',
+    selectedInstanceStatId: '',
 
     orderDirection: 'descending',
 

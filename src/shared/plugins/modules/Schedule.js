@@ -6,6 +6,8 @@ import moment from 'moment-timezone'
 const state = () => ({
     apiUrl: process.env.VUE_APP_API_URL,
 
+    instances: [],
+
     schedule: [],
     scheduleType: 'all',
     scheduleStatus: 'all',
@@ -19,6 +21,96 @@ const state = () => ({
 
 const getters = {
     getField,
+    getInstanceByRequestId: (state, getters, rootState) => (requestId, statId, instanceStatId) => {
+        if (!requestId) return {}
+
+        const instance = _.filter(state.instances, (data) => {
+            if (data.requestId === requestId) return true;
+            else return false
+        })
+
+        if (!_.size(instance)) return {}
+
+        const filtered = _.filter(instance, (data) => {
+            if (data._id === statId) return true;
+            else return false
+        })
+
+        if (!_.size(filtered)) return {}
+
+        if (!instanceStatId) return filtered[0]
+        
+        const instanceStat = _.filter(filtered[0].stats, (data) => {
+            if (data._id === instanceStatId) return true;
+            else return false
+        })
+
+        return instanceStat[0]
+    },
+    getInstanceByWorkflowId: (state, getters, rootState) => (workflowId, statId, instanceStatId) => {
+        if (!workflowId) return {}
+
+        const instance = _.filter(state.instances, (data) => {
+            if (data.workflowId === workflowId) return true;
+            else return false
+        })
+
+        if (!_.size(instance)) return {}
+
+        const filtered = _.filter(instance, (data) => {
+            if (data._id === statId) return true;
+            else return false
+        })
+
+        if (!_.size(filtered)) return {}
+
+        if (!instanceStatId) return filtered[0]
+        
+        const instanceStat = _.filter(filtered[0].stats, (data) => {
+            if (data._id === instanceStatId) return true;
+            else return false
+        })
+
+        return instanceStat[0]
+    },
+    getScheduleByRequestId: (state, getters, rootState) => (requestId, queueStatId) => {
+        if (!requestId) return {}
+
+        const queue = _.filter(state.schedule, (data) => {
+            if (data.requestId === requestId) return true;
+            else return false
+        })
+
+        if (!_.size(queue)) return {}
+
+        const filtered = _.filter(queue, (data) => {
+            if (data._id === queueStatId) return true;
+            else return false
+        })
+
+        if (!_.size(filtered)) return {}
+
+        return filtered[0]
+    },
+    getScheduleByWorkflowId: (state, getters, rootState) => (workflowId, queueStatId) => {
+        if (!workflowId) return {}
+
+        const queue = _.filter(state.schedule, (data) => {
+            if (data.workflowId === workflowId) return true;
+            else return false
+        })
+
+        if (!_.size(queue)) return {}
+
+        const filtered = _.filter(queue, (data) => {
+            if (data._id === queueStatId) return true;
+            else return false
+        })
+
+        if (!_.size(filtered)) return {}
+
+        return filtered[0]
+    },
     getScheduleById: (state, getters, rootState) => (queueId) => {
         if (!queueId) return {}
 
@@ -101,6 +193,24 @@ const getters = {
             }
         })
     },
+    sortedInstances: (state, getters, rootState) => (workflowId) => {
+        let instances = _.filter(state.instances, (instance) => {
+            if (instance.workflowId === workflowId) return true
+            else return false
+        })
+
+        if (!_.size(instances)) return []
+
+        return instances.sort(function compare(a, b) {
+            var dateA = new Date(a.createdAt)
+            var dateB = new Date(b.createdAt)
+            if (state.orderDirection === 'ascending') {
+                return dateA - dateB
+            } else if (state.orderDirection === 'descending') {
+                return dateB - dateA
+            }
+        })
+    },
     pendingQueues: (state, getters, rootState) => () => {
         const pendingObj = {
             total: 0, return: 0, queue: 0, schedule: 0,
@@ -176,22 +286,38 @@ const mutations = {
         state.schedule = payload
     },
     addToSchedule(state, socketStat) {
-        if (!socketStat.queueDoc) return;
-        
-        const schedulesFound = _.filter(state.schedule, (data) => {
-            if (data._id === socketStat.queueDoc._id) return true;
-            else return false
-        })
-
-        if (!_.size(schedulesFound)) {
-            state.schedule.push(socketStat.queueDoc)
-        } else {
-            state.schedule = _.map(state.schedule, (data) => {
-                if (data._id === socketStat.queueDoc._id) {
-                    return socketStat.queueDoc
-                }
-                else return data
+        if (socketStat.queueDoc) {
+            const schedulesFound = _.filter(state.schedule, (data) => {
+                if (data._id === socketStat.queueDoc._id) return true;
+                else return false
             })
+    
+            if (!_.size(schedulesFound)) {
+                state.schedule.push(socketStat.queueDoc)
+            } else {
+                state.schedule = _.map(state.schedule, (data) => {
+                    if (data._id === socketStat.queueDoc._id) {
+                        return socketStat.queueDoc
+                    }
+                    else return data
+                })
+            }
+        } else if (socketStat.instanceDoc) {
+            const instancesFound = _.filter(state.instances, (data) => {
+                if (data._id === socketStat.instanceDoc._id) return true;
+                else return false
+            })
+    
+            if (!_.size(instancesFound)) {
+                state.instances.push(socketStat.instanceDoc)
+            } else {
+                state.instances = _.map(state.instances, (data) => {
+                    if (data._id === socketStat.instanceDoc._id) {
+                        return socketStat.instanceDoc
+                    }
+                    else return data
+                })
+            }
         }
     },
     changeScheduleDate(state, scheduleDate) {

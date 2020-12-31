@@ -22,6 +22,7 @@ const actions = {
 
         commit('addRequest', request.data)
         commit('changeSelectedId', { selectedId: request.data._id })
+        
         Vue.$toast.open({ message: 'Request created', type: 'info' })
     },
     async getRequests({ commit, state, getters, rootState }, payload) {

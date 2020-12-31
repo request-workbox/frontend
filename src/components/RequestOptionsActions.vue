@@ -14,11 +14,32 @@
               v-bind:class="{ disabled: !this.editing }"
               v-on:click="saveRequestChangesAction"
             >Save Changes</div>
+            <div class="spacer"></div>
             <div
               v-if="allowAddingRequestItem()"
               class="column text-button action"
               v-on:click="addRequestDetailItemAction"
             >Add Item</div>
+            <div
+              v-if="this.option === 'url'"
+              class="column text-button action"
+              v-on:click="viewWorkflowAction"
+            >View workflow</div>
+            <div
+              v-if="this.option === 'socketqueue'"
+              class="column text-button action"
+              v-bind:class="{ disabled: this.editing }"
+            >Return request</div>
+            <div
+              v-if="this.option === 'socketqueue'"
+              class="column text-button action"
+              v-bind:class="{ disabled: this.editing }"
+            >Queue request</div>
+            <div
+              v-if="this.option === 'socketqueue'"
+              class="column text-button action"
+              v-bind:class="{ disabled: this.editing }"
+            >Schedule request</div>
           </div>
         </div>
       </div>
@@ -39,6 +60,13 @@ export default {
   },
   methods: {
     ...mapActions("table", ["cancelRequestChanges", 'saveRequestChanges', 'addRequestDetailItem']),
+    viewWorkflowAction: function() {
+      const 
+        projectId = this.selectedData().projectId,
+        workflowId = this.selectedData().workflowId;
+
+      window.open(`/projects/${projectId}/workflows?id=${workflowId}`)
+    },
     allowAddingRequestItem: function() {
       if (!this.selectedData()._id) return false;
 

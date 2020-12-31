@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { mapActions, mapMutations } from 'vuex'
 
 import RequestLogin from './RequestLogin'
@@ -50,9 +51,10 @@ export default {
     return next()
   },
   methods: {
+    ...mapMutations('schedule',['addToSchedule']),
     ...mapMutations('table',['changeOption', 'setCurrentRoute','updateOrderDirection']),
+
     ...mapActions('project', ['getProjectName']),
-    
     ...mapActions('table', ['getRequests', 'getRequest', 'getStoragesForSelectOptions']),
     init: async function() {
       this.setCurrentRoute({ route: this.$route.name })
@@ -65,7 +67,7 @@ export default {
       if (this.$route.query && this.$route.query.id) {
         await this.getRequest({ projectId: this.projectId, requestId: this.$route.query.id })
       } else {
-        await this.getRequests({ projectId: this.projectId });
+        await this.getRequests({ projectId: this.projectId })
       }
 
       if (this.$route.query && this.$route.query.option) {
@@ -73,6 +75,15 @@ export default {
       } else {
         this.changeOption('url');
       }
+
+      // Listen to socket
+      await this.$store.dispatch('cognito/fetchSession')
+      const userSub = this.$store.getters['cognito/userSub']
+      if (userSub) {
+        Vue.$apiSocket.on(userSub, this.addToSchedule)
+        Vue.$jobsSocket.on(userSub, this.addToSchedule)
+      }
+
     }
   }
 };

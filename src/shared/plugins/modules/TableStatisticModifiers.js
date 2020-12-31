@@ -128,8 +128,15 @@ const mutations = {
         })
     },
     changeSelectedStatId(state, payload) {
-        state.selectedStatId = payload
-    }
+        if (state.selectedStatId === payload) {
+            state.selectedStatId = ''
+        } else {
+            state.selectedStatId = payload
+        }
+    },
+    changeSelectedInstanceStatId(state, payload) {
+        state.selectedInstanceStatId = payload
+    },
 }
 
 export default {

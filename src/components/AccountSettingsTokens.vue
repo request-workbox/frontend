@@ -51,8 +51,11 @@ export default {
     ...mapActions('billing',['generateToken', 'revokeToken',]),
     generateTokenAction: async function() {
       try {
-        this.loading = true
-        await this.generateToken()
+        const confirm = window.confirm('Are you sure you want to generate a token?')
+        if (confirm) {
+          this.loading = true
+          await this.generateToken()
+        }
       } catch(err) {
         Vue.$toast.open(err.message)
       } finally {
@@ -61,8 +64,11 @@ export default {
     },
     revokeTokenAction: async function(snippet) {
       try {
-        this.revoking = true
-        await this.revokeToken(snippet)
+        const confirm = window.confirm('Are you sure you want to revoke this token?')
+        if (confirm) {
+          this.revoking = true
+          await this.revokeToken(snippet)
+        }
       } catch(err) {
         Vue.$toast.open(err.message)
       } finally {

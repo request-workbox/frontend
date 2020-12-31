@@ -21,20 +21,17 @@
             >
               Save Changes
             </div>
+            <div class="spacer" v-if="allowAddingWorkflowTask()"></div>
             <div
               v-if="allowAddingWorkflowTask()"
               class="column text-button action"
               v-on:click="addWorkflowTaskAction"
+              :disabled="this.selectedData().workflowType === 'request'"
             >
               Add Request
             </div>
-            
-            <div class="large-spacer" v-if="this.selectedData()._id && this.option === 'tasks'"></div>
 
-            <!-- Schedule Workflow -->
-            <div class="column text-button action action-text-center" v-if="this.selectedData()._id && this.option === 'tasks'" v-on:click="returnWorkflowAction">Return Workflow</div>
-            <div class="column text-button action action-text-center" v-if="this.selectedData()._id && this.option === 'tasks'" v-on:click="queueWorkflowAction">Queue Workflow</div>
-            <div class="column text-button action action-text-center" v-if="this.selectedData()._id && this.option === 'tasks'" v-on:click="scheduleWorkflowAction">Schedule Workflow</div>
+            
 
             <!-- Date Filter -->
             <div class="column" v-if="this.option === 'schedule'">
@@ -75,70 +72,14 @@
               Archiving...
             </div>
 
-            <!-- Queue Type Filter -->
-            <div class="spacer"></div>
-            <div
-              v-if="this.option === 'schedule'"
-              class="column filter-button filter-button-left"
-              v-bind:class="{ 'filter-button-active': this.scheduleType === 'all' }"
-              v-on:click="changeScheduleTypeAction('all')"
-            >
-              All
-            </div>
-            <div 
-              v-if="this.option === 'schedule'" 
-              class="column filter-button" 
-              v-bind:class="{ 'filter-button-active': this.scheduleType === 'return' }" 
-              v-on:click="changeScheduleTypeAction('return')">
-              Return
-            </div>
-            <div 
-              v-if="this.option === 'schedule'" 
-              class="column filter-button" 
-              v-bind:class="{ 'filter-button-active': this.scheduleType === 'queue' }" 
-              v-on:click="changeScheduleTypeAction('queue')">
-              Queue
-            </div>
-            <div
-              v-if="this.option === 'schedule'"
-              class="column filter-button filter-button-right"
-              v-bind:class="{ 'filter-button-active': this.scheduleType === 'schedule' }"
-              v-on:click="changeScheduleTypeAction('schedule')"
-            >
-              Schedule
-            </div>
 
-            <!-- Queue Status Filter -->
-            <div class="spacer"></div>
-            <div
-              v-if="this.option === 'schedule'"
-              class="column filter-button filter-button-left"
-              v-bind:class="{ 'filter-button-active': this.scheduleStatus === 'all' }"
-              v-on:click="changeScheduleStatusAction('all')"
-            >
-              All
-            </div>
-            <div 
-              v-if="this.option === 'schedule'" 
-              class="column filter-button" 
-              v-bind:class="{ 'filter-button-active': this.scheduleStatus === 'active' }"
-              v-on:click="changeScheduleStatusAction('active')">
-              Active
-            </div>
-            <div 
-              v-if="this.option === 'schedule'" 
-              class="column filter-button" 
-              v-bind:class="{ 'filter-button-active': this.scheduleStatus === 'archived' }"
-              v-on:click="changeScheduleStatusAction('archived')">
-              Archived
-            </div>
-            <div 
-              v-if="this.option === 'schedule'" 
-              class="column filter-button" 
-              v-bind:class="{ 'filter-button-active': this.scheduleStatus === 'error' }"
-              v-on:click="changeScheduleStatusAction('error')">
-              Errored
-            </div>
+            <div class="large-spacer" v-if="this.selectedData()._id && this.option === 'schedule'"></div>
+
+            <!-- Schedule Workflow -->
+            <div class="column text-button action action-text-center" v-if="this.selectedData()._id && this.option === 'schedule'" v-on:click="returnWorkflowAction">Return Workflow</div>
+            <div class="column text-button action action-text-center" v-if="this.selectedData()._id && this.option === 'schedule'" v-on:click="queueWorkflowAction">Queue Workflow</div>
+            <div class="column text-button action action-text-center" v-if="this.selectedData()._id && this.option === 'schedule'" v-on:click="scheduleWorkflowAction">Schedule Workflow</div>
+
           </div>
         </div>
       </div>
@@ -200,14 +141,6 @@ export default {
     changeScheduleDateAction: function(event) {
       this.changeSelectedQueueStatId('')
       this.changeScheduleDate(event.srcElement.value)
-    },
-    changeScheduleTypeAction: function(scheduleType) {
-      this.changeSelectedQueueStatId('')
-      this.changeScheduleType(scheduleType)
-    },
-    changeScheduleStatusAction: function(scheduleStatus) {
-      this.changeSelectedQueueStatId('')
-      this.changeScheduleStatus(scheduleStatus)
     },
     getScheduleAction: async function () {
       if (!this.selectedData()._id) return;
@@ -296,8 +229,5 @@ export default {
 <style lang="scss">
 input[type="date"] {
   font-family: "Open Sans", sans-serif;
-}
-.tiny-text-spaced {
-  margin-left: 9px !important;
 }
 </style>

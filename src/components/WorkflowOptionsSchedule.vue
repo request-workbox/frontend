@@ -3,6 +3,10 @@
     <div class="column column-full-width">
 
     <div class="row row-border-bottom">
+      <div class="column column-data column-header-text column-grow column-group-header">Queues</div>
+    </div>
+
+    <div class="row row-border-bottom">
       <div class="column column-data column-header column-5 column-padded">Stat</div>
       
       <div class="column column-data column-header column-10 column-padded">
@@ -17,7 +21,7 @@
     </div>
 
     <div 
-      v-for="(stat) in filterScheduleByWorkflow(this.selectedData()._id)" :key="stat._id"
+      v-for="(stat) in filterScheduleByWorkflow(workflowId())" :key="stat._id"
       v-bind:class="{'table-row-selected':shouldBeSelected(stat._id)}"
       v-on:click="selectQueueStatAction(stat)"
       class="row row-border-bottom table-row-selectable schedule-row">
@@ -52,9 +56,16 @@ export default {
     ...mapGetters('schedule', ['filterScheduleByWorkflow']),
   },
   methods: {
-    ...mapMutations('table', ['changeSelectedQueueStatId']),
+    ...mapMutations('table', ['changeSelectedQueueStatId','changeSelectedStatId']),
     ...mapMutations('schedule', ['toggleScheduleOrderDirection']),
     ...mapActions('schedule', ['archiveQueue']),
+    workflowId: function() {
+      if (this.$route.name === 'Requests') {
+        return this.selectedData().workflowId
+      } else {
+        return this.selectedData()._id
+      }
+    },
     formattedQueueType: (queueType) => {
       if (queueType === 'return') return 'Return'
       if (queueType === 'queue') return 'Queue'
@@ -83,6 +94,7 @@ export default {
     },
     selectQueueStatAction: function(stat) {
       this.changeSelectedQueueStatId(stat._id)
+      this.changeSelectedStatId(stat.instanceId)
     },
     shouldBeSelected: function(statId) {
       if (statId === this.selectedQueueStatId) return true

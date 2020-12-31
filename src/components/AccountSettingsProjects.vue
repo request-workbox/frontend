@@ -15,7 +15,7 @@
             disabled
           />
         </div>
-        <span class="tiny-text tiny-text-spaced">{{ project.usage }} MB / {{ project.usageTotal }} MB ({{ project.usage / project.usageTotal }}%)</span>
+        <span class="tiny-text tiny-text-spaced">{{ project.usage.toFixed(2) }} MB / {{ project.usageTotal }} MB ({{ (project.usage / project.usageTotal).toFixed(2) }}%)</span>
         <div class="column text-button action" v-on:click="upgradeTo('professional', projectId)">
           <span>Add 1 GB</span>
         </div>
