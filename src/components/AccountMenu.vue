@@ -19,13 +19,11 @@ export default {
   },
   methods: {
     ...mapMutations('account',['changeAccountOption']),
-    // Account Menu Options
     shouldBeSelected: function(option) {
       if (option === this.option) return true
       else return false
     },
     changeAccountOptionAction: function(option) {
-      this.$router.replace({ path: this.$route.name, query: { option: option }}).catch((err) => err)
       this.changeAccountOption(option)
     },
   }

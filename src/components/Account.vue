@@ -38,17 +38,10 @@ export default {
   },
   methods: {
     ...mapMutations('table', ['setCurrentRoute']),
-    ...mapMutations('account', ['changeAccountOption']),
     ...mapActions('billing', ['billingInformation','listTokens']),
     ...mapActions('project', ['getProjects']),
     init: async function () {
       this.setCurrentRoute({ route: this.$route.name })
-
-      if (this.$route.query && this.$route.query.option) {
-        this.changeAccountOption(this.$route.query.option);
-      } else {
-        this.changeAccountOption('settings')
-      }
 
       try {
         await this.billingInformation()

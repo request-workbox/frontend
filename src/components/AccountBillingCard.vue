@@ -12,14 +12,14 @@
             disabled
           />
         </div>
-        <span class="tiny-text tiny-text-spaced" v-if="card">{{ card }}</span>
-        <div class="column text-button action" v-on:click="updateCardAction" v-if="card">
+        <span class="tiny-text tiny-text-spaced" v-if="stripeCardBrand">{{ stripeCardBrand }} {{ stripeCardLast4 }}</span>
+        <div class="column text-button action" v-on:click="updateCardAction" v-if="stripeCardBrand">
           <span>Update Card</span>
         </div>
-        <div class="column text-button action" v-on:click="removeCardAction" v-if="card">
+        <div class="column text-button action" v-on:click="removeCardAction" v-if="stripeCardBrand">
           <span>Remove Card</span>
         </div>
-        <div class="column text-button action"  v-on:click="addCardAction" v-if="!card">
+        <div class="column text-button action"  v-on:click="addCardAction" v-if="!stripeCardBrand">
           <span>Add Card</span>
         </div>
       </div>
@@ -35,37 +35,36 @@ import Vue from 'vue'
 export default {
   name: 'AccountBillingCard',
   computed: {
-    ...mapState('billing', ['card']),
+    ...mapState('billing', ['stripeCardBrand','stripeCardLast4']),
   },
   methods: {
     ...mapMutations('billing', ['toggleUpdateCardView']),
+    ...mapActions('billing', ['billingInformation']),
     ...mapActions('checkout', ['removePaymentMethod']),
     addCardAction: function() {
-      this.$router.replace({ path: this.$route.name, query: { option: 'billing', card: 'update' }}).catch((err) => err)
       this.toggleUpdateCardView()
     },
     updateCardAction: function() {
-      this.$router.replace({ path: this.$route.name, query: { option: 'billing', card: 'update' }}).catch((err) => err)
       this.toggleUpdateCardView()
     },
     removeCardAction: async function() {
       try {
         const confirm = window.confirm('Are you sure you want to remove this card?')
+
         if (confirm) {
           Vue.$toast.open({
             message: 'Removing...',
             type: 'default',
           })
+          
           await this.removePaymentMethod()
+          await this.billingInformation()
 
           Vue.$toast.open({
-            message: 'Success! One moment please...',
+            message: 'Success!',
             type: 'success',
           })
-
-          setTimeout(function() {
-            location.reload()
-          }, 1000)
+          
         }
       } catch(err) {
         console.log(err)

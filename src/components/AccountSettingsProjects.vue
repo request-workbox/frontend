@@ -16,20 +16,20 @@
           />
         </div>
         <span class="tiny-text tiny-text-spaced">{{ project.usage.toFixed(2) }} MB / {{ project.usageTotal }} MB ({{ (project.usage / project.usageTotal).toFixed(2) }}%)</span>
-        <div class="column text-button action" v-on:click="upgradeTo('professional', projectId)">
+        <div class="column text-button action" v-on:click="goToCheckout('datatransfer', project._id, project.name, 'gb')">
           <span>Add 1 GB</span>
         </div>
         <div class="spacer"></div>
         <div class="column text-button action text-button-selected-blue" v-if="project.projectType === 'free'">
           <span>Free</span>
         </div>
-        <div class="column text-button action" v-if="project.projectType === 'free' || project.projectType === 'standard'" v-on:click="upgradeTo('standard', projectId)" v-bind:class="{ 'text-button-selected-blue': project.projectType === 'standard' }">
+        <div class="column text-button action" v-if="project.projectType === 'free' || project.projectType === 'standard'" v-on:click="goToCheckout('upgrade', project._id, project.name, 'standard', project.projectType)" v-bind:class="{ 'text-button-selected-blue': project.projectType === 'standard' }">
           <span>Standard</span>
         </div>
-        <div class="column text-button action" v-if="project.projectType === 'free' || project.projectType === 'developer'"  v-on:click="upgradeTo('developer', projectId)" v-bind:class="{ 'text-button-selected-blue': project.projectType === 'developer' }">
+        <div class="column text-button action" v-if="project.projectType === 'free' || project.projectType === 'developer'" v-on:click="goToCheckout('upgrade', project._id, project.name, 'developer', project.projectType)" v-bind:class="{ 'text-button-selected-blue': project.projectType === 'developer' }">
           <span>Developer</span>
         </div>
-        <div class="column text-button action" v-if="project.projectType === 'free' || project.projectType === 'professional'"  v-on:click="upgradeTo('professional', projectId)" v-bind:class="{ 'text-button-selected-blue': project.projectType === 'professional' }">
+        <div class="column text-button action" v-if="project.projectType === 'free' || project.projectType === 'professional'" v-on:click="goToCheckout('upgrade', project._id, project.name, 'professional', project.projectType)" v-bind:class="{ 'text-button-selected-blue': project.projectType === 'professional' }">
           <span>Professional</span>
         </div>
       </div>
@@ -44,15 +44,17 @@ import { mapState, mapActions, mapMutations, mapGetters } from 'vuex'
 export default {
   name: 'AccountSettingsProjects',
   computed: {
-    ...mapState('billing', ['card']),
+    ...mapState('billing', ['stripeCardBrand','stripeCardLast4']),
     ...mapGetters('project', ['ownerData']),
   },
   methods: {
-    upgradeTo: async function(upgradeType, projectId) {
-      if (this.card) {
-        location.assign(`/checkout?card=existing&type=${upgradeType}`)
+    goToCheckout: async function(intentType, projectId, projectName, product, currentProjectType) {
+      if (intentType === 'upgrade' && currentProjectType !== 'free') return;
+
+      if (this.stripeCardBrand && this.stripeCardLast4 && this.stripeCardBrand !== '' && this.stripeCardLast4 !== '') {
+        location.assign(`/checkout?intentType=${intentType}&projectId=${projectId}&projectName=${projectName}&product=${product}`)
       } else {
-        location.assign(`/checkout?card=update&type=${upgradeType}`)
+        location.assign(`/checkout?intentType=${intentType}&projectId=${projectId}&projectName=${projectName}&product=${product}`)
       }
     },
   }

@@ -176,7 +176,7 @@ import 'vue-toast-notification/dist/theme-sugar.css';
 Vue.use(VueToast, {
   position: 'top-right',
   duration: 10000,
-  type: 'error',
+  type: 'default',
 })
 /**
  * Initialize app

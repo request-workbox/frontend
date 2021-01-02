@@ -48,11 +48,15 @@
     justify-content: center;
   }
   .row-white {
-    background:white !important;
+    background: white !important;
   
     border-bottom-color: #edeff1;
       border-bottom-style: solid;
       border-bottom-width: 1px;
+
+      input {
+        background: white !important;
+      }
   }
   .row-shadow {
     justify-content: space-between;
@@ -298,6 +302,9 @@
   .margin-bottom-10 {
     margin-bottom: 10px !important;
   }
+  .margin-bottom-25 {
+    margin-bottom: 25px !important;
+  }
   .margin-top-10 {
     margin-top: 10px !important;
   }
@@ -341,6 +348,11 @@
     font-weight: 600;
   }
 
+  .text-weight-600 {
+    font-weight: 600;
+  }
+
+
   .blue-container {
     background: #b8dfff;
     padding: 16px;
@@ -350,26 +362,72 @@
     border-radius: 3px;
   }
 
+  .semi-blue-container {
+    background: #e7f4ff;
+    padding: 4px 15px;
+    border-style: solid;
+    border-color: #018eff;
+    border-width: 1px;
+    border-radius: 3px;
+  }
+
+  .semi-red-container {
+    background: #ffe0e9;
+    padding: 4px 15px;
+    border-style: solid;
+    border-color: #ea003f;
+    border-width: 1px;
+    border-radius: 3px;
+  }
+
+  .light-blue-container {
+    background: white;
+    padding: 16px;
+    border-style: solid;
+    border-color: #018eff;
+    border-width: 1px;
+    border-radius: 3px;
+  }
+
+  .light-red-container {
+    background: white;
+    padding: 16px;
+    border-style: solid;
+    border-color: #ff0167;
+    border-width: 1px;
+    border-radius: 3px;
+  }
+
   .grey-container {
     border-style: solid;
-    border-color: #f1f1f1;
+    border-color: #e9e9f3;
     border-width: 1px;
 
-    background: #f1f1f1;
+    background: #f9f9f9;
     padding: 15px 0;
     cursor: pointer;
   }
   .grey-container:hover {
     border-style: solid;
-    border-color: #d6d6d6;
+    border-color: #d8dce6;
     border-width: 1px;
-    background: #e2e2e2;
+    background: #ececec;
   }
   .grey-container-selected {
     border-style: solid;
-    border-color: #d6d6d6;
+    border-color: #d8dce6;
     border-width: 1px;
-    background: #e2e2e2;
+    background: #ececec;
+  }
+
+  .light-grey-container {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: #f7f7f7;
+  }
+
+  .text-light-blue {
+    color: #5583ff;
   }
 
   .grey-background {
@@ -462,7 +520,7 @@
     background: white;
     color: #395b75;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 13px;
     border-radius: 2px;
 
     width: 100%;
@@ -681,6 +739,15 @@
     text-transform: uppercase;
     font-weight: 600;
   }
+  .column-left-center-subheader {
+    font-size: 13px;
+    color: #060b3e;
+    margin-top: 11px;
+    margin-bottom: 11px;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-align: center;
+  }
 
   .lineitem-text {
     font-size: 15px;
@@ -741,7 +808,7 @@
   }
 
   .pay-button-cancel {
-    background: #d4d4d4;
+    background: #d8dce6;
     text-align: center;
     border-radius:3px;
     cursor: pointer;
@@ -1039,7 +1106,7 @@ max-width: 270px;
   padding-top: 50px;
 }
 #card-container {
-  background: #f1f1f1;
+  background: #f7f7f7;
   height: auto;
   width:auto;
   border-radius: 3px;

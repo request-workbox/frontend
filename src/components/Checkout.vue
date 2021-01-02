@@ -8,7 +8,7 @@
 
           <div class="column column-40 column-padding-20 column-min-width-0">
             <CheckoutFormAccountSummary />
-            <CheckoutFormCardInput />
+            <CheckoutFormCardForm />
           </div>
 
           <div class="column column-grow column-padding-20 column-min-width-0">
@@ -27,37 +27,64 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
+import Vue from 'vue'
 
 import CheckoutFormAccountSummary from './CheckoutFormAccountSummary'
 import CheckoutFormOrderSummary from './CheckoutFormOrderSummary'
-import CheckoutFormCardInput from './CheckoutFormCardInput'
+import CheckoutFormCardForm from './CheckoutFormCardForm'
 
 export default {
   name: "Checkout",
   mounted: async function() {
-    if (this.$route.query && this.$route.query.type) {
-      this.changeCheckoutType(this.$route.query.type)
-    }
+    this.updateIntentType(this.$route.query.intentType)
+    this.updateProduct(this.$route.query.product)
+    this.updateProjectId(this.$route.query.projectId)
+    this.updateProjectName(this.$route.query.projectName)
 
     try {
-        await this.billingInformation()
-        await this.previewCheckoutPrice({ checkoutType: this.$route.query.type })
-      } catch(err) {
-        console.log(err)
+      await this.billingInformation()
+
+      let paymentIntent;
+
+      if (this.$route.query.intentType === 'upgrade') {
+        paymentIntent = await this.createPaymentIntentUpgrade({ projectId: this.$route.query.projectId, product: this.$route.query.product })
+      } else if (this.$route.query.intentType === 'datatransfer') {
+        paymentIntent = await this.createPaymentIntentDataTransfer({ projectId: this.$route.query.projectId, product: this.$route.query.product })
       }
+
+      if (!paymentIntent || !paymentIntent._id) throw new Error('Not found.')
+
+      if (paymentIntent.status === 'completed') {
+        Vue.$toast.open({ message: 'Success!', type: 'success' })
+
+        setTimeout(function() {
+          location.assign('/account')
+        }, 2500)
+      } else if (paymentIntent.status !== 'started') {
+        throw new Error('Status not found.')
+      }
+
+    } catch(err) { 
+      console.log(err.message)
+      Vue.$toast.open({ message: err.message })
+
+      setTimeout(function() {
+        location.assign('/account')
+      }, 2500)
+    }
   },
   components: {
     CheckoutFormAccountSummary,
     CheckoutFormOrderSummary,
-    CheckoutFormCardInput,
+    CheckoutFormCardForm,
   },
   computed: {
-    ...mapState('checkout', ['checkoutType']),
+    ...mapState('checkout', ['intentType','product','projectId','projectName']),
   },
   methods: {
-    ...mapMutations('checkout', ['changeCheckoutType']),
+    ...mapMutations('checkout', ['updateIntentType','updateProduct','updateProjectId','updateProjectName']),
     ...mapActions('billing', ['billingInformation',]),
-    ...mapActions('checkout', ['previewCheckoutPrice']),
+    ...mapActions('checkout', ['createPaymentIntentUpgrade','createPaymentIntentDataTransfer']),
   }
 };
 </script>

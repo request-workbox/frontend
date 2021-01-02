@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row" v-if="this.balance !== 0">
     <div class="column column-full-width">
 
       <div class="row row-border-bottom">

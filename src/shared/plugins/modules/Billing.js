@@ -5,10 +5,9 @@ const state = () => ({
 
     updateCardView: false,
 
+    stripeCardBrand: null,
+    stripeCardLast4: null,
     balance: 0,
-    card: null,
-
-    stripeCustomerId: '',
     
     tokens: [],
 })
@@ -22,9 +21,9 @@ const actions = {
         const requestUrl = `${state.billingUrl}/billing-information`
         const request = await Vue.$axios.post(requestUrl)
 
-        commit('updateCard', request.data.card)
+        commit('updateStripeCardBrand', request.data.stripeCardBrand)
+        commit('updateStripeCardLast4', request.data.stripeCardLast4)
         commit('updateBalance', request.data.balance)
-        commit('updateStripeCustomerId', request.data.stripeCustomerId)
     },
     async listTokens({ commit, state, rootState }, payload) {
         const requestUrl = `${state.billingUrl}/list-tokens`
@@ -46,14 +45,14 @@ const actions = {
 }
 
 const mutations = {
-    updateStripeCustomerId(state, payload) {
-        state.stripeCustomerId = payload
-    },
     toggleUpdateCardView(state) {
         state.updateCardView = !state.updateCardView
     },
-    updateCard(state, payload) {
-        state.card = payload
+    updateStripeCardBrand(state, payload) {
+        state.stripeCardBrand = payload
+    },
+    updateStripeCardLast4(state, payload) {
+        state.stripeCardLast4 = payload
     },
     updateBalance(state, payload) {
         state.balance = payload
