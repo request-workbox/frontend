@@ -39,7 +39,7 @@ export default {
   methods: {
     ...mapMutations('table', ['setCurrentRoute']),
     ...mapMutations('account', ['changeAccountOption']),
-    ...mapActions('billing', ['getAccountDetails','listTokens']),
+    ...mapActions('billing', ['billingInformation','listTokens']),
     ...mapActions('project', ['getProjects']),
     init: async function () {
       this.setCurrentRoute({ route: this.$route.name })
@@ -51,7 +51,7 @@ export default {
       }
 
       try {
-        await this.getAccountDetails()
+        await this.billingInformation()
         await this.getProjects()
         await this.listTokens()
       } catch(err) {

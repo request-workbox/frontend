@@ -50,7 +50,7 @@
         <div class="column column-grow">
           <div class="row">
             <div class="column column-full-width">
-              <input type="text" class="card-container-input-text text-13 stretch margin-right-15 height-30" placeholder="John Rosen" autocomplete="name" v-model="name" v-bind:class="{ 'red-border': nameError }">
+              <input type="text" class="card-container-input-text text-13 stretch margin-right-15 height-30" placeholder="John Rosen" autocomplete="name" v-model="name" v-bind:class="{ 'red-background': nameError }">
             </div>
           </div>
         </div>
@@ -68,7 +68,7 @@
         <div class="column column-grow">
           <div class="row">
             <div class="column column-full-width">
-              <input type="email" class="card-container-input-text card-container-input-text-short text-13 stretch margin-right-15 height-30" placeholder="john@example.com" autocomplete="email" v-model="email" v-bind:class="{ 'red-border': emailError }">
+              <input type="email" class="card-container-input-text card-container-input-text-short text-13 stretch margin-right-15 height-30" placeholder="john@example.com" autocomplete="email" v-model="email" v-bind:class="{ 'red-background': emailError }">
             </div>
           </div>
         </div>
@@ -118,7 +118,7 @@
       </div>
 
       <!-- Save Card Button -->
-      <div class="row row-justify-between row-shadow row-white margin-top-10" v-on:click="saveCardAction" v-if="this.$route.name === 'Account'">
+      <div class="row row-justify-between margin-top-10" v-on:click="saveCardAction" v-if="this.$route.name === 'Account'">
         <div class="column column-grow">
           <div class="row">
             <div class="column column-grow pay-button" v-if="!saving">
@@ -132,14 +132,25 @@
       </div>
 
       <!-- Pay Button -->
-      <div class="row row-justify-between row-shadow row-white margin-top-10" v-on:click="upgradeAccountAction" v-if="this.$route.name === 'Checkout'">
+      <div class="row row-justify-between margin-top-10" v-on:click="upgradeAccountAction" v-if="this.$route.name === 'Checkout'">
         <div class="column column-grow">
           <div class="row">
             <div class="column column-grow pay-button" v-if="!saving">
-              <p class="pay-button-text">Upgrade Account</p>
+              <p class="pay-button-text">Complete Purchase</p>
             </div>
             <div class="column column-grow pay-button" v-if="saving">
-              <p class="pay-button-text">Upgrading...</p>
+              <p class="pay-button-text">Purchasing...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cancel Button -->
+      <div class="row row-justify-between margin-top-10" v-on:click="goBackAction">
+        <div class="column column-grow">
+          <div class="row">
+            <div class="column column-grow pay-button-cancel">
+              <p class="pay-button-cancel-text">Cancel</p>
             </div>
           </div>
         </div>
@@ -201,7 +212,14 @@ export default {
   },
   methods: {
     ...mapMutations('billing', ['toggleUpdateCardView']),
-    ...mapActions('checkout', ['createSetupIntent', 'updatePaymentMethod','createSubscription']),
+    ...mapActions('checkout', ['createSetupIntent','createSubscription','updatePaymentMethod']),
+    goBackAction: function() {
+      if (this.$route.name === 'Account') {
+        this.toggleUpdateCardView()
+      } else if (this.$route.name === 'Checkout') {
+        this.$router.replace({ path: 'Account', query: { option: 'settings' }}).catch((err) => err)
+      }
+    },
     changeBillingType: function(billingType) {
       this.billingType = billingType
 
@@ -248,6 +266,11 @@ export default {
           throw new Error()
         }
 
+        Vue.$toast.open({
+          message: 'Confirming...',
+          type: 'default',
+        })
+
         const setupIntent = await this.createSetupIntent()
         const clientSecret = setupIntent.data.clientSecret
         const confirmCard = await Vue.$stripe.confirmCardSetup(clientSecret, {
@@ -260,23 +283,24 @@ export default {
           }
         })
 
-        const paymentMethodId = confirmCard.setupIntent.payment_method
+        Vue.$toast.open({
+          message: 'Updating...',
+          type: 'default',
+        })
 
-        const updateCustomer = await this.updatePaymentMethod(paymentMethodId)
+        await this.updatePaymentMethod(confirmCard.setupIntent.payment_method)
 
-        if (this.$route.name === 'Account') {
-          Vue.$toast.open({
-            message: 'Success! One moment please...',
-            type: 'success',
-          })
+        Vue.$toast.open({
+          message: 'Success! One moment please...',
+          type: 'success',
+        })
 
-          this.$router.replace({ path: this.$route.name, query: { option: 'billing' }}).catch((err) => err)
+        setTimeout(function() {
           location.reload()
-        }
+        }, 1000)
 
       } catch(err) {
         console.log(err)
-        throw new Error()
       } finally {
         this.saving = false
       }

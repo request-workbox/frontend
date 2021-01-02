@@ -4,7 +4,7 @@
       <div class="column column-full-width">
 
         <div class="row row-border-bottom row-align-start padding-bottom-150" id="checkout-row">
-          <div class="column column-10 column-min-width-0"></div>
+          <div class="column column-5 column-min-width-0"></div>
 
           <div class="column column-40 column-padding-20 column-min-width-0">
             <CheckoutFormAccountSummary />
@@ -15,7 +15,7 @@
             <CheckoutFormOrderSummary />
           </div>
 
-          <div class="column column-10 column-min-width-0"></div>
+          <div class="column column-20 column-min-width-0"></div>
 
         </div>
 
@@ -40,7 +40,7 @@ export default {
     }
 
     try {
-        await this.getAccountDetails()
+        await this.billingInformation()
         await this.previewCheckoutPrice({ checkoutType: this.$route.query.type })
       } catch(err) {
         console.log(err)
@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     ...mapMutations('checkout', ['changeCheckoutType']),
-    ...mapActions('billing', ['getAccountDetails',]),
+    ...mapActions('billing', ['billingInformation',]),
     ...mapActions('checkout', ['previewCheckoutPrice']),
   }
 };

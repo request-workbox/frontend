@@ -18,8 +18,8 @@ const getters = {
 }
 
 const actions = {
-    async getAccountDetails({ commit, state, rootState }) {
-        const requestUrl = `${state.billingUrl}/get-account-details`
+    async billingInformation({ commit, state, rootState }) {
+        const requestUrl = `${state.billingUrl}/billing-information`
         const request = await Vue.$axios.post(requestUrl)
 
         commit('updateCard', request.data.card)

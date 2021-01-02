@@ -313,19 +313,15 @@
     padding-bottom: 150px;
   }
 
-  .max-width-550 {
-    max-width: 550px;
-  }
+  
 
   .small-image {
     width:38px !important;
     max-width:38px !important;
   }
 
-  .red-border {
-    border-style: solid !important;
-    border-width: 1px !important;
-    border-color: #ea003f !important;
+  .red-background {
+    background: #ffdfdf;
   }
 
   .red-container {
@@ -337,7 +333,7 @@
   }
 
   .blue-text {
-    font-size: 13px;
+    font-size: 11px;
     color: #060b3e;
     margin-top: 11px;
     margin-bottom: 11px;
@@ -728,9 +724,8 @@
   }
 
   .pay-button {
-    background: #002542;
+    background: #1a9aff;
     text-align: center;
-    margin: 10px;
     border-radius:3px;
     cursor: pointer;
   }
@@ -739,6 +734,23 @@
   }
   .pay-button-text {
     color:white !important;
+    font-size: 15px;
+    margin-top: 9px;
+    margin-bottom: 9px;
+    font-weight: 600;
+  }
+
+  .pay-button-cancel {
+    background: #d4d4d4;
+    text-align: center;
+    border-radius:3px;
+    cursor: pointer;
+  }
+  .pay-button-cancel:hover {
+    color:#7b7b7b !important;
+  }
+  .pay-button-cancel-text {
+    color:#7b7b7b !important;
     font-size: 15px;
     margin-top: 9px;
     margin-bottom: 9px;
@@ -1010,6 +1022,8 @@ max-width: 270px;
 
 // Checkout / Card Related
 
+
+
 #card-container-row {
   position: fixed;
   width:100%;
@@ -1025,12 +1039,12 @@ max-width: 270px;
   padding-top: 50px;
 }
 #card-container {
-  background: #edeff1;
+  background: #f1f1f1;
   height: auto;
   width:auto;
   border-radius: 3px;
   border:#dcdcdc solid 1px;
-  min-width: 500px;
+  width: 400px;
   padding: 10px 50px 25px 50px;
   box-shadow:0px 2px 4px 2px #595a5a;
 }
@@ -1050,7 +1064,9 @@ max-width: 270px;
   margin-top: 5px;
 }
 
-
+.max-width-450 {
+  max-width: 450px;
+}
 
 
 

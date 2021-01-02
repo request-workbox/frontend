@@ -30,6 +30,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
+import Vue from 'vue'
 
 export default {
   name: 'AccountBillingCard',
@@ -51,8 +52,20 @@ export default {
       try {
         const confirm = window.confirm('Are you sure you want to remove this card?')
         if (confirm) {
+          Vue.$toast.open({
+            message: 'Removing...',
+            type: 'default',
+          })
           await this.removePaymentMethod()
-          location.reload()
+
+          Vue.$toast.open({
+            message: 'Success! One moment please...',
+            type: 'success',
+          })
+
+          setTimeout(function() {
+            location.reload()
+          }, 1000)
         }
       } catch(err) {
         console.log(err)
