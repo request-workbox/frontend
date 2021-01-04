@@ -7,8 +7,6 @@
     </div>
 
     <div class="row row-border-bottom">
-      <div class="column column-data column-header column-5 column-padded">Stat</div>
-      
       <div class="column column-data column-header column-10 column-padded">
         <span class="column-text-button" v-on:click="toggleScheduleOrderDirection('date')">Departure</span>
       </div>
@@ -25,10 +23,6 @@
       v-bind:class="{'table-row-selected':shouldBeSelected(stat._id)}"
       v-on:click="selectQueueStatAction(stat)"
       class="row row-border-bottom table-row-selectable schedule-row">
-      <div class="column column-data column-5 column-padded">
-        <a :href="instanceStatUrl(stat.instanceId)" target="_blank">View</a>
-      </div>
-      
       <div class="column column-data column-10 column-padded">{{ formattedDate(stat.date) }}</div>
       <div class="column column-data column-5 column-padded">{{ formattedQueueStatus(stat.status) }}</div>
       <div class="column column-data column-5 column-padded">{{ formattedQueueType(stat.queueType) }}</div>
@@ -49,7 +43,7 @@ import moment from 'moment-timezone'
 import _ from 'lodash'
 
 export default {
-  name: "WorkflowOptionsSchedule",
+  name: "ScheduleQueues",
   computed: {
     ...mapState('table', ['selectedQueueStatId']),
     ...mapGetters("table", ["selectedData"]),
@@ -80,10 +74,6 @@ export default {
     canRemoveSchedule: (status) => {
       if (status === 'pending') return true
       else return false
-    },
-    instanceStatUrl: function(instanceId) {
-      const projectId = this.$route.params.projectId
-      return `/projects/${projectId}/statistics?id=${instanceId}`
     },
     archiveQueueAction: async function(queueId) {
       try {

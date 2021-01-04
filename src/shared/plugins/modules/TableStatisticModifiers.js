@@ -135,7 +135,11 @@ const mutations = {
         }
     },
     changeSelectedInstanceStatId(state, payload) {
-        state.selectedInstanceStatId = payload
+        if (state.selectedInstanceStatId === payload) {
+            state.selectedInstanceStatId = ''
+        } else {
+            state.selectedInstanceStatId = payload
+        }
     },
 }
 

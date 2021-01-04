@@ -2,7 +2,6 @@
   <div class="row" v-if="showQueueStats()">
 
     <div class="column column-full-width">
-      <WorkflowOptionsSchedule />
       <div class="row">
         <div class="column column-full-width">
           <div class="row row-border-bottom">
@@ -22,7 +21,6 @@
           </div>
         </div>
       </div>
-      <SocketInstance />
     </div>
     
   </div>
@@ -34,15 +32,8 @@ import _ from 'lodash'
 import Vue from 'vue'
 import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 
-import WorkflowOptionsSchedule from './WorkflowOptionsSchedule'
-import SocketInstance from './SocketInstance'
-
 export default {
-  name: 'SocketQueue',
-  components: {
-    WorkflowOptionsSchedule,
-    SocketInstance,
-  },
+  name: 'ScheduleStatsQueue',
   computed: {
     ...mapState('table',['selectedQueueStatId']),
     ...mapGetters('table', ['selectedData']),

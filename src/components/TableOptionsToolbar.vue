@@ -7,7 +7,7 @@
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('query')}" v-on:click="changeOptionAction('query')">Parameters</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('headers')}" v-on:click="changeOptionAction('headers')">Headers</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('body')}" v-on:click="changeOptionAction('body')">Body</div>
-          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('socketqueue')}" v-on:click="changeOptionAction('socketqueue')">Results</div>
+          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('schedule')}" v-on:click="changeOptionAction('schedule')">Schedule</div>
         </div>
 
         <div class="row" v-if="this.$route.name === 'Workflows'">

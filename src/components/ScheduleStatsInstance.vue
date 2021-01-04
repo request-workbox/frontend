@@ -2,28 +2,6 @@
   <div class="row">
     <div class="column column-full-width">
 
-    <!-- <div class="row row-border-bottom">
-      <div class="column column-data column-header-text column-grow column-group-header">Instances</div>
-    </div>
-
-    <div class="row row-border-bottom">
-      <div class="column column-data column-header column-10 column-padded">Workflow Name</div>
-      <div class="column column-data column-header column-10 column-padded">Workflow Type</div>
-      <div class="column column-data column-header column-10 column-padded">Queue Type</div>
-      <div class="column column-data column-header column-grow column-padded">Date</div>
-    </div>
-
-    <div 
-      class="row row-border-bottom table-row-selectable" 
-      v-bind:class="{'table-row-selected':shouldBeSelected(instance._id)}" 
-      v-for="(instance) in sortedInstances(workflowId())" :key="instance._id"
-      v-on:click="selectStatAction(instance)">
-      <div class="column column-data column-10 column-padded">{{ instance.workflowName }}</div>
-      <div class="column column-data column-10 column-padded">{{ instance.workflowType }}</div>
-      <div class="column column-data column-10 column-padded">{{ instance.queueType }}</div>
-      <div class="column column-data column-grow column-padded">{{ statisticCreatedAt(instance.createdAt) }}</div>
-    </div> -->
-
     <div class="row row-border-bottom">
       <div class="column column-data column-header-text column-grow column-group-header">Instance Stats</div>
     </div>
@@ -60,7 +38,7 @@ import moment from 'moment-timezone'
 import _ from 'lodash'
 
 export default {
-  name: "SocketInstance",
+  name: "ScheduleStatsInstance",
   data: function() {
     return {
       loading: false,
@@ -69,7 +47,7 @@ export default {
   computed: {
     ...mapState('table', ['selectedStatId','selectedInstanceStatId']),
     ...mapGetters("table", ["selectedData",'selectedStat']),
-    ...mapGetters('schedule', ['getInstanceByRequestId','getInstanceByWorkflowId','sortedInstances']),
+    ...mapGetters('schedule', ['getInstanceByRequestId','getInstanceByWorkflowId']),
   },
   methods: {
     ...mapMutations('table', ['changeSelectedStatId','changeSelectedInstanceStatId']),

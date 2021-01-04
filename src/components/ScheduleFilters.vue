@@ -74,7 +74,7 @@ import moment from 'moment-timezone'
 import Vue from 'vue'
 
 export default {
-  name: "WorkflowOptionsActions",
+  name: "ScheduleFilters",
   data: function () {
     return {
       loading: false,
@@ -89,14 +89,16 @@ export default {
   },
   methods: {
     ...mapMutations('schedule', ['changeScheduleDate', 'changeScheduleType', 'changeScheduleStatus']),
-    ...mapMutations('table', ['changeSelectedQueueStatId']),
+    ...mapMutations('table', ['changeSelectedQueueStatId','changeSelectedInstanceStatId']),
 
     changeScheduleTypeAction: function(scheduleType) {
       this.changeSelectedQueueStatId('')
+      this.changeSelectedInstanceStatId('')
       this.changeScheduleType(scheduleType)
     },
     changeScheduleStatusAction: function(scheduleStatus) {
       this.changeSelectedQueueStatId('')
+      this.changeSelectedInstanceStatId('')
       this.changeScheduleStatus(scheduleStatus)
     },
   },

@@ -7,7 +7,6 @@
     <TableDetails />
     <TableOptionsToolbar />
     <WorkflowOptionsActions />
-    <WorkflowOptionsFilters />
     <WorkflowOptions />
     <Footer />
   </div>
@@ -24,7 +23,6 @@ import Table from "./Table";
 import TableDetails from "./TableDetails";
 import TableOptionsToolbar from "./TableOptionsToolbar";
 import WorkflowOptionsActions from './WorkflowOptionsActions';
-import WorkflowOptionsFilters from './WorkflowOptionsFilters';
 import WorkflowOptions from './WorkflowOptions';
 import Footer from './Footer'
 
@@ -39,7 +37,6 @@ export default {
     TableDetails,
     TableOptionsToolbar,
     WorkflowOptionsActions,
-    WorkflowOptionsFilters,
     WorkflowOptions,
     Footer,
   },

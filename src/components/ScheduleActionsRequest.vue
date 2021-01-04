@@ -1,35 +1,56 @@
 <template>
-  <div class="row row-border-bottom" v-if="this.option !== 'schedule'">
+  <div class="row row-border-bottom">
     <div class="column column-full-width">
       <div class="row row-justify-between">
         <div class="column">
           <div class="row">
-            <!-- Cancel / Save Changes / Add Task-->
+            
+            <!-- Date Filter -->
+            <div class="column">
+              <span class="tiny-text tiny-text-spaced">{{ currentTime }}</span>
+            </div>
+            <div class="column">
+              <input type="date" name="" id="" :value="scheduleDate" v-on:change="changeScheduleDateAction"/>
+            </div>
+
+            <!-- Reload / Clear -->
+            <div class="spacer"></div>
             <div
-              v-if="this.option !== 'queue'"
               class="column text-button action"
-              v-bind:class="{ disabled: !this.editing }"
-              v-on:click="cancelWorkflowChangesAction"
+              v-if="!loading"
+              v-bind:class="{ disabled: !this.selectedData()._id }"
+              v-on:click="getScheduleAction"
             >
-              Cancel
+              Reload
             </div>
             <div
-              v-if="this.option !== 'queue'"
               class="column text-button action"
-              v-bind:class="{ disabled: !this.editing }"
-              v-on:click="saveWorkflowChangesAction"
+              v-if="loading"
             >
-              Save Changes
+              Loading...
             </div>
-            <div class="spacer" v-if="allowAddingWorkflowTask()"></div>
             <div
-              v-if="allowAddingWorkflowTask()"
               class="column text-button action"
-              v-on:click="addWorkflowTaskAction"
-              :disabled="this.selectedData().workflowType === 'request'"
+              v-if="!clearing"
+              v-bind:class="{ disabled: !this.selectedData()._id }"
+              v-on:click="archiveAllQueueAction"
             >
-              Add Request
+              Archive Upcoming
             </div>
+            <div
+              class="column text-button action"
+              v-if="clearing"
+            >
+              Archiving...
+            </div>
+
+
+            <div class="large-spacer" v-if="this.selectedData()._id"></div>
+
+            <!-- Schedule Request -->
+            <div class="column text-button action action-text-center" v-if="this.selectedData()._id" v-on:click="returnRequestAction">Return Request</div>
+            <div class="column text-button action action-text-center" v-if="this.selectedData()._id" v-on:click="queueRequestAction">Queue Request</div>
+            <div class="column text-button action action-text-center" v-if="this.selectedData()._id" v-on:click="scheduleRequestAction">Schedule Request</div>
 
           </div>
         </div>
@@ -44,7 +65,7 @@ import moment from 'moment-timezone'
 import Vue from 'vue'
 
 export default {
-  name: "WorkflowOptionsActions",
+  name: "ScheduleActionsRequest",
   data: function () {
     return {
       loading: false,
@@ -61,34 +82,12 @@ export default {
     ...mapMutations('schedule', ['changeScheduleDate', 'changeScheduleType', 'changeScheduleStatus']),
     ...mapMutations('table', ['changeSelectedQueueStatId','changeSelectedInstanceStatId']),
     ...mapActions("table", [
-      "cancelWorkflowChanges",
-      "saveWorkflowChanges",
-      "addWorkflowTask",
-      'returnWorkflow','queueWorkflow','scheduleWorkflow',
+      'returnRequest','queueRequest','scheduleRequest',
     ]),
     ...mapActions('schedule', [
       'getSchedule',
       'archiveAllQueue'
     ]),
-    allowAddingWorkflowTask: function () {
-      if (!this.selectedData()._id) return false;
-
-      if (this.option === "tasks") return true;
-      else return false;
-    },
-    addWorkflowTaskAction: async function () {
-      await this.addWorkflowTask({ workflowId: this.selectedData()._id });
-    },
-    cancelWorkflowChangesAction: async function () {
-      await this.cancelWorkflowChanges({ _id: this.selectedData()._id });
-    },
-    saveWorkflowChangesAction: async function () {
-      try {
-        await this.saveWorkflowChanges(this.selectedData());
-      } catch(err) {
-        Vue.$toast.open(err.message)
-      }
-    },
     changeScheduleDateAction: function(event) {
       this.changeSelectedQueueStatId('')
       this.changeSelectedInstanceStatId('')
@@ -96,11 +95,12 @@ export default {
     },
     getScheduleAction: async function () {
       if (!this.selectedData()._id) return;
+      if (!this.selectedData().workflowId) return;
       
       this.loading = true
       try {
         const payload = {
-          workflowId: this.selectedData()._id,
+          workflowId: this.selectedData().workflowId,
           date: moment(this.scheduleDate),
         };
         await this.getSchedule(payload);
@@ -112,9 +112,10 @@ export default {
     },
     archiveAllQueueAction: async function(queueId) {
       if (!this.selectedData()._id) return;
+      if (!this.selectedData().workflowId) return;
 
       const date = moment(this.scheduleDate)
-      const workflowId = this.selectedData()._id
+      const workflowId = this.selectedData().workflowId
       const queueType = this.scheduleType
 
       const confirm = window.confirm(`Are you sure you want to unschedule [${queueType}] queue types occurring on [${this.scheduleDate}]?`)
@@ -134,40 +135,49 @@ export default {
         }
       }
     },
-    returnWorkflowAction: async function() {
+    returnRequestAction: async function() {
+      if (!this.selectedData()._id) return;
+      if (!this.selectedData().workflowId) return;
+
       try {
         // Info
         Vue.$toast.open({
-          message: 'Returning workflow...',
+          message: 'Returning request...',
           type: 'info',
         })
         // Start
-        await this.returnWorkflow(this.selectedData()._id)
+        await this.returnRequest(this.selectedData()._id)
         // Success
         Vue.$toast.open({
-          message: 'Workflow returned successfully',
+          message: 'Request returned successfully',
           type: 'success',
         })
       } catch(err) {
         Vue.$toast.open(err.response.data)
       }
     },
-    queueWorkflowAction: async function() {
+    queueRequestAction: async function() {
+      if (!this.selectedData()._id) return;
+      if (!this.selectedData().workflowId) return;
+
       try {
-        await this.queueWorkflow(this.selectedData()._id)
+        await this.queueRequest(this.selectedData()._id)
         Vue.$toast.open({
-          message: 'Queued workflow',
+          message: 'Queued request',
           type: 'info',
         })
       } catch(err) {
         Vue.$toast.open(err.response.data)
       }
     },
-    scheduleWorkflowAction: async function() {
+    scheduleRequestAction: async function() {
+      if (!this.selectedData()._id) return;
+      if (!this.selectedData().workflowId) return;
+
       try {
-        await this.scheduleWorkflow(this.selectedData()._id)
+        await this.scheduleRequest(this.selectedData()._id)
         Vue.$toast.open({
-          message: 'Scheduled workflow',
+          message: 'Scheduled request',
           type: 'info',
         })
       } catch(err) {

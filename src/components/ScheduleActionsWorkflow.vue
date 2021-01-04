@@ -1,35 +1,56 @@
 <template>
-  <div class="row row-border-bottom" v-if="this.option !== 'schedule'">
+  <div class="row row-border-bottom">
     <div class="column column-full-width">
       <div class="row row-justify-between">
         <div class="column">
           <div class="row">
-            <!-- Cancel / Save Changes / Add Task-->
+            
+            <!-- Date Filter -->
+            <div class="column">
+              <span class="tiny-text tiny-text-spaced">{{ currentTime }}</span>
+            </div>
+            <div class="column">
+              <input type="date" name="" id="" :value="scheduleDate" v-on:change="changeScheduleDateAction"/>
+            </div>
+
+            <!-- Reload / Clear -->
+            <div class="spacer"></div>
             <div
-              v-if="this.option !== 'queue'"
               class="column text-button action"
-              v-bind:class="{ disabled: !this.editing }"
-              v-on:click="cancelWorkflowChangesAction"
+              v-if="!loading"
+              v-bind:class="{ disabled: !this.selectedData()._id }"
+              v-on:click="getScheduleAction"
             >
-              Cancel
+              Reload
             </div>
             <div
-              v-if="this.option !== 'queue'"
               class="column text-button action"
-              v-bind:class="{ disabled: !this.editing }"
-              v-on:click="saveWorkflowChangesAction"
+              v-if="loading"
             >
-              Save Changes
+              Loading...
             </div>
-            <div class="spacer" v-if="allowAddingWorkflowTask()"></div>
             <div
-              v-if="allowAddingWorkflowTask()"
               class="column text-button action"
-              v-on:click="addWorkflowTaskAction"
-              :disabled="this.selectedData().workflowType === 'request'"
+              v-if="!clearing"
+              v-bind:class="{ disabled: !this.selectedData()._id }"
+              v-on:click="archiveAllQueueAction"
             >
-              Add Request
+              Archive Upcoming
             </div>
+            <div
+              class="column text-button action"
+              v-if="clearing"
+            >
+              Archiving...
+            </div>
+
+
+            <div class="large-spacer" v-if="this.selectedData()._id"></div>
+
+            <!-- Schedule Workflow -->
+            <div class="column text-button action action-text-center" v-if="this.selectedData()._id" v-on:click="returnWorkflowAction">Return Workflow</div>
+            <div class="column text-button action action-text-center" v-if="this.selectedData()._id" v-on:click="queueWorkflowAction">Queue Workflow</div>
+            <div class="column text-button action action-text-center" v-if="this.selectedData()._id" v-on:click="scheduleWorkflowAction">Schedule Workflow</div>
 
           </div>
         </div>
@@ -44,7 +65,7 @@ import moment from 'moment-timezone'
 import Vue from 'vue'
 
 export default {
-  name: "WorkflowOptionsActions",
+  name: "ScheduleActionsWorkflow",
   data: function () {
     return {
       loading: false,
@@ -61,9 +82,6 @@ export default {
     ...mapMutations('schedule', ['changeScheduleDate', 'changeScheduleType', 'changeScheduleStatus']),
     ...mapMutations('table', ['changeSelectedQueueStatId','changeSelectedInstanceStatId']),
     ...mapActions("table", [
-      "cancelWorkflowChanges",
-      "saveWorkflowChanges",
-      "addWorkflowTask",
       'returnWorkflow','queueWorkflow','scheduleWorkflow',
     ]),
     ...mapActions('schedule', [

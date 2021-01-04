@@ -135,6 +135,7 @@ const actions = {
             }
         }
 
+        if (state.currentRoute === 'Requests') commit('changeSelectedInstanceStatId', '')
         if (state.currentRoute === 'Workflows') commit('changeSelectedQueueStatId', '')
     },
 

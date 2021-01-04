@@ -193,24 +193,6 @@ const getters = {
             }
         })
     },
-    sortedInstances: (state, getters, rootState) => (workflowId) => {
-        let instances = _.filter(state.instances, (instance) => {
-            if (instance.workflowId === workflowId) return true
-            else return false
-        })
-
-        if (!_.size(instances)) return []
-
-        return instances.sort(function compare(a, b) {
-            var dateA = new Date(a.createdAt)
-            var dateB = new Date(b.createdAt)
-            if (state.orderDirection === 'ascending') {
-                return dateA - dateB
-            } else if (state.orderDirection === 'descending') {
-                return dateB - dateA
-            }
-        })
-    },
     pendingQueues: (state, getters, rootState) => () => {
         const pendingObj = {
             total: 0, return: 0, queue: 0, schedule: 0,

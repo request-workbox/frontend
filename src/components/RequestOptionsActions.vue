@@ -1,5 +1,5 @@
 <template>
-  <div class="row row-border-bottom" v-if="this.selectedData()._id">
+  <div class="row row-border-bottom" v-if="this.selectedData()._id && this.option !== 'schedule'">
     <div class="column column-full-width">
       <div class="row row-justify-between">
         <div class="column">
@@ -25,21 +25,6 @@
               class="column text-button action"
               v-on:click="viewWorkflowAction"
             >View workflow</div>
-            <div
-              v-if="this.option === 'socketqueue'"
-              class="column text-button action"
-              v-bind:class="{ disabled: this.editing }"
-            >Return request</div>
-            <div
-              v-if="this.option === 'socketqueue'"
-              class="column text-button action"
-              v-bind:class="{ disabled: this.editing }"
-            >Queue request</div>
-            <div
-              v-if="this.option === 'socketqueue'"
-              class="column text-button action"
-              v-bind:class="{ disabled: this.editing }"
-            >Schedule request</div>
           </div>
         </div>
       </div>

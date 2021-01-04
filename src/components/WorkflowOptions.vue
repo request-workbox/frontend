@@ -10,16 +10,14 @@ import _ from "lodash";
 
 import WorkflowOptionsInstance from "./WorkflowOptionsInstance";
 import WorkflowOptionsTasks from "./WorkflowOptionsTasks";
-import WorkflowOptionsSchedule from './WorkflowOptionsSchedule'
-import SocketQueue from "./SocketQueue";
+import Schedule from './Schedule'
 
 export default {
   name: "WorkflowOptions",
   components: {
     WorkflowOptionsInstance,
     WorkflowOptionsTasks,
-    WorkflowOptionsSchedule,
-    SocketQueue,
+    Schedule,
   },
   computed: {
     ...mapState("table", ["option"]),
@@ -27,8 +25,8 @@ export default {
       return _.upperFirst(this.option);
     },
     componentName: function() {
-      if (this.option === 'socketqueue') {
-        return 'SocketQueue'
+      if (this.option === 'schedule') {
+        return 'Schedule'
       } else {
         return `WorkflowOptions${this.upperFirstOption}`
       }
