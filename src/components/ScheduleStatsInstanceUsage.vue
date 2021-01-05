@@ -2,7 +2,7 @@
   <div class="row">
     <div class="column column-full-width">
 
-      <div class="row row-border-bottom table-row-selectable" v-for="(total, key) in usageTotal()" :key="key">
+      <div class="row row-border-bottom" v-for="(total, key) in usageTotal()" :key="key">
         <div class="column column-data column-10 column-padded">{{ `Total` }}</div>
         <div class="column column-data column-10 column-padded">{{ key }}</div>
         <div class="column column-data column-10 column-padded">{{ total }}</div>
@@ -30,11 +30,6 @@
         <div class="column column-data column-grow column-padded">{{ usage.usageDetail }}</div>
       </div>
 
-      <div class="row row-border-bottom">
-        <div class="column text-button action" v-if="!loadingUsage" v-on:click="getInstanceUsageAction()">Load Usage</div>
-        <div class="column text-button action" v-if="loadingUsage">Loading Usage...</div>
-      </div>
-
     </div>
   </div>
 </template>
@@ -45,27 +40,11 @@ import moment from 'moment-timezone'
 import _ from 'lodash'
 
 export default {
-  name: "StatisticOptionsUsage",
-  data: function() {
-    return {
-      loadingUsage: false,
-    }
-  },
+  name: "ScheduleStatsInstanceUsage",
   computed: {
-    ...mapGetters("table", ['selectedData', 'selectedStat', 'usageTotals']),
+    ...mapGetters("table", ['selectedData','usageTotals']),
   },
   methods: {
-    ...mapActions('table', ['getInstanceUsage']),
-    getInstanceUsageAction: async function() {
-      try {
-        this.loadingUsage = true
-        await this.getInstanceUsage({instanceId: this.selectedData()._id})
-      } catch(err) {
-        // console.log('Error getting instance usage')
-      } finally {
-        this.loadingUsage = false
-      }
-    },
     usageUppercase: function(usage) {
       if (usage === 'api') {
         return 'API'
@@ -83,11 +62,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.table-row-selectable:hover {
-  background: #dcf0ff !important;
-  border-top: #2196f3 solid 1px !important;
-  border-bottom: #2196f3 solid 1px !important;
-}
-</style>

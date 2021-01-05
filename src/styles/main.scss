@@ -11,6 +11,12 @@
 
     min-width: 700px;
   }
+
+  .table-row-selectable:hover {
+    background: #dcf0ff !important;
+    border-top: #2196f3 solid 1px !important;
+    border-bottom: #2196f3 solid 1px !important;
+  }
   
   .row {
     height: auto;

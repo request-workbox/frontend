@@ -23,11 +23,6 @@
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('details')}" v-on:click="changeOptionAction('details')">Details</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('usage')}" v-on:click="changeOptionAction('usage')">Usage</div>
         </div>
-
-        <div class="row" v-if="this.$route.name === 'Statistics'">
-          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('details')}" v-on:click="changeOptionAction('details')">Details</div>
-          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('usage')}" v-on:click="changeOptionAction('usage')">Usage</div>
-        </div>
       </div>
     </div>
 </template>

@@ -42,6 +42,8 @@ export default {
       if (!this.selectedData()._id) return []
       if (this.selectedQueueStatId === '') return []
 
+      console.log(this.selectedQueueStatId)
+
       if (this.$route.name === 'Requests') {
         return this.getScheduleByRequestId(this.selectedData()._id, this.selectedQueueStatId).stats
       } else if (this.$route.name === 'Workflows') {

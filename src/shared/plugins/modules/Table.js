@@ -72,9 +72,6 @@ const getters = {
             } else if (state.currentRoute === 'Storage') {
                 if (_.includes(data.name, state.searchTerm) || _.includes(data.storageType, state.searchTerm)) return true;
                 else return false;
-            } else if (state.currentRoute === 'Statistics') {
-                if (_.includes(data.workflowName, state.searchTerm) || _.includes(data._id, state.searchTerm)) return true;
-                else return false;
             }
         })
     },
@@ -126,13 +123,8 @@ const actions = {
 
         if (state.selectedId === data._id) {
             commit('changeSelectedId', { selectedId: '' })
-            if (state.currentRoute === 'Statistics') commit('changeSelectedStatId', '')
         } else {
             commit('changeSelectedId', { selectedId: data._id })
-            if (state.currentRoute === 'Statistics') {
-                const firstStatId = getters.firstStatId(data._id)
-                commit('changeSelectedStatId', firstStatId)
-            }
         }
 
         if (state.currentRoute === 'Requests') commit('changeSelectedInstanceStatId', '')

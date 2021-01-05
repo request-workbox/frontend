@@ -7,26 +7,26 @@
     </div>
 
     <div class="row row-border-bottom">
-      <div class="column column-data column-header column-10 column-padded">Status Code</div>
-      <div class="column column-data column-header column-10 column-padded">Status Text</div>
-      <div class="column column-data column-header column-10 column-padded">Request Name</div>
-      <div class="column column-data column-header column-20 column-padded">Request Type</div>
-      <div class="column column-data column-header column-grow column-padded">Date</div>
+      <div class="column text-button" v-bind:class="{'text-button-selected':this.option === 'results'}" v-on:click="changeOptionAction('results')">Results</div>
+      <div class="column text-button" v-bind:class="{'text-button-selected':this.option === 'usage'}" v-on:click="changeOptionAction('usage')">Usage</div>
     </div>
 
-    <div class="row row-border-bottom table-row-selectable" 
-      v-bind:class="{'table-row-selected':shouldBeSelectedInstanceStat(instance._id)}" 
-      v-for="(instance) in selectedInstanceStats(workflowId())" :key="instance._id" v-on:click="selectInstanceStatAction(instance)">
-      <div class="column column-data column-10 column-padded">{{ instance.status }}</div>
-      <div class="column column-data column-10 column-padded">{{ instance.statusText }}</div>
-      <div class="column column-data column-10 column-padded">{{ instance.requestName }}</div>
-      <div class="column column-data column-20 column-padded">{{ requestType(instance.requestType) }}</div>
-      <div class="column column-data column-grow column-padded">{{ statisticCreatedAt(instance.createdAt) }}</div>
+    <div class="row row-border-bottom" v-if="this.selectedStatId !== '' && this.selectedInstanceStatId !== ''">
+      <div class="column text-button action" v-if="!loading" v-on:click="getInstanceDetailAction()">Load Requests / Responses</div>
+      <div class="column text-button action" v-if="loading">Loading Data...</div>
+
+      <div class="column text-button action" v-if="!downloading && shouldShowSelectedStat() && selectedStat().downloadPayload" v-on:click="downloadInstanceStatAction">Download Payload</div>
+      <div class="column text-button action" v-if="downloading && shouldShowSelectedStat() && selectedStat().downloadPayload">Downloading...</div>
+
+      <div class="column text-button action" v-if="!loadingUsage" v-on:click="getInstanceUsageAction()">Load Usage</div>
+      <div class="column text-button action" v-if="loadingUsage">Loading Usage...</div>
     </div>
 
-    <pre v-if="this.selectedStatId !== '' && this.selectedInstanceStatId !== ''">
-      <code>{{ selectedInstanceStat() }}</code>
-    </pre>
+    <div v-if="this.option !== ''">
+      <keep-alive>
+        <component :is="scheduleStatsInstanceOption" v-if="this.option !== ''"></component>
+      </keep-alive>
+    </div>
 
     </div>
   </div>
@@ -37,71 +37,75 @@ import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
 import moment from 'moment-timezone'
 import _ from 'lodash'
 
+import ScheduleStatsInstanceResults from './ScheduleStatsInstanceResults'
+import ScheduleStatsInstanceUsage from './ScheduleStatsInstanceUsage'
+
+const download = require("downloadjs")
+
 export default {
   name: "ScheduleStatsInstance",
   data: function() {
     return {
       loading: false,
+      downloading: false,
+      loadingUsage: false,
     }
+  },
+  components: {
+    ScheduleStatsInstanceResults,
+    ScheduleStatsInstanceUsage,
   },
   computed: {
     ...mapState('table', ['selectedStatId','selectedInstanceStatId']),
+    ...mapState('schedule', ['option']),
     ...mapGetters("table", ["selectedData",'selectedStat']),
-    ...mapGetters('schedule', ['getInstanceByRequestId','getInstanceByWorkflowId']),
+    scheduleStatsInstanceOption: function() {
+      return `ScheduleStatsInstance${_.upperFirst(this.option)}`
+    }
   },
   methods: {
-    ...mapMutations('table', ['changeSelectedStatId','changeSelectedInstanceStatId']),
+    ...mapMutations('schedule',['changeOption']),
+    ...mapActions('table', ['getInstanceDetail','downloadInstanceStat','getInstanceUsage']),
+    changeOptionAction: function(option) {
+      this.changeOption(option)
+    },
     shouldShowSelectedStat: function() {
       if (!_.size(this.selectedStat())) return false
       return true
     },
-    selectStatAction: function(stat) {
-      this.changeSelectedStatId(stat._id)
-    },
-    selectInstanceStatAction: function(stat) {
-      this.changeSelectedInstanceStatId(stat._id)
-    },
-    selectedInstanceStats: function() {
-      if (!this.selectedData()._id) return []
-      if (this.selectedStatId === '') return []
-
-      if (this.$route.name === 'Requests') {
-        return this.getInstanceByRequestId(this.selectedData()._id, this.selectedStatId).stats
-      } else if (this.$route.name === 'Workflows') {
-        return this.getInstanceByWorkflowId(this.selectedData()._id, this.selectedStatId).stats
+    getInstanceDetailAction: async function() {
+      try {
+        this.loading = true
+        await this.getInstanceDetail({instanceId: this.selectedData()._id})
+      } catch(err) {
+        console.log('Error getting instance details')
+        console.log(err)
+      } finally {
+        this.loading = false
       }
     },
-    selectedInstanceStat: function(stats, statId) {
-      if (!this.selectedData()._id) return []
-      if (this.selectedStatId === '') return []
-      if (this.selectedInstanceStatId === '') return []
+    downloadInstanceStatAction: async function() {
+      try {
+        this.downloading = true
+        const fileDataResponse = await this.downloadInstanceStat({ instanceId: this.selectedData()._id, statId: this.selectedStat()._id })
+        const fileData = fileDataResponse.data
+        const fileStringData = JSON.stringify(fileData)
 
-      if (this.$route.name === 'Requests') {
-        return this.getInstanceByRequestId(this.selectedData()._id, this.selectedStatId, this.selectedInstanceStatId)
-      } else if (this.$route.name === 'Workflows') {
-        return this.getInstanceByWorkflowId(this.selectedData()._id, this.selectedStatId, this.selectedInstanceStatId)
+        return download(fileStringData, `${this.selectedData().workflowName}-${this.selectedStat().requestName}`, 'text/plain')
+      } catch(err) {
+        // console.log(err)
+      } finally {
+        this.downloading = false
       }
     },
-    statisticCreatedAt: function(createdAt) {
-      if (!createdAt) return ''
-      return `${moment(createdAt).format('M-D-YYYY, h:mm:ss a')}`
-    },
-    shouldBeSelected: function(statId) {
-      if (statId === this.selectedStatId) return true
-      else return false
-    },
-    shouldBeSelectedInstanceStat: function(statId) {
-      if (statId === this.selectedInstanceStatId) return true
-      else return false
-    },
-    requestType: function(requestType) {
-      return _.upperFirst(requestType)
-    },
-    workflowId: function() {
-      if (this.$route.name === 'Requests') {
-        return this.selectedData().workflowId
-      } else {
-        return this.selectedData()._id
+    getInstanceUsageAction: async function() {
+      try {
+        this.loadingUsage = true
+        await this.getInstanceUsage({instanceId: this.selectedData()._id})
+      } catch(err) {
+        // console.log('Error getting instance usage')
+      } finally {
+        this.loadingUsage = false
       }
     },
   }

@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="column spacer"></div>
-    <div class="column" v-if="this.$route.name !== 'Statistics'">
+    <div class="column">
       <div class="row" v-if="!this.editing">
         <div
           class="column filter-button filter-button-left"
@@ -92,13 +92,6 @@
       </div> -->
       <div class="column text">Archives are deleted after 30 days</div>
     </template>
-    <!-- <template v-if="this.$route.name === 'Statistics'">
-      <div class="column spacer"></div>
-      <div class="column text-button text-button-and-logo" v-on:click="deleteAllStatsAction">
-        <img src="/trash.svg" alt="">
-        <span>Delete All Stats</span>
-      </div>
-    </template> -->
   </div>
 </template>
 

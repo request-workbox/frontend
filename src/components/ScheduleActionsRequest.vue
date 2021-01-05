@@ -153,7 +153,7 @@ export default {
           type: 'success',
         })
       } catch(err) {
-        Vue.$toast.open(err.response.data)
+        Vue.$toast.open(err.message)
       }
     },
     queueRequestAction: async function() {
@@ -167,7 +167,7 @@ export default {
           type: 'info',
         })
       } catch(err) {
-        Vue.$toast.open(err.response.data)
+        Vue.$toast.open(err.message)
       }
     },
     scheduleRequestAction: async function() {
@@ -181,7 +181,7 @@ export default {
           type: 'info',
         })
       } catch(err) {
-        Vue.$toast.open(err.response.data)
+        Vue.$toast.open(err.message)
       }
     },
   },

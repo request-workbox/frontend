@@ -15,16 +15,6 @@ const getters = {
             else return false;
         })[0]
     },
-    firstStatId: (state, getters, rootState) => (instanceId) => {
-         const instance = _.filter(state.allData, (data) => {
-            if (data._id === instanceId) return true;
-            else return false;
-        })[0]
-
-        if (!_.size(instance.stats)) return
-
-        return instance.stats[0]._id
-    },
     // This is used by Statistic and Storage usage views
     usageTotals: (state, getters, rootState) => (docId) => {
         const totals = { 'kb down': 0, 'kb up': 0, 'time': 0, }
@@ -78,13 +68,6 @@ const actions = {
         const requestBody = { instanceId }
         const request = await Vue.$axios.post(requestUrl, requestBody)
         commit('updateInstanceUsage', { data: request.data, instanceId: instanceId })
-    },
-    async deleteAllStats({ commit, state, getters, rootState }, payload) {
-        const projectId = payload.projectId
-        const requestUrl = `${state.apiUrl}/delete-stats`
-        const requestBody = { projectId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        location.reload()
     },
     async downloadInstanceStat({ commit, state, getters, rootState }, { instanceId, statId, }) {
         const requestUrl = `${state.apiUrl}/download-instance-stat`

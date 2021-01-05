@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import _ from 'lodash'
+import moment from 'moment-timezone'
 
 
 
@@ -90,19 +91,31 @@ const actions = {
         commit('removeRequestDetailItem', { requestDetailOption: untrackedPayload.option, requestDetailItemId, requestId: requestId })
     },
     async returnRequest({ commit, state, getters, rootState }, requestId) {
-        const requestUrl = `${state.apiUrl}/return-request/${requestId}`
-        const request = await Vue.$axios.post(requestUrl)
-        return request
+        try {
+            const requestUrl = `${state.apiUrl}/return-request/${requestId}`
+            const request = await Vue.$axios.post(requestUrl)
+            return request
+        } catch(err) {
+            throw new Error(err.request.responseText)
+        }
     },
     async queueRequest({ commit, state, getters, rootState }, requestId) {
-        const requestUrl = `${state.apiUrl}/queue-request/${requestId}`
-        const request = await Vue.$axios.post(requestUrl)
-        return request
+        try {
+            const requestUrl = `${state.apiUrl}/queue-request/${requestId}`
+            const request = await Vue.$axios.post(requestUrl)
+            return request
+        } catch(err) {
+            throw new Error(err.request.responseText)
+        }
     },
     async scheduleRequest({ commit, state, getters, rootState }, requestId) {
-        const requestUrl = `${state.apiUrl}/schedule-request/${requestId}?date=${moment().add(1, 'minute').toISOString()}`
-        const request = await Vue.$axios.post(requestUrl)
-        return request
+        try {
+            const requestUrl = `${state.apiUrl}/schedule-request/${requestId}?date=${moment().add(1, 'minute').toISOString()}`
+            const request = await Vue.$axios.post(requestUrl)
+            return request
+        } catch(err) {
+            throw new Error(err.request.responseText)
+        }
     },
     async archiveRequest({ commit, state, getters, rootState }, payload) {
         const requestUrl = `${state.apiUrl}/archive-request`

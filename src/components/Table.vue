@@ -119,50 +119,6 @@
         </div>
       </template>
     </div>
-
-    <!-- Statistic Table -->
-    <div class="column column-full-width table-row-data" v-if="currentRoute === 'Statistics'">
-      <div class="row row-border-bottom">
-        <div class="column column-data column-header column-20" id="table-header-1">
-          <span class="column-text-button" v-on:click="toggleOrderDirection">Date Created</span>
-        </div>
-        <div class="column column-data column-header column-grow">Workflow Name</div>
-        <div class="column column-data column-header column-20">Queue Type</div>
-        <div class="column column-data column-header column-20">Instance ID</div>
-      </div>
-
-      <!-- <div v-if="allData.length === 0" class="row row-border-bottom">
-        <div class="column column-data column-grow" id="table-data-4">Workflow Name</div>
-      </div> -->
-
-      <template v-if="allData.length > 0">
-        <div
-          v-for="(data) in viewableData()"
-          v-bind:key="data._id"
-          class="row row-border-bottom table-row-selectable"
-          v-bind:class="{ 'table-row-selected': rowIsActive(data) }"
-          v-on:click="selectOrDeselectRowAction(data)"
-        >
-          <div class="column column-data column-20">{{ dateCreated(data.createdAt) }}</div>
-          <div class="column column-data column-grow">{{ data.workflowName }}</div>
-          <div class="column column-data column-20">{{ queueType(data.queueType) }}</div>
-          <div class="column column-data column-20">{{ data._id }}</div>
-        </div>
-      </template>
-
-      <template>
-        <div
-          v-for="(data) in leftoverRows"
-          v-bind:key="data._id"
-          class="row row-border-bottom table-row-selectable"
-        >
-          <div class="column column-data column-20 column-filler"></div>
-          <div class="column column-data column-grow column-filler"></div>
-          <div class="column column-data column-20 column-filler"></div>
-        </div>
-      </template>
-
-    </div>
   </div>
 </template>
 

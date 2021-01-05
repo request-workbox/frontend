@@ -17,6 +17,8 @@ const state = () => ({
     orderBy: 'date',
 
     currentTime: `${moment().format('h:mm:ss a')}`,
+
+    option: 'results'
 })
 
 const getters = {
@@ -76,12 +78,18 @@ const getters = {
     getScheduleByRequestId: (state, getters, rootState) => (requestId, queueStatId) => {
         if (!requestId) return {}
 
+        console.log(state.schedule)
+
+        console.log(requestId)
+        console.log(queueStatId)
         const queue = _.filter(state.schedule, (data) => {
             if (data.requestId === requestId) return true;
             else return false
         })
 
         if (!_.size(queue)) return {}
+
+        console.log('found queue', queue)
 
         const filtered = _.filter(queue, (data) => {
             if (data._id === queueStatId) return true;
@@ -264,6 +272,9 @@ const actions = {
 }
 
 const mutations = {
+    changeOption(state, payload) {
+        state.option = payload
+    },
     changeSchedule(state, payload) {
         state.schedule = payload
     },

@@ -51,7 +51,7 @@ export default {
     return next()
   },
   methods: {
-    ...mapMutations('schedule',['addToSchedule']),
+    ...mapMutations('schedule',['addToSchedule','updateCurrentTime']),
     ...mapMutations('table',['changeOption', 'setCurrentRoute','updateOrderDirection']),
 
     ...mapActions('project', ['getProjectName']),
@@ -83,6 +83,11 @@ export default {
         Vue.$apiSocket.on(userSub, this.addToSchedule)
         Vue.$jobsSocket.on(userSub, this.addToSchedule)
       }
+
+      const thisRef = this
+      setInterval(function() {
+        thisRef.updateCurrentTime()
+      }, 1000)
 
     }
   }
