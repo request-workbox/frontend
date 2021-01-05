@@ -50,20 +50,26 @@ export default {
     return next();
   },
   methods: {
-    ...mapMutations('schedule', ['addToSchedule']),
+    ...mapMutations('queue', ['addToQueues']),
+    ...mapMutations('instance', ['addToInstances']),
     ...mapMutations('table',['changeOption', 'setCurrentRoute','updateOrderDirection']),
-    ...mapMutations('schedule', ['updateScheduleOrderDirection', 'updateCurrentTime']),
+    ...mapMutations('queue', ['updateQueueOrderDirection', 'updateCurrentTime']),
+
     ...mapActions("project", ["getProjectName"]),
     ...mapActions('table',['getWorkflows','getWorkflow','getRequestsForSelectOptions']),
+    addToSchedule: function(socketStat) {
+      if (socketStat.queueDoc) this.addToQueues(socketStat.queueDoc)
+      else if (socketStat.instanceDoc) this.addToInstances(socketStat.instanceDoc)
+    },
     init: async function () {
       this.setCurrentRoute({ route: this.$route.name })
       this.getProjectName({ projectId: this.projectId });
       this.updateOrderDirection({
         orderDirection: localStorage.getItem('orderDirection') || 'descending'
       })
-      this.updateScheduleOrderDirection({
-        scheduleOrderDirection: localStorage.getItem('scheduleOrderDirection') || 'descending',
-        scheduleOrderBy: localStorage.getItem('scheduleOrderBy') || 'date',
+      this.updateQueueOrderDirection({
+        queueOrderDirection: localStorage.getItem('queueOrderDirection') || 'descending',
+        queueOrderBy: localStorage.getItem('queueOrderBy') || 'date',
       })
       await this.getRequestsForSelectOptions({ projectId: this.projectId })
       

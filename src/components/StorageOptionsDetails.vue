@@ -126,7 +126,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("table", ["selectedData"]),
+    ...mapGetters("table", ['selectedData']),
   },
   methods: {
     ...mapMutations('table', ['editStorageDetail','editStorageValue']),

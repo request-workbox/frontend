@@ -161,7 +161,7 @@ export default {
   },
   computed: {
     ...mapGetters("table", ['selectedData']),
-    ...mapGetters("table", ["selectedData",'storagesForSelect']),
+    ...mapGetters("table", ['selectedData','storagesForSelect']),
 
     authorizationType: function() {
       if (!this.selectedData()._id) return {}

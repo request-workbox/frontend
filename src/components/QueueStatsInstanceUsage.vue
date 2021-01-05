@@ -40,9 +40,10 @@ import moment from 'moment-timezone'
 import _ from 'lodash'
 
 export default {
-  name: "ScheduleStatsInstanceUsage",
+  name: 'QueueStatsInstanceUsage',
   computed: {
-    ...mapGetters("table", ['selectedData','usageTotals']),
+    ...mapGetters('table', ['selectedData']),
+    ...mapGetters('instance', ['usageTotals']),
   },
   methods: {
     usageUppercase: function(usage) {

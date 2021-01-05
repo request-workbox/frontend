@@ -1,12 +1,10 @@
 import Vue from 'vue'
 import { getField, updateField } from 'vuex-map-fields'
 import _ from 'lodash'
-import moment from 'moment-timezone'
 
 import TableRequestModifiers from './TableRequestModifiers'
 import TableWorkflowModifiers from './TableWorkflowModifiers'
 import TableStorageModifiers from './TableStorageModifiers'
-import TableStatisticModifiers from './TableStatisticModifiers'
 
 const state = () => ({
     apiUrl: process.env.VUE_APP_API_URL,
@@ -25,10 +23,6 @@ const state = () => ({
     storagesForSelectOptions: [],
 
     currentRoute: '',
-
-    selectedStatId: '',
-    selectedQueueStatId: '',
-    selectedInstanceStatId: '',
 
     orderDirection: 'descending',
 
@@ -104,7 +98,6 @@ const getters = {
     // REQUEST GETTERS
     ...TableRequestModifiers.getters,
     ...TableWorkflowModifiers.getters,
-    ...TableStatisticModifiers.getters,
     ...TableStorageModifiers.getters,
 }
 
@@ -126,15 +119,11 @@ const actions = {
         } else {
             commit('changeSelectedId', { selectedId: data._id })
         }
-
-        if (state.currentRoute === 'Requests') commit('changeSelectedInstanceStatId', '')
-        if (state.currentRoute === 'Workflows') commit('changeSelectedQueueStatId', '')
     },
 
     // REQUEST ACTIONS
     ...TableRequestModifiers.actions,
     ...TableWorkflowModifiers.actions,
-    ...TableStatisticModifiers.actions,
     ...TableStorageModifiers.actions,
 }
 
@@ -204,7 +193,6 @@ const mutations = {
     // REQUEST MUTATIONS
     ...TableRequestModifiers.mutations,
     ...TableWorkflowModifiers.mutations,
-    ...TableStatisticModifiers.mutations,
     ...TableStorageModifiers.mutations,
 }
 

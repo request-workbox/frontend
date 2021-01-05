@@ -84,7 +84,7 @@ import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 export default {
   name: "RequestOptionsHeaders",
   computed: {
-    ...mapGetters("table", ["selectedData",'storagesForSelect'])
+    ...mapGetters("table", ['selectedData','storagesForSelect'])
   },
   methods: {
     ...mapMutations('table', ['editRequestDetailKey', 'editRequestDetailValue','editRequestDetailValueType','editRequestDetailActive','editRequestDetailActive']),

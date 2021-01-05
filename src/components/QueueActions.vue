@@ -5,52 +5,51 @@
         <div class="column">
           <div class="row">
             
-            <!-- Date Filter -->
             <div class="column">
               <span class="tiny-text tiny-text-spaced">{{ currentTime }}</span>
             </div>
             <div class="column">
-              <input type="date" name="" id="" :value="scheduleDate" v-on:change="changeScheduleDateAction"/>
+              <input type="date" name="" id="" :value="queueDate" v-on:change="changeQueueDateAction"/>
             </div>
 
-            <!-- Reload / Clear -->
             <div class="spacer"></div>
+
             <div
               class="column text-button action"
               v-if="!loading"
               v-bind:class="{ disabled: !this.selectedData()._id }"
-              v-on:click="getScheduleAction"
-            >
+              v-on:click="getQueueAction">
               Reload
             </div>
             <div
               class="column text-button action"
-              v-if="loading"
-            >
+              v-if="loading">
               Loading...
             </div>
             <div
               class="column text-button action"
-              v-if="!clearing"
+              v-if="!archiving"
               v-bind:class="{ disabled: !this.selectedData()._id }"
-              v-on:click="archiveAllQueueAction"
-            >
+              v-on:click="archiveAllQueuesAction">
               Archive Upcoming
             </div>
             <div
               class="column text-button action"
-              v-if="clearing"
-            >
+              v-if="archiving">
               Archiving...
             </div>
-
 
             <div class="large-spacer" v-if="this.selectedData()._id"></div>
 
             <!-- Schedule Request -->
-            <div class="column text-button action action-text-center" v-if="this.selectedData()._id" v-on:click="returnRequestAction">Return Request</div>
-            <div class="column text-button action action-text-center" v-if="this.selectedData()._id" v-on:click="queueRequestAction">Queue Request</div>
-            <div class="column text-button action action-text-center" v-if="this.selectedData()._id" v-on:click="scheduleRequestAction">Schedule Request</div>
+            <div class="column text-button action action-text-center" v-if="this.selectedData()._id && this.$route.name === 'Requests'" v-on:click="returnRequestAction">Return Request</div>
+            <div class="column text-button action action-text-center" v-if="this.selectedData()._id && this.$route.name === 'Requests'" v-on:click="queueRequestAction">Queue Request</div>
+            <div class="column text-button action action-text-center" v-if="this.selectedData()._id && this.$route.name === 'Requests'" v-on:click="scheduleRequestAction">Schedule Request</div>
+
+            <!-- Schedule Workflow -->
+            <div class="column text-button action action-text-center" v-if="this.selectedData()._id && this.$route.name === 'Workflows'" v-on:click="returnWorkflowAction">Return Workflow</div>
+            <div class="column text-button action action-text-center" v-if="this.selectedData()._id && this.$route.name === 'Workflows'" v-on:click="queueWorkflowAction">Queue Workflow</div>
+            <div class="column text-button action action-text-center" v-if="this.selectedData()._id && this.$route.name === 'Workflows'" v-on:click="scheduleWorkflowAction">Schedule Workflow</div>
 
           </div>
         </div>
@@ -65,35 +64,29 @@ import moment from 'moment-timezone'
 import Vue from 'vue'
 
 export default {
-  name: "ScheduleActionsRequest",
+  name: 'QueueActions',
   data: function () {
     return {
       loading: false,
-      clearing: false,
+      archiving: false,
     };
   },
   computed: {
-    ...mapState('schedule', ['scheduleDate','scheduleType', 'scheduleStatus', 'currentTime']),
-    ...mapGetters("table", ["selectedData"]),
-    ...mapState("table", ["editing"]),
-    ...mapState("table", ["option"]),
+    ...mapState('queue', ['queueDate','queueType','currentTime']),
+    ...mapGetters('table', ['selectedData']),
   },
   methods: {
-    ...mapMutations('schedule', ['changeScheduleDate', 'changeScheduleType', 'changeScheduleStatus']),
-    ...mapMutations('table', ['changeSelectedQueueStatId','changeSelectedInstanceStatId']),
-    ...mapActions("table", [
-      'returnRequest','queueRequest','scheduleRequest',
-    ]),
-    ...mapActions('schedule', [
-      'getSchedule',
-      'archiveAllQueue'
-    ]),
-    changeScheduleDateAction: function(event) {
+    ...mapMutations('queue', ['changeSelectedQueueStatId']),
+    ...mapMutations('instance', ['changeSelectedInstanceStatId']),
+    
+    ...mapActions('table', ['returnRequest','queueRequest','scheduleRequest',]),
+    ...mapActions('queue', ['listQueues', 'archiveAllQueues']),
+    changeQueueDateAction: function(event) {
       this.changeSelectedQueueStatId('')
       this.changeSelectedInstanceStatId('')
-      this.changeScheduleDate(event.srcElement.value)
+      this.changeQueueDate(event.srcElement.value)
     },
-    getScheduleAction: async function () {
+    getQueueAction: async function () {
       if (!this.selectedData()._id) return;
       if (!this.selectedData().workflowId) return;
       
@@ -101,37 +94,37 @@ export default {
       try {
         const payload = {
           workflowId: this.selectedData().workflowId,
-          date: moment(this.scheduleDate),
+          date: moment(this.queueDate),
         };
-        await this.getSchedule(payload);
+        await this.listQueues(payload)
       } catch (err) {
         console.log(err);
       } finally {
         this.loading = false
       }
     },
-    archiveAllQueueAction: async function(queueId) {
+    archiveAllQueuesAction: async function(queueId) {
       if (!this.selectedData()._id) return;
       if (!this.selectedData().workflowId) return;
 
-      const date = moment(this.scheduleDate)
+      const date = moment(this.queueDate)
       const workflowId = this.selectedData().workflowId
-      const queueType = this.scheduleType
+      const queueType = this.queueType
 
-      const confirm = window.confirm(`Are you sure you want to unschedule [${queueType}] queue types occurring on [${this.scheduleDate}]?`)
+      const confirm = window.confirm(`Are you sure you want to unschedule [${queueType}] queue types occurring on [${this.queueDate}]?`)
       if (confirm) {
-        this.clearing = true
+        this.archiving = true
         try {
           const payload = {
             date: date,
             workflowId: workflowId,
             queueType: queueType,
           }
-          await this.archiveAllQueue(payload)
+          await this.archiveAllQueues(payload)
         } catch(err) {
           console.log(err)
         } finally {
-          this.clearing = false
+          this.archiving = false
         }
       }
     },
@@ -187,9 +180,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-input[type="date"] {
-  font-family: "Open Sans", sans-serif;
-}
-</style>

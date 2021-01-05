@@ -1,5 +1,5 @@
 <template>
-  <div class="row row-border-bottom" v-if="this.option !== 'schedule'">
+  <div class="row row-border-bottom" v-if="this.option !== 'queue'">
     <div class="column column-full-width">
       <div class="row row-justify-between">
         <div class="column">
@@ -52,24 +52,23 @@ export default {
     };
   },
   computed: {
-    ...mapState('schedule', ['scheduleDate','scheduleType', 'scheduleStatus', 'currentTime']),
-    ...mapGetters("table", ["selectedData"]),
-    ...mapState("table", ["editing"]),
-    ...mapState("table", ["option"]),
+    ...mapState('queue', ['queueDate','queueType', 'queueStatus', 'currentTime']),
+    ...mapGetters('table', ['selectedData']),
+    ...mapState('table', ['editing']),
+    ...mapState('table', ['option']),
   },
   methods: {
-    ...mapMutations('schedule', ['changeScheduleDate', 'changeScheduleType', 'changeScheduleStatus']),
-    ...mapMutations('table', ['changeSelectedQueueStatId','changeSelectedInstanceStatId']),
+    ...mapMutations('queue', ['changeQueueDate', 'changeQueueType', 'changeQueueStatus','changeSelectedInstanceStatId']),
+    ...mapMutations('table', ['changeSelectedQueueStatId']),
     ...mapActions("table", [
-      "cancelWorkflowChanges",
-      "saveWorkflowChanges",
-      "addWorkflowTask",
-      'returnWorkflow','queueWorkflow','scheduleWorkflow',
+      'cancelWorkflowChanges',
+      'saveWorkflowChanges',
+      'addWorkflowTask',
+      'returnWorkflow',
+      'queueWorkflow',
+      'scheduleWorkflow',
     ]),
-    ...mapActions('schedule', [
-      'getSchedule',
-      'archiveAllQueue'
-    ]),
+    ...mapActions('queue', ['getQueues','archiveAllQueues']),
     allowAddingWorkflowTask: function () {
       if (!this.selectedData()._id) return false;
 
@@ -89,10 +88,10 @@ export default {
         Vue.$toast.open(err.message)
       }
     },
-    changeScheduleDateAction: function(event) {
+    changeQueueDateAction: function(event) {
       this.changeSelectedQueueStatId('')
       this.changeSelectedInstanceStatId('')
-      this.changeScheduleDate(event.srcElement.value)
+      this.changeQueueDate(event.srcElement.value)
     },
     getScheduleAction: async function () {
       if (!this.selectedData()._id) return;
@@ -101,7 +100,7 @@ export default {
       try {
         const payload = {
           workflowId: this.selectedData()._id,
-          date: moment(this.scheduleDate),
+          date: moment(this.queueDate),
         };
         await this.getSchedule(payload);
       } catch (err) {
@@ -113,11 +112,11 @@ export default {
     archiveAllQueueAction: async function(queueId) {
       if (!this.selectedData()._id) return;
 
-      const date = moment(this.scheduleDate)
+      const date = moment(this.queueDate)
       const workflowId = this.selectedData()._id
-      const queueType = this.scheduleType
+      const queueType = this.queueType
 
-      const confirm = window.confirm(`Are you sure you want to unschedule [${queueType}] queue types occurring on [${this.scheduleDate}]?`)
+      const confirm = window.confirm(`Are you sure you want to unschedule [${queueType}] queue types occurring on [${this.queueDate}]?`)
       if (confirm) {
         this.clearing = true
         try {
@@ -126,7 +125,7 @@ export default {
             workflowId: workflowId,
             queueType: queueType,
           }
-          await this.archiveAllQueue(payload)
+          await this.archiveAllQueues(payload)
         } catch(err) {
           console.log(err)
         } finally {

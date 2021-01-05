@@ -52,7 +52,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("table", ['selectedData', 'selectedStat', 'usageTotals']),
+    ...mapGetters('table', ['selectedData']),
+    ...mapGetters('instance', ['usageTotals']),
   },
   methods: {
     ...mapActions('table', ['getStorageUsage']),

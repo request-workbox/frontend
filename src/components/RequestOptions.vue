@@ -13,7 +13,7 @@ import RequestOptionsHeaders from "./RequestOptionsHeaders";
 import RequestOptionsBody from "./RequestOptionsBody";
 import RequestOptionsAuthorization from './RequestOptionsAuthorization'
 import RequestOptionsUrl from "./RequestOptionsUrl";
-import Schedule from "./Schedule";
+import Queue from "./Queue";
 
 export default {
   name: "RequestOptions",
@@ -23,7 +23,7 @@ export default {
     RequestOptionsBody,
     RequestOptionsAuthorization,
     RequestOptionsUrl,
-    Schedule,
+    Queue,
   },
   computed: {
     ...mapState("table", ["option"]),
@@ -32,8 +32,8 @@ export default {
       return _.upperFirst(this.option);
     },
     componentName: function() {
-      if (this.option === 'schedule') {
-        return 'Schedule'
+      if (this.option === 'queue') {
+        return 'Queue'
       } else {
         return `RequestOptions${this.upperFirstOption}`
       }

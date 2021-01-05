@@ -51,11 +51,16 @@ export default {
     return next()
   },
   methods: {
-    ...mapMutations('schedule',['addToSchedule','updateCurrentTime']),
+    ...mapMutations('queue', ['addToQueues','updateCurrentTime']),
+    ...mapMutations('instance', ['addToInstances']),
     ...mapMutations('table',['changeOption', 'setCurrentRoute','updateOrderDirection']),
 
     ...mapActions('project', ['getProjectName']),
     ...mapActions('table', ['getRequests', 'getRequest', 'getStoragesForSelectOptions']),
+    addToSchedule: function(socketStat) {
+      if (socketStat.queueDoc) this.addToQueues(socketStat.queueDoc)
+      else if (socketStat.instanceDoc) this.addToInstances(socketStat.instanceDoc)
+    },
     init: async function() {
       this.setCurrentRoute({ route: this.$route.name })
       this.getProjectName({ projectId: this.projectId })

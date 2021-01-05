@@ -8,21 +8,21 @@
 
     <div class="row row-border-bottom">
       <div class="column column-data column-header column-10 column-padded">
-        <span class="column-text-button" v-on:click="toggleScheduleOrderDirection('date')">Departure</span>
+        <span class="column-text-button" v-on:click="toggleQueueOrderDirection('date')">Departure</span>
       </div>
       <div class="column column-data column-header column-5 column-padded">Status</div>
       <div class="column column-data column-header column-5 column-padded">Queue Type</div>
       <div class="column column-data column-header column-10 column-padded">Workflow Name</div>
       <div class="column column-data column-header column-grow column-padded">
-        <span class="column-text-button" v-on:click="toggleScheduleOrderDirection('createdAt')">Created</span>
+        <span class="column-text-button" v-on:click="toggleQueueOrderDirection('createdAt')">Created</span>
       </div>
     </div>
 
     <div 
-      v-for="(stat) in filterScheduleByWorkflow(workflowId())" :key="stat._id"
+      v-for="(stat) in filterQueueByWorkflow(workflowId())" :key="stat._id"
       v-bind:class="{'table-row-selected':shouldBeSelected(stat._id)}"
       v-on:click="selectQueueStatAction(stat)"
-      class="row row-border-bottom table-row-selectable schedule-row">
+      class="row row-border-bottom table-row-selectable queue-row">
       <div class="column column-data column-10 column-padded">{{ formattedDate(stat.date) }}</div>
       <div class="column column-data column-5 column-padded">{{ formattedQueueStatus(stat.status) }}</div>
       <div class="column column-data column-5 column-padded">{{ formattedQueueType(stat.queueType) }}</div>
@@ -38,21 +38,19 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex';
 import moment from 'moment-timezone'
 import _ from 'lodash'
 
 export default {
-  name: "ScheduleQueues",
+  name: 'Queues',
   computed: {
-    ...mapState('table', ['selectedQueueStatId']),
-    ...mapGetters("table", ["selectedData"]),
-    ...mapGetters('schedule', ['filterScheduleByWorkflow']),
+    ...mapGetters('table', ['selectedData']),
+    ...mapGetters('queue', ['filterQueueByWorkflow','selectedQueueStatId']),
   },
   methods: {
-    ...mapMutations('table', ['changeSelectedQueueStatId','changeSelectedStatId']),
-    ...mapMutations('schedule', ['toggleScheduleOrderDirection']),
-    ...mapActions('schedule', ['archiveQueue']),
+    ...mapMutations('queue', ['toggleQueueOrderDirection','changeSelectedStatId','changeSelectedQueueStatId']),
+    ...mapActions('queue', ['archiveQueue']),
     workflowId: function() {
       if (this.$route.name === 'Requests') {
         return this.selectedData().workflowId
@@ -95,7 +93,7 @@ export default {
 </script>
 
 <style lang="scss">
-.schedule-row:hover {
+.queue-row:hover {
   background: #dcf0ff !important;
   border-top: #2196f3 solid 1px !important;
   border-bottom: #2196f3 solid 1px !important;

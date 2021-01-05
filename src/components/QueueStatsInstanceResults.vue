@@ -34,14 +34,15 @@ import moment from 'moment-timezone'
 import _ from 'lodash'
 
 export default {
-  name: "ScheduleStatsInstanceResults",
+  name: 'QueueStatsInstanceResults',
   computed: {
-    ...mapState('table', ['selectedStatId','selectedInstanceStatId']),
-    ...mapGetters("table", ["selectedData",'selectedStat']),
-    ...mapGetters('schedule', ['getInstanceByRequestId','getInstanceByWorkflowId']),
+    ...mapState('instance', ['selectedStatId','selectedInstanceStatId']),
+
+    ...mapGetters('table', ['selectedData','selectedStat']),
+    ...mapGetters('instance', ['getInstanceByRequestId','getInstanceByWorkflowId']),
   },
   methods: {
-    ...mapMutations('table', ['changeSelectedInstanceStatId']),
+    ...mapMutations('instance', ['changeSelectedInstanceStatId']),
     selectInstanceStatAction: function(stat) {
       this.changeSelectedInstanceStatId(stat._id)
     },

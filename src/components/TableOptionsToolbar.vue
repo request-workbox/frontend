@@ -7,13 +7,13 @@
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('query')}" v-on:click="changeOptionAction('query')">Parameters</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('headers')}" v-on:click="changeOptionAction('headers')">Headers</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('body')}" v-on:click="changeOptionAction('body')">Body</div>
-          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('schedule')}" v-on:click="changeOptionAction('schedule')">Schedule</div>
+          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('queue')}" v-on:click="changeOptionAction('queue')">Queue</div>
         </div>
 
         <div class="row" v-if="this.$route.name === 'Workflows'">
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('instance')}" v-on:click="changeOptionAction('instance')">Instance</div>
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('tasks')}" v-on:click="changeOptionAction('tasks')">Tasks</div>
-          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('schedule')}" v-on:click="changeOptionAction('schedule')">Schedule</div>
+          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('queue')}" v-on:click="changeOptionAction('queue')">Queue</div>
           <div class="column">
               <span class="tiny-text tiny-text-spaced">{{ pendingQueuesToolbar() }}</span>
             </div>
@@ -34,7 +34,7 @@ export default {
   computed: {
     ...mapState('table', ['option','editing']),
     ...mapGetters('table', ['selectedData']),
-    ...mapGetters('schedule', ['pendingQueues']),
+    ...mapGetters('queue', ['pendingQueues']),
   },
   methods: {
     ...mapMutations('table', ['changeOption']),

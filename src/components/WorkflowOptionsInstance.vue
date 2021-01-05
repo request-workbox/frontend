@@ -106,7 +106,7 @@ export default {
   name: "WorkflowOptionsInstance",
   computed: {
     ...mapState('table',['apiUrl']),
-    ...mapGetters("table", ["selectedData"]),
+    ...mapGetters("table", ['selectedData']),
     returnInstanceUrl: function() {
       if (!this.apiUrl) return ''
       if (!this.selectedData() || !this.selectedData()._id) return ''

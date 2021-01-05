@@ -17,7 +17,11 @@
     border-top: #2196f3 solid 1px !important;
     border-bottom: #2196f3 solid 1px !important;
   }
-  
+
+  input[type="date"] {
+    font-family: "Open Sans", sans-serif;
+  }
+
   .row {
     height: auto;
     width: 100%;

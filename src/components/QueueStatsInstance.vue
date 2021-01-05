@@ -24,7 +24,7 @@
 
     <div v-if="this.option !== ''">
       <keep-alive>
-        <component :is="scheduleStatsInstanceOption" v-if="this.option !== ''"></component>
+        <component :is="queueStatsInstanceOption" v-if="this.option !== ''"></component>
       </keep-alive>
     </div>
 
@@ -43,7 +43,7 @@ import ScheduleStatsInstanceUsage from './ScheduleStatsInstanceUsage'
 const download = require("downloadjs")
 
 export default {
-  name: "ScheduleStatsInstance",
+  name: 'QueueStatsInstance',
   data: function() {
     return {
       loading: false,
@@ -57,15 +57,16 @@ export default {
   },
   computed: {
     ...mapState('table', ['selectedStatId','selectedInstanceStatId']),
-    ...mapState('schedule', ['option']),
-    ...mapGetters("table", ["selectedData",'selectedStat']),
-    scheduleStatsInstanceOption: function() {
+    ...mapState('queue', ['option']),
+    ...mapGetters('table', ['selectedData']),
+    ...mapGetters('queue', ['selectedStat']),
+    queueStatsInstanceOption: function() {
       return `ScheduleStatsInstance${_.upperFirst(this.option)}`
     }
   },
   methods: {
-    ...mapMutations('schedule',['changeOption']),
-    ...mapActions('table', ['getInstanceDetail','downloadInstanceStat','getInstanceUsage']),
+    ...mapMutations('queue',['changeOption']),
+    ...mapActions('instance', ['getInstanceDetail','getInstanceUsage','downloadInstanceStat']),
     changeOptionAction: function(option) {
       this.changeOption(option)
     },
