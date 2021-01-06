@@ -1,5 +1,5 @@
 <template>
-  <div class="row" v-if="this.selectedData()._id">
+  <div class="row" v-if="showQueue">
 
     <div class="column column-full-width">
       <QueueActions />
@@ -31,7 +31,13 @@ export default {
     QueueStatsInstance,
   },
   computed: {
-    ...mapGetters('table', ['selectedData']),
+    ...mapState('request', ['selectedRequestId']),
+    ...mapState('workflow', ['selectedWorkflowId']),
+    showQueue: function() {
+      if (this.$route.name === 'Requests' && this.selectedRequestId) return true
+      else if (this.$route.name === 'Workflows' && this.selectedWorkflowId) return true
+      else return false
+    },
   },
 }
 </script>

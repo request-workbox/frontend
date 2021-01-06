@@ -1,12 +1,11 @@
 <template>
   <div id="request-container">
-    <!-- <RequestLogin /> -->
     <ProjectInfo />
-    <Menu />
-    <TableToolbar />
-    <Table />
-    <TableDetails />
-    <TableOptionsToolbar />
+    <RequestMenu />
+    <RequestTableToolbar />
+    <RequestTable />
+    <RequestTableDetails />
+    <RequestTableOptionsToolbar />
     <RequestOptionsActions />
     <RequestOptions />
     <Footer />
@@ -15,30 +14,28 @@
 
 <script>
 import Vue from 'vue'
-import { mapActions, mapMutations } from 'vuex'
+import { mapActions, mapMutations, mapState } from 'vuex'
 
-import RequestLogin from './RequestLogin'
-import ProjectInfo from "./ProjectInfo";
-import Menu from "./Menu";
-import TableToolbar from "./TableToolbar";
-import Table from "./Table";
-import TableDetails from "./TableDetails";
-import TableOptionsToolbar from "./TableOptionsToolbar";
-import RequestOptionsActions from './RequestOptionsActions';
-import RequestOptions from "./RequestOptions";
+import ProjectInfo from './ProjectInfo'
+import RequestMenu from './RequestMenu'
+import RequestTableToolbar from './RequestTableToolbar'
+import RequestTable from './RequestTable'
+import RequestTableDetails from './RequestTableDetails'
+import RequestTableOptionsToolbar from './RequestTableOptionsToolbar'
+import RequestOptionsActions from './RequestOptionsActions'
+import RequestOptions from './RequestOptions'
 import Footer from './Footer'
 
 export default {
-  name: "Request",
+  name: 'Request',
   props: ['projectId'],
   components: {
-    RequestLogin,
     ProjectInfo,
-    Menu,
-    TableToolbar,
-    Table,
-    TableDetails,
-    TableOptionsToolbar,
+    RequestMenu,
+    RequestTableToolbar,
+    RequestTable,
+    RequestTableDetails,
+    RequestTableOptionsToolbar,
     RequestOptionsActions,
     RequestOptions,
     Footer,
@@ -50,50 +47,55 @@ export default {
     // this.init()
     return next()
   },
+  computed: {
+    ...mapState('request', ['requestOrderDirection']),
+    ...mapState('queue', ['queueOrderDirection']),
+  },
   methods: {
-    ...mapMutations('queue', ['addToQueues','updateCurrentTime']),
+    ...mapMutations('queue', ['addToQueues','editCurrentTime','updateQueueOrderDirection']),
     ...mapMutations('instance', ['addToInstances']),
-    ...mapMutations('table',['changeOption', 'setCurrentRoute','updateOrderDirection']),
+    ...mapMutations('request',['editOption','updateRequestOrderDirection']),
 
-    ...mapActions('project', ['getProjectName']),
-    ...mapActions('table', ['getRequests', 'getRequest', 'getStoragesForSelectOptions']),
+    ...mapActions('project', ['getProject']),
+    ...mapActions('request', ['listRequests']),
+    ...mapActions('storage', ['listStorages']),
+
     addToSchedule: function(socketStat) {
       if (socketStat.queueDoc) this.addToQueues(socketStat.queueDoc)
       else if (socketStat.instanceDoc) this.addToInstances(socketStat.instanceDoc)
     },
+    
     init: async function() {
-      this.setCurrentRoute({ route: this.$route.name })
-      this.getProjectName({ projectId: this.projectId })
-      this.updateOrderDirection({
-        orderDirection: localStorage.getItem('orderDirection') || 'descending'
-      })
-      await this.getStoragesForSelectOptions({ projectId: this.projectId })
+      try {
+        const project = await this.getProject({ projectId: this.projectId })
+        const storages = await this.listRequests({ projectId: this.projectId })
+        const requests = await this.listStorages({ projectId: this.projectId })
 
-      if (this.$route.query && this.$route.query.id) {
-        await this.getRequest({ projectId: this.projectId, requestId: this.$route.query.id })
-      } else {
-        await this.getRequests({ projectId: this.projectId })
+        const requestOrderDirection = localStorage.getItem('requestOrderDirection') || this.requestOrderDirection
+        this.updateRequestOrderDirection({ requestOrderDirection, })
+
+        const queueOrderDirection = localStorage.getItem('queueOrderDirection') || this.queueOrderDirection
+        this.updateQueueOrderDirection({ queueOrderDirection, })
+        
+        if (this.$route.query && this.$route.query.option) {
+          this.editOption(this.$route.query.option)
+        }
+
+        const session = await this.$store.dispatch('cognito/fetchSession')
+        const userSub = this.$store.getters['cognito/userSub']
+        if (userSub) {
+          Vue.$apiSocket.on(userSub, this.addToSchedule)
+          Vue.$jobsSocket.on(userSub, this.addToSchedule)
+        }
+
+        const thisRef = this
+        setInterval(function() {
+          thisRef.editCurrentTime()
+        }, 1000)
+
+      } catch(err) {
+        console.log('Request error', err.message)
       }
-
-      if (this.$route.query && this.$route.query.option) {
-        this.changeOption(this.$route.query.option);
-      } else {
-        this.changeOption('url');
-      }
-
-      // Listen to socket
-      await this.$store.dispatch('cognito/fetchSession')
-      const userSub = this.$store.getters['cognito/userSub']
-      if (userSub) {
-        Vue.$apiSocket.on(userSub, this.addToSchedule)
-        Vue.$jobsSocket.on(userSub, this.addToSchedule)
-      }
-
-      const thisRef = this
-      setInterval(function() {
-        thisRef.updateCurrentTime()
-      }, 1000)
-
     }
   }
 };

@@ -20,7 +20,7 @@
         <div class="column column-data column-header column-grow column-padded">Detail</div>
       </div>
 
-      <div class="row row-border-bottom table-row-selectable" v-for="(usage) in this.selectedData().usage" :key="usage._id">
+      <div class="row row-border-bottom table-row-selectable" v-for="(usage) in this.selectedInstanceUsage()" :key="usage._id">
         <div class="column column-data column-10 column-padded">{{ usageUppercase(usage.usageLocation) }}</div>
         <div class="column column-data column-10 column-padded">{{ usageUppercase(usage.usageType) }}</div>
         <div class="column column-data column-10 column-padded">{{ usage.usageAmount }}</div>
@@ -35,30 +35,32 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 import moment from 'moment-timezone'
 import _ from 'lodash'
 
 export default {
   name: 'QueueStatsInstanceUsage',
   computed: {
-    ...mapGetters('table', ['selectedData']),
+    ...mapState('instance', ['selectedInstanceId']),
     ...mapGetters('instance', ['usageTotals']),
   },
   methods: {
+    selectedInstanceUsage: function() {
+      if (this.selectedInstanceId === '') return []
+
+      return this.getInstanceById(this.selectedInstanceId).usage
+    },
     usageUppercase: function(usage) {
-      if (usage === 'api') {
-        return 'API'
-      } else {
-        return _.upperFirst(usage)
-      }
+      if (usage === 'api') return 'API'
+      else return _.upperFirst(usage)
     },
     usageCreatedAt: function(createdAt) {
       if (!createdAt) return ''
       return `${moment(createdAt).format('M-D-YYYY, h:mm:ss a')}`
     },
     usageTotal: function() {
-      return this.usageTotals(this.selectedData()._id)
+      return this.usageTotals(this.selectedInstanceId)
     },
   }
 };

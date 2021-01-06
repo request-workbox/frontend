@@ -44,7 +44,7 @@ const actions = {
             commit('updateStripeCardLast4', request.data.stripeCardLast4)
             commit('updateBalance', request.data.balance)
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Billing information loaded.')
         } catch(err) {
             return throwError(err)
         }
@@ -56,7 +56,7 @@ const actions = {
 
             commit('updateTokens', request.data)
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Tokens loaded.')
         } catch(err) {
             return throwError(err)
         }
@@ -68,7 +68,7 @@ const actions = {
 
             commit('addToken', request.data)
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Token generated.')
         } catch(err) {
             return throwError(err)
         }
@@ -81,7 +81,7 @@ const actions = {
 
             commit('removeToken', snippet)
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Token revoked.')
         } catch(err) {
             return throwError(err)
         }

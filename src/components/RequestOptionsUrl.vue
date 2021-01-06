@@ -22,8 +22,8 @@
             type="text"
             placeholder="Value"
             class="column-input-text"
-            :value="this.selectedData().url"
-            v-on:input="edit('url', $event)"
+            :value="this.selectedRequest().url"
+            v-on:input="editRequest('url', $event)"
           />
         </div>
       </div>
@@ -44,8 +44,8 @@
             type="text"
             placeholder="Value"
             class="column-input-text"
-            :value="this.selectedData().name"
-            v-on:input="edit('name', $event)"
+            :value="this.selectedRequest().name"
+            v-on:input="editRequest('name', $event)"
           />
         </div>
       </div>
@@ -62,7 +62,7 @@
           />
         </div>
         <div class="column column-data column-grow">
-            <select class="column-input-select column-input-select-min-width" :value="this.selectedData().method" v-on:input="edit('method', $event)">
+            <select class="column-input-select column-input-select-min-width" :value="this.selectedRequest().method" v-on:input="editRequest('method', $event)">
               <option value="GET">GET</option>
               <option value="POST">POST</option>
             </select>
@@ -75,19 +75,19 @@
           <input 
             id="team"
             type="checkbox"
-            :checked="this.selectedData().lockedResource"
+            :checked="this.selectedRequest().lockedResource"
             @change="editPermission('lockedResource', $event)">
           <label for="team">Locked Resource</label>
           <input 
             id="prevent"
             type="checkbox"
-            :checked="this.selectedData().preventExecution"
+            :checked="this.selectedRequest().preventExecution"
             @change="editPermission('preventExecution', $event)">
           <label for="prevent">Prevent Execution</label>
           <input 
             id="owner"
             type="checkbox"
-            :checked="this.selectedData().sensitiveResponse"
+            :checked="this.selectedRequest().sensitiveResponse"
             @change="editPermission('sensitiveResponse', $event)">
           <label for="owner">Sensitive Response</label>
         </div>
@@ -97,7 +97,7 @@
         <div class="column column-data column-header-text column-grow column-group-header">Request API</div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.selectedData()._id">
+      <div class="row row-border-bottom">
         <div class="column column-data column-20">
           <div class="column text-button action action-text-center" v-on:click="copyToClipboard('return')">Copy Return URL</div>
         </div>
@@ -106,13 +106,12 @@
             type="text"
             placeholder="Key"
             class="column-input-text"
-            :value="returnInstanceUrl"
-            ref="returnUrl"
+            :value="triggerUrl('return')"
           />
         </div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.selectedData()._id">
+      <div class="row row-border-bottom">
         <div class="column column-data column-20">
           <div class="column text-button action action-text-center" v-on:click="copyToClipboard('queue')">Copy Queue URL</div>
         </div>
@@ -121,13 +120,12 @@
             type="text"
             placeholder="Key"
             class="column-input-text"
-            :value="queueInstanceUrl"
-            ref="queueUrl"
+            :value="triggerUrl('queue')"
           />
         </div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.selectedData()._id">
+      <div class="row row-border-bottom">
         <div class="column column-data column-20">
           <div class="column text-button action action-text-center" v-on:click="copyToClipboard('schedule')">Copy Schedule URL</div>
         </div>
@@ -136,8 +134,7 @@
             type="text"
             placeholder="Key"
             class="column-input-text"
-            :value="scheduleInstanceUrl"
-            ref="scheduleUrl"
+            :value="triggerUrl('schedule')"
           />
         </div>
       </div>
@@ -148,39 +145,30 @@
 
 <script>
 import Vue from 'vue'
-import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
+import { mapState, mapActions, mapMutations, mapGetters } from 'vuex'
 
 export default {
-  name: "RequestOptionsUrl",
+  name: 'RequestOptionsUrl',
   computed: {
-    ...mapState('table',['apiUrl']),
-    ...mapGetters("table", ['selectedData']),
-    returnInstanceUrl: function() {
-      if (!this.apiUrl) return ''
-      if (!this.selectedData() || !this.selectedData()._id) return ''
-      
-      return `${this.apiUrl}/return-request/${this.selectedData()._id}`
-    },
-    queueInstanceUrl: function() {
-      if (!this.apiUrl) return ''
-      if (!this.selectedData() || !this.selectedData()._id) return ''
-      
-      return `${this.apiUrl}/queue-request/${this.selectedData()._id}`
-    },
-    scheduleInstanceUrl: function() {
-      if (!this.apiUrl) return ''
-      if (!this.selectedData() || !this.selectedData()._id) return ''
-      
-      return `${this.apiUrl}/schedule-request/${this.selectedData()._id}?date=[ISO 8601]`
+    ...mapState('request',['apiUrl']),
+    ...mapGetters('request', ['selectedRequest']),
+    triggerUrl: function() {
+      if (!this.selectedRequest() || !this.selectedRequest()._id) return ''
+
+      if (queueType === 'schedule') {
+        return `${this.apiUrl}/schedule-request/${this.selectedRequest()._id}?date=[ISO 8601]`
+      } else {
+        return `${this.apiUrl}/${queueType}-request/${this.selectedRequest()._id}`
+      }
     },
   },
   methods: {
-    ...mapMutations('table', ['editRequestKey']),
-    edit: function(key, event) {
-      this.editRequestKey({key, value: event.target.value, requestId: this.selectedData()._id})
+    ...mapMutations('request', ['editRequestKey']),
+    editRequest: function(key, event) {
+      this.editRequestKey({key, value: event.target.value, requestId: this.selectedRequest()._id})
     },
     editPermission: function(key, event) {
-      this.editRequestKey({key, value: event.target.checked, requestId: this.selectedData()._id})
+      this.editRequestKey({key, value: event.target.checked, requestId: this.selectedRequest()._id})
     },
     copyToClipboard: function(queueType) {
       const queueTypeRef = `${queueType}Url`
@@ -193,18 +181,9 @@ export default {
       /* Copy the text inside the text field */
       document.execCommand("copy");
 
-      Vue.$toast.open({
-        message: 'Copied text to clipboard!',
-        type: 'success',
-      })
+      Vue.$toast.open({ message: 'Copied text to clipboard!', type: 'success', })
     },
   },
-  filters: {
-    capitalize: function (key) {
-      if (!key) return ''
-      return key.charAt(0).toUpperCase() + key.slice(1)
-    }
-  }
 };
 </script>
 

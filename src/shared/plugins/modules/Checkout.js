@@ -47,7 +47,7 @@ const actions = {
             const requestUrl = `${state.billingUrl}/create-setup-intent`
             const request = await Vue.$axios.post(requestUrl)
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Created setup intent.')
         } catch(err) {
             return throwError(err)
         }
@@ -66,7 +66,7 @@ const actions = {
             commit('updatePrice', request.data.price)
             commit('updateClientSecret', request.data.client_secret)
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Created payment intent upgrade.')
         } catch(err) {
             return throwError(err)
         }
@@ -85,7 +85,7 @@ const actions = {
             commit('updatePrice', request.data.price)
             commit('updateClientSecret', request.data.client_secret)
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Created payment intent data transfer.')
         } catch(err) {
             return throwError(err)
         }
@@ -98,7 +98,7 @@ const actions = {
             }
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Confirmed payment intent.')
         } catch(err) {
             return throwError(err)
         }
@@ -111,7 +111,7 @@ const actions = {
             }
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Payment method updated.')
         } catch(err) {
             return throwError(err)
         }
@@ -121,7 +121,7 @@ const actions = {
             const requestUrl = `${state.billingUrl}/remove-payment-method`
             const request = await Vue.$axios.post(requestUrl)
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Payment method removed.')
         } catch(err) {
             return throwError(err)
         }

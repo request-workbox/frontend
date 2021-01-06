@@ -294,10 +294,7 @@ export default {
         }
 
         if (this.saveCard) {
-          Vue.$toast.open({
-            message: 'Updating card...',
-            type: 'default',
-          })
+          Vue.$toast.open({ message: 'Updating card...' })
 
           const setupIntent = await this.createSetupIntent()
           const clientSecret = setupIntent.data.clientSecret
@@ -317,7 +314,7 @@ export default {
         }
 
       } catch(err) {
-        console.log(err)
+        console.log('Checkout form card form error: ', err.message)
         throw new Error(err.message)
       } finally {
         this.saving = false

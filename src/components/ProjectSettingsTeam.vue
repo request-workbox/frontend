@@ -30,7 +30,7 @@
         <div class="column column-data column-header-text column-grow column-group-header">Users</div>
       </div>
 
-      <div class="row row-border-bottom" v-for="(member) in teamData()" :key="member._id">
+      <div class="row row-border-bottom" v-for="(member) in visibleTeam()" :key="member._id">
         <div class="column column-data column-10">
           <input
             type="text"
@@ -70,12 +70,12 @@
 
 <script>
 import Vue from 'vue'
-import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 import moment from 'moment-timezone'
 import _ from 'lodash'
 
 export default {
-  name: "ProjectSettingsTeam",
+  name: 'ProjectSettingsTeam',
   data: function() {
     return {
       username: ''
@@ -83,14 +83,18 @@ export default {
   },
 
   computed: {
-    ...mapState('project', ['projectId']),
-    ...mapGetters('project', ['teamData','selectedData']),
+    ...mapState('project', ['selectedProjectId']),
+    ...mapGetters('team', ['visibleTeam']),
   },
   methods: {
-    ...mapMutations('project', ['updateIncludeSensitive', 'updatePermission']),
-    ...mapActions('project', ['createInvite','removeInvite']),
+    ...mapMutations('team', ['updateIncludeSensitive', 'updatePermission']),
+    ...mapActions('team', ['createInvite','removeInvite']),
     createInviteAction: async function() {
-      this.createInvite({ projectId: this.selectedData()._id, username: this.username })
+      try {
+        await this.createInvite({ projectId: this.selectedProjectId, username: this.username })
+      } catch(err) {
+        console.log('Project settings team error', err.message)
+      }
     },
     upperFirst: function(string) {
       return _.upperFirst(string)
@@ -99,11 +103,10 @@ export default {
       try {
         const confirm = window.confirm('Are you sure you want to remove this team member?')
         if (confirm) {
-          this.removeInvite({ projectId: this.selectedData()._id, username, })
-
+          await this.removeInvite({ projectId: this.selectedProjectId, username, })
         }
       } catch(err) {
-        console.log(err)
+        console.log('Project settings team error', err.message)
       }
     },
     updateIncludeSensitiveAction: function(memberId, event) {

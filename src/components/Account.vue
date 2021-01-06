@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapMutations, mapActions, mapState } from "vuex";
+import { mapMutations, mapActions, mapState } from 'vuex'
 import _ from 'lodash'
 
 import AccountMenu from './AccountMenu'
@@ -16,7 +16,7 @@ import AccountSettings from './AccountSettings'
 import Footer from './Footer'
 
 export default {
-  name: "Account",
+  name: 'Account',
   components: {
     AccountMenu,
     AccountBilling,
@@ -24,31 +24,28 @@ export default {
     Footer,
   },
   mounted: function () {
-    this.init();
+    this.init()
   },
   beforeRouteUpdate(to, from, next) {
-    // this.init();
-    return next();
+    // this.init()
+    return next()
   },
   computed: {
     ...mapState('account', ['option']),
     upperFirstOption: function() {
-      return _.upperFirst(this.option);
+      return _.upperFirst(this.option)
     }
   },
   methods: {
-    ...mapMutations('table', ['setCurrentRoute']),
     ...mapActions('billing', ['billingInformation','listTokens']),
     ...mapActions('project', ['getProjects']),
     init: async function () {
-      this.setCurrentRoute({ route: this.$route.name })
-
       try {
         await this.billingInformation()
         await this.getProjects()
         await this.listTokens()
       } catch(err) {
-        // console.log(err)
+        console.log('Account error: ', err.message)
       }
     },
   },

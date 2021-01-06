@@ -12,26 +12,26 @@
             <div
               class="column filter-button filter-button-left"
               v-bind:class="{ 'filter-button-active': this.queueType === 'all' }"
-              v-on:click="changeQueueTypeAction('all')"
+              v-on:click="editQueueTypeAction('all')"
             >
               All
             </div>
             <div 
               class="column filter-button" 
               v-bind:class="{ 'filter-button-active': this.queueType === 'return' }" 
-              v-on:click="changeQueueTypeAction('return')">
+              v-on:click="editQueueTypeAction('return')">
               Return
             </div>
             <div 
               class="column filter-button" 
               v-bind:class="{ 'filter-button-active': this.queueType === 'queue' }" 
-              v-on:click="changeQueueTypeAction('queue')">
+              v-on:click="editQueueTypeAction('queue')">
               Queue
             </div>
             <div
               class="column filter-button filter-button-right"
               v-bind:class="{ 'filter-button-active': this.queueType === 'schedule' }"
-              v-on:click="changeQueueTypeAction('schedule')"
+              v-on:click="editQueueTypeAction('schedule')"
             >
               Schedule
             </div>
@@ -41,26 +41,26 @@
             <div
               class="column filter-button filter-button-left"
               v-bind:class="{ 'filter-button-active': this.queueStatus === 'all' }"
-              v-on:click="changeQueueStatusAction('all')"
+              v-on:click="editQueueStatusAction('all')"
             >
               All
             </div>
             <div 
               class="column filter-button" 
               v-bind:class="{ 'filter-button-active': this.queueStatus === 'active' }"
-              v-on:click="changeQueueStatusAction('active')">
+              v-on:click="editQueueStatusAction('active')">
               Active
             </div>
             <div 
               class="column filter-button" 
               v-bind:class="{ 'filter-button-active': this.queueStatus === 'archived' }"
-              v-on:click="changeQueueStatusAction('archived')">
+              v-on:click="editQueueStatusAction('archived')">
               Archived
             </div>
             <div 
               class="column filter-button" 
               v-bind:class="{ 'filter-button-active': this.queueStatus === 'error' }"
-              v-on:click="changeQueueStatusAction('error')">
+              v-on:click="editQueueStatusAction('error')">
               Errored
             </div>
           </div>
@@ -69,34 +69,36 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
+import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 import moment from 'moment-timezone'
 import Vue from 'vue'
 
 export default {
-  name: "QueueFilters",
+  name: 'QueueFilters',
   data: function () {
     return {
       loading: false,
       clearing: false,
-    };
+    }
   },
   computed: {
     ...mapState('queue', ['queueType', 'queueStatus']),
   },
   methods: {
-    ...mapMutations('queue', ['changeQueueType', 'changeQueueStatus','changeSelectedQueueStatId']),
-    ...mapMutations('instance', ['changeSelectedInstanceStatId']),
+    ...mapMutations('queue', ['editQueueType', 'editQueueStatus','editSelectedQueueId']),
+    ...mapMutations('instance', ['editSelectedInstanceId', 'editSelectedInstanceStatId']),
 
-    changeQueueTypeAction: function(queueType) {
-      this.changeSelectedQueueStatId('')
-      this.changeSelectedInstanceStatId('')
-      this.changeQueueType(queueType)
+    editQueueTypeAction: function(queueType) {
+      this.editSelectedQueueId('')
+      this.editSelectedInstanceId('')
+      this.editSelectedInstanceStatId('')
+      this.editQueueType(queueType)
     },
-    changeQueueStatusAction: function(queueStatus) {
-      this.changeSelectedQueueStatId('')
-      this.changeSelectedInstanceStatId('')
-      this.changeQueueStatus(queueStatus)
+    editQueueStatusAction: function(queueStatus) {
+      this.editSelectedQueueId('')
+      this.editSelectedInstanceId('')
+      this.editSelectedInstanceStatId('')
+      this.editQueueStatus(queueStatus)
     },
   },
 };

@@ -39,7 +39,7 @@ const actions = {
             
             commit('changeSubmitted', true)
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Feedback submitted.')
         } catch(err) {
             return throwError(err)
         }

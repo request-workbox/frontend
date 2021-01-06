@@ -52,22 +52,16 @@ export default {
         const confirm = window.confirm('Are you sure you want to remove this card?')
 
         if (confirm) {
-          Vue.$toast.open({
-            message: 'Removing...',
-            type: 'default',
-          })
+          Vue.$toast.open({ message: 'Removing...' })
           
           await this.removePaymentMethod()
           await this.billingInformation()
 
-          Vue.$toast.open({
-            message: 'Success!',
-            type: 'success',
-          })
+          Vue.$toast.open({ message: 'Success!', type: 'success', })
           
         }
       } catch(err) {
-        console.log(err)
+        console.log('Account billing card error: ', err.message)
       }
     },
   }

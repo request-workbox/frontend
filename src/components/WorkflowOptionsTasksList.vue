@@ -6,7 +6,7 @@
         <div class="column column-data column-header-text column-grow">Request Tasks</div>
       </div>
 
-      <div class="row row-border-bottom" v-for="task in this.selectedData().tasks" :key="task._id">
+      <div class="row row-border-bottom" v-for="task in this.selectedWorkflow.tasks" :key="task._id">
         <div class="column column-data">
           <input 
             id="team"
@@ -59,26 +59,23 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex';
 
 export default {
-  name: "WorkflowOptionsTasksList",
+  name: 'WorkflowOptionsTasksList',
   computed: {
-    ...mapGetters("table", [
-      "selectedData",
-      "requestsForSelect",
-    ]),
+    ...mapGetters('workflow', ['selectedWorkflow']),
   },
   methods: {
-    ...mapMutations("table", ["editWorkflowTask", "changeTaskPosition"]),
-    ...mapActions("table", ["deleteWorkflowTask"]),
+    ...mapMutations('workflow', ['editWorkflowTask', 'changeTaskPosition']),
+    ...mapActions('workflow', ['deleteWorkflowTask']),
     editWorkflowTaskAction: function (type, _id, key, event) {
       this.editWorkflowTask({
         type,
         _id,
         key,
         value: event.target.value,
-        workflowId: this.selectedData()._id,
+        workflowId: this.selectedWorkflow._id,
       });
     },
     editWorkflowTaskActive: function (type, _id, key, event) {
@@ -87,21 +84,21 @@ export default {
         _id,
         key,
         value: event.target.checked,
-        workflowId: this.selectedData()._id,
+        workflowId: this.selectedWorkflow._id,
       });
     },
-    deleteWorkflowTaskAction: function (type, taskId) {
-      const confirm = window.confirm('Are you sure you want to delete this task?')
-      if (confirm) {
-        this.deleteWorkflowTask({
-          type: type,
-          taskId: taskId,
-          workflowId: this.selectedData()._id,
-        });
+    deleteWorkflowTaskAction: async function (type, taskId) {
+      try {
+        const confirm = window.confirm('Are you sure you want to delete this task?')
+        if (confirm) {
+          await this.deleteWorkflowTask({ type: type, taskId: taskId, workflowId: this.selectedWorkflow._id, })
+        }
+      } catch(err) {
+        console.log('Workflow options tasks list', err.message)
       }
     },
     changeTaskPositionAction: function (taskId) {
-      this.changeTaskPosition({ taskId, workflowId: this.selectedData()._id });
+      this.changeTaskPosition({ taskId, workflowId: this.selectedWorkflow._id });
     },
   },
 };

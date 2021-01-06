@@ -1,5 +1,5 @@
 <template>
-  <div class="row row-border-bottom" v-if="this.selectedData()._id && this.option !== 'queue'">
+  <div class="row row-border-bottom" v-if="this.selectedRequest()._id && this.option !== 'queue'">
     <div class="column column-full-width">
       <div class="row row-justify-between">
         <div class="column">
@@ -7,24 +7,27 @@
             <div
               class="column text-button action"
               v-bind:class="{ disabled: !this.editing }"
-              v-on:click="cancelRequestChangesAction"
-            >Cancel</div>
+              v-on:click="cancelRequestChangesAction">
+                Cancel
+              </div>
             <div
               class="column text-button action"
               v-bind:class="{ disabled: !this.editing }"
-              v-on:click="saveRequestChangesAction"
-            >Save Changes</div>
+              v-on:click="saveRequestChangesAction">
+              Save Changes
+            </div>
             <div class="spacer"></div>
             <div
               v-if="allowAddingRequestItem()"
               class="column text-button action"
-              v-on:click="addRequestDetailItemAction"
-            >Add Item</div>
+              v-on:click="addRequestDetailItemAction">
+                Add Item
+              </div>
             <div
-              v-if="this.option === 'url'"
               class="column text-button action"
-              v-on:click="viewWorkflowAction"
-            >View workflow</div>
+              v-on:click="viewWorkflowAction">
+                View workflow
+              </div>
           </div>
         </div>
       </div>
@@ -34,43 +37,51 @@
 
 <script>
 import Vue from 'vue'
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
-  name: "RequestOptionsActions",
+  name: 'RequestOptionsActions',
   computed: {
-    ...mapGetters('table', ['selectedData']),
-    ...mapState("table", ["editing"]),
-    ...mapState('table', ['option'])
+    ...mapState('request', ['option','editing']),
+    ...mapGetters('request', ['selectedRequest']),
   },
   methods: {
-    ...mapActions("table", ["cancelRequestChanges", 'saveRequestChanges', 'addRequestDetailItem']),
+    ...mapActions('request', ['cancelRequestChanges', 'saveRequestChanges', 'addRequestDetailItem']),
     viewWorkflowAction: function() {
       const 
-        projectId = this.selectedData().projectId,
-        workflowId = this.selectedData().workflowId;
+        projectId = this.selectedRequest().projectId,
+        workflowId = this.selectedRequest().workflowId;
 
       window.open(`/projects/${projectId}/workflows?id=${workflowId}`)
     },
     allowAddingRequestItem: function() {
-      if (!this.selectedData()._id) return false;
+      if (!this.selectedRequest()._id) return false
 
       const allowOptions = ['query','headers','body']
-      if (_.includes(allowOptions,this.option)) return true;
-      else return false;
+      if (_.includes(allowOptions, this.option)) return true
+      else return false
     },
     cancelRequestChangesAction: async function() {
-      await this.cancelRequestChanges({ _id: this.selectedData()._id })
+      try {
+        const request = await this.cancelRequestChanges({ _id: this.selectedRequest()._id })
+      } catch(err) {
+        console.log('Request options actions error', err.message)
+      }
     },
     saveRequestChangesAction: async function() {
       try {
-        await this.saveRequestChanges(this.selectedData())
+        const request = await this.saveRequestChanges(this.selectedRequest())
       } catch(err) {
-        Vue.$toast.open(err.message)
+        console.log('Request options actions error', err.message)
+        Vue.$toast.open({ message: err.message })
       }
     },
     addRequestDetailItemAction: async function() {
-      await this.addRequestDetailItem({_id: this.selectedData()._id, option: this.option })
+      try {
+        const item = await this.addRequestDetailItem({_id: this.selectedRequest()._id, option: this.option })
+      } catch(err) {
+        console.log('Request options actions error', err.message)
+      }
     },
   }
 };

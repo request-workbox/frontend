@@ -65,7 +65,8 @@ export default {
       }
 
     } catch(err) { 
-      console.log(err.message)
+      console.log('Checkout error: ', err.message)
+
       Vue.$toast.open({ message: err.message })
 
       setTimeout(function() {

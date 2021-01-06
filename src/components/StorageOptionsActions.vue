@@ -7,13 +7,15 @@
             <div
               class="column text-button action"
               v-bind:class="{ disabled: !this.editing }"
-              v-on:click="cancelStorageChangesAction"
-            >Cancel</div>
+              v-on:click="cancelStorageChangesAction">
+                Cancel
+              </div>
             <div
               class="column text-button action"
               v-bind:class="{ disabled: !this.editing }"
-              v-on:click="saveStorageChangesAction"
-            >Save Changes</div>
+              v-on:click="saveStorageChangesAction">
+                Save Changes
+              </div>
           </div>
         </div>
       </div>
@@ -22,22 +24,29 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
-  name: "StorageOptionsActions",
+  name: 'StorageOptionsActions',
   computed: {
-    ...mapGetters('table', ['selectedData']),
-    ...mapState("table", ["editing"]),
-    ...mapState('table', ['option'])
+    ...mapState('storage', ['editing']),
+    ...mapGetters('storage', ['selectedStorage']),
   },
   methods: {
-    ...mapActions("table", ["cancelStorageChanges", 'saveStorageChanges']),
+    ...mapActions('storage', ['cancelStorageChanges', 'saveStorageChanges']),
     cancelStorageChangesAction: async function() {
-      await this.cancelStorageChanges({ _id: this.selectedData()._id })
+      try {
+        const storage = await this.cancelStorageChanges({ _id: this.selectedStorage()._id })
+      } catch(err) {
+        console.log('Storage options actions error', err.message)
+      }
     },
     saveStorageChangesAction: async function() {
-      await this.saveStorageChanges(this.selectedData())
+      try {
+        const storage = await this.saveStorageChanges(this.selectedStorage())
+      } catch(err) {
+        console.log('Storage options actions error', err.message)
+      }
     },
   }
 };

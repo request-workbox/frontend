@@ -5,7 +5,7 @@
         <div class="column column-data column-header-text column-grow column-group-header">Description</div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.selectedData()._id">
+      <div class="row row-border-bottom" v-if="this.selectedWorkflow()._id">
         <div class="column column-data column-20">
           <input
             type="text"
@@ -20,25 +20,25 @@
             type="text"
             placeholder="Value"
             class="column-input-text"
-            :value="this.selectedData().name"
+            :value="this.selectedWorkflow().name"
             v-on:input="editWorkflowDetailAction('name', $event)"
           />
         </div>
       </div>
 
       <!-- Locked / Sensitive -->
-      <div class="row row-border-bottom row-border-bottom-tall" v-if="this.selectedData()._id">
+      <div class="row row-border-bottom row-border-bottom-tall" v-if="this.selectedWorkflow()._id">
         <div class="column column-data column-grow">
           <input 
             id="team"
             type="checkbox"
-            :checked="this.selectedData().lockedResource"
+            :checked="this.selectedWorkflow().lockedResource"
             @change="editPermission('lockedResource', $event)">
           <label for="team">Locked Resource</label>
           <input 
             id="prevent"
             type="checkbox"
-            :checked="this.selectedData().preventExecution"
+            :checked="this.selectedWorkflow().preventExecution"
             @change="editPermission('preventExecution', $event)">
           <label for="prevent">Prevent Execution</label>
         </div>
@@ -48,7 +48,7 @@
         <div class="column column-data column-header-text column-grow column-group-header">Workflow API</div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.selectedData()._id">
+      <div class="row row-border-bottom" v-if="this.selectedWorkflow()._id">
         <div class="column column-data column-20">
           <div class="column text-button action action-text-center" v-on:click="copyToClipboard('return')">Copy Return URL</div>
         </div>
@@ -57,13 +57,13 @@
             type="text"
             placeholder="Key"
             class="column-input-text"
-            :value="returnInstanceUrl"
+            :value="triggerUrl('return')"
             ref="returnUrl"
           />
         </div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.selectedData()._id">
+      <div class="row row-border-bottom" v-if="this.selectedWorkflow()._id">
         <div class="column column-data column-20">
           <div class="column text-button action action-text-center" v-on:click="copyToClipboard('queue')">Copy Queue URL</div>
         </div>
@@ -72,13 +72,13 @@
             type="text"
             placeholder="Key"
             class="column-input-text"
-            :value="queueInstanceUrl"
+            :value="triggerUrl('queue')"
             ref="queueUrl"
           />
         </div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.selectedData()._id">
+      <div class="row row-border-bottom" v-if="this.selectedWorkflow()._id">
         <div class="column column-data column-20">
           <div class="column text-button action action-text-center" v-on:click="copyToClipboard('schedule')">Copy Schedule URL</div>
         </div>
@@ -87,7 +87,7 @@
             type="text"
             placeholder="Key"
             class="column-input-text"
-            :value="scheduleInstanceUrl"
+            :value="triggerUrl('schedule')"
             ref="scheduleUrl"
           />
         </div>
@@ -99,40 +99,31 @@
 
 <script>
 import Vue from 'vue'
-import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 import moment from 'moment-timezone'
 
 export default {
-  name: "WorkflowOptionsInstance",
+  name: 'WorkflowOptionsInstance',
   computed: {
-    ...mapState('table',['apiUrl']),
-    ...mapGetters("table", ['selectedData']),
-    returnInstanceUrl: function() {
-      if (!this.apiUrl) return ''
-      if (!this.selectedData() || !this.selectedData()._id) return ''
-      
-      return `${this.apiUrl}/return-workflow/${this.selectedData()._id}`
-    },
-    queueInstanceUrl: function() {
-      if (!this.apiUrl) return ''
-      if (!this.selectedData() || !this.selectedData()._id) return ''
-      
-      return `${this.apiUrl}/queue-workflow/${this.selectedData()._id}`
-    },
-    scheduleInstanceUrl: function() {
-      if (!this.apiUrl) return ''
-      if (!this.selectedData() || !this.selectedData()._id) return ''
-      
-      return `${this.apiUrl}/schedule-workflow/${this.selectedData()._id}?date=[ISO 8601]`
+    ...mapState('workflow',['apiUrl']),
+    ...mapGetters('workflow', ['selectedWorkflow']),
+    triggerUrl: function() {
+      if (!this.selectedWorkflow() || !this.selectedWorkflow()._id) return ''
+
+      if (queueType === 'schedule') {
+        return `${this.apiUrl}/schedule-workflow/${this.selectedWorkflow()._id}?date=[ISO 8601]`
+      } else {
+        return `${this.apiUrl}/${queueType}-workflow/${this.selectedWorkflow()._id}`
+      }
     },
   },
   methods: {
-    ...mapMutations('table', ['editWorkflowDetail']),
+    ...mapMutations('workflow', ['editWorkflowDetail']),
     editWorkflowDetailAction: function(key, event) {
-      this.editWorkflowDetail({key, value: event.target.value, workflowId: this.selectedData()._id})
+      this.editWorkflowDetail({key, value: event.target.value, workflowId: this.selectedWorkflow()._id})
     },
     editPermission: function(key, event) {
-      this.editWorkflowDetail({key, value: event.target.checked, workflowId: this.selectedData()._id})
+      this.editWorkflowDetail({key, value: event.target.checked, workflowId: this.selectedWorkflow()._id})
     },
     copyToClipboard: function(queueType) {
       const queueTypeRef = `${queueType}Url`
@@ -145,10 +136,7 @@ export default {
       /* Copy the text inside the text field */
       document.execCommand("copy");
 
-      Vue.$toast.open({
-        message: 'Copied text to clipboard!',
-        type: 'success',
-      })
+      Vue.$toast.open({ message: 'Copied text to clipboard!', type: 'success', })
     },
   }
 };

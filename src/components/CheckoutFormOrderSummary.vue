@@ -167,7 +167,8 @@ export default {
         }
 
       } catch(err) {
-        console.log(err.message)
+        console.log('Checkout form order summary error', err.message)
+        
         Vue.$toast.open({ message: err.message })
 
         if (_.includes(err.message, 'Coupon')) return

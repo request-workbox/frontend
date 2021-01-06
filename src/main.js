@@ -118,7 +118,8 @@ const router = new VueRouter({
 * **/
 import authenticationModule from './shared/plugins/modules/Authentication'
 import projectModule from './shared/plugins/modules/Project'
-import tableModule from './shared/plugins/modules/Table'
+import teamModule from './shared/plugins/modules/Team'
+import invitesModule from './shared/plugins/modules/Invites'
 import accountModule from './shared/plugins/modules/AccountSettings'
 import billingModule from './shared/plugins/modules/AccountBilling'
 import headerModule from './shared/plugins/modules/Header'
@@ -132,7 +133,8 @@ const store = new vuex.Store({
   modules: {
     authentication: authenticationModule,
     project: projectModule,
-    table: tableModule,
+    team: teamModule,
+    invites: invitesModule,
     account: accountModule,
     billing: billingModule,
     header: headerModule,

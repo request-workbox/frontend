@@ -7,16 +7,16 @@
     </div>
 
     <div class="row row-border-bottom">
-      <div class="column text-button" v-bind:class="{'text-button-selected':this.option === 'results'}" v-on:click="changeOptionAction('results')">Results</div>
-      <div class="column text-button" v-bind:class="{'text-button-selected':this.option === 'usage'}" v-on:click="changeOptionAction('usage')">Usage</div>
+      <div class="column text-button" v-bind:class="{'text-button-selected':this.option === 'results'}" v-on:click="editOptionAction('results')">Results</div>
+      <div class="column text-button" v-bind:class="{'text-button-selected':this.option === 'usage'}" v-on:click="editOptionAction('usage')">Usage</div>
     </div>
 
-    <div class="row row-border-bottom" v-if="this.selectedStatId !== '' && this.selectedInstanceStatId !== ''">
+    <div class="row row-border-bottom" v-if="this.selectedInstanceId !== '' && this.selectedInstanceStatId !== ''">
       <div class="column text-button action" v-if="!loading" v-on:click="getInstanceDetailAction()">Load Requests / Responses</div>
       <div class="column text-button action" v-if="loading">Loading Data...</div>
 
-      <div class="column text-button action" v-if="!downloading && shouldShowSelectedStat() && selectedStat().downloadPayload" v-on:click="downloadInstanceStatAction">Download Payload</div>
-      <div class="column text-button action" v-if="downloading && shouldShowSelectedStat() && selectedStat().downloadPayload">Downloading...</div>
+      <div class="column text-button action" v-if="!downloading && selectedInstance().downloadPayload" v-on:click="downloadInstanceStatAction">Download Payload</div>
+      <div class="column text-button action" v-if="downloading && selectedInstance().downloadPayload">Downloading...</div>
 
       <div class="column text-button action" v-if="!loadingUsage" v-on:click="getInstanceUsageAction()">Load Usage</div>
       <div class="column text-button action" v-if="loadingUsage">Loading Usage...</div>
@@ -33,14 +33,14 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 import moment from 'moment-timezone'
 import _ from 'lodash'
 
-import ScheduleStatsInstanceResults from './ScheduleStatsInstanceResults'
-import ScheduleStatsInstanceUsage from './ScheduleStatsInstanceUsage'
+import QueueStatsInstanceResults from './QueueStatsInstanceResults'
+import QueueStatsInstanceUsage from './QueueStatsInstanceUsage'
 
-const download = require("downloadjs")
+const download = require('downloadjs')
 
 export default {
   name: 'QueueStatsInstance',
@@ -52,35 +52,29 @@ export default {
     }
   },
   components: {
-    ScheduleStatsInstanceResults,
-    ScheduleStatsInstanceUsage,
+    QueueStatsInstanceResults,
+    QueueStatsInstanceUsage,
   },
   computed: {
-    ...mapState('table', ['selectedStatId','selectedInstanceStatId']),
-    ...mapState('queue', ['option']),
-    ...mapGetters('table', ['selectedData']),
-    ...mapGetters('queue', ['selectedStat']),
+    ...mapState('instance', ['option']),
+    ...mapGetters('instance', ['selectedInstance']),
+    
     queueStatsInstanceOption: function() {
-      return `ScheduleStatsInstance${_.upperFirst(this.option)}`
+      return `QueueStatsInstance${_.upperFirst(this.option)}`
     }
   },
   methods: {
-    ...mapMutations('queue',['changeOption']),
+    ...mapMutations('instance',['editOption']),
     ...mapActions('instance', ['getInstanceDetail','getInstanceUsage','downloadInstanceStat']),
-    changeOptionAction: function(option) {
-      this.changeOption(option)
-    },
-    shouldShowSelectedStat: function() {
-      if (!_.size(this.selectedStat())) return false
-      return true
+    editOptionAction: function(option) {
+      this.editOption(option)
     },
     getInstanceDetailAction: async function() {
       try {
         this.loading = true
-        await this.getInstanceDetail({instanceId: this.selectedData()._id})
+        await this.getInstanceDetail({instanceId: this.selectedInstance()._id})
       } catch(err) {
-        console.log('Error getting instance details')
-        console.log(err)
+        console.log('Queue stats instance error', err.message)
       } finally {
         this.loading = false
       }
@@ -88,13 +82,13 @@ export default {
     downloadInstanceStatAction: async function() {
       try {
         this.downloading = true
-        const fileDataResponse = await this.downloadInstanceStat({ instanceId: this.selectedData()._id, statId: this.selectedStat()._id })
+        const fileDataResponse = await this.downloadInstanceStat({ instanceId: this.selectedInstance()._id, statId: this.selectedInstance()._id })
         const fileData = fileDataResponse.data
         const fileStringData = JSON.stringify(fileData)
 
-        return download(fileStringData, `${this.selectedData().workflowName}-${this.selectedStat().requestName}`, 'text/plain')
+        return download(fileStringData, `${this.selectedInstance().workflowName}-${this.selectedInstance().requestName}`, 'text/plain')
       } catch(err) {
-        // console.log(err)
+        console.log('Queue stats instance error', err.message)
       } finally {
         this.downloading = false
       }
@@ -102,9 +96,9 @@ export default {
     getInstanceUsageAction: async function() {
       try {
         this.loadingUsage = true
-        await this.getInstanceUsage({instanceId: this.selectedData()._id})
+        await this.getInstanceUsage({instanceId: this.selectedInstance()._id})
       } catch(err) {
-        // console.log('Error getting instance usage')
+        console.log('Queue stats instance error', err.message)
       } finally {
         this.loadingUsage = false
       }

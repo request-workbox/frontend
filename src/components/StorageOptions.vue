@@ -5,22 +5,20 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import _ from "lodash";
+import { mapState } from 'vuex'
+import _ from 'lodash'
 
-import StorageOptionsDetails from "./StorageOptionsDetails";
-import StorageOptionsUsage from "./StorageOptionsUsage";
+import StorageOptionsDetails from './StorageOptionsDetails'
 
 export default {
-  name: "StorageOptions",
+  name: 'StorageOptions',
   components: {
     StorageOptionsDetails,
-    StorageOptionsUsage,
   },
   computed: {
-    ...mapState("table", ["option"]),
+    ...mapState('storage', ['option']),
     upperFirstOption: function() {
-      return _.upperFirst(this.option);
+      return _.upperFirst(this.option)
     }
   }
 };

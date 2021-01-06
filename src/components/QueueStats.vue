@@ -1,5 +1,5 @@
 <template>
-  <div class="row" v-if="this.selectedData()._id">
+  <div class="row" v-if="this.selectedQueueId">
 
     <div class="column column-full-width">
       <div class="row">
@@ -35,21 +35,13 @@ import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 export default {
   name: 'QueueStats',
   computed: {
-    ...mapState('table',['selectedQueueStatId']),
+    ...mapState('queue',['selectedQueueId']),
+    ...mapGetters('queue', ['getQueueById']),
 
-    ...mapGetters('table', ['selectedData']),
-    ...mapGetters('queue', ['getQueueByRequestId','getQueueByWorkflowId']),
     selectedQueueStats: function() {
-      if (!this.selectedData()._id) return []
-      if (this.selectedQueueStatId === '') return []
+      if (this.selectedQueueId === '') return []
 
-      console.log(this.selectedQueueStatId)
-
-      if (this.$route.name === 'Requests') {
-        return this.getQueueByRequestId(this.selectedData()._id, this.selectedQueueStatId).stats
-      } else if (this.$route.name === 'Workflows') {
-        return this.getQueueByWorkflowId(this.selectedData()._id, this.selectedQueueStatId).stats
-      }
+      return this.getQueueById(this.selectedQueueId).stats
     },
   },
   methods: {

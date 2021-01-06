@@ -8,28 +8,28 @@
 
     <div class="row row-border-bottom">
       <div class="column column-data column-header column-10 column-padded">
-        <span class="column-text-button" v-on:click="toggleQueueOrderDirection('date')">Departure</span>
+        <span class="column-text-button" v-on:click="updateQueueOrderBy('date')">Departure</span>
       </div>
       <div class="column column-data column-header column-5 column-padded">Status</div>
       <div class="column column-data column-header column-5 column-padded">Queue Type</div>
       <div class="column column-data column-header column-10 column-padded">Workflow Name</div>
       <div class="column column-data column-header column-grow column-padded">
-        <span class="column-text-button" v-on:click="toggleQueueOrderDirection('createdAt')">Created</span>
+        <span class="column-text-button" v-on:click="updateQueueOrderBy('createdAt')">Created</span>
       </div>
     </div>
 
     <div 
-      v-for="(stat) in filterQueueByWorkflow(workflowId())" :key="stat._id"
-      v-bind:class="{'table-row-selected':shouldBeSelected(stat._id)}"
-      v-on:click="selectQueueStatAction(stat)"
+      v-for="(queue) in visibleQueues(activeSelectionId)" :key="queue._id"
+      v-bind:class="{'table-row-selected':shouldBeSelected(queue._id)}"
+      v-on:click="selectQueueAction(queue)"
       class="row row-border-bottom table-row-selectable queue-row">
-      <div class="column column-data column-10 column-padded">{{ formattedDate(stat.date) }}</div>
-      <div class="column column-data column-5 column-padded">{{ formattedQueueStatus(stat.status) }}</div>
-      <div class="column column-data column-5 column-padded">{{ formattedQueueType(stat.queueType) }}</div>
-      <div class="column column-data column-10 column-padded">{{ stat.workflowName }}</div>
-      <div class="column column-data column-grow column-padded">{{ formattedDate(stat.createdAt) }}</div>
+      <div class="column column-data column-10 column-padded">{{ formattedDate(queue.date) }}</div>
+      <div class="column column-data column-5 column-padded">{{ formattedQueueStatus(queue.status) }}</div>
+      <div class="column column-data column-5 column-padded">{{ formattedQueueType(queue.queueType) }}</div>
+      <div class="column column-data column-10 column-padded">{{ queue.workflowName }}</div>
+      <div class="column column-data column-grow column-padded">{{ formattedDate(queue.createdAt) }}</div>
       <div class="column column-data column-grow column-padded">
-        <span class="column-text-button" v-if="canRemoveSchedule(stat.status)" v-on:click="archiveQueueAction(stat._id)">Remove</span>
+        <span class="column-text-button" v-if="canArchiveQueue(queue.status)" v-on:click="archiveQueueAction(queue._id)">Archive</span>
       </div>
     </div>
 
@@ -38,26 +38,27 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters, mapActions } from 'vuex';
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 import moment from 'moment-timezone'
 import _ from 'lodash'
 
 export default {
   name: 'Queues',
   computed: {
-    ...mapGetters('table', ['selectedData']),
-    ...mapGetters('queue', ['filterQueueByWorkflow','selectedQueueStatId']),
+    ...mapGetters('queue', ['visibleQueues','selectedQueueId']),
+
+    ...mapGetters('request', ['selectedRequest']),
+    ...mapGetters('workflow', ['selectedWorkflow']),
+    activeSelectionId: function() {
+      if (this.$route.name === 'Requests') return this.selectedRequest._id
+      if (this.$route.name === 'Workflows') return this.selectedWorkflow._id
+    },
   },
   methods: {
-    ...mapMutations('queue', ['toggleQueueOrderDirection','changeSelectedStatId','changeSelectedQueueStatId']),
+    ...mapMutations('queue', ['updateQueueOrderBy','editSelectedQueueId']),
+    ...mapMutations('instance', ['editSelectedInstanceId', 'editSelectedInstanceStatId']),
+
     ...mapActions('queue', ['archiveQueue']),
-    workflowId: function() {
-      if (this.$route.name === 'Requests') {
-        return this.selectedData().workflowId
-      } else {
-        return this.selectedData()._id
-      }
-    },
     formattedQueueType: (queueType) => {
       if (queueType === 'return') return 'Return'
       if (queueType === 'queue') return 'Queue'
@@ -69,7 +70,7 @@ export default {
     formattedDate: (date) => {
       return `${moment(date).format('h:mm:ss a')}`
     },
-    canRemoveSchedule: (status) => {
+    canArchiveQueue: (status) => {
       if (status === 'pending') return true
       else return false
     },
@@ -77,15 +78,16 @@ export default {
       try {
         await this.archiveQueue(queueId)
       } catch(err) {
-        console.log(err)
+        console.log('Queues error', err.message)
       }
     },
-    selectQueueStatAction: function(stat) {
-      this.changeSelectedQueueStatId(stat._id)
-      this.changeSelectedStatId(stat.instanceId)
+    selectQueueAction: function(queue) {
+      this.editSelectedQueueId(queue._id)
+      this.editSelectedInstanceId(queue.instanceId)
+      this.editSelectedInstanceStatId('')
     },
     shouldBeSelected: function(statId) {
-      if (statId === this.selectedQueueStatId) return true
+      if (statId === this.selectedQueueId) return true
       else return false
     }
   }

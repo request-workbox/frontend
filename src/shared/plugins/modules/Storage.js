@@ -3,6 +3,8 @@ import { getField, updateField } from 'vuex-map-fields';
 import _ from 'lodash'
 import moment from 'moment-timezone'
 
+const pagination = require('./StoragePagination')
+
 function sendResponse(response, message) {
     if (message && message !== '') Vue.$toast.open({ message, })
     return response
@@ -30,16 +32,18 @@ const state = () => ({
     page: 0,
     editing: false,
     option: 'details',
-    orderDirection: 'descending',
-    orderBy: 'date',
+    storageOrderDirection: 'descending',
+    storageOrderBy: 'createdAt',
 })
 
 const getters = {
     getField,
-
+    ...pagination.getters,
 }
 
 const actions = {
+    ...pagination.actions,
+
     async createStorage({ commit, state, rootState }, { projectId, storageType }) {
         try {
             const requestUrl = `${state.apiUrl}/create-storage`
@@ -47,9 +51,9 @@ const actions = {
             const request = await Vue.$axios.post(requestUrl, requestBody)
             
             commit('addStorage', request.data)
-            commit('changeSelectedId', { selectedId: request.data._id })
+            commit('editSelectedId', { selectedId: request.data._id })
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Storage created.')
         } catch(err) {
             return throwError(err)
         }
@@ -61,10 +65,10 @@ const actions = {
             const requestBody = { projectId }
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
-            commit('replaceAllData', { data: request.data })
+            commit('replaceStorages', { data: request.data })
             commit('resetPage')
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Storages loaded.')
         } catch(err) {
             return throwError(err)
         }
@@ -75,27 +79,11 @@ const actions = {
             const requestBody = { projectId: payload.projectId, storageId: payload.storageId }
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
-            commit('replaceAllData', { data: [request.data] })
+            commit('replaceStorages', { data: [request.data] })
             commit('resetPage')
-            commit('changeSelectedId', { selectedId: request.data._id })
+            commit('editSelectedId', { selectedId: request.data._id })
 
-            return sendResponse(request.data, 'Request created.')
-        } catch(err) {
-            return throwError(err)
-        }
-    },
-    async getStorageUsage({ commit, state, getters, rootState }, payload) {
-        try {
-            if (!payload.storageId) return
-
-            const storageId = payload.storageId
-            const requestUrl = `${state.apiUrl}/get-storage-usage`
-            const requestBody = { storageId }
-            const request = await Vue.$axios.post(requestUrl, requestBody)
-
-            commit('updateStorageUsage', { data: request.data, storageId: storageId })
-
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Storage found.')
         } catch(err) {
             return throwError(err)
         }
@@ -109,7 +97,7 @@ const actions = {
 
             commit('editStorageValue', { storageId, key: 'storageValue', value: request.data.storageValue })
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Storage data found.')
         } catch(err) {
             return throwError(err)
         }
@@ -120,7 +108,7 @@ const actions = {
             const requestBody = { storageId }
             const request = await Vue.$axios.post(requestUrl, requestBody)
             
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Storage data found.')
         } catch(err) {
             return throwError(err)
         }
@@ -128,10 +116,10 @@ const actions = {
     async updateTextStorageData({ commit, state, getters, rootState }, { storageId, storageValue }) {
         try {
             const requestUrl = `${state.apiUrl}/update-text-storage-data?storageId=${storageId}`
-            const requestHeaders = { 'Content-Type': 'multipart/form-data' }
-            const request = await Vue.$axios.post(requestUrl, { storageValue }, requestHeaders)
+            const requestBody = { storageValue }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Text storage data updated.')
         } catch(err) {
             return throwError(err)
         }
@@ -144,7 +132,7 @@ const actions = {
             const requestHeaders = { 'Content-Type': 'multipart/form-data' }
             const request = await Vue.$axios.post(requestUrl, formData, requestHeaders)
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'File storage data updated.')
         } catch(err) {
             return throwError(err)
         }
@@ -161,22 +149,22 @@ const actions = {
             commit('updateStorage', request.data)
             commit('stopEditing')
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Storage changes cancelled.')
         } catch(err) {
             return throwError(err)
         }
     },
-    async saveStorageChanges({ commit, state, getters, rootState }, storage) {
+    async saveStorageChanges({ commit, state, getters, rootState }, payload) {
         try {
             if (!state.editing) return;
 
             const requestUrl = `${state.apiUrl}/save-storage-changes`
-            const requestBody = storage
+            const requestBody = payload
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
             commit('stopEditing')
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Storage changes saved.')
         } catch(err) {
             return throwError(err)
         }
@@ -189,9 +177,9 @@ const actions = {
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
             commit('editStorageToArchive', { storageId: payload.storageId })
-            commit('changeSelectedId', { selectedId: '' })
+            commit('editSelectedId', { selectedId: '' })
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Storage archived.')
         } catch(err) {
             return throwError(err)
         }
@@ -203,9 +191,9 @@ const actions = {
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
             commit('editStorageToRestore', { storageId: payload.storageId })
-            commit('changeSelectedId', { selectedId: '' })
+            commit('editSelectedId', { selectedId: '' })
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Storage restored.')
         } catch(err) {
             return throwError(err)
         }
@@ -214,12 +202,13 @@ const actions = {
 
 const mutations = {
     updateField,
+    ...pagination.mutations,
 
     addStorage(state, payload) {
-        state.allData.push(payload)
+        state.storages.push(payload)
     },
     updateStorage(state, payload) {
-        _.each(state.allData, (data) => {
+        _.each(state.storages, (data) => {
             if (data._id === payload._id) {
                 _.each(data, (value, key) => {
                     data[key] = payload[key]
@@ -230,28 +219,28 @@ const mutations = {
     editStorageDetail(state, payload) {
         state.editing = true
 
-        _.each(state.allData, (data) => {
+        _.each(state.storages, (data) => {
             if (data._id === payload.storageId) {
                 data[payload.key] = payload.value
             }
         })
     },
     editStorageValue(state, payload) {
-        _.each(state.allData, (data) => {
+        _.each(state.storages, (data) => {
             if (data._id === payload.storageId) {
                 data[payload.key] = payload.value
             }
         })
     },
     editStorageToArchive(state, payload) {
-        _.each(state.allData, (data) => {
+        _.each(state.storages, (data) => {
             if (data._id === payload.storageId) {
                 data.active = false
             }
         })
     },
     editStorageToRestore(state, payload) {
-        _.each(state.allData, (data) => {
+        _.each(state.storages, (data) => {
             if (data._id === payload.storageId) {
                 data.active = true
             }
@@ -260,12 +249,12 @@ const mutations = {
     replaceStoragesForSelectOptions(state, payload) {
         state.storagesForSelectOptions = payload.data
     },
-    updateStorageUsage(state, payload) {
-        _.each(state.allData, (storage) => {
-            if (storage._id === payload.storageId) {
-                storage.usage = payload.data.usage
-            }
-        })
+    editSelectedStorageId(state, payload) {
+        if (state.selectedStorageId === payload) {
+            state.selectedStorageId = ''
+        } else {
+            state.selectedStorageId = payload
+        }
     },
 }
 

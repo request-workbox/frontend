@@ -250,10 +250,7 @@ export default {
           throw new Error()
         }
 
-        Vue.$toast.open({
-          message: 'Confirming...',
-          type: 'default',
-        })
+        Vue.$toast.open({ message: 'Confirming...', })
 
         const setupIntent = await this.createSetupIntent()
         const clientSecret = setupIntent.data.clientSecret
@@ -267,23 +264,17 @@ export default {
           }
         })
 
-        Vue.$toast.open({
-          message: 'Updating...',
-          type: 'default',
-        })
+        Vue.$toast.open({ message: 'Updating...', })
 
         await this.updatePaymentMethod(confirmCard.setupIntent.payment_method)
         await this.billingInformation()
 
-        Vue.$toast.open({
-          message: 'Success!',
-          type: 'success',
-        })
+        Vue.$toast.open({ message: 'Success!', type: 'success', })
 
         this.toggleUpdateCardView()
 
       } catch(err) {
-        console.log(err)
+        console.log('Account billing card form error: ', err.message)
         throw new Error(err.message)
       } finally {
         this.saving = false

@@ -16,9 +16,10 @@
           </select>
           <p>The authorization header will be automatically generated when you send the request. Learn more about authorization</p>
         </div>
-        <div class="column column-data column-full-width column-grow">
 
-            <div class="row row-border-bottom" v-if="this.authorizationType === 'basicAuth'">
+        <div class="column column-data column-full-width column-grow" v-if="this.authorizationType === 'basicAuth'">
+
+            <div class="row row-border-bottom">
               <div class="column column-data column-10">
                 <input
                   disabled
@@ -81,7 +82,7 @@
 
 
 
-            <div class="row row-border-bottom" v-if="this.authorizationType === 'basicAuth'">
+            <div class="row row-border-bottom">
               <div class="column column-data column-10">
                 <input
                   disabled
@@ -150,46 +151,36 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
+import { mapState, mapActions, mapMutations, mapGetters } from 'vuex'
 
 export default {
-  name: "RequestOptionsAuthorization",
-  data: function() {
-    return {
-      valueType: 'incomingField',
-    }
-  },
+  name: 'RequestOptionsAuthorization',
   computed: {
-    ...mapGetters("table", ['selectedData']),
-    ...mapGetters("table", ['selectedData','storagesForSelect']),
-
+    ...mapGetters('request', ['selectedRequest']),
     authorizationType: function() {
-      if (!this.selectedData()._id) return {}
-
-      return this.selectedData().authorizationType      
+      if (!this.selectedRequest()._id) return {}
+      return this.selectedRequest().authorizationType      
     },
     authorizationUsername: function() {
-      if (!this.selectedData()._id) return {}
-
-      return this.selectedData().authorization[0]      
+      if (!this.selectedRequest()._id) return {}
+      return this.selectedRequest().authorization[0]      
     },
     authorizationPassword: function() {
-      if (!this.selectedData()._id) return {}
-
-      return this.selectedData().authorization[1]      
+      if (!this.selectedRequest()._id) return {}
+      return this.selectedRequest().authorization[1]      
     },
   },
   methods: {
-    ...mapMutations('table', ['editRequestKey', 'editRequestAuthorization']),
+    ...mapMutations('request', ['editRequestKey', 'editRequestAuthorization']),
     edit: function(key, event) {
-      this.editRequestKey({key, value: event.target.value, requestId: this.selectedData()._id})
+      this.editRequestKey({key, value: event.target.value, requestId: this.selectedRequest()._id})
     },
     editAuthorizationTypeAction: function(event) {
       const value = event.target.value
-      this.editRequestKey({ key: 'authorizationType', value, requestId: this.selectedData()._id })
+      this.editRequestKey({ key: 'authorizationType', value, requestId: this.selectedRequest()._id })
     },
     editAuthorizationValueTypeAction: function(taskType, taskId, event) {
-      this.editRequestAuthorization({ key: taskType, _id: taskId, value: event.target.value, requestId: this.selectedData()._id})
+      this.editRequestAuthorization({ key: taskType, _id: taskId, value: event.target.value, requestId: this.selectedRequest()._id})
     },
   },
   filters: {

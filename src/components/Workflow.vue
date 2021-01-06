@@ -1,11 +1,11 @@
 <template>
   <div id="workflow-container">
     <ProjectInfo />
-    <Menu />
-    <TableToolbar />
-    <Table />
-    <TableDetails />
-    <TableOptionsToolbar />
+    <WorkflowMenu />
+    <WorkflowTableToolbar />
+    <WorkflowTable />
+    <WorkflowTableDetails />
+    <WorkflowTableOptionsToolbar />
     <WorkflowOptionsActions />
     <WorkflowOptions />
     <Footer />
@@ -14,89 +14,89 @@
 
 <script>
 import Vue from 'vue'
-import { mapMutations, mapActions } from "vuex";
+import { mapMutations, mapActions } from 'vuex'
 
-import ProjectInfo from "./ProjectInfo";
-import Menu from "./Menu";
-import TableToolbar from "./TableToolbar";
-import Table from "./Table";
-import TableDetails from "./TableDetails";
-import TableOptionsToolbar from "./TableOptionsToolbar";
-import WorkflowOptionsActions from './WorkflowOptionsActions';
-import WorkflowOptions from './WorkflowOptions';
+import ProjectInfo from './ProjectInfo'
+import WorkflowMenu from './WorkflowMenu'
+import WorkflowTableToolbar from './WorkflowTableToolbar'
+import WorkflowTable from './WorkflowTable'
+import WorkflowTableDetails from './WorkflowTableDetails'
+import WorkflowTableOptionsToolbar from './WorkflowTableOptionsToolbar'
+import WorkflowOptionsActions from './WorkflowOptionsActions'
+import WorkflowOptions from './WorkflowOptions'
 import Footer from './Footer'
 
 export default {
-  name: "Workflow",
-  props: ["projectId"],
+  name: 'Workflow',
+  props: ['projectId'],
   components: {
     ProjectInfo,
-    Menu,
-    TableToolbar,
-    Table,
-    TableDetails,
-    TableOptionsToolbar,
+    WorkflowMenu,
+    WorkflowTableToolbar,
+    WorkflowTable,
+    WorkflowTableDetails,
+    WorkflowTableOptionsToolbar,
     WorkflowOptionsActions,
     WorkflowOptions,
     Footer,
   },
   mounted: function () {
-    // console.log('loaded 1')
-    this.init();
+    this.init()
   },
   beforeRouteUpdate(to, from, next) {
-    // console.log('loaded 2')
-    // this.init();
-    return next();
+    // this.init()
+    return next()
+  },
+  computed: {
+    ...mapState('workflow', ['workflowOrderDirection']),
+    ...mapState('queue', ['queueOrderDirection']),
   },
   methods: {
-    ...mapMutations('queue', ['addToQueues']),
+    ...mapMutations('queue', ['addToQueues','editCurrentTime','updateQueueOrderDirection']),
     ...mapMutations('instance', ['addToInstances']),
-    ...mapMutations('table',['changeOption', 'setCurrentRoute','updateOrderDirection']),
-    ...mapMutations('queue', ['updateQueueOrderDirection', 'updateCurrentTime']),
+    ...mapMutations('workflow',['editOption','updateWorkflowOrderDirection']),
 
-    ...mapActions("project", ["getProjectName"]),
-    ...mapActions('table',['getWorkflows','getWorkflow','getRequestsForSelectOptions']),
+    ...mapActions('project', ['getProject']),
+    ...mapActions('request', ['listRequests']),
+    ...mapActions('workflow', ['listWorkflows']),
+
     addToSchedule: function(socketStat) {
       if (socketStat.queueDoc) this.addToQueues(socketStat.queueDoc)
       else if (socketStat.instanceDoc) this.addToInstances(socketStat.instanceDoc)
     },
+
     init: async function () {
-      this.setCurrentRoute({ route: this.$route.name })
-      this.getProjectName({ projectId: this.projectId });
-      this.updateOrderDirection({
-        orderDirection: localStorage.getItem('orderDirection') || 'descending'
-      })
-      this.updateQueueOrderDirection({
-        queueOrderDirection: localStorage.getItem('queueOrderDirection') || 'descending',
-        queueOrderBy: localStorage.getItem('queueOrderBy') || 'date',
-      })
-      await this.getRequestsForSelectOptions({ projectId: this.projectId })
-      
-      if (this.$route.query && this.$route.query.id) {
-        await this.getWorkflow({ projectId: this.projectId, workflowId: this.$route.query.id })
-      } else {
-        await this.getWorkflows({ projectId: this.projectId });
-      }
+      try {
 
-      if (this.$route.query && this.$route.query.option) {
-        this.changeOption(this.$route.query.option);
-      } else {
-        this.changeOption('instance');
-      }
+        const project = await this.getProject({ projectId: this.projectId })
+        const requests = await this.listRequests({ projectId: this.projectId })
+        const workflows = await this.listWorkflows({ projectId: this.projectId })
 
-      // Listen to socket
-      await this.$store.dispatch('cognito/fetchSession')
-      const userSub = this.$store.getters['cognito/userSub']
-      if (userSub) {
-        Vue.$apiSocket.on(userSub, this.addToSchedule)
-        Vue.$jobsSocket.on(userSub, this.addToSchedule)
-      }
+        const workflowOrderDirection = localStorage.getItem('workflowOrderDirection') || this.workflowOrderDirection
+        this.updateWorkflowOrderDirection({ workflowOrderDirection, })
 
-      const thisRef = this
-      setInterval(function() {
-        thisRef.updateCurrentTime()
-      }, 1000)
+        const queueOrderDirection = localStorage.getItem('queueOrderDirection') || this.queueOrderDirection
+        this.updateQueueOrderDirection({ queueOrderDirection, })
+        
+        if (this.$route.query && this.$route.query.option) {
+          this.editOption(this.$route.query.option)
+        }
+
+        const session = await this.$store.dispatch('cognito/fetchSession')
+        const userSub = this.$store.getters['cognito/userSub']
+        if (userSub) {
+          Vue.$apiSocket.on(userSub, this.addToSchedule)
+          Vue.$jobsSocket.on(userSub, this.addToSchedule)
+        }
+
+        const thisRef = this
+        setInterval(function() {
+          thisRef.editCurrentTime()
+        }, 1000)
+
+      } catch(err) {
+        console.log('Workflow error', err.message)
+      }
     },
   },
 };

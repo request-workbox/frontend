@@ -57,7 +57,8 @@ export default {
           await this.generateToken()
         }
       } catch(err) {
-        Vue.$toast.open(err.message)
+        console.log('Account settings tokens error', err.message)
+        Vue.$toast.open({ message: err.message })
       } finally {
         this.loading = false
       }
@@ -70,7 +71,8 @@ export default {
           await this.revokeToken(snippet)
         }
       } catch(err) {
-        Vue.$toast.open(err.message)
+        console.log('Account settings revoke tokens error', err.message)
+        Vue.$toast.open({ message: err.message })
       } finally {
         this.revoking = false
       }

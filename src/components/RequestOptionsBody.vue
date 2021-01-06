@@ -10,41 +10,47 @@
         <div class="column column-data column-header-text column-20">Value</div>
       </div>
 
-      <div class="row row-border-bottom" v-for="value in this.selectedData().body" :key="value._id">
+      <div class="row row-border-bottom"
+        v-for="detailItem in this.selectedRequest().body"
+        :key="detailItem._id">
         <div class="column column-data column-uparrow-hidden">
           <input 
             type="checkbox"
-            :checked="value.active"
-            @change="editActive('body', value._id, $event)">
+            :checked="detailItem.active"
+            @change="editActive('body', detailItem._id, $event)">
         </div>
         <div class="column column-data column-10">
           <input
             type="text"
             placeholder="Key"
             class="column-input-text"
-            :value="value.key"
-            v-on:input="editKey('body', value._id, $event)"
+            :value="detailItem.key"
+            v-on:input="editKey('body', detailItem._id, $event)"
           />
         </div>
         <div class="column column-data column-20">
-          <select class="column-input-select border-hidden column-input-select-stretch" :value="value.valueType" v-on:input="editValueType('body', value._id, $event)">
+          <select class="column-input-select border-hidden column-input-select-stretch"
+            :value="detailItem.valueType"
+            v-on:input="editValueType('body', detailItem._id, $event)">
               <option value="textInput">Text Input</option>
               <option value="storage">Storage</option>
               <option value="runtimeResult">Runtime Result</option>
               <option value="incomingField">Incoming Field</option>
             </select>
         </div>
-        <div class="column column-data column-20" v-if="value.valueType === 'textInput'">
+        <div class="column column-data column-20" v-if="detailItem.valueType === 'textInput'">
           <input
             type="text"
             placeholder="Text Input Value"
             class="column-input-text"
-            :value="value.value"
-            v-on:input="editValue('body', value._id, $event)"
+            :value="detailItem.value"
+            v-on:input="editValue('body', detailItem._id, $event)"
           />
         </div>
-        <div class="column column-data column-20" v-if="value.valueType === 'storage'">
-          <select class="column-input-select border-hidden column-input-select-stretch" :value="value.value" v-on:input="editValue('body', value._id, $event)">
+        <div class="column column-data column-20" v-if="detailItem.valueType === 'storage'">
+          <select class="column-input-select border-hidden column-input-select-stretch"
+            :value="detailItem.value" 
+            v-on:input="editValue('body', detailItem._id, $event)">
               <option
                   v-for="(storage) in storagesForSelect()"
                   :key="storage._id"
@@ -52,25 +58,25 @@
                 >{{ storage.name }}</option>
             </select>
         </div>
-        <div class="column column-data column-20" v-if="value.valueType === 'runtimeResult'">
+        <div class="column column-data column-20" v-if="detailItem.valueType === 'runtimeResult'">
           <input
             type="text"
             placeholder="Request result name"
             class="column-input-text"
-            :value="value.value"
-            v-on:input="editValue('body', value._id, $event)"
+            :value="detailItem.value"
+            v-on:input="editValue('body', detailItem._id, $event)"
           />
         </div>
-        <div class="column column-data column-20" v-if="value.valueType === 'incomingField'">
+        <div class="column column-data column-20" v-if="detailItem.valueType === 'incomingField'">
           <input
             type="text"
             placeholder="Field Name"
             class="column-input-text"
-            :value="value.value"
-            v-on:input="editValue('body', value._id, $event)"
+            :value="detailItem.value"
+            v-on:input="editValue('body', detailItem._id, $event)"
           />
         </div>
-        <div class="column text-button action" v-on:click="deleteRequestDetailItemAction(value)">
+        <div class="column text-button action" v-on:click="deleteRequestDetailItemAction(detailItem)">
           Delete
         </div>
       </div>
@@ -79,32 +85,36 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
+import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 
 export default {
-  name: "RequestOptionsBody",
+  name: 'RequestOptionsBody',
   computed: {
-    ...mapGetters("table", ['selectedData','storagesForSelect']),
+    ...mapGetters('request', ['selectedRequest']),
   },
   methods: {
-    ...mapMutations('table', ['editRequestDetailKey', 'editRequestDetailValue','editRequestDetailValueType','editRequestDetailActive']),
-    ...mapActions('table', ['deleteRequestDetailItem']),
+    ...mapMutations('request', ['editRequestDetailKey', 'editRequestDetailValue','editRequestDetailValueType','editRequestDetailActive']),
+    ...mapActions('request', ['deleteRequestDetailItem']),
     editKey: function(type, key, event) {
-      this.editRequestDetailKey({type, key, value: event.target.value, requestId: this.selectedData()._id})
+      this.editRequestDetailKey({type, key, value: event.target.value, requestId: this.selectedRequest()._id})
     },
     editValue: function(type, key, event) {
-      this.editRequestDetailValue({type, key, value: event.target.value, requestId: this.selectedData()._id})
+      this.editRequestDetailValue({type, key, value: event.target.value, requestId: this.selectedRequest()._id})
     },
     editValueType: function(type, key, event) {
-      this.editRequestDetailValueType({type, key, value: event.target.value, requestId: this.selectedData()._id})
+      this.editRequestDetailValueType({type, key, value: event.target.value, requestId: this.selectedRequest()._id})
     },
     editActive: function(type, key, event) {
-      this.editRequestDetailActive({type, key, value: event.target.checked, requestId: this.selectedData()._id})
+      this.editRequestDetailActive({type, key, value: event.target.checked, requestId: this.selectedRequest()._id})
     },
-    deleteRequestDetailItemAction: function(value) {
-      const confirm = window.confirm('Are you sure you want to delete this item?')
-      if (confirm) {
-        this.deleteRequestDetailItem({ detailItem: value, requestId: this.selectedData()._id, option: 'body'})
+    deleteRequestDetailItemAction: function(detailItem) {
+      try {
+        const confirm = window.confirm('Are you sure you want to delete this item?')
+        if (confirm) {
+          this.deleteRequestDetailItem({ detailItem, requestId: this.selectedRequest()._id, option: 'body'})
+        }
+      } catch(err) {
+        console.log('Request options body error', err.message)
       }
     }
   },

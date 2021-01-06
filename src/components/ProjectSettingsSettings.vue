@@ -19,8 +19,8 @@
           <input
             type="text"
             class="column-input-text"
-            :value="this.selectedData().name"
-            v-on:input="changeProjectNameAction($event)"
+            :value="this.selectedProject().name"
+            v-on:input="editProjectNameAction($event)"
           />
         </div>
       </div>
@@ -162,98 +162,75 @@
 
 <script>
 import Vue from 'vue'
-import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 import moment from 'moment-timezone'
 
 export default {
-  name: "ProjectSettingsSettings",
+  name: 'ProjectSettingsSettings',
+  methods: {
+    ...mapMutations('project',['editProjectName','editPermissions']),
+    ...mapMutations('team',['editPermissions']),
+    editProjectNameAction: function(event) {
+      this.editProjectName({value: event.target.value, projectId: this.selectedProject()._id})
+    },
+  },
   computed: {
-    ...mapGetters('project',['selectedData']),
+    ...mapGetters('project',['selectedProject']),
     returnRequestPermissions: {
       get() {
-        if (!this.selectedData() || !this.selectedData().returnRequest) return ''
-        return this.selectedData().returnRequest || ''
+        if (!this.selectedProject() || !this.selectedProject().returnRequest) return ''
+        return this.selectedProject().returnRequest || ''
       },
       set (value) {
-        this.changePermissions({
-          projectId: this.selectedData()._id,
-          permissionKey: 'returnRequest',
-          value,
-        })
+        this.editPermissions({ projectId: this.selectedProject()._id, permissionKey: 'returnRequest', value, })
       }
     },
     queueRequestPermissions: {
       get() {
-        if (!this.selectedData() || !this.selectedData().queueRequest) return ''
-        return this.selectedData().queueRequest || ''
+        if (!this.selectedProject() || !this.selectedProject().queueRequest) return ''
+        return this.selectedProject().queueRequest || ''
       },
       set (value) {
-        this.changePermissions({
-          projectId: this.selectedData()._id,
-          permissionKey: 'queueRequest',
-          value,
-        })
+        this.editPermissions({ projectId: this.selectedProject()._id, permissionKey: 'queueRequest', value, })
       }
     },
     scheduleRequestPermissions: {
       get() {
-        if (!this.selectedData() || !this.selectedData().scheduleRequest) return ''
-        return this.selectedData().scheduleRequest || ''
+        if (!this.selectedProject() || !this.selectedProject().scheduleRequest) return ''
+        return this.selectedProject().scheduleRequest || ''
       },
       set (value) {
-        this.changePermissions({
-          projectId: this.selectedData()._id,
-          permissionKey: 'scheduleRequest',
-          value,
-        })
+        this.editPermissions({ projectId: this.selectedProject()._id, permissionKey: 'scheduleRequest', value, })
       }
     },
     returnWorkflowPermissions: {
       get() {
-        if (!this.selectedData() || !this.selectedData().returnWorkflow) return ''
-        return this.selectedData().returnWorkflow || ''
+        if (!this.selectedProject() || !this.selectedProject().returnWorkflow) return ''
+        return this.selectedProject().returnWorkflow || ''
       },
       set (value) {
-        this.changePermissions({
-          projectId: this.selectedData()._id,
-          permissionKey: 'returnWorkflow',
-          value,
-        })
+        this.editPermissions({ projectId: this.selectedProject()._id, permissionKey: 'returnWorkflow', value, })
       }
     },
     queueWorkflowPermissions: {
       get() {
-        if (!this.selectedData() || !this.selectedData().queueWorkflow) return ''
-        return this.selectedData().queueWorkflow || ''
+        if (!this.selectedProject() || !this.selectedProject().queueWorkflow) return ''
+        return this.selectedProject().queueWorkflow || ''
       },
       set (value) {
-        this.changePermissions({
-          projectId: this.selectedData()._id,
-          permissionKey: 'queueWorkflow',
-          value,
-        })
+        this.editPermissions({ projectId: this.selectedProject()._id, permissionKey: 'queueWorkflow', value, })
       }
     },
     scheduleWorkflowPermissions: {
       get() {
-        if (!this.selectedData() || !this.selectedData().scheduleWorkflow) return ''
-        return this.selectedData().scheduleWorkflow || ''
+        if (!this.selectedProject() || !this.selectedProject().scheduleWorkflow) return ''
+        return this.selectedProject().scheduleWorkflow || ''
       },
       set (value) {
-        this.changePermissions({
-          projectId: this.selectedData()._id,
-          permissionKey: 'scheduleWorkflow',
-          value,
-        })
+        this.editPermissions({ projectId: this.selectedProject()._id, permissionKey: 'scheduleWorkflow', value, })
       }
     },
   },
-  methods: {
-    ...mapMutations('project',['changeProjectName','changePermissions']),
-    changeProjectNameAction: function(event) {
-      this.changeProjectName({value: event.target.value, projectId: this.selectedData()._id})
-    },
-  }
 };
 </script>
 

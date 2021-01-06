@@ -5,7 +5,7 @@
         <div class="column column-data column-header-text column-grow">Webhook</div>
       </div>
 
-      <div class="row row-border-bottom" v-for="webhook in this.selectedData().webhooks" :key="webhook._id">
+      <div class="row row-border-bottom" v-for="webhook in this.selectedWorkflow.webhooks" :key="webhook._id">
         <div class="column column-data">
           <input 
             id="team"
@@ -45,27 +45,25 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: "WorkflowOptionsTasksWebhook",
+  name: 'WorkflowOptionsTasksWebhook',
   computed: {
-    ...mapGetters("table", [
-      "selectedData",
-      "requestsForSelect",
-    ]),
+    ...mapGetters('workflow', ['selectedWorkflow']),
+    
     forceComputedForWebhookCancelChanges: async function() {
       const changes = await this.forceComputedForWebhookCancelChangesAction()
       return changes
     },
   },
   methods: {
-    ...mapMutations("table", ["editWorkflowTask", "changeTaskPosition", 'editWorkflowWebhook']),
-    ...mapActions("table", ["deleteWorkflowTask",'forceComputedForWebhookCancelChangesAction']),
+    ...mapMutations('workflow', ['editWorkflowTask', 'changeTaskPosition', 'editWorkflowWebhook']),
+    ...mapActions('workflow', ['deleteWorkflowTask','forceComputedForWebhookCancelChangesAction']),
     editWorkflowWebhookAction: function (event) {
       this.editWorkflowWebhook({
         value: event.target.value,
-        workflowId: this.selectedData()._id,
+        workflowId: this.selectedWorkflow._id,
       });
     },
     editWorkflowTaskActive: function (type, _id, key, event) {
@@ -74,12 +72,12 @@ export default {
         _id,
         key,
         value: event.target.checked,
-        workflowId: this.selectedData()._id,
+        workflowId: this.selectedWorkflow._id,
       });
     },
     webhookRequestId: function() {
-      if (this.selectedData().webhooks && this.selectedData().webhooks[0]) {
-        if (this.selectedData().webhooks[0].requestId) return this.selectedData().webhooks[0].requestId
+      if (this.selectedWorkflow.webhooks && this.selectedWorkflow.webhooks[0]) {
+        if (this.selectedWorkflow.webhooks[0].requestId) return this.selectedWorkflow.webhooks[0].requestId
         else return ''
       } else {
         return ''

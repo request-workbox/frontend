@@ -1,6 +1,6 @@
 <template>
   <div id="project-container">
-    <Menu />
+    <ProjectMenu />
     <ProjectList />
     <ProjectDetails />
     <ProjectSettings />
@@ -9,36 +9,38 @@
 </template>
 
 <script>
-import { mapMutations, mapActions } from "vuex";
+import { mapMutations, mapActions } from 'vuex'
 
-import Menu from "./Menu";
+import ProjectMenu from './ProjectMenu'
 import ProjectList from './ProjectList'
 import ProjectDetails from './ProjectDetails'
 import ProjectSettings from './ProjectSettings'
 import Footer from './Footer'
 
 export default {
-  name: "Project",
+  name: 'Project',
   components: {
-    Menu,
+    ProjectMenu,
     ProjectList,
     ProjectDetails,
     ProjectSettings,
     Footer,
   },
   mounted: function () {
-    this.init();
+    this.init()
   },
   beforeRouteUpdate(to, from, next) {
-    this.init();
-    return next();
+    this.init()
+    return next()
   },
   methods: {
-    ...mapMutations('table', ['setCurrentRoute']),
-    ...mapActions("project", ["getProjects"]),
-    init: function () {
-      this.setCurrentRoute({ route: this.$route.name })
-      this.getProjects()
+    ...mapActions('project', ['listProjects']),
+    init: async function () {
+      try {
+        const projects = await this.listProjects()
+      } catch(err) {
+        console.log('Project error', err.message)
+      }
     },
   },
 };

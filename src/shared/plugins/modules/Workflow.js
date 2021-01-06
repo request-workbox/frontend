@@ -3,6 +3,8 @@ import { getField, updateField } from 'vuex-map-fields';
 import _ from 'lodash'
 import moment from 'moment-timezone'
 
+const pagination = require('./WorkflowPagination')
+
 function sendResponse(response, message) {
     if (message && message !== '') Vue.$toast.open({ message, })
     return response
@@ -30,16 +32,19 @@ const state = () => ({
     page: 0,
     editing: false,
     option: 'instance',
-    orderDirection: 'descending',
-    orderBy: 'date',
+    workflowOrderDirection: 'descending',
+    workflowOrderBy: 'createdAt',
 })
 
 const getters = {
     getField,
+    ...pagination.getters,
 
 }
 
 const actions = {
+    ...pagination.actions,
+
     async createWorkflow({ commit, state, rootState }, { projectId }) {
         try {
             const requestUrl = `${state.apiUrl}/create-workflow`
@@ -47,9 +52,9 @@ const actions = {
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
             commit('addWorkflow', request.data)
-            commit('changeSelectedId', { selectedId: request.data._id })
+            commit('editSelectedId', { selectedId: request.data._id })
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Workflow created.')
         } catch(err) {
             return throwError(err)
         }
@@ -61,10 +66,10 @@ const actions = {
             const requestBody = { projectId }
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
-            commit('replaceAllData', { data: request.data })
+            commit('replaceWorkflows', { data: request.data })
             commit('resetPage')
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Workflows loaded.')
         } catch(err) {
             return throwError(err)
         }
@@ -75,11 +80,11 @@ const actions = {
             const requestBody = { projectId: payload.projectId, workflowId: payload.workflowId }
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
-            commit('replaceAllData', { data: [request.data] })
+            commit('replaceWorkflows', { data: [request.data] })
             commit('resetPage')
-            commit('changeSelectedId', { selectedId: request.data._id })
+            commit('editSelectedId', { selectedId: request.data._id })
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Workflow found.')
         } catch(err) {
             return throwError(err)
         }
@@ -96,21 +101,22 @@ const actions = {
             commit('stopEditing')
             commit('updateForceComputedForWebhookCancelChanges')
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Workflow changes cancelled.')
         } catch(err) {
             return throwError(err)
         }
     },
-    async saveWorkflowChanges({ commit, state, getters, rootState }, workflow) {
+    async saveWorkflowChanges({ commit, state, getters, rootState }, payload) {
         try {
             if (!state.editing) return;
 
             const requestUrl = `${state.apiUrl}/save-workflow-changes`
-            const request = await Vue.$axios.post(requestUrl, workflow)
+            const requestBody = payload
+            const request = await Vue.$axios.post(requestUrl, requestBody)
 
             commit('stopEditing')
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Workflow changes saved.')
         } catch(err) {
             return throwError(err)
         }
@@ -124,7 +130,7 @@ const actions = {
 
             commit('updateWorkflow', request.data)
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Workflow task added.')
         } catch(err) {
             return throwError(err)
         }
@@ -137,7 +143,7 @@ const actions = {
 
             commit('removeWorkflowTask', { type: payload.type, taskId: payload.taskId, workflowId: payload.workflowId })
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Workflow task deleted.')
         } catch(err) {
             return throwError(err)
         }
@@ -148,7 +154,7 @@ const actions = {
             const requestUrl = `${state.apiUrl}/return-workflow/${workflowId}`
             const request = await Vue.$axios.post(requestUrl)
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Workflow returned.')
         } catch(err) {
             return throwError(err)
         }
@@ -158,7 +164,7 @@ const actions = {
             const requestUrl = `${state.apiUrl}/queue-workflow/${workflowId}`
             const request = await Vue.$axios.post(requestUrl)
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Workflow queued.')
         } catch(err) {
             return throwError(err)
         }
@@ -168,7 +174,7 @@ const actions = {
             const requestUrl = `${state.apiUrl}/schedule-workflow/${workflowId}?date=${moment().add(1, 'minute').toISOString()}`
             const request = await Vue.$axios.post(requestUrl)
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Workflow scheduled.')
         } catch(err) {
             return throwError(err)
         }
@@ -181,9 +187,9 @@ const actions = {
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
             commit('editWorkflowToArchive', { workflowId: payload.workflowId })
-            commit('changeSelectedId', { selectedId: '' })
+            commit('editSelectedId', { selectedId: '' })
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Workflow archived.')
         } catch(err) {
             return throwError(err)
         }
@@ -195,9 +201,9 @@ const actions = {
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
             commit('editWorkflowToRestore', { workflowId: payload.workflowId })
-            commit('changeSelectedId', { selectedId: '' })
+            commit('editSelectedId', { selectedId: '' })
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Workflow restored.')
         } catch(err) {
             return throwError(err)
         }
@@ -210,15 +216,16 @@ const actions = {
 
 const mutations = {
     updateField,
+    ...pagination.mutations,
     
     addWorkflow(state, payload) {
-        state.allData.push(payload)
+        state.workflows.push(payload)
     },
     updateForceComputedForWebhookCancelChanges(state, payload) {
         state.forceComputedForWebhookCancelChanges = state.forceComputedForWebhookCancelChanges + 1
     },
     updateWorkflow(state, payload) {
-        _.each(state.allData, (data) => {
+        _.each(state.workflows, (data) => {
             if (data._id === payload._id) {
                 _.each(data, (value, key) => {
                     data[key] = payload[key]
@@ -229,7 +236,7 @@ const mutations = {
     editWorkflowDetail(state, payload) {
         state.editing = true
 
-        _.each(state.allData, (data) => {
+        _.each(state.workflows, (data) => {
             if (data._id === payload.workflowId) {
                 data[payload.key] = payload.value
             }
@@ -238,7 +245,7 @@ const mutations = {
     editWorkflowWebhook(state, payload) {
         state.editing = true
 
-        _.each(state.allData, (data) => {
+        _.each(state.workflows, (data) => {
             if (data._id === payload.workflowId) {
                 if (payload.value === '') {
                     data.webhooks = _.map(data.webhooks, (webhook) => {
@@ -257,7 +264,7 @@ const mutations = {
     editWorkflowTask(state, payload) {
         state.editing = true
 
-        _.each(state.allData, (data) => {
+        _.each(state.workflows, (data) => {
             if (data._id === payload.workflowId) {
                 _.each(data[payload.type], (obj) => {
                     if (obj._id === payload._id) {
@@ -270,7 +277,7 @@ const mutations = {
     editWorkflowTaskInput(state, payload) {
         state.editing = true
 
-        _.each(state.allData, (data) => {
+        _.each(state.workflows, (data) => {
             if (data._id === payload.workflowId) {
                 _.each(data.tasks, (taskObj) => {
                     if (taskObj._id === payload.taskId) {
@@ -287,7 +294,7 @@ const mutations = {
         })
     },
     updateWorkflowTask(state, payload) {
-        _.each(state.allData, (data) => {
+        _.each(state.workflows, (data) => {
             if (data._id === payload.workflowId) {
                 data['tasks'].push(payload.item)
             }
@@ -295,7 +302,7 @@ const mutations = {
 
     },
     removeWorkflowTask(state, payload) {
-        _.each(state.allData, (data) => {
+        _.each(state.workflows, (data) => {
             if (data._id === payload.workflowId) {
                 data[payload.type] = _.filter(data[payload.type], (obj) => {
                     if (obj._id === payload.taskId) return false;
@@ -305,14 +312,14 @@ const mutations = {
         })
     },
     editWorkflowToArchive(state, payload) {
-        _.each(state.allData, (data) => {
+        _.each(state.workflows, (data) => {
             if (data._id === payload.workflowId) {
                 data.active = false
             }
         })
     },
     editWorkflowToRestore(state, payload) {
-        _.each(state.allData, (data) => {
+        _.each(state.workflows, (data) => {
             if (data._id === payload.workflowId) {
                 data.active = true
             }
@@ -320,7 +327,7 @@ const mutations = {
     },
     changeTaskPosition(state, payload) {
         state.editing = true
-        _.each(state.allData, (data) => {
+        _.each(state.workflows, (data) => {
             if (data._id === payload.workflowId) {
                 // find current position
                 let newPosition;
@@ -358,13 +365,13 @@ const mutations = {
             }
         })
     },
-    changeSelectedQueueStatId(state, payload) {
-        if (state.selectedQueueStatId === payload) {
-            state.selectedQueueStatId = ''
+    editSelectedWorkflowId(state, payload) {
+        if (state.selectedWorkflowId === payload) {
+            state.selectedWorkflowId = ''
         } else {
-            state.selectedQueueStatId = payload
+            state.selectedWorkflowId = payload
         }
-    }
+    },
 }
 
 export default {

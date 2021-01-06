@@ -72,10 +72,7 @@ export default {
     confirmPaymentIntentAction: async function () {
       if (this.confirming) return
 
-      Vue.$toast.open({
-        message: 'One moment...',
-        type: 'default',
-      })
+      Vue.$toast.open({ message: 'One moment...', })
 
       this.togglePaymentIntentConfirmView()
       this.togglePaymentIntentProcessingView()
@@ -101,20 +98,14 @@ export default {
 
         console.log('payment attempt', paymentAttempt)
 
-        Vue.$toast.open({
-          message: 'Success!',
-          type: 'success',
-        })
+        Vue.$toast.open({ message: 'Success!', type: 'success', })
 
         this.togglePaymentIntentSuccessView()
 
       } catch(err) {
         console.log('Checkout confirm error', err)
 
-        Vue.$toast.open({
-          message: err.message,
-          type: 'default',
-        })
+        Vue.$toast.open({ message: err.message, })
 
         this.togglePaymentIntentFailedView()
 

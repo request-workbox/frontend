@@ -3,6 +3,8 @@ import { getField, updateField } from 'vuex-map-fields';
 import _ from 'lodash'
 import moment from 'moment-timezone'
 
+const pagination = require('./RequestPagination')
+
 function sendResponse(response, message) {
     if (message && message !== '') Vue.$toast.open({ message, })
     return response
@@ -30,18 +32,20 @@ const state = () => ({
     page: 0,
     editing: false,
     option: 'url',
-    orderDirection: 'descending',
-    orderBy: 'date',
+    requestOrderDirection: 'descending',
+    requestOrderBy: 'createdAt',
 
     forceComputedForWebhookCancelChanges: 0,
 })
 
 const getters = {
     getField,
-
+    ...pagination.getters,
 }
 
 const actions = {
+    ...pagination.actions,
+
     async createRequest({ commit, state, rootState }, { projectId }) {
         try {
             const requestUrl = `${state.apiUrl}/create-request`
@@ -49,7 +53,7 @@ const actions = {
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
             commit('addRequest', request.data)
-            commit('changeSelectedRequestId', request.data._id)
+            commit('editSelectedRequestId', request.data._id)
             
             return sendResponse(request.data, 'Request created.')
         } catch(err) {
@@ -66,7 +70,7 @@ const actions = {
             commit('replaceRequests', { data: request.data })
             commit('resetPage')
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Requests loaded.')
         } catch(err) {
             return throwError(err)
         }
@@ -77,11 +81,11 @@ const actions = {
             const requestBody = { projectId: payload.projectId, requestId: payload.requestId }
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
-            commit('replaceAllData', { data: [request.data] })
+            commit('replaceRequests', { data: [request.data] })
             commit('resetPage')
-            commit('changeSelectedId', { selectedId: request.data._id })
+            commit('editSelectedId', { selectedId: request.data._id })
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Request found.')
         } catch(err) {
             return throwError(err)
         }
@@ -97,23 +101,23 @@ const actions = {
             commit('updateRequest', request.data)
             commit('stopEditing')
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Request changes cancelled.')
         } catch(err) {
             return throwError(err)
         }
     },
-    async saveRequestChanges({ commit, state, getters, rootState }, request) {
+    async saveRequestChanges({ commit, state, getters, rootState }, payload) {
         try {
             if (!state.editing) return;
 
             const requestUrl = `${state.apiUrl}/save-request-changes`
-            const requestBody = request
+            const requestBody = payload
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
-            commit('stopEditing')
             commit('replaceHeaderSpaces', { requestId: request._id })
+            commit('stopEditing')
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Request changes saved.')
         } catch(err) {
             return throwError(err)
         }
@@ -121,14 +125,13 @@ const actions = {
 
     async addRequestDetailItem({ commit, state, getters, rootState }, payload) {
         try {
-            const untrackedPayload = JSON.parse(JSON.stringify(payload))
             const requestUrl = `${state.apiUrl}/add-request-detail-item`
-            const requestBody = { _id: untrackedPayload._id, requestDetailOption: untrackedPayload.option }
+            const requestBody = { _id: payload._id, requestDetailOption: payload.option }
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
             commit('updateRequest', request.data)
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Request detail item added.')
         } catch(err) {
             return throwError(err)
         }
@@ -145,7 +148,7 @@ const actions = {
 
             commit('removeRequestDetailItem', { requestDetailOption: untrackedPayload.option, requestDetailItemId, requestId: requestId })
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Request detail item deleted.')
         } catch(err) {
             return throwError(err)
         }
@@ -156,7 +159,7 @@ const actions = {
             const requestUrl = `${state.apiUrl}/return-request/${requestId}`
             const request = await Vue.$axios.post(requestUrl)
             
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Request returned.')
         } catch(err) {
             return throwError(err)
         }
@@ -166,7 +169,7 @@ const actions = {
             const requestUrl = `${state.apiUrl}/queue-request/${requestId}`
             const request = await Vue.$axios.post(requestUrl)
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Request queued.')
         } catch(err) {
             return throwError(err)
         }
@@ -176,7 +179,7 @@ const actions = {
             const requestUrl = `${state.apiUrl}/schedule-request/${requestId}?date=${moment().add(1, 'minute').toISOString()}`
             const request = await Vue.$axios.post(requestUrl)
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Request scheduled.')
         } catch(err) {
             return throwError(err)
         }
@@ -189,9 +192,9 @@ const actions = {
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
             commit('editRequestToArchive', { requestId: payload.requestId })
-            commit('changeSelectedId', { selectedId: '' })
+            commit('editSelectedId', { selectedId: '' })
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Request archived.')
         } catch(err) {
             return throwError(err)
         }
@@ -203,9 +206,9 @@ const actions = {
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
             commit('editRequestToRestore', { requestId: payload.requestId })
-            commit('changeSelectedId', { selectedId: '' })
+            commit('editSelectedId', { selectedId: '' })
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Request restored.')
         } catch(err) {
             return throwError(err)
         }
@@ -214,12 +217,13 @@ const actions = {
 
 const mutations = {
     updateField,
+    ...pagination.mutations,
 
     addRequest(state, payload) {
-        state.allData.push(payload)
+        state.requests.push(payload)
     },
     updateRequest(state, payload) {
-        _.each(state.allData, (data) => {
+        _.each(state.requests, (data) => {
             if (data._id === payload._id) {
                 _.each(data, (value, key) => {
                     data[key] = payload[key]
@@ -230,7 +234,7 @@ const mutations = {
     editRequestKey(state, payload) {
         state.editing = true
 
-        _.each(state.allData, (data) => {
+        _.each(state.requests, (data) => {
             if (data._id === payload.requestId) {
                 data[payload.key] = payload.value
             }
@@ -239,7 +243,7 @@ const mutations = {
     editRequestDetail(state, payload) {
         state.editing = true
 
-        _.each(state.allData, (data) => {
+        _.each(state.requests, (data) => {
             if (data._id === payload.requestId) {
                 data[payload.type][payload.key] = payload.value
             }
@@ -248,7 +252,7 @@ const mutations = {
     editRequestDetailKey(state, payload) {
         state.editing = true
 
-        _.each(state.allData, (data) => {
+        _.each(state.requests, (data) => {
             if (data._id === payload.requestId) {
                 _.each(data[payload.type], (obj) => {
                     if (obj._id === payload.key) {
@@ -261,7 +265,7 @@ const mutations = {
     editRequestDetailActive(state, payload) {
         state.editing = true
 
-        _.each(state.allData, (data) => {
+        _.each(state.requests, (data) => {
             if (data._id === payload.requestId) {
                 _.each(data[payload.type], (obj) => {
                     if (obj._id === payload.key) {
@@ -274,7 +278,7 @@ const mutations = {
     editRequestDetailValue(state, payload) {
         state.editing = true
 
-        _.each(state.allData, (data) => {
+        _.each(state.requests, (data) => {
             if (data._id === payload.requestId) {
                 _.each(data[payload.type], (obj) => {
                     if (obj._id === payload.key) {
@@ -287,7 +291,7 @@ const mutations = {
     editRequestAuthorization(state, payload) {
         state.editing = true
 
-        _.each(state.allData, (data) => {
+        _.each(state.requests, (data) => {
             if (data._id === payload.requestId) {
                 _.each(data.authorization, (obj) => {
                     if (obj._id === payload._id) {
@@ -300,7 +304,7 @@ const mutations = {
     editRequestDetailValueType(state, payload) {
         state.editing = true
 
-        _.each(state.allData, (data) => {
+        _.each(state.requests, (data) => {
             if (data._id === payload.requestId) {
                 _.each(data[payload.type], (obj) => {
                     if (obj._id === payload.key) {
@@ -311,21 +315,21 @@ const mutations = {
         })
     },
     editRequestToArchive(state, payload) {
-        _.each(state.allData, (data) => {
+        _.each(state.requests, (data) => {
             if (data._id === payload.requestId) {
                 data.active = false
             }
         })
     },
     editRequestToRestore(state, payload) {
-        _.each(state.allData, (data) => {
+        _.each(state.requests, (data) => {
             if (data._id === payload.requestId) {
                 data.active = true
             }
         })
     },
     updateRequestDetailItem(state, payload) {
-        _.each(state.allData, (data) => {
+        _.each(state.requests, (data) => {
             if (data._id === payload.requestId) {
                 data[payload.requestDetailOption].push(payload.item)
             }
@@ -333,7 +337,7 @@ const mutations = {
 
     },
     removeRequestDetailItem(state, payload) {
-        _.each(state.allData, (data) => {
+        _.each(state.requests, (data) => {
             if (data._id === payload.requestId) {
                 data[payload.requestDetailOption] = _.filter(data[payload.requestDetailOption], (obj) => {
                     if (obj._id === payload.requestDetailItemId) return false;
@@ -346,14 +350,21 @@ const mutations = {
         state.requestsForSelectOptions = payload.data
     },
     replaceHeaderSpaces(state, payload) {
-        _.each(state.allData, (data) => {
+        _.each(state.requests, (data) => {
             if (data._id === payload.requestId) {
                 _.each(data.headers, (headerObj) => {
                     headerObj.key = headerObj.key.replace(/ /g,'-')
                 })
             }
         })
-    }
+    },
+    editSelectedRequestId(state, payload) {
+        if (state.selectedRequestId === payload) {
+            state.selectedRequestId = ''
+        } else {
+            state.selectedRequestId = payload
+        }
+    },
 }
 
 export default {

@@ -7,10 +7,10 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: "Footer",
+  name: 'Footer',
   data: function() {
     return {}
   },

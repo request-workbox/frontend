@@ -1,10 +1,10 @@
 <template>
-    <div class="row row-justify-between row-border-bottom" v-if="this.projectId && this.selectedData().owner">
+    <div class="row row-justify-between row-border-bottom" v-if="this.selectedProject()._id && this.selectedProject().owner">
       <div class="column column-full-width">
 
         <div class="row row-border-bottom row-dark">
-          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('settings')}" v-on:click="changeOption('settings')">Settings</div>
-          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('team')}" v-on:click="changeOption('team')">Team</div>
+          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('settings')}" v-on:click="editOption('settings')">Settings</div>
+          <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('team')}" v-on:click="editOption('team')">Team</div>
         </div>
 
         <div class="row row-border-bottom">
@@ -51,38 +51,48 @@ export default {
     ProjectSettingsTeam,
   },
   computed: {
-    ...mapState('project', ['option','editing','projectId']),
-    ...mapGetters('project',['selectedData']),
+    ...mapState('project', ['option','editing']),
+    ...mapGetters('project', ['selectedProject']),
     upperFirstOption: function() {
       return _.upperFirst(this.option)
     },
   },
   methods: {
-    ...mapActions('project', ['cancelProjectChanges','saveProjectChanges','listTeam','updateTeam']),
-    ...mapMutations('project', ['changeOption']),
+    ...mapMutations('project', ['editOption']),
+    ...mapActions('project', ['cancelProjectChanges','saveProjectChanges']),
+    ...mapActions('team', ['listTeam','updateTeam']),
     optionIsSelected: function(option) {
       if (option === this.option) return true
       else return false
     },
     listTeamAction: async function() {
-      await this.listTeam(this.selectedData()._id)
+      try {
+        await this.listTeam(this.selectedProject()._id)
+      } catch(err) {
+        console.log('Project settings error', err.message)
+      }
     },
     cancelProjectChangesAction: async function() {
-      if (this.option === 'settings') {
-        await this.cancelProjectChanges({ _id: this.selectedData()._id })
-      } else if (this.option === 'team') {
-        await this.listTeam(this.selectedData()._id)
+      try {
+        if (this.option === 'settings') {
+          await this.cancelProjectChanges({ _id: this.selectedProject()._id })
+        } else if (this.option === 'team') {
+          await this.listTeam(this.selectedProject()._id)
+        }
+      } catch(err) {
+        console.log('Project settings error', err.message)
       }
     },
     saveProjectChangesAction: async function() {
       try {
         if (this.option === 'settings') {
-          await this.saveProjectChanges(this.selectedData())
+          await this.saveProjectChanges(this.selectedProject())
         } else if (this.option === 'team') {
-          await this.updateTeam(this.selectedData()._id)
+          await this.updateTeam(this.selectedProject()._id)
         }
       } catch(err) {
-        Vue.$toast.open(err.message)
+        console.log('Project settings error', err.message)
+        Vue.$toast.open({ message: err.message })
       }
     },
   }

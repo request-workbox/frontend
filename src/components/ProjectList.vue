@@ -4,7 +4,7 @@
       
       <ProjectToolbar />
 
-      <div v-if="projectTypeOption === 'owner'">
+      <div v-if="projectOption === 'owner'">
         <div class="row row-border-bottom">
           <div class="column column-data column-header-text column-grow column-group-header">My Projects</div>
         </div>
@@ -15,14 +15,14 @@
           <div class="column column-data column-header-text column-20">Date Created</div>
         </div>
 
-        <div class="row row-border-bottom project-row" v-bind:class="{'project-row-selected':shouldBeSelected(project._id)}" v-for="(project) in finalData(this.projectTypeOption)" :key="project._id" v-on:click="selectProjectAction(project._id)">
+        <div class="row row-border-bottom project-row" v-bind:class="{'project-row-selected':shouldBeSelected(project._id)}" v-for="(project) in visibleProjects()" :key="project._id" v-on:click="editSelectedProjectIdAction(project._id)">
           <div class="column column-data column-grow">{{ project.name }}</div>
           <div class="column column-data column-20">{{ project._id }}</div>
           <div class="column column-data column-20">{{ projectCreatedAt(project.createdAt) }}</div>
         </div>
       </div>
 
-      <div v-if="projectTypeOption === 'team'">
+      <div v-if="projectOption === 'team'">
         <div class="row row-border-bottom">
           <div class="column column-data column-header-text column-grow column-group-header">Team Projects</div>
         </div>
@@ -33,19 +33,19 @@
           <div class="column column-data column-header-text column-20">Date Created</div>
         </div>
 
-        <div class="row row-border-bottom project-row" v-bind:class="{'project-row-selected':shouldBeSelected(project._id)}" v-for="(project) in finalData(this.projectTypeOption)" :key="project._id" v-on:click="selectProjectAction(project._id)">
+        <div class="row row-border-bottom project-row" v-bind:class="{'project-row-selected':shouldBeSelected(project._id)}" v-for="(project) in visibleProjects()" :key="project._id" v-on:click="editSelectedProjectIdAction(project._id)">
           <div class="column column-data column-grow">{{ project.name }}</div>
           <div class="column column-data column-20">{{ project._id }}</div>
           <div class="column column-data column-20">{{ projectCreatedAt(project.createdAt) }}</div>
         </div>
       </div>
 
-      <div v-if="projectTypeOption === 'invites'">
+      <div v-if="projectOption === 'invites'">
         <div class="row row-border-bottom">
           <div class="column column-data column-header-text column-grow column-group-header">Project Invites</div>
         </div>
 
-        <div class="row row-border-bottom project-row-light" v-for="(invite) in inviteData()" :key="invite._id">
+        <div class="row row-border-bottom project-row-light" v-for="(invite) in visibleInvites()" :key="invite._id">
           <div class="column column-data column-grow">{{ invite.projectName }} invite from {{ invite.projectUsername }}</div>
           <div class="column column-data">
             <div class="row">
@@ -73,50 +73,48 @@
 import ProjectToolbar from './ProjectToolbar'
 
 import moment from 'moment-timezone'
-import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: "ProjectList",
+  name: 'ProjectList',
   components: {
     ProjectToolbar,
   },
   computed: {
-    ...mapState("project", ["projects",'projectId','projectTypeOption']),
-    ...mapGetters('project', ['finalData','inviteData',])
+    ...mapState('project', ['selectedProjectId','projectOption']),
+    ...mapGetters('project', ['visibleProjects']),
+    ...mapGetters('invites', ['visibleInvites']),
   },
   methods: {
-    ...mapMutations('project', ['changeProjectId']),
+    ...mapMutations('project', ['editSelectedProjectId']),
     ...mapActions('project',['removeInvite','acceptInvite']),
-    navigateToRoute: function(route, projectId) {
-      location.assign(`/projects/${projectId}/${route}`)
-    },
     removeInviteAction: async function(invite) {
       try {
         const confirm = window.confirm('Are you sure you want to remove this invite?')
         if (confirm) {
-          this.removeInvite({ projectId: invite.projectId, username: invite.username, })
+          await this.removeInvite({ projectId: invite.projectId, username: invite.username, })
         }
       } catch(err) {
-        console.log(err)
+        console.log('Project list error', err.message)
       }
     },
     acceptInviteAction: async function(invite) {
       try {
         const confirm = window.confirm('Are you sure you want to accept this invite?')
         if (confirm) {
-          this.acceptInvite(invite.projectId)
+          await this.acceptInvite(invite.projectId)
         }
       } catch(err) {
-        console.log(err)
+        console.log('Project list error', err.message)
       }
     },
-    selectProjectAction: function(projectId) {
-      if (projectId === this.projectId) return this.changeProjectId({ projectId: '' })
-      else return this.changeProjectId({ projectId: projectId })
+    editSelectedProjectIdAction: function(projectId) {
+      if (projectId === this.projectId) return this.editSelectedProjectId('')
+      else return this.editSelectedProjectId(projectId)
     },
     shouldBeSelected: function(projectId) {
-      if (projectId === this.projectId) return true;
-      else return false;
+      if (projectId === this.selectedProjectId) return true
+      else return false
     },
     projectCreatedAt: function(createdAt) {
       if (!createdAt) return ''

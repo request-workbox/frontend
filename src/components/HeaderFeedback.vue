@@ -81,12 +81,9 @@ export default {
             return this.feedbackError = true
           }
           this.submitting = true
-          await this.submitFeedback({
-            feedbackType: this.feedbackType,
-            feedbackText: this.feedbackText,
-          })
+          await this.submitFeedback({ feedbackType: this.feedbackType, feedbackText: this.feedbackText, })
         } catch(err) {
-          console.log(err)
+          console.log('Header feedback error', err.message)
         } finally {
           this.submitting = false
         }

@@ -1,11 +1,11 @@
 <template>
   <div id="storage-container">
     <ProjectInfo />
-    <Menu />
-    <TableToolbar />
-    <Table />
-    <TableDetails />
-    <TableOptionsToolbar />
+    <StorageMenu />
+    <StorageTableToolbar />
+    <StorageTable />
+    <StorageTableDetails />
+    <StorageTableOptionsToolbar />
     <StorageOptionsActions />
     <StorageOptions />
     <Footer />
@@ -13,60 +13,63 @@
 </template>
 
 <script>
-import { mapMutations, mapActions } from "vuex";
+import Vue from 'vue'
+import { mapMutations, mapActions } from 'vuex'
 
-import ProjectInfo from "./ProjectInfo";
-import Menu from "./Menu";
-import TableToolbar from "./TableToolbar";
-import Table from "./Table";
-import TableDetails from "./TableDetails";
-import TableOptionsToolbar from "./TableOptionsToolbar";
-import StorageOptionsActions from './StorageOptionsActions';
-import StorageOptions from './StorageOptions';
+import ProjectInfo from './ProjectInfo'
+import StorageMenu from './StorageMenu'
+import StorageTableToolbar from './StorageTableToolbar'
+import StorageTable from './StorageTable'
+import StorageTableDetails from './StorageTableDetails'
+import StorageTableOptionsToolbar from './StorageTableOptionsToolbar'
+import StorageOptionsActions from './StorageOptionsActions'
+import StorageOptions from './StorageOptions'
 import Footer from './Footer'
 
 export default {
-  name: "Storage",
-  props: ["projectId"],
+  name: 'Storage',
+  props: ['projectId'],
   components: {
     ProjectInfo,
-    Menu,
-    TableToolbar,
-    Table,
-    TableDetails,
-    TableOptionsToolbar,
+    StorageMenu,
+    StorageTableToolbar,
+    StorageTable,
+    StorageTableDetails,
+    StorageTableOptionsToolbar,
     StorageOptionsActions,
     StorageOptions,
     Footer,
   },
   mounted: function () {
-    this.init();
+    this.init()
   },
   beforeRouteUpdate(to, from, next) {
-    // this.init();
-    return next();
+    // this.init()
+    return next()
+  },
+  computed: {
+    ...mapState('request', ['storageOrderDirection']),
   },
   methods: {
-    ...mapMutations('table',['changeOption', 'setCurrentRoute','updateOrderDirection']),
-    ...mapActions("project", ["getProjectName"]),
-    ...mapActions('table',['getStorages','getStorage']),
-    init: async function () {
-      this.setCurrentRoute({ route: this.$route.name })
-      this.getProjectName({ projectId: this.projectId });
-      this.updateOrderDirection({
-        orderDirection: localStorage.getItem('orderDirection') || 'descending'
-      })
-      
-      if (this.$route.query && this.$route.query.option) {
-        this.changeOption(this.$route.query.option);
-      } else {
-        this.changeOption('details');
-      }
+    ...mapMutations('storage',['editOption','updateStorageOrderDirection']),
 
-      if (this.$route.query && this.$route.query.id) {
-        await this.getStorage({ projectId: this.projectId, storageId: this.$route.query.id })
-      } else {
-        await this.getStorages({ projectId: this.projectId });
+    ...mapActions('project', ['getProject']),
+    ...mapActions('storage',['listStorages']),
+    init: async function () {
+      try {
+
+        const project = await this.getProject({ projectId: this.projectId })
+        const storages = await this.listStorages({ projectId: this.projectId })
+
+        const storageOrderDirection = localStorage.getItem('storageOrderDirection') || this.storageOrderDirection
+        this.updateStorageOrderDirection({ storageOrderDirection, })
+        
+        if (this.$route.query && this.$route.query.option) {
+          this.editOption(this.$route.query.option)
+        }
+
+      } catch(err) {
+        console.log('Storage error', err.message)
       }
     },
   },

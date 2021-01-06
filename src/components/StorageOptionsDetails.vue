@@ -1,11 +1,11 @@
 <template>
-  <div class="row">
+  <div class="row" v-if="this.selectedStorage()._id">
     <div class="column column-full-width">
       <div class="row row-border-bottom">
         <div class="column column-data column-header-text column-grow column-group-header">Description</div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.selectedData()._id">
+      <div class="row row-border-bottom" v-if="this.selectedStorage()._id">
         <div class="column column-data column-20">
           <input
             type="text"
@@ -20,7 +20,7 @@
             type="text"
             placeholder="Value"
             class="column-input-text"
-            :value="this.selectedData().name"
+            :value="this.selectedStorage().name"
             v-on:input="editStorageDetailAction('name', $event)"
           />
         </div>
@@ -28,7 +28,7 @@
 
       <!-- TEXT -->
 
-      <div class="row row-border-bottom" v-if="this.selectedData()._id && this.selectedData().storageType === 'text'">
+      <div class="row row-border-bottom" v-if="this.selectedStorage().storageType === 'text'">
         <div class="column column-data column-20">
           <input
             type="text"
@@ -43,7 +43,7 @@
             type="text"
             placeholder="Storage Value"
             class="column-input-text"
-            :value="this.selectedData().storageValue"
+            :value="this.selectedStorage().storageValue"
             v-on:input="editStorageValueAction('storageValue', $event)"
           />
         </div>
@@ -59,7 +59,7 @@
 
       <!-- FILE -->
 
-      <div class="row row-border-bottom" v-if="this.selectedData()._id && this.selectedData().storageType === 'file'">
+      <div class="row row-border-bottom" v-if="this.selectedStorage().storageType === 'file'">
         <div class="column column-data column-20">
           <input
             type="text"
@@ -81,24 +81,24 @@
       </div>
 
       <!-- Locked / Sensitive -->
-      <div class="row row-border-bottom row-border-bottom-tall" v-if="this.selectedData()._id">
+      <div class="row row-border-bottom row-border-bottom-tall">
         <div class="column column-data column-grow">
           <input 
             id="team"
             type="checkbox"
-            :checked="this.selectedData().lockedResource"
+            :checked="this.selectedStorage().lockedResource"
             @change="editPermission('lockedResource', $event)">
           <label for="team">Locked Resource</label>
           <input 
             id="prevent"
             type="checkbox"
-            :checked="this.selectedData().preventExecution"
+            :checked="this.selectedStorage().preventExecution"
             @change="editPermission('preventExecution', $event)">
           <label for="prevent">Prevent Execution</label>
           <input 
             id="owner"
             type="checkbox"
-            :checked="this.selectedData().sensitiveResponse"
+            :checked="this.selectedStorage().sensitiveResponse"
             @change="editPermission('sensitiveResponse', $event)">
           <label for="owner">Sensitive Response</label>
         </div>
@@ -110,13 +110,13 @@
 
 <script>
 import Vue from 'vue'
-import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 import _ from 'lodash'
 
-const download = require("downloadjs")
+const download = require('downloadjs')
 
 export default {
-  name: "StorageOptionsDetails",
+  name: 'StorageOptionsDetails',
   data: function() {
     return {
       storageValue: null,
@@ -126,26 +126,26 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("table", ['selectedData']),
+    ...mapGetters('storage', ['selectedStorage']),
   },
   methods: {
-    ...mapMutations('table', ['editStorageDetail','editStorageValue']),
-    ...mapActions('table', ['getTextStorageData', 'getFileStorageData', 'updateTextStorageData','updateFileStorageData']),
+    ...mapMutations('storage', ['editStorageDetail','editStorageValue']),
+    ...mapActions('storage', ['getTextStorageData', 'getFileStorageData', 'updateTextStorageData','updateFileStorageData']),
     editStorageDetailAction: function(key, event) {
-      this.editStorageDetail({key, value: event.target.value, storageId: this.selectedData()._id})
+      this.editStorageDetail({key, value: event.target.value, storageId: this.selectedStorage()._id})
     },
     editPermission: function(key, event) {
-      this.editStorageDetail({key, value: event.target.checked, storageId: this.selectedData()._id})
+      this.editStorageDetail({key, value: event.target.checked, storageId: this.selectedStorage()._id})
     },
     editStorageValueAction: function(key, event) {
-      this.editStorageValue({key, value: event.target.value, storageId: this.selectedData()._id})
+      this.editStorageValue({key, value: event.target.value, storageId: this.selectedStorage()._id})
     },
     getTextStorageDataAction: async function() {
       try {
         this.revealing = true
-        await this.getTextStorageData({ storageId: this.selectedData()._id })
+        const storage = await this.getTextStorageData({ storageId: this.selectedStorage()._id })
       } catch(err) {
-        // console.log(err)
+        console.log('Storage options details error', err.message)
       } finally {
         this.revealing = false
       }
@@ -153,20 +153,20 @@ export default {
     getFileStorageDataAction: async function() {
       try {
         this.downloading = true
-        const fileDataResponse = await this.getFileStorageData({ storageId: this.selectedData()._id })
+        const storage = await this.getFileStorageData({ storageId: this.selectedStorage()._id })
 
-        let fileData = fileDataResponse.storageValue
+        let fileData = storage.storageValue
 
         const dataStr = "data:text/plain;charset=utf-8," + encodeURIComponent(fileData)
         const downloadAnchorNode = document.createElement('a')
         downloadAnchorNode.setAttribute("href",     dataStr)
-        downloadAnchorNode.setAttribute("download", this.selectedData().originalname)
+        downloadAnchorNode.setAttribute("download", this.selectedStorage().originalname)
         document.body.appendChild(downloadAnchorNode)
         downloadAnchorNode.click()
         downloadAnchorNode.remove()
 
       } catch(err) {
-        // console.log(err)
+        console.log('Storage options details error', err.message)
       } finally {
         this.downloading = false
       }
@@ -175,15 +175,15 @@ export default {
       try {
         this.storageValue = this.$refs.file.files[0]
       } catch(err) {
-        // console.log(err)
+        console.log('Storage options details error', err.message)
       }
     },
     updateTextStorageDataAction: async function() {
       try {
         this.replacing = true
-        await this.updateTextStorageData({storageId: this.selectedData()._id, storageValue: this.selectedData().storageValue })
+        const storage = await this.updateTextStorageData({storageId: this.selectedStorage()._id, storageValue: this.selectedStorage().storageValue })
       } catch(err) {
-        // console.log(err)
+        console.log('Storage options details error', err.message)
       } finally {
         this.replacing = false
       }
@@ -191,11 +191,9 @@ export default {
     updateFileStorageDataAction: async function() {
       try {
         this.replacing = true
-        await this.updateFileStorageData({storageId: this.selectedData()._id, storageValue: this.storageValue })
-        location.reload()
+        const storage = await this.updateFileStorageData({storageId: this.selectedStorage()._id, storageValue: this.storageValue })
       } catch(err) {
-        // console.log(err)
-        Vue.$toast.open(err.response.data)
+        console.log('Storage options details error', err.message)
       } finally {
         this.replacing = false
       }

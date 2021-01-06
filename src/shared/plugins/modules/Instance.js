@@ -23,6 +23,7 @@ const state = () => ({
 
     instances: [],
     selectedInstanceId: '',
+    selectedInstanceStatId: '',
     
     searchTerm: '',
     filter: 'active',
@@ -30,93 +31,76 @@ const state = () => ({
     page: 0,
     editing: false,
     option: '',
-    orderDirection: 'descending',
-    orderBy: 'date',
+    instanceOrderDirection: 'descending',
+    instanceOrderBy: 'createdAt',
 })
 
 const getters = {
     getField,
-    selectedStat: (state, getters, rootState) => () => {
-        if (state.selectedStatId === '') return
 
-        const instance = getters.selectedData()
-
-        if (!_.size(instance.stats)) return
-
-        return _.filter(instance.stats, (data) => {
-            if (data._id === state.selectedStatId) return true;
-            else return false;
-        })[0]
-    },
-    usageTotals: (state, getters, rootState) => (docId) => {
+    usageTotals: (state, getters, rootState) => (instanceId) => {
         const totals = { 'kb down': 0, 'kb up': 0, 'time': 0, }
 
-        if (!docId) return totals
+        if (!instanceId) return totals
 
-        const instance = _.filter(state.allData, (data) => {
-           if (data._id === docId) return true;
-           else return false;
-       })[0]
+        let instance = _.filter(state.instances, (data) => {
+           if (data._id === instanceId) return true
+           else return false
+        })
 
-       if (!_.size(instance.usage)) return totals
+        if (!_.size(instance)) return totals
+        if (!instance.usage || !_.size(instance.usage)) return totals
 
-       totals['kb down'] = String((((instance.totalBytesDown || 0) / 1000) || 0).toFixed(2)) + ' kb'
-       totals['kb up'] = String((((instance.totalBytesUp || 0) / 1000) || 0).toFixed(2)) + ' kb'
-       totals['time'] = String((((instance.totalMs || 0) / 1000) || 0).toFixed(2)) + ' seconds'
+        instance = instance[0]
+
+        totals['kb down'] = String((((instance.totalBytesDown || 0) / 1000) || 0).toFixed(2)) + ' kb'
+        totals['kb up'] = String((((instance.totalBytesUp || 0) / 1000) || 0).toFixed(2)) + ' kb'
+        totals['time'] = String((((instance.totalMs || 0) / 1000) || 0).toFixed(2)) + ' seconds'
 
         return totals
-   },
-    getInstanceByRequestId: (state, getters, rootState) => (requestId, statId, instanceStatId) => {
-        if (!requestId) return {}
-
-        const instance = _.filter(state.instances, (data) => {
-            if (data.requestId === requestId) return true;
-            else return false
-        })
-
-        if (!_.size(instance)) return {}
-
-        const filtered = _.filter(instance, (data) => {
-            if (data._id === statId) return true;
-            else return false
-        })
-
-        if (!_.size(filtered)) return {}
-
-        if (!instanceStatId) return filtered[0]
-        
-        const instanceStat = _.filter(filtered[0].stats, (data) => {
-            if (data._id === instanceStatId) return true;
-            else return false
-        })
-
-        return instanceStat[0]
     },
-    getInstanceByWorkflowId: (state, getters, rootState) => (workflowId, statId, instanceStatId) => {
-        if (!workflowId) return {}
+    getInstanceByQueueId: (state, getters, rootState) => (queueId) => {
+        if (!queueId) return {}
 
         const instance = _.filter(state.instances, (data) => {
-            if (data.workflowId === workflowId) return true;
+            if (data.queueId === queueId) return true
             else return false
         })
 
         if (!_.size(instance)) return {}
 
-        const filtered = _.filter(instance, (data) => {
-            if (data._id === statId) return true;
+        return instance[0]
+    },
+    getInstanceById: (state, getters, rootState) => (instanceId) => {
+        if (!instanceId) return {}
+
+        const instances = _.filter(state.instances, (data) => {
+            if (data._id === instanceId) return true
             else return false
         })
 
-        if (!_.size(filtered)) return {}
+        if (!_.size(instances)) return {}
 
-        if (!instanceStatId) return filtered[0]
-        
-        const instanceStat = _.filter(filtered[0].stats, (data) => {
-            if (data._id === instanceStatId) return true;
+        return instances[0]
+    },
+    getInstanceStatById: (state, getters, rootState) => (instanceId, instanceStatId) => {
+        if (!instanceId) return {}
+
+        const instances = _.filter(state.instances, (data) => {
+            if (data._id === instanceId) return true
             else return false
         })
 
-        return instanceStat[0]
+        if (!_.size(instances)) return {}
+
+        const stat = _.filter(instances, (instance) => {
+            if (data._id === instanceStatId) return true
+            else return false
+        })
+
+        if (!_.size(stat)) return {}
+
+        return stat[0]
     },
 }
 
@@ -129,9 +113,9 @@ const actions = {
 
             commit('replaceAllData', { data: [request.data] })
             commit('resetPage')
-            commit('changeSelectedId', { selectedId: request.data._id })
+            commit('editSelectedId', { selectedId: request.data._id })
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Instance found.')
         } catch(err) {
             return throwError(err)
         }
@@ -145,7 +129,7 @@ const actions = {
 
             commit('updateInstanceDetail', { data: request.data, instanceId: instanceId })
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Instance detail loaded.')
         } catch(err) {
             return throwError(err)
         }
@@ -161,7 +145,7 @@ const actions = {
 
             commit('updateInstanceUsage', { data: request.data, instanceId: instanceId })
 
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Instance usage loaded.')
         } catch(err) {
             return throwError(err)
         }
@@ -172,7 +156,7 @@ const actions = {
             const requestBody = { instanceId, statId, }
             const request = await Vue.$axios.post(requestUrl, requestBody)
             
-            return sendResponse(request.data, 'Request created.')
+            return sendResponse(request.data, 'Instance downloaded.')
         } catch(err) {
             return throwError(err)
         }
@@ -182,9 +166,6 @@ const actions = {
 const mutations = {
     updateField,
 
-    changeOption(state, payload) {
-        state.option = payload
-    },
     addToInstances(state, instanceDoc) {
         const instancesFound = _.filter(state.instances, (data) => {
             if (data._id === instanceDoc._id) return true;
@@ -202,39 +183,8 @@ const mutations = {
             })
         }
     },
-    changeQueueDate(state, queueDate) {
-        state.queueDate = queueDate
-    },
-    changeQueueStatus(state, queueStatus) {
-        state.queueStatus = queueStatus
-    },
-    changeQueueType(state, queueType) {
-        state.queueType = queueType
-    },
-    updateQueueOrderDirection(state, payload) {
-        state.orderDirection = payload.queueOrderDirection
-        state.orderBy = payload.queueOrderBy
-
-        localStorage.setItem('queueOrderDirection', state.orderDirection)
-        localStorage.setItem('queueOrderBy', state.orderBy)
-    },
-    toggleQueueOrderDirection(state, payload) {
-        if (state.orderDirection === 'ascending') {
-            state.orderDirection = 'descending'
-        } else if (state.orderDirection === 'descending') {
-            state.orderDirection = 'ascending'
-        }
-
-        state.orderBy = payload
-
-        localStorage.setItem('queueOrderDirection', state.orderDirection)
-        localStorage.setItem('queueOrderBy', state.orderBy)
-    },
-    updateCurrentTime(state, payload) {
-        state.currentTime = `${moment().format('h:mm:ss a')}`
-    },
     updateInstanceDetail(state, payload) {
-        _.each(state.allData, (instance) => {
+        _.each(state.instances, (instance) => {
             if (instance._id === payload.instanceId) {
                 instance.stats = _.map(instance.stats, (stat) => {
                     const 
@@ -258,13 +208,20 @@ const mutations = {
         })
     },
     updateInstanceUsage(state, payload) {
-        _.each(state.allData, (instance) => {
+        _.each(state.instances, (instance) => {
             if (instance._id === payload.instanceId) {
                 instance.usage = payload.data.usage
             }
         })
     },
-    changeSelectedInstanceStatId(state, payload) {
+    editSelectedInstanceId(state, payload) {
+        if (state.selectedInstanceId === payload) {
+            state.selectedInstanceId = ''
+        } else {
+            state.selectedInstanceId = payload
+        }
+    },
+    editSelectedInstanceStatId(state, payload) {
         if (state.selectedInstanceStatId === payload) {
             state.selectedInstanceStatId = ''
         } else {

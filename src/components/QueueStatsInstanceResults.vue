@@ -11,16 +11,17 @@
     </div>
 
     <div class="row row-border-bottom table-row-selectable" 
-      v-bind:class="{'table-row-selected':shouldBeSelectedInstanceStat(instance._id)}" 
-      v-for="(instance) in selectedInstanceStats(workflowId())" :key="instance._id" v-on:click="selectInstanceStatAction(instance)">
-      <div class="column column-data column-10 column-padded">{{ instance.status }}</div>
-      <div class="column column-data column-10 column-padded">{{ instance.statusText }}</div>
-      <div class="column column-data column-10 column-padded">{{ instance.requestName }}</div>
-      <div class="column column-data column-20 column-padded">{{ requestType(instance.requestType) }}</div>
-      <div class="column column-data column-grow column-padded">{{ statisticCreatedAt(instance.createdAt) }}</div>
+      v-for="(instanceStat) in selectedInstanceStats()" :key="instanceStat._id"
+      v-bind:class="{'table-row-selected':shouldBeSelectedInstanceStat(instanceStat._id)}" 
+      v-on:click="selectInstanceStatAction(instanceStat)">
+      <div class="column column-data column-10 column-padded">{{ instanceStat.status }}</div>
+      <div class="column column-data column-10 column-padded">{{ instanceStat.statusText }}</div>
+      <div class="column column-data column-10 column-padded">{{ instanceStat.requestName }}</div>
+      <div class="column column-data column-20 column-padded">{{ requestType(instanceStat.requestType) }}</div>
+      <div class="column column-data column-grow column-padded">{{ statisticCreatedAt(instanceStat.createdAt) }}</div>
     </div>
 
-    <pre v-if="this.selectedStatId !== '' && this.selectedInstanceStatId !== ''">
+    <pre v-if="this.selectedInstanceId !== '' && this.selectedInstanceStatId !== ''">
       <code>{{ selectedInstanceStat() }}</code>
     </pre>
 
@@ -29,43 +30,30 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 import moment from 'moment-timezone'
 import _ from 'lodash'
 
 export default {
   name: 'QueueStatsInstanceResults',
   computed: {
-    ...mapState('instance', ['selectedStatId','selectedInstanceStatId']),
-
-    ...mapGetters('table', ['selectedData','selectedStat']),
-    ...mapGetters('instance', ['getInstanceByRequestId','getInstanceByWorkflowId']),
+    ...mapState('instance', ['selectedInstanceId','selectedInstanceStatId']),
+    ...mapGetters('instance', ['getInstanceById','getInstanceStatById']),
   },
   methods: {
-    ...mapMutations('instance', ['changeSelectedInstanceStatId']),
+    ...mapMutations('instance', ['editSelectedInstanceStatId']),
     selectInstanceStatAction: function(stat) {
-      this.changeSelectedInstanceStatId(stat._id)
+      this.editSelectedInstanceStatId(stat._id)
     },
     selectedInstanceStats: function() {
-      if (!this.selectedData()._id) return []
-      if (this.selectedStatId === '') return []
+      if (this.selectedInstanceId === '') return []
 
-      if (this.$route.name === 'Requests') {
-        return this.getInstanceByRequestId(this.selectedData()._id, this.selectedStatId).stats
-      } else if (this.$route.name === 'Workflows') {
-        return this.getInstanceByWorkflowId(this.selectedData()._id, this.selectedStatId).stats
-      }
+      return this.getInstanceById(this.selectedInstanceId).stats
     },
     selectedInstanceStat: function(stats, statId) {
-      if (!this.selectedData()._id) return []
-      if (this.selectedStatId === '') return []
-      if (this.selectedInstanceStatId === '') return []
+      if (this.selectedInstanceId === '') return {}
 
-      if (this.$route.name === 'Requests') {
-        return this.getInstanceByRequestId(this.selectedData()._id, this.selectedStatId, this.selectedInstanceStatId)
-      } else if (this.$route.name === 'Workflows') {
-        return this.getInstanceByWorkflowId(this.selectedData()._id, this.selectedStatId, this.selectedInstanceStatId)
-      }
+      return this.getInstanceStatById(this.selectedInstanceId, this.selectedInstanceStatId)
     },
     statisticCreatedAt: function(createdAt) {
       if (!createdAt) return ''
@@ -77,13 +65,6 @@ export default {
     },
     requestType: function(requestType) {
       return _.upperFirst(requestType)
-    },
-    workflowId: function() {
-      if (this.$route.name === 'Requests') {
-        return this.selectedData().workflowId
-      } else {
-        return this.selectedData()._id
-      }
     },
   }
 };
