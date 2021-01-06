@@ -1,4 +1,22 @@
 import Vue from 'vue'
+import { getField, updateField } from 'vuex-map-fields';
+import _ from 'lodash'
+import moment from 'moment-timezone'
+
+function sendResponse(response, message) {
+    if (message && message !== '') Vue.$toast.open({ message, })
+    return response
+}
+
+function throwError(err) {
+    if (err.request && err.request.responseText) {
+        console.log(err.request.responseText)
+        Vue.$toast.open({ message: err.request.responseText })
+        throw new Error(err.request.responseText)
+    } else {
+        throw new Error(err.message)
+    }
+}
 
 const state = () => ({
     billingUrl: process.env.VUE_APP_BILLING_URL,
@@ -25,9 +43,14 @@ const getters = {
 
 const actions = {
     async createSetupIntent({ commit, state, rootState }, payload) {
-        const requestUrl = `${state.billingUrl}/create-setup-intent`
-        const request = await Vue.$axios.post(requestUrl)
-        return request
+        try {
+            const requestUrl = `${state.billingUrl}/create-setup-intent`
+            const request = await Vue.$axios.post(requestUrl)
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async createPaymentIntentUpgrade({ commit, state, rootState }, payload) {
         try {
@@ -42,9 +65,10 @@ const actions = {
             commit('updatePaymentIntentId', request.data.paymentIntentId)
             commit('updatePrice', request.data.price)
             commit('updateClientSecret', request.data.client_secret)
-            return request.data
+
+            return sendResponse(request.data, 'Request created.')
         } catch(err) {
-            throw new Error(err.request.responseText)
+            return throwError(err)
         }
     },
     async createPaymentIntentDataTransfer({ commit, state, rootState }, payload) {
@@ -60,31 +84,47 @@ const actions = {
             commit('updatePaymentIntentId', request.data.paymentIntentId)
             commit('updatePrice', request.data.price)
             commit('updateClientSecret', request.data.client_secret)
-            return request.data
+
+            return sendResponse(request.data, 'Request created.')
         } catch(err) {
-            throw new Error(err.request.responseText)
+            return throwError(err)
         }
     },
     async confirmPaymentIntent({ commit, state, rootState }, payload) {
-        const requestUrl = `${state.billingUrl}/confirm-payment-intent`
-        const requestBody = {
-            paymentIntentId: state.paymentIntentId,
-        }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
+        try {
+            const requestUrl = `${state.billingUrl}/confirm-payment-intent`
+            const requestBody = {
+                paymentIntentId: state.paymentIntentId,
+            }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
 
-        if (request.data && request.data.paymentMethod) return request.data.paymentMethod
-        else throw new Error('Payment method not found.')
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async updatePaymentMethod({ commit, state, rootState }, payload) {
-        const requestUrl = `${state.billingUrl}/update-payment-method`
-        const requestBody = {
-            paymentMethodId: payload
+        try {
+            const requestUrl = `${state.billingUrl}/update-payment-method`
+            const requestBody = {
+                paymentMethodId: payload
+            }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
         }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
     },
     async removePaymentMethod({ commit, state, rootState }, payload) {
-        const requestUrl = `${state.billingUrl}/remove-payment-method`
-        const request = await Vue.$axios.post(requestUrl)
+        try {
+            const requestUrl = `${state.billingUrl}/remove-payment-method`
+            const request = await Vue.$axios.post(requestUrl)
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
 }
 

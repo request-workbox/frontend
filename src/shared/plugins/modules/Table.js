@@ -1,38 +1,6 @@
-import Vue from 'vue'
-import { getField, updateField } from 'vuex-map-fields'
-import _ from 'lodash'
-
-import TableRequestModifiers from './TableRequestModifiers'
-import TableWorkflowModifiers from './TableWorkflowModifiers'
-import TableStorageModifiers from './TableStorageModifiers'
-
-const state = () => ({
-    apiUrl: process.env.VUE_APP_API_URL,
-
-    selectedId: '',
-
-    numberOfRows: 6,
-    searchTerm: '',
-    filter: 'active',
-    allData: [],
-    page: 0,
-    editing: false,
-    option: '',
-
-    requestsForSelectOptions: [],
-    storagesForSelectOptions: [],
-
-    currentRoute: '',
-
-    orderDirection: 'descending',
-
-    forceComputedForWebhookCancelChanges: 0,
-})
 
 const getters = {
     getField,
-
-    // GENERAL GETTERS
     pagination: (state, getters) => () => {
         return `${getters.currentPage()} / ${getters.totalPages()}`
     },
@@ -94,15 +62,9 @@ const getters = {
             else return false;
         })[0]
     },
-
-    // REQUEST GETTERS
-    ...TableRequestModifiers.getters,
-    ...TableWorkflowModifiers.getters,
-    ...TableStorageModifiers.getters,
 }
 
 const actions = {
-    // GENERAL ACTIONS
     previousPage({ commit, state, getters, rootState }) {
         if (getters.currentPage() <= 1) return
         commit('decrementPage')
@@ -120,11 +82,6 @@ const actions = {
             commit('changeSelectedId', { selectedId: data._id })
         }
     },
-
-    // REQUEST ACTIONS
-    ...TableRequestModifiers.actions,
-    ...TableWorkflowModifiers.actions,
-    ...TableStorageModifiers.actions,
 }
 
 const mutations = {
@@ -189,11 +146,6 @@ const mutations = {
         state.page = 0
         state.selectedId = ''
     },
-
-    // REQUEST MUTATIONS
-    ...TableRequestModifiers.mutations,
-    ...TableWorkflowModifiers.mutations,
-    ...TableStorageModifiers.mutations,
 }
 
 export default {

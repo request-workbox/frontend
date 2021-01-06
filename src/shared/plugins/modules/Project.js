@@ -1,4 +1,22 @@
 import Vue from 'vue'
+import { getField, updateField } from 'vuex-map-fields';
+import _ from 'lodash'
+import moment from 'moment-timezone'
+
+function sendResponse(response, message) {
+    if (message && message !== '') Vue.$toast.open({ message, })
+    return response
+}
+
+function throwError(err) {
+    if (err.request && err.request.responseText) {
+        console.log(err.request.responseText)
+        Vue.$toast.open({ message: err.request.responseText })
+        throw new Error(err.request.responseText)
+    } else {
+        throw new Error(err.message)
+    }
+}
 
 const state = () => ({
     apiUrl: process.env.VUE_APP_API_URL,
@@ -94,104 +112,175 @@ const getters = {
 
 const actions = {
     async listTeam({ commit, state, rootState }, payload) {
+        try {
+            const requestUrl = `${state.apiUrl}/list-team`
+            const requestBody = { projectId: payload }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
 
-        const requestUrl = `${state.apiUrl}/list-team`
-        const requestBody = { projectId: payload }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
+            commit('updateTeam', request.data)
+            commit('stopEditing')
 
-        commit('updateTeam', request.data)
-        commit('stopEditing')
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async updateTeam({ commit, state, rootState }, projectId) {
+        try {
+            const requestUrl = `${state.apiUrl}/update-team`
+            const requestBody = { team: state.team, projectId }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
 
-        const requestUrl = `${state.apiUrl}/update-team`
-        const requestBody = { team: state.team, projectId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
+            commit('stopEditing')
 
-        commit('stopEditing')
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async listInvites({ commit, state, rootState }, payload) {
-        if (state.editing) return
+        try {
+            if (state.editing) return
 
-        const requestUrl = `${state.apiUrl}/list-invites`
-        const request = await Vue.$axios.post(requestUrl)
+            const requestUrl = `${state.apiUrl}/list-invites`
+            const request = await Vue.$axios.post(requestUrl)
 
-        commit('updateInvites', request.data)
+            commit('updateInvites', request.data)
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async createInvite({ commit, state, rootState }, { projectId, username }) {
-        const requestUrl = `${state.apiUrl}/create-invite`
-        const requestBody = { projectId, username }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
+        try {
+            const requestUrl = `${state.apiUrl}/create-invite`
+            const requestBody = { projectId, username }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async acceptInvite({ commit, state, rootState }, projectId) {
-        const requestUrl = `${state.apiUrl}/accept-invite`
-        const requestBody = { projectId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
+        try {
+            const requestUrl = `${state.apiUrl}/accept-invite`
+            const requestBody = { projectId }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async removeInvite({ commit, state, rootState }, { projectId, username }) {
-        const requestUrl = `${state.apiUrl}/remove-invite`
-        const requestBody = { projectId, username }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
+        try {
+            const requestUrl = `${state.apiUrl}/remove-invite`
+            const requestBody = { projectId, username }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async createProject({ commit, state, rootState }) {
-        const requestUrl = `${state.apiUrl}/create-project`
-        const request = await Vue.$axios.post(requestUrl)
+        try {
+            const requestUrl = `${state.apiUrl}/create-project`
+            const request = await Vue.$axios.post(requestUrl)
 
-        commit('addProject', request.data)
-        commit('changeProjectId', { projectId: request.data._id })
-        Vue.$toast.open({ message: 'Project created', type: 'info' })
+            commit('addProject', request.data)
+            commit('changeProjectId', { projectId: request.data._id })
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async getProjectName({ commit, state, rootState }, { projectId }) {
-        const requestUrl = `${state.apiUrl}/get-project`
-        const requestBody = { projectId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('changeProjectId', { projectId: request.data._id })
-        commit('updateProjectName', { projectName: request.data.name })
+        try {
+            const requestUrl = `${state.apiUrl}/get-project`
+            const requestBody = { projectId }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
+            
+            commit('changeProjectId', { projectId: request.data._id })
+            commit('updateProjectName', { projectName: request.data.name })
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async getProjects({ commit, state, getters, rootState }, payload) {
-        const requestUrl = `${state.apiUrl}/list-projects`
-        const request = await Vue.$axios.post(requestUrl)
-        commit('changeProjects', request.data)
+        try {
+            const requestUrl = `${state.apiUrl}/list-projects`
+            const request = await Vue.$axios.post(requestUrl)
+
+            commit('changeProjects', request.data)
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async cancelProjectChanges({ commit, state, getters, rootState }, { _id }) {
-        if (!state.editing) return;
+        try {
+            if (!state.editing) return;
 
-        const requestUrl = `${state.apiUrl}/get-project`
-        const requestBody = { projectId: _id }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('updateProject', request.data)
-        commit('stopEditing')
+            const requestUrl = `${state.apiUrl}/get-project`
+            const requestBody = { projectId: _id }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
+
+            commit('updateProject', request.data)
+            commit('stopEditing')
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async saveProjectChanges({ commit, state, getters, rootState }, project) {
         try {
             if (!state.editing) return;
 
             const requestUrl = `${state.apiUrl}/update-project`
-            await Vue.$axios.post(requestUrl, project)
+            const request = await Vue.$axios.post(requestUrl, project)
+            
             commit('stopEditing')
+
+            return sendResponse(request.data, 'Request created.')
         } catch(err) {
-            if (err.response && err.response.data) {
-                throw new Error(err.response.data)
-            }
+            return throwError(err)
         }
     },
     async archiveProject({ commit, state, getters, rootState }, { projectId }) {
-        const requestUrl = `${state.apiUrl}/archive-project`
-        const requestBody = { projectId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('editProjectToArchive', { projectId })
-        commit('changeFilter', { filter: 'active' })
+        try {
+            const requestUrl = `${state.apiUrl}/archive-project`
+            const requestBody = { projectId }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
 
-        Vue.$toast.open({ message: 'Archived', type: 'info' })
+            commit('editProjectToArchive', { projectId })
+            commit('changeFilter', { filter: 'active' })
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async restoreProject({ commit, state, getters, rootState }, { projectId }) {
-        const requestUrl = `${state.apiUrl}/restore-project`
-        const requestBody = { projectId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('editProjectToRestore', { projectId })
-        commit('changeFilter', { filter: 'archived' })
+        try {
+            const requestUrl = `${state.apiUrl}/restore-project`
+            const requestBody = { projectId }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
 
-        Vue.$toast.open({ message: 'Restored', type: 'info' })
+            commit('editProjectToRestore', { projectId })
+            commit('changeFilter', { filter: 'archived' })
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
 }
 

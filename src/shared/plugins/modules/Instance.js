@@ -3,17 +3,35 @@ import { getField, updateField } from 'vuex-map-fields';
 import _ from 'lodash'
 import moment from 'moment-timezone'
 
+function sendResponse(response, message) {
+    if (message && message !== '') Vue.$toast.open({ message, })
+    return response
+}
+
+function throwError(err) {
+    if (err.request && err.request.responseText) {
+        console.log(err.request.responseText)
+        Vue.$toast.open({ message: err.request.responseText })
+        throw new Error(err.request.responseText)
+    } else {
+        throw new Error(err.message)
+    }
+}
+
 const state = () => ({
     apiUrl: process.env.VUE_APP_API_URL,
 
     instances: [],
-
+    selectedInstanceId: '',
+    
+    searchTerm: '',
+    filter: 'active',
+    numberOfRows: 10,
+    page: 0,
+    editing: false,
+    option: '',
     orderDirection: 'descending',
     orderBy: 'date',
-
-    option: 'results',
-
-    selectedInstanceStatId: '',
 })
 
 const getters = {
@@ -103,39 +121,67 @@ const getters = {
 }
 
 const actions = {
-    updateField,
     async getInstance({ commit, state, getters, rootState }, payload) {
-        const requestUrl = `${state.apiUrl}/get-instance`
-        const requestBody = { projectId: payload.projectId, instanceId: payload.instanceId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('replaceAllData', { data: [request.data] })
-        commit('resetPage')
-        commit('changeSelectedId', { selectedId: request.data._id })
+        try {
+            const requestUrl = `${state.apiUrl}/get-instance`
+            const requestBody = { projectId: payload.projectId, instanceId: payload.instanceId }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
+
+            commit('replaceAllData', { data: [request.data] })
+            commit('resetPage')
+            commit('changeSelectedId', { selectedId: request.data._id })
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async getInstanceDetail({ commit, state, getters, rootState }, payload) {
-        const instanceId = payload.instanceId
-        const requestUrl = `${state.apiUrl}/get-instance-detail`
-        const requestBody = { instanceId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('updateInstanceDetail', { data: request.data, instanceId: instanceId })
+        try {
+            const instanceId = payload.instanceId
+            const requestUrl = `${state.apiUrl}/get-instance-detail`
+            const requestBody = { instanceId }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
+
+            commit('updateInstanceDetail', { data: request.data, instanceId: instanceId })
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async getInstanceUsage({ commit, state, getters, rootState }, payload) {
-        if (!payload.instanceId) return;
-        const instanceId = payload.instanceId
-        const requestUrl = `${state.apiUrl}/get-instance-usage`
-        const requestBody = { instanceId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('updateInstanceUsage', { data: request.data, instanceId: instanceId })
+        try {
+            if (!payload.instanceId) return
+
+            const instanceId = payload.instanceId
+            const requestUrl = `${state.apiUrl}/get-instance-usage`
+            const requestBody = { instanceId }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
+
+            commit('updateInstanceUsage', { data: request.data, instanceId: instanceId })
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async downloadInstanceStat({ commit, state, getters, rootState }, { instanceId, statId, }) {
-        const requestUrl = `${state.apiUrl}/download-instance-stat`
-        const requestBody = { instanceId, statId, }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        return request
+        try {
+            const requestUrl = `${state.apiUrl}/download-instance-stat`
+            const requestBody = { instanceId, statId, }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
+            
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
 }
 
 const mutations = {
+    updateField,
+
     changeOption(state, payload) {
         state.option = payload
     },

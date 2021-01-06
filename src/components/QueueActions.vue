@@ -18,7 +18,7 @@
               class="column text-button action"
               v-if="!loading"
               v-bind:class="{ disabled: !this.selectedData()._id }"
-              v-on:click="getQueueAction">
+              v-on:click="listQueuesAction">
               Reload
             </div>
             <div
@@ -31,7 +31,7 @@
               v-if="!archiving"
               v-bind:class="{ disabled: !this.selectedData()._id }"
               v-on:click="archiveAllQueuesAction">
-              Archive Upcoming
+              Archive All Upcoming
             </div>
             <div
               class="column text-button action"
@@ -86,7 +86,7 @@ export default {
       this.changeSelectedInstanceStatId('')
       this.changeQueueDate(event.srcElement.value)
     },
-    getQueueAction: async function () {
+    listQueuesAction: async function () {
       if (!this.selectedData()._id) return;
       if (!this.selectedData().workflowId) return;
       
@@ -128,9 +128,20 @@ export default {
         }
       }
     },
-    returnRequestAction: async function() {
+
+    startRequest: async function() {
       if (!this.selectedData()._id) return;
       if (!this.selectedData().workflowId) return;
+    },
+
+    startWorkflow: async function() {
+      if (!this.selectedData()._id) return;
+      
+    },
+    
+
+    returnRequestAction: async function() {
+      
 
       try {
         // Info

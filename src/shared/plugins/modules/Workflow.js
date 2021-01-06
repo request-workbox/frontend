@@ -1,123 +1,216 @@
 import Vue from 'vue'
+import { getField, updateField } from 'vuex-map-fields';
 import _ from 'lodash'
 import moment from 'moment-timezone'
 
+function sendResponse(response, message) {
+    if (message && message !== '') Vue.$toast.open({ message, })
+    return response
+}
 
+function throwError(err) {
+    if (err.request && err.request.responseText) {
+        console.log(err.request.responseText)
+        Vue.$toast.open({ message: err.request.responseText })
+        throw new Error(err.request.responseText)
+    } else {
+        throw new Error(err.message)
+    }
+}
+
+const state = () => ({
+    apiUrl: process.env.VUE_APP_API_URL,
+
+    storages: [],
+    selectedWorkflowId: '',
+    
+    searchTerm: '',
+    filter: 'active',
+    numberOfRows: 10,
+    page: 0,
+    editing: false,
+    option: 'instance',
+    orderDirection: 'descending',
+    orderBy: 'date',
+})
 
 const getters = {
-    // WORKFLOW GETTERS
+    getField,
+
 }
 
 const actions = {
-    // WORKFLOW GETTERS
-    forceComputedForWebhookCancelChangesAction({ commit, state, getters, rootState }, payload) {
-        return state.forceComputedForWebhookCancelChanges
-    },
-    // WORKFLOW ACTIONS
     async createWorkflow({ commit, state, rootState }, { projectId }) {
-        const requestUrl = `${state.apiUrl}/create-workflow`
-        const requestBody = { projectId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
+        try {
+            const requestUrl = `${state.apiUrl}/create-workflow`
+            const requestBody = { projectId }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
 
-        commit('addWorkflow', request.data)
-        commit('changeSelectedId', { selectedId: request.data._id })
-        Vue.$toast.open({ message: 'Workflow created', type: 'info' })
+            commit('addWorkflow', request.data)
+            commit('changeSelectedId', { selectedId: request.data._id })
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
-    async getWorkflows({ commit, state, getters, rootState }, payload) {
-        const projectId = payload.projectId
-        const requestUrl = `${state.apiUrl}/list-workflows`
-        const requestBody = { projectId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('replaceAllData', { data: request.data })
-        commit('resetPage')
+    async listWorkflows({ commit, state, getters, rootState }, payload) {
+        try {
+            const projectId = payload.projectId
+            const requestUrl = `${state.apiUrl}/list-workflows`
+            const requestBody = { projectId }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
+
+            commit('replaceAllData', { data: request.data })
+            commit('resetPage')
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async getWorkflow({ commit, state, getters, rootState }, payload) {
-        const requestUrl = `${state.apiUrl}/get-workflow`
-        const requestBody = { projectId: payload.projectId, workflowId: payload.workflowId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('replaceAllData', { data: [request.data] })
-        commit('resetPage')
-        commit('changeSelectedId', { selectedId: request.data._id })
+        try {
+            const requestUrl = `${state.apiUrl}/get-workflow`
+            const requestBody = { projectId: payload.projectId, workflowId: payload.workflowId }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
+
+            commit('replaceAllData', { data: [request.data] })
+            commit('resetPage')
+            commit('changeSelectedId', { selectedId: request.data._id })
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async cancelWorkflowChanges({ commit, state, getters, rootState }, { _id }) {
-        if (!state.editing) return;
+        try {
+            if (!state.editing) return;
 
-        const requestUrl = `${state.apiUrl}/get-workflow`
-        const requestBody = { workflowId: _id }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('updateWorkflow', request.data)
-        commit('stopEditing')
-        commit('updateForceComputedForWebhookCancelChanges')
+            const requestUrl = `${state.apiUrl}/get-workflow`
+            const requestBody = { workflowId: _id }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
+
+            commit('updateWorkflow', request.data)
+            commit('stopEditing')
+            commit('updateForceComputedForWebhookCancelChanges')
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async saveWorkflowChanges({ commit, state, getters, rootState }, workflow) {
         try {
             if (!state.editing) return;
 
             const requestUrl = `${state.apiUrl}/save-workflow-changes`
-            await Vue.$axios.post(requestUrl, workflow)
+            const request = await Vue.$axios.post(requestUrl, workflow)
 
             commit('stopEditing')
+
+            return sendResponse(request.data, 'Request created.')
         } catch(err) {
-            if (err.response && err.response.data) {
-                throw new Error(err.response.data)
-            }
+            return throwError(err)
         }
     },
+
     async addWorkflowTask({ commit, state, getters, rootState }, payload) {
-        const requestUrl = `${state.apiUrl}/add-workflow-task`
-        const requestBody = { _id: payload.workflowId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('updateWorkflow', request.data)
+        try {
+            const requestUrl = `${state.apiUrl}/add-workflow-task`
+            const requestBody = { _id: payload.workflowId }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
+
+            commit('updateWorkflow', request.data)
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async deleteWorkflowTask({ commit, state, getters, rootState }, payload) {
-        const requestUrl = `${state.apiUrl}/delete-workflow-task`
-        const requestBody = { _id: payload.workflowId, taskId: payload.taskId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('removeWorkflowTask', { type: payload.type, taskId: payload.taskId, workflowId: payload.workflowId })
+        try {
+            const requestUrl = `${state.apiUrl}/delete-workflow-task`
+            const requestBody = { _id: payload.workflowId, taskId: payload.taskId }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
+
+            commit('removeWorkflowTask', { type: payload.type, taskId: payload.taskId, workflowId: payload.workflowId })
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
+
     async returnWorkflow({ commit, state, getters, rootState }, workflowId) {
-        const requestUrl = `${state.apiUrl}/return-workflow/${workflowId}`
-        const request = await Vue.$axios.post(requestUrl)
-        return request
+        try {
+            const requestUrl = `${state.apiUrl}/return-workflow/${workflowId}`
+            const request = await Vue.$axios.post(requestUrl)
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async queueWorkflow({ commit, state, getters, rootState }, workflowId) {
-        const requestUrl = `${state.apiUrl}/queue-workflow/${workflowId}`
-        const request = await Vue.$axios.post(requestUrl)
-        return request
+        try {
+            const requestUrl = `${state.apiUrl}/queue-workflow/${workflowId}`
+            const request = await Vue.$axios.post(requestUrl)
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async scheduleWorkflow({ commit, state, getters, rootState }, workflowId) {
-        const requestUrl = `${state.apiUrl}/schedule-workflow/${workflowId}?date=${moment().add(1, 'minute').toISOString()}`
-        const request = await Vue.$axios.post(requestUrl)
-        return request
-    },
-    async archiveWorkflow({ commit, state, getters, rootState }, payload) {
-        const requestUrl = `${state.apiUrl}/archive-workflow`
-        const requestBody = { workflowId: payload.workflowId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('editWorkflowToArchive', { workflowId: payload.workflowId })
-        commit('changeSelectedId', { selectedId: '' })
+        try {
+            const requestUrl = `${state.apiUrl}/schedule-workflow/${workflowId}?date=${moment().add(1, 'minute').toISOString()}`
+            const request = await Vue.$axios.post(requestUrl)
 
-        Vue.$toast.open({ message: 'Archived', type: 'info' })
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
+    },
+
+    async archiveWorkflow({ commit, state, getters, rootState }, payload) {
+        try {
+            const requestUrl = `${state.apiUrl}/archive-workflow`
+            const requestBody = { workflowId: payload.workflowId }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
+
+            commit('editWorkflowToArchive', { workflowId: payload.workflowId })
+            commit('changeSelectedId', { selectedId: '' })
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
     async restoreWorkflow({ commit, state, getters, rootState }, payload) {
-        const requestUrl = `${state.apiUrl}/restore-workflow`
-        const requestBody = { workflowId: payload.workflowId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        commit('editWorkflowToRestore', { workflowId: payload.workflowId })
-        commit('changeSelectedId', { selectedId: '' })
+        try {
+            const requestUrl = `${state.apiUrl}/restore-workflow`
+            const requestBody = { workflowId: payload.workflowId }
+            const request = await Vue.$axios.post(requestUrl, requestBody)
 
-        Vue.$toast.open({ message: 'Restored', type: 'info' })
+            commit('editWorkflowToRestore', { workflowId: payload.workflowId })
+            commit('changeSelectedId', { selectedId: '' })
+
+            return sendResponse(request.data, 'Request created.')
+        } catch(err) {
+            return throwError(err)
+        }
     },
-    async deleteWorkflow({ commit, state, getters, rootState }, payload) {
-        const requestUrl = `${state.apiUrl}/delete-workflow`
-        const requestBody = { workflowId: payload.workflowId }
-        const request = await Vue.$axios.post(requestUrl, requestBody)
-        location.reload()
+
+    forceComputedForWebhookCancelChangesAction({ commit, state, getters, rootState }, payload) {
+        return state.forceComputedForWebhookCancelChanges
     },
 }
 
 const mutations = {
-    // WORKFLOW MUTATIONS
+    updateField,
+    
     addWorkflow(state, payload) {
         state.allData.push(payload)
     },
@@ -275,7 +368,9 @@ const mutations = {
 }
 
 export default {
+    namespaced: true,
+    state,
     getters,
     actions,
-    mutations,
+    mutations
 }

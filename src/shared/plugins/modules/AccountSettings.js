@@ -21,8 +21,7 @@ function throwError(err) {
 const state = () => ({
     apiUrl: process.env.VUE_APP_API_URL,
 
-    displayForm: false,
-    submitted: false,
+    option: 'settings',
 })
 
 const getters = {
@@ -30,28 +29,12 @@ const getters = {
 }
 
 const actions = {
-    updateField,
-    async submitFeedback({ commit, state, rootState }, payload) {
-        try {
-            const url = `${state.apiUrl}/submit-feedback`
-            const body = payload
-            const request = await Vue.$axios.post(url, body)
-            
-            commit('changeSubmitted', true)
-
-            return sendResponse(request.data, 'Request created.')
-        } catch(err) {
-            return throwError(err)
-        }
-    },
+    updateField
 }
 
 const mutations = {
-    changeDisplayForm(state, displayForm) {
-        state.displayForm = displayForm
-    },
-    changeSubmitted(state, submitted) {
-        state.submitted = submitted
+    changeAccountOption(state, option) {
+        state.option = option
     },
 }
 

@@ -116,12 +116,11 @@ const router = new VueRouter({
 /**
 * Install vuex
 * **/
-import authenticationModule from './shared/plugins/modules/authentication'
-import menuModule from './shared/plugins/modules/Menu'
+import authenticationModule from './shared/plugins/modules/Authentication'
 import projectModule from './shared/plugins/modules/Project'
 import tableModule from './shared/plugins/modules/Table'
-import accountModule from './shared/plugins/modules/Account'
-import billingModule from './shared/plugins/modules/Billing'
+import accountModule from './shared/plugins/modules/AccountSettings'
+import billingModule from './shared/plugins/modules/AccountBilling'
 import headerModule from './shared/plugins/modules/Header'
 import queueModule from './shared/plugins/modules/Queue'
 import instanceModule from './shared/plugins/modules/Instance'
@@ -132,7 +131,6 @@ const store = new vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   modules: {
     authentication: authenticationModule,
-    menu: menuModule,
     project: projectModule,
     table: tableModule,
     account: accountModule,

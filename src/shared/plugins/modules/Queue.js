@@ -3,6 +3,21 @@ import { getField, updateField } from 'vuex-map-fields';
 import _ from 'lodash'
 import moment from 'moment-timezone'
 
+function sendResponse(response, message) {
+    if (message && message !== '') Vue.$toast.open({ message, })
+    return response
+}
+
+function throwError(err) {
+    if (err.request && err.request.responseText) {
+        console.log(err.request.responseText)
+        Vue.$toast.open({ message: err.request.responseText })
+        throw new Error(err.request.responseText)
+    } else {
+        throw new Error(err.message)
+    }
+}
+
 const state = () => ({
     apiUrl: process.env.VUE_APP_API_URL,
 
@@ -10,15 +25,17 @@ const state = () => ({
     queueType: 'all',
     queueStatus: 'all',
     queueDate: moment().format('YYYY-MM-DD'),
+    currentTime: `${moment().format('h:mm:ss a')}`,
+    selectedQueueId: '',
 
+    searchTerm: '',
+    filter: 'active',
+    numberOfRows: 10,
+    page: 0,
+    editing: false,
+    option: 'results',
     orderDirection: 'descending',
     orderBy: 'date',
-
-    currentTime: `${moment().format('h:mm:ss a')}`,
-
-    option: 'results',
-
-    selectedQueueStatId: '',
 })
 
 const getters = {
@@ -183,7 +200,6 @@ const getters = {
 }
 
 const actions = {
-    updateField,
     async listQueues({ commit, state, getters, rootState }, payload) {
         try {
             const requestUrl = `${state.apiUrl}/list-queues`
@@ -193,18 +209,20 @@ const actions = {
             _.each(request.data, (queueDoc) => {
                 commit('addToQueues', queueDoc)
             })
+
+            return sendResponse(request.data, 'Request created.')
         } catch(err) {
-            console.log(err)
-            throw new Error(err)
+            return throwError(err)
         }
     },
     async archiveAllQueues({ commit, state, getters, rootState }, payload) {
         try {
             const requestUrl = `${state.apiUrl}/archive-all-queues`
             const request = await Vue.$axios.post(requestUrl, payload)
+
+            return sendResponse(request.data, 'Request created.')
         } catch(err) {
-            console.log(err)
-            throw new Error(err)
+            return throwError(err)
         }
     },
     async archiveQueue({ commit, state, getters, rootState }, payload) {
@@ -212,14 +230,17 @@ const actions = {
             const requestUrl = `${state.apiUrl}/archive-queue`
             const requestBody = { queueId: payload }
             const request = await Vue.$axios.post(requestUrl, requestBody)
+
+            return sendResponse(request.data, 'Request created.')
         } catch(err) {
-            console.log(err)
-            throw new Error(err)
+            return throwError(err)
         }
     },
 }
 
 const mutations = {
+    updateField,
+
     changeOption(state, payload) {
         state.option = payload
     },
