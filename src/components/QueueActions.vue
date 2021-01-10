@@ -17,7 +17,7 @@
             <div
               class="column text-button action"
               v-if="!loading"
-              v-bind:class="{ disabled: !this.activeSelection._id }"
+              v-bind:class="{ disabled: !this.activeSelection()._id }"
               v-on:click="listQueuesAction">
               Reload
             </div>
@@ -29,7 +29,7 @@
             <div
               class="column text-button action"
               v-if="!archiving"
-              v-bind:class="{ disabled: !this.activeSelection._id }"
+              v-bind:class="{ disabled: !this.activeSelection()._id }"
               v-on:click="archiveAllQueuesAction">
               Archive All Upcoming
             </div>
@@ -39,17 +39,17 @@
               Archiving...
             </div>
 
-            <div class="large-spacer" v-if="this.activeSelection._id"></div>
+            <div class="large-spacer" v-if="this.activeSelection()._id"></div>
 
             <!-- Schedule Request -->
-            <div class="column text-button action action-text-center" v-if="this.activeSelection._id && this.$route.name === 'Requests'" v-on:click="startRequest('return')">Return Request</div>
-            <div class="column text-button action action-text-center" v-if="this.activeSelection._id && this.$route.name === 'Requests'" v-on:click="startRequest('queue')">Queue Request</div>
-            <div class="column text-button action action-text-center" v-if="this.activeSelection._id && this.$route.name === 'Requests'" v-on:click="startRequest('schedule')">Schedule Request</div>
+            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'Requests'" v-on:click="startRequest('return')">Return Request</div>
+            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'Requests'" v-on:click="startRequest('queue')">Queue Request</div>
+            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'Requests'" v-on:click="startRequest('schedule')">Schedule Request</div>
 
             <!-- Schedule Workflow -->
-            <div class="column text-button action action-text-center" v-if="this.activeSelection._id && this.$route.name === 'Workflows'" v-on:click="startWorkflow('return')">Return Workflow</div>
-            <div class="column text-button action action-text-center" v-if="this.activeSelection._id && this.$route.name === 'Workflows'" v-on:click="startWorkflow('queue')">Queue Workflow</div>
-            <div class="column text-button action action-text-center" v-if="this.activeSelection._id && this.$route.name === 'Workflows'" v-on:click="startWorkflow('schedule')">Schedule Workflow</div>
+            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'Workflows'" v-on:click="startWorkflow('return')">Return Workflow</div>
+            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'Workflows'" v-on:click="startWorkflow('queue')">Queue Workflow</div>
+            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'Workflows'" v-on:click="startWorkflow('schedule')">Schedule Workflow</div>
 
           </div>
         </div>
@@ -76,18 +76,22 @@ export default {
 
     ...mapGetters('request', ['selectedRequest']),
     ...mapGetters('workflow', ['selectedWorkflow']),
-    activeSelection: function() {
-      if (this.$route.name === 'Requests') return this.selectedRequest
-      if (this.$route.name === 'Workflows') return this.selectedWorkflow
-    },
   },
   methods: {
-    ...mapMutations('queue', ['editSelectedQueueId','listQueues','archiveAllQueues']),
+    ...mapMutations('queue', ['editSelectedQueueId','editQueueDate']),
     ...mapMutations('instance', ['editSelectedInstanceId', 'editSelectedInstanceStatId']),
 
+    ...mapActions('queue', ['listQueues','archiveAllQueues']),
     ...mapActions('request', ['returnRequest','queueRequest','scheduleRequest',]),
     ...mapActions('workflow', ['returnWorkflow','queueWorkflow','scheduleWorkflow',]),
-
+    activeSelection: function() {
+      if (this.$route.name === 'Requests') return this.selectedRequest()
+      if (this.$route.name === 'Workflows') return this.selectedWorkflow()
+    },
+    activeSelectionWorkflowId: function() {
+      if (this.$route.name === 'Requests') return this.selectedRequest().workflowId
+      if (this.$route.name === 'Workflows') return this.selectedWorkflow()._id
+    },
     editQueueDateAction: function(event) {
       this.editSelectedQueueId('')
       this.editSelectedInstanceId('')
@@ -99,7 +103,7 @@ export default {
       try {
         this.loading = true
 
-        const payload = { workflowId: this.activeSelection.workflowId, date: moment(this.queueDate), }
+        const payload = { workflowId: this.activeSelectionWorkflowId(), date: moment(this.queueDate), }
         const queues = await this.listQueues(payload)
       } catch (err) {
         console.log('Queue actions error', err.message)
@@ -114,7 +118,7 @@ export default {
         if (confirm) {
           this.archiving = true
           
-          const payload = { date: moment(this.queueDate), workflowId: this.activeSelection.workflowId, queueType: this.queueType, }
+          const payload = { date: moment(this.queueDate), workflowId: this.activeSelectionWorkflowId(), queueType: this.queueType, }
           const queues = await this.archiveAllQueues(payload)
         }
       } catch(err) {
@@ -128,15 +132,14 @@ export default {
         Vue.$toast.open({ message: 'One moment...', })
 
         if (queueType === 'return') {
-          const results = await this.returnRequest(this.activeSelection._id)
+          const results = await this.returnRequest(this.activeSelection()._id)
         } else if (queueType === 'queue') {
-          const results = await this.queueRequest(this.activeSelection._id)
+          const results = await this.queueRequest(this.activeSelection()._id)
         } else if (queueType === 'schedule') {
-          const results = await this.scheduleRequest(this.activeSelection._id)
+          const results = await this.scheduleRequest(this.activeSelection()._id)
         }
       } catch(err) {
         console.log('Queue actions error', err.message)
-        Vue.$toast.open({ message: err.message })
       }
     },
     startWorkflow: async function(queueType) {
@@ -144,15 +147,14 @@ export default {
         Vue.$toast.open({ message: 'One moment...', })
 
         if (queueType === 'return') {
-          const results = await this.returnWorkflow(this.activeSelection._id)
+          const results = await this.returnWorkflow(this.activeSelection()._id)
         } else if (queueType === 'queue') {
-          const results = await this.queueWorkflow(this.activeSelection._id)
+          const results = await this.queueWorkflow(this.activeSelection()._id)
         } else if (queueType === 'schedule') {
-          const results = await this.scheduleWorkflow(this.activeSelection._id)
+          const results = await this.scheduleWorkflow(this.activeSelection()._id)
         }
       } catch(err) {
         console.log('Queue actions error', err.message)
-        Vue.$toast.open({ message: err.message })
       }
     },
   },

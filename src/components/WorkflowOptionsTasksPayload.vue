@@ -5,7 +5,9 @@
         <div class="column column-data column-header-text column-grow">Body Payload</div>
       </div>
 
-      <div class="row row-border-bottom" v-for="payload in this.selectedWorkflow.payloads" :key="payload._id">
+      <div class="row row-border-bottom" 
+        v-for="payload in this.selectedWorkflow().payloads" 
+        :key="payload._id">
         <div class="column column-data">
           <input 
             id="team"
@@ -47,30 +49,10 @@ export default {
     },
   },
   methods: {
-    ...mapMutations('workflow', ['editWorkflowTask', 'changeTaskPosition', 'editWorkflowWebhook']),
-    ...mapActions('workflow', ['deleteWorkflowTask','forceComputedForWebhookCancelChangesAction']),
-    editWorkflowWebhookAction: function (event) {
-      this.editWorkflowWebhook({
-        value: event.target.value,
-        workflowId: this.selectedWorkflow._id,
-      });
-    },
+    ...mapMutations('workflow', ['editWorkflowTask']),
+    ...mapActions('workflow', ['forceComputedForWebhookCancelChangesAction']),
     editWorkflowTaskActive: function (type, _id, key, event) {
-      this.editWorkflowTask({
-        type,
-        _id,
-        key,
-        value: event.target.checked,
-        workflowId: this.selectedWorkflow._id,
-      });
-    },
-    webhookRequestId: function() {
-      if (this.selectedWorkflow.webhooks && this.selectedWorkflow.webhooks[0]) {
-        if (this.selectedWorkflow.webhooks[0].requestId) return this.selectedWorkflow.webhooks[0].requestId
-        else return ''
-      } else {
-        return ''
-      }
+      this.editWorkflowTask({ type, _id, key, value: event.target.checked, workflowId: this.selectedWorkflow()._id, })
     },
   },
 };

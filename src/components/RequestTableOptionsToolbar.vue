@@ -19,7 +19,7 @@ import { mapState, mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'RequestTableOptionsToolbar',
   computed: {
-    ...mapState('request', ['option','editing']),
+    ...mapState('request', ['option']),
     ...mapGetters('request', ['selectedRequest']),
   },
   methods: {

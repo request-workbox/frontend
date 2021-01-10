@@ -45,9 +45,9 @@ export default {
   name: 'RequestTable',
   computed: {
     ...mapState('request', ['option','editing']),
-    ...mapGetters('request', ['visible','selectedRequest']),
+  ...mapGetters('request', ['visibleRequests','selectedRequest']),
     leftoverRows: function() {
-      const leftover = 10 - _.size(this.visibleRequests())
+      const leftover = 7 - _.size(this.visibleRequests()) || 0
       return leftover
     }
   },

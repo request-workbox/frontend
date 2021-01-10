@@ -18,6 +18,8 @@ export default {
   computed: {
     ...mapGetters('project', ['selectedProject']),
     projectLastEdited: function() {
+      if (!this.selectedProject()._id) return ''
+      
       const updatedAt = this.selectedProject().updatedAt
       return `Last edited: ${moment(updatedAt).format('MMMM Do YYYY, h:mm:ss a')}`
     },

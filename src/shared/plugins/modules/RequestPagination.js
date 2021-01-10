@@ -1,7 +1,7 @@
 
 const getters = {
     allData: (state, getters) => () => {
-        return state.team
+        return state.requests
     },
 
     // Step 1: Filter by status
@@ -76,6 +76,9 @@ const getters = {
 }
 
 const actions = {
+    resetPage({ commit, state, getters, rootState }) {
+        commit('resetPage')
+    },
     previousPage({ commit, state, getters, rootState }) {
         if (getters.currentPage() <= 1) return
         commit('decrementPage')

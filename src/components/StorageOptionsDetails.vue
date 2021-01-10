@@ -155,6 +155,8 @@ export default {
         this.downloading = true
         const storage = await this.getFileStorageData({ storageId: this.selectedStorage()._id })
 
+        console.log(this.selectedStorage())
+
         let fileData = storage.storageValue
 
         const dataStr = "data:text/plain;charset=utf-8," + encodeURIComponent(fileData)

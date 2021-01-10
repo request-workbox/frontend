@@ -1,3 +1,4 @@
+import moment from 'moment-timezone'
 
 const getters = {
     allData: (state, getters) => () => {
@@ -5,7 +6,7 @@ const getters = {
     },
 
     // Step 1: Filter by queue type
-    filterByQueueType: (state, getters, rootState) => () => {
+    filterByQueueType: (state, getters, rootState) => (workflowId) => {
         return _.filter(getters.allData(), (data) => {
             if (state.queueType === 'all') {
                 return true
@@ -22,8 +23,8 @@ const getters = {
         })
     },
     // Step 2: Filter by date
-    visibleFilteredDay: (state, getters, rootState) => () => {
-        return _.filter(getters.filterByQueueType(), (data) => {
+    visibleFilteredDay: (state, getters, rootState) => (workflowId) => {
+        return _.filter(getters.filterByQueueType(workflowId), (data) => {
             const startOf = moment(state.queueDate).startOf('day')
             const endOf = moment(state.queueDate).endOf('day')
             if (moment(data.date).isBetween(startOf, endOf)) return true
@@ -31,8 +32,8 @@ const getters = {
         })
     },
     // Step 3: Filter by status
-    visibleFilteredStatus: (state, getters) => () => {
-        return _.filter(getters.visibleFilteredDay(), (data) => {
+    visibleFilteredStatus: (state, getters) => (workflowId) => {
+        return _.filter(getters.visibleFilteredDay(workflowId), (data) => {
             if (state.queueStatus === 'all') {
                 return true
             } else if (state.queueStatus === 'error') {
@@ -56,8 +57,8 @@ const getters = {
         })
     },
     // Step 4: Filter by search term
-    visibleFilteredSearch: (state, getters) => () => {
-        return _.filter(getters.visibleFilteredStatus(), (data) => {
+    visibleFilteredSearch: (state, getters) => (workflowId) => {
+        return _.filter(getters.visibleFilteredStatus(workflowId), (data) => {
             if (state.searchTerm === '') return true
 
             if (_.includes(_.lowerCase(data.name), _.lowerCase(state.searchTerm))) return true
@@ -65,8 +66,8 @@ const getters = {
         })
     },
     // Step 5: Sort data
-    visibleSorted: (state, getters) => () => {
-        return getters.visibleFilteredSearch().sort(function compare(a, b) {
+    visibleSorted: (state, getters) => (workflowId) => {
+        return getters.visibleFilteredSearch(workflowId).sort(function compare(a, b) {
             var dateA = new Date(a[state.queueOrderBy])
             var dateB = new Date(b[state.queueOrderBy])
             if (state.queueOrderDirection === 'ascending') {
@@ -77,25 +78,25 @@ const getters = {
         })
     },
     // Step 6: Filter by workflow
-    visibleFilteredWorkflow: (state, getters, rootState) => () => {
-        if (!state.selectedWorkflowId) return []
+    visibleFilteredWorkflow: (state, getters, rootState) => (workflowId) => {
+        if (!workflowId) return []
 
-        const workflows = _.filter(getters.visibleSorted(), (data) => {
-            if (data.workflowId === state.selectedWorkflowId) return true
+        const workflows = _.filter(getters.visibleSorted(workflowId), (data) => {
+            if (data.workflowId === workflowId) return true
             else return false
         })
 
         if (!_.size(workflows)) return []
 
-        return workflow
+        return workflows
     },
     // Step 7: Chunk data
-    visibleChunked: (state, getters) => () => {
-        return _.chunk(getters.visibleFilteredWorkflow(), state.numberOfRows)
+    visibleChunked: (state, getters) => (workflowId) => {
+        return _.chunk(getters.visibleFilteredWorkflow(workflowId), state.numberOfRows)
     },
     // Step 8: Return data for this page
-    visibleQueues: (state, getters) => () => {
-        return getters.visibleChunked()[state.page]
+    visibleQueues: (state, getters) => (workflowId) => {
+        return getters.visibleChunked(workflowId)[state.page]
     },
 
     // Final number of pages

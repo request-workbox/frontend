@@ -8,18 +8,18 @@
 
     <div class="row row-border-bottom">
       <div class="column text-button" v-bind:class="{'text-button-selected':this.option === 'results'}" v-on:click="editOptionAction('results')">Results</div>
-      <div class="column text-button" v-bind:class="{'text-button-selected':this.option === 'usage'}" v-on:click="editOptionAction('usage')">Usage</div>
+      <!-- <div class="column text-button" v-bind:class="{'text-button-selected':this.option === 'usage'}" v-on:click="editOptionAction('usage')">Usage</div> -->
     </div>
 
     <div class="row row-border-bottom" v-if="this.selectedInstanceId !== '' && this.selectedInstanceStatId !== ''">
-      <div class="column text-button action" v-if="!loading" v-on:click="getInstanceDetailAction()">Load Requests / Responses</div>
-      <div class="column text-button action" v-if="loading">Loading Data...</div>
+      <div class="column text-button action" v-if="this.option === 'results' && !loading" v-on:click="getInstanceDetailAction()">Load Requests / Responses</div>
+      <div class="column text-button action" v-if="this.option === 'results' && loading">Loading Data...</div>
 
-      <div class="column text-button action" v-if="!downloading && selectedInstance().downloadPayload" v-on:click="downloadInstanceStatAction">Download Payload</div>
-      <div class="column text-button action" v-if="downloading && selectedInstance().downloadPayload">Downloading...</div>
+      <div class="column text-button action" v-if="this.option === 'results' && !downloading" v-on:click="downloadInstanceStatAction">Download Instance Stat</div>
+      <div class="column text-button action" v-if="this.option === 'results' && downloading">Downloading...</div>
 
-      <div class="column text-button action" v-if="!loadingUsage" v-on:click="getInstanceUsageAction()">Load Usage</div>
-      <div class="column text-button action" v-if="loadingUsage">Loading Usage...</div>
+      <div class="column text-button action" v-if="this.option === 'usage' && !loadingUsage" v-on:click="getInstanceUsageAction()">Load Usage</div>
+      <div class="column text-button action" v-if="this.option === 'usage' && loadingUsage">Loading Usage...</div>
     </div>
 
     <div v-if="this.option !== ''">
@@ -56,7 +56,7 @@ export default {
     QueueStatsInstanceUsage,
   },
   computed: {
-    ...mapState('instance', ['option']),
+    ...mapState('instance', ['option','selectedInstanceId','selectedInstanceStatId']),
     ...mapGetters('instance', ['selectedInstance']),
     
     queueStatsInstanceOption: function() {
@@ -82,11 +82,14 @@ export default {
     downloadInstanceStatAction: async function() {
       try {
         this.downloading = true
-        const fileDataResponse = await this.downloadInstanceStat({ instanceId: this.selectedInstance()._id, statId: this.selectedInstance()._id })
-        const fileData = fileDataResponse.data
-        const fileStringData = JSON.stringify(fileData)
+        const fileDataResponse = await this.downloadInstanceStat({ instanceId: this.selectedInstance()._id, statId: this.selectedInstanceStatId })
+        const fileStringData = JSON.stringify(fileDataResponse)
 
-        return download(fileStringData, `${this.selectedInstance().workflowName}-${this.selectedInstance().requestName}`, 'text/plain')
+        const 
+          workflowName = this.selectedInstance().workflowName,
+          requestName = fileDataResponse.requestName;
+
+        return download(fileStringData, `${workflowName}-${requestName}`, 'text/plain')
       } catch(err) {
         console.log('Queue stats instance error', err.message)
       } finally {

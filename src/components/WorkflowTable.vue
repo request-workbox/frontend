@@ -45,10 +45,10 @@ export default {
   name: 'WorkflowTable',
   computed: {
     ...mapState('workflow', ['option','editing']),
-    ...mapGetters('workflow', ['visible','selectedWorkflow']),
+    ...mapGetters('workflow', ['visibleWorkflows','selectedWorkflow']),
 
     leftoverRows: function() {
-      const leftover = 10 - _.size(this.visibleWorkflows())
+      const leftover = 7 - _.size(this.visibleWorkflows())
       return leftover
     }
   },

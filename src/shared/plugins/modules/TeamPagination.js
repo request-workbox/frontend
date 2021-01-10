@@ -6,7 +6,7 @@ const getters = {
 
     // Step 1: Sort data
     visibleSorted: (state, getters) => () => {
-        return getters.allData().sort(function compare(a, b) {
+        return _.map(getters.allData()).sort(function compare(a, b) {
             var dateA = new Date(a[state.teamOrderBy])
             var dateB = new Date(b[state.teamOrderBy])
             if (state.teamOrderDirection === 'ascending') {
@@ -27,7 +27,10 @@ const actions = {
 }
 
 const mutations = {
-    
+    // Edit methods
+    stopEditing(state) {
+        state.editing = false
+    },
 }
 
 export {

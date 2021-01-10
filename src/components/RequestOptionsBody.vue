@@ -52,7 +52,7 @@
             :value="detailItem.value" 
             v-on:input="editValue('body', detailItem._id, $event)">
               <option
-                  v-for="(storage) in storagesForSelect()"
+                  v-for="(storage) in visibleStorages()"
                   :key="storage._id"
                   :value="storage._id"
                 >{{ storage.name }}</option>
@@ -91,6 +91,7 @@ export default {
   name: 'RequestOptionsBody',
   computed: {
     ...mapGetters('request', ['selectedRequest']),
+    ...mapGetters('storage', ['visibleStorages']),
   },
   methods: {
     ...mapMutations('request', ['editRequestDetailKey', 'editRequestDetailValue','editRequestDetailValueType','editRequestDetailActive']),

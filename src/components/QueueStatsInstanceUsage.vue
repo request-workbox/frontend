@@ -2,13 +2,13 @@
   <div class="row">
     <div class="column column-full-width">
 
-      <div class="row row-border-bottom" v-for="(total, key) in usageTotal()" :key="key">
+      <!-- <div class="row row-border-bottom" v-for="(total, key) in usages" :key="key">
         <div class="column column-data column-10 column-padded">{{ `Total` }}</div>
         <div class="column column-data column-10 column-padded">{{ key }}</div>
         <div class="column column-data column-10 column-padded">{{ total }}</div>
         <div class="column column-data column-10 column-padded">{{ `` }}</div>
         <div class="column column-data column-grow column-padded">{{ `` }}</div>
-      </div>
+      </div> -->
 
       <div class="row row-border-bottom">
         <div class="column column-data column-header column-10 column-padded">Location</div>
@@ -20,7 +20,7 @@
         <div class="column column-data column-header column-grow column-padded">Detail</div>
       </div>
 
-      <div class="row row-border-bottom table-row-selectable" v-for="(usage) in this.selectedInstanceUsage()" :key="usage._id">
+      <div class="row row-border-bottom table-row-selectable" v-for="(usage) in selectedInstanceUsage()" :key="usage._id">
         <div class="column column-data column-10 column-padded">{{ usageUppercase(usage.usageLocation) }}</div>
         <div class="column column-data column-10 column-padded">{{ usageUppercase(usage.usageType) }}</div>
         <div class="column column-data column-10 column-padded">{{ usage.usageAmount }}</div>
@@ -43,13 +43,19 @@ export default {
   name: 'QueueStatsInstanceUsage',
   computed: {
     ...mapState('instance', ['selectedInstanceId']),
-    ...mapGetters('instance', ['usageTotals']),
+    ...mapGetters('instance', ['visibleInstances']),
+    ...mapGetters('queue', ['selectedQueue']),
   },
   methods: {
-    selectedInstanceUsage: function() {
-      if (this.selectedInstanceId === '') return []
+    ...mapActions('instance', ['usageTotals']),
+    selectedInstanceUsage: async function() {
+      const instances = _.filter(this.visibleInstances(), (data) => {
+        if (data.queueId === this.selectedQueue()._id) return true
+        else return false
+      })
 
-      return this.getInstanceById(this.selectedInstanceId).usage
+      if (_.size(instances)) return instances[0]
+      else return {}
     },
     usageUppercase: function(usage) {
       if (usage === 'api') return 'API'
@@ -58,9 +64,6 @@ export default {
     usageCreatedAt: function(createdAt) {
       if (!createdAt) return ''
       return `${moment(createdAt).format('M-D-YYYY, h:mm:ss a')}`
-    },
-    usageTotal: function() {
-      return this.usageTotals(this.selectedInstanceId)
     },
   }
 };

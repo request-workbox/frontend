@@ -14,7 +14,7 @@ import { mapState, mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'StorageTableOptionsToolbar',
   computed: {
-    ...mapState('storage', ['option','editing']),
+    ...mapState('storage', ['option']),
     ...mapGetters('storage', ['selectedStorage']),
   },
   methods: {
@@ -23,14 +23,14 @@ export default {
       return (option === this.option) ? true : false
     },
     editOptionAction: function(option) {
-      if (this.editing) return
+      this.editOption(option)
 
-      if (this.selectedStorage._id) {
-        this.$router.replace({ path: this.$route.name, query: { id: this.selectedStorage._id, option: option }}).catch((err) => err)
+      if (this.selectedStorage()._id) {
+        this.$router.replace({ path: this.$route.name, query: { id: this.selectedStorage()._id, option: option }}).catch((err) => err)
       } else {
         this.$router.replace({ path: this.$route.name, query: { option: option }}).catch((err) => err)
       }
-      this.editOption(option)
+      
     },
   }
 }

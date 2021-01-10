@@ -16,7 +16,7 @@ import { mapActions, mapGetters, mapState } from 'vuex'
 export default {
   name: 'ProjectInfo',
   computed: {
-    ...mapState('project',['selectedProject']),
+    ...mapGetters('project',['selectedProject']),
   },
 }
 </script>

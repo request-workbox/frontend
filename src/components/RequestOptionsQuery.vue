@@ -11,7 +11,7 @@
       </div>
 
       <div class="row row-border-bottom"
-        v-for="detailItem in this.selectedRequest.query"
+        v-for="detailItem in this.selectedRequest().query"
         :key="detailItem._id">
         <div class="column column-data column-uparrow">
           <input 
@@ -52,7 +52,7 @@
             :value="detailItem.value" 
             v-on:input="editValue('query', detailItem._id, $event)">
               <option
-                  v-for="(storage) in storagesForSelect()"
+                  v-for="(storage) in visibleStorages()"
                   :key="storage._id"
                   :value="storage._id"
                 >{{ storage.name }}</option>
@@ -73,7 +73,7 @@
             placeholder="Field Name"
             class="column-input-text"
             :value="detailItem.value"
-            v-on:input="editValue('query', value._id, $event)"
+            v-on:input="editValue('query', detailItem._id, $event)"
           />
         </div>
         <div class="column text-button action" v-on:click="deleteRequestDetailItemAction(detailItem)">
@@ -91,27 +91,28 @@ export default {
   name: 'RequestOptionsQuery',
   computed: {
     ...mapGetters('request', ['selectedRequest']),
+    ...mapGetters('storage', ['visibleStorages']),
   },
   methods: {
     ...mapMutations('request', ['editRequestDetailKey', 'editRequestDetailValue','editRequestDetailValueType','editRequestDetailActive']),
     ...mapActions('request', ['deleteRequestDetailItem']),
     editKey: function(type, key, event) {
-      this.editRequestDetailKey({type, key, value: event.target.value, requestId: this.selectedRequest._id})
+      this.editRequestDetailKey({type, key, value: event.target.value, requestId: this.selectedRequest()._id})
     },
     editValue: function(type, key, event) {
-      this.editRequestDetailValue({type, key, value: event.target.value, requestId: this.selectedRequest._id})
+      this.editRequestDetailValue({type, key, value: event.target.value, requestId: this.selectedRequest()._id})
     },
     editValueType: function(type, key, event) {
-      this.editRequestDetailValueType({type, key, value: event.target.value, requestId: this.selectedRequest._id})
+      this.editRequestDetailValueType({type, key, value: event.target.value, requestId: this.selectedRequest()._id})
     },
     editActive: function(type, key, event) {
-      this.editRequestDetailActive({type, key, value: event.target.checked, requestId: this.selectedRequest._id})
+      this.editRequestDetailActive({type, key, value: event.target.checked, requestId: this.selectedRequest()._id})
     },
     deleteRequestDetailItemAction: function(detailItem) {
       try {
         const confirm = window.confirm('Are you sure you want to delete this item?')
         if (confirm) {
-          this.deleteRequestDetailItem({ detailItem, requestId: this.selectedRequest._id, option: 'query'})
+          this.deleteRequestDetailItem({ detailItem, requestId: this.selectedRequest()._id, option: 'query'})
         }
       } catch(err) {
         console.log('Request options query error', err.message)

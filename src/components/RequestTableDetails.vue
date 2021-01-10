@@ -23,6 +23,8 @@ export default {
       return this.selectedRequest().name
     },
     requestLastEdited: function() {
+      if (!this.selectedRequest()._id) return ''
+
       const updatedAt = this.selectedRequest().updatedAt
       return `Last edited: ${moment(updatedAt).format('MMMM Do YYYY, h:mm:ss a')}`
     },

@@ -73,7 +73,6 @@ export default {
         const request = await this.saveRequestChanges(this.selectedRequest())
       } catch(err) {
         console.log('Request options actions error', err.message)
-        Vue.$toast.open({ message: err.message })
       }
     },
     addRequestDetailItemAction: async function() {

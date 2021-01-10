@@ -6,6 +6,8 @@ import moment from 'moment-timezone'
 const pagination = require('./TeamPagination')
 
 function sendResponse(response, message) {
+    console.log('response', JSON.parse(JSON.stringify(response)))
+    console.log('message', message)
     if (message && message !== '') Vue.$toast.open({ message, })
     return response
 }
@@ -24,6 +26,8 @@ const state = () => ({
     apiUrl: process.env.VUE_APP_API_URL,
 
     team: [],
+
+    editing: false,
     
     teamOrderDirection: 'descending',
     teamOrderBy: 'createdAt',
@@ -35,6 +39,8 @@ const getters = {
 }
 
 const actions = {
+    ...pagination.actions,
+    
     async listTeam({ commit, state, rootState }, payload) {
         try {
             const requestUrl = `${state.apiUrl}/list-team`
@@ -62,53 +68,6 @@ const actions = {
             return throwError(err)
         }
     },
-    async listInvites({ commit, state, rootState }, payload) {
-        try {
-            if (state.editing) return
-
-            const requestUrl = `${state.apiUrl}/list-invites`
-            const request = await Vue.$axios.post(requestUrl)
-
-            commit('updateInvites', request.data)
-
-            return sendResponse(request.data, 'Invites loaded.')
-        } catch(err) {
-            return throwError(err)
-        }
-    },
-    async createInvite({ commit, state, rootState }, { projectId, username }) {
-        try {
-            const requestUrl = `${state.apiUrl}/create-invite`
-            const requestBody = { projectId, username }
-            const request = await Vue.$axios.post(requestUrl, requestBody)
-
-            return sendResponse(request.data, 'Invite created.')
-        } catch(err) {
-            return throwError(err)
-        }
-    },
-    async acceptInvite({ commit, state, rootState }, projectId) {
-        try {
-            const requestUrl = `${state.apiUrl}/accept-invite`
-            const requestBody = { projectId }
-            const request = await Vue.$axios.post(requestUrl, requestBody)
-
-            return sendResponse(request.data, 'Invite accepted.')
-        } catch(err) {
-            return throwError(err)
-        }
-    },
-    async removeInvite({ commit, state, rootState }, { projectId, username }) {
-        try {
-            const requestUrl = `${state.apiUrl}/remove-invite`
-            const requestBody = { projectId, username }
-            const request = await Vue.$axios.post(requestUrl, requestBody)
-
-            return sendResponse(request.data, 'Invite removed.')
-        } catch(err) {
-            return throwError(err)
-        }
-    },
 }
 
 const mutations = {
@@ -121,6 +80,9 @@ const mutations = {
     updateIncludeSensitive(state, { memberId, value }) {
         state.editing = true
 
+        console.log(memberId)
+        console.log(value)
+
         state.team = _.map(state.team, (member) => {
             if (member._id === memberId) {
                 member.includeSensitive = value
@@ -132,21 +94,15 @@ const mutations = {
     updatePermission(state, { memberId, value }) {
         state.editing = true
 
+        console.log(memberId)
+        console.log(value)
+
         state.team = _.map(state.team, (member) => {
             if (member._id === memberId) {
                 member.permission = value
             }
 
             return member
-        })
-    },
-    editPermissions(state, { permissionKey, projectId, value }) {
-        state.editing = true
-        state.projects = _.map(state.projects, (project) => {
-            if (project._id === projectId) {
-                project[permissionKey] = value
-            }
-            return project;
         })
     },
 }

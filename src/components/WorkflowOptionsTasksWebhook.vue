@@ -5,7 +5,9 @@
         <div class="column column-data column-header-text column-grow">Webhook</div>
       </div>
 
-      <div class="row row-border-bottom" v-for="webhook in this.selectedWorkflow.webhooks" :key="webhook._id">
+      <div class="row row-border-bottom" 
+        v-for="webhook in this.selectedWorkflow().webhooks" 
+        :key="webhook._id">
         <div class="column column-data">
           <input 
             id="team"
@@ -16,22 +18,21 @@
         <div class="column column-full-width">
           <div class="row">
             <div
-              class="column column-data column-uparrow column-uparrow-hidden"
-            >
+              class="column column-data column-uparrow column-uparrow-hidden">
               <span>▲</span>
             </div>
             <div class="column column-data column-20">
               <select
                 class="column-input-select border-hidden column-input-select-grow"
                 :value="webhookRequestId()"
-                v-on:input="editWorkflowWebhookAction($event)"
-              >
-                <option value="">No Webhook</option>
-                <option
-                  v-for="(request) in requestsForSelect()"
-                  :key="request._id"
-                  :value="request._id"
-                >{{ request.name }}</option>
+                v-on:input="editWorkflowWebhookAction($event)">
+                  <option value="">No Webhook</option>
+                  <option
+                    v-for="(request) in visibleRequests()"
+                    :key="request._id"
+                    :value="request._id">
+                      {{ request.name }}
+                  </option>
               </select>
             </div>
           </div>
@@ -51,6 +52,7 @@ export default {
   name: 'WorkflowOptionsTasksWebhook',
   computed: {
     ...mapGetters('workflow', ['selectedWorkflow']),
+    ...mapGetters('request', ['visibleRequests']),
     
     forceComputedForWebhookCancelChanges: async function() {
       const changes = await this.forceComputedForWebhookCancelChangesAction()
@@ -61,26 +63,16 @@ export default {
     ...mapMutations('workflow', ['editWorkflowTask', 'changeTaskPosition', 'editWorkflowWebhook']),
     ...mapActions('workflow', ['deleteWorkflowTask','forceComputedForWebhookCancelChangesAction']),
     editWorkflowWebhookAction: function (event) {
-      this.editWorkflowWebhook({
-        value: event.target.value,
-        workflowId: this.selectedWorkflow._id,
-      });
+      this.editWorkflowWebhook({ value: event.target.value, workflowId: this.selectedWorkflow()._id, })
     },
     editWorkflowTaskActive: function (type, _id, key, event) {
-      this.editWorkflowTask({
-        type,
-        _id,
-        key,
-        value: event.target.checked,
-        workflowId: this.selectedWorkflow._id,
-      });
+      this.editWorkflowTask({ type, _id, key, value: event.target.checked, workflowId: this.selectedWorkflow()._id, })
     },
     webhookRequestId: function() {
-      if (this.selectedWorkflow.webhooks && this.selectedWorkflow.webhooks[0]) {
-        if (this.selectedWorkflow.webhooks[0].requestId) return this.selectedWorkflow.webhooks[0].requestId
+      if (!this.selectedWorkflow().webhooks || !this.selectedWorkflow().webhooks[0]) return ''
+      else {
+        if (this.selectedWorkflow().webhooks[0].requestId) return this.selectedWorkflow().webhooks[0].requestId
         else return ''
-      } else {
-        return ''
       }
     },
   },

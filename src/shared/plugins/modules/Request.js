@@ -6,6 +6,8 @@ import moment from 'moment-timezone'
 const pagination = require('./RequestPagination')
 
 function sendResponse(response, message) {
+    console.log('response', JSON.parse(JSON.stringify(response)))
+    console.log('message', message)
     if (message && message !== '') Vue.$toast.open({ message, })
     return response
 }
@@ -28,7 +30,7 @@ const state = () => ({
     
     searchTerm: '',
     filter: 'active',
-    numberOfRows: 10,
+    numberOfRows: 7,
     page: 0,
     editing: false,
     option: 'url',
@@ -67,7 +69,7 @@ const actions = {
             const requestBody = { projectId }
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
-            commit('replaceRequests', { data: request.data })
+            commit('replaceRequests', request.data)
             commit('resetPage')
 
             return sendResponse(request.data, 'Requests loaded.')
@@ -81,9 +83,9 @@ const actions = {
             const requestBody = { projectId: payload.projectId, requestId: payload.requestId }
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
-            commit('replaceRequests', { data: [request.data] })
+            commit('addRequest', request.data)
             commit('resetPage')
-            commit('editSelectedId', { selectedId: request.data._id })
+            commit('editSelectedRequestId', request.data._id)
 
             return sendResponse(request.data, 'Request found.')
         } catch(err) {
@@ -192,7 +194,7 @@ const actions = {
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
             commit('editRequestToArchive', { requestId: payload.requestId })
-            commit('editSelectedId', { selectedId: '' })
+            commit('editSelectedRequestId', '')
 
             return sendResponse(request.data, 'Request archived.')
         } catch(err) {
@@ -206,7 +208,7 @@ const actions = {
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
             commit('editRequestToRestore', { requestId: payload.requestId })
-            commit('editSelectedId', { selectedId: '' })
+            commit('editSelectedRequestId', '')
 
             return sendResponse(request.data, 'Request restored.')
         } catch(err) {
@@ -220,7 +222,17 @@ const mutations = {
     ...pagination.mutations,
 
     addRequest(state, payload) {
-        state.requests.push(payload)
+        const found = _.filter(state.requests, (data) => {
+            if (data._id === payload._id) return true
+            else return false
+        })
+
+        if (!_.size(found)) state.requests.push(payload)
+    },
+    replaceRequests(state, payload) {
+        if (!payload || !_.size(payload)) return
+
+        state.requests = payload
     },
     updateRequest(state, payload) {
         _.each(state.requests, (data) => {
@@ -295,7 +307,7 @@ const mutations = {
             if (data._id === payload.requestId) {
                 _.each(data.authorization, (obj) => {
                     if (obj._id === payload._id) {
-                        obj[key] = payload.value
+                        obj[payload.key] = payload.value
                     }
                 })
             }
@@ -346,9 +358,6 @@ const mutations = {
             }
         })
     },
-    replaceRequestsForSelectOptions(state, payload) {
-        state.requestsForSelectOptions = payload.data
-    },
     replaceHeaderSpaces(state, payload) {
         _.each(state.requests, (data) => {
             if (data._id === payload.requestId) {
@@ -357,13 +366,6 @@ const mutations = {
                 })
             }
         })
-    },
-    editSelectedRequestId(state, payload) {
-        if (state.selectedRequestId === payload) {
-            state.selectedRequestId = ''
-        } else {
-            state.selectedRequestId = payload
-        }
     },
 }
 

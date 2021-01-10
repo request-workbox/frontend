@@ -54,11 +54,10 @@ export default {
         const confirm = window.confirm('Are you sure you want to generate a token?')
         if (confirm) {
           this.loading = true
-          await this.generateToken()
+          const token = await this.generateToken()
         }
       } catch(err) {
         console.log('Account settings tokens error', err.message)
-        Vue.$toast.open({ message: err.message })
       } finally {
         this.loading = false
       }
@@ -68,11 +67,10 @@ export default {
         const confirm = window.confirm('Are you sure you want to revoke this token?')
         if (confirm) {
           this.revoking = true
-          await this.revokeToken(snippet)
+          const revoke = await this.revokeToken(snippet)
         }
       } catch(err) {
         console.log('Account settings revoke tokens error', err.message)
-        Vue.$toast.open({ message: err.message })
       } finally {
         this.revoking = false
       }

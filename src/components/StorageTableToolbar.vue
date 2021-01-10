@@ -8,8 +8,7 @@
             type="text"
             placeholder="Search"
             v-model="searchTerm"
-            v-on:input="resetPage()"
-          />
+            v-on:input="resetPage" />
         </div>
       </div>
     </div>
@@ -18,7 +17,7 @@
       <div class="row">
         <div class="column text-button" v-on:click="previousPage()">Prev</div>
         <div class="column tiny-spacer"></div>
-        <div class="column text">{{ pagination() }}</div>
+        <div class="column text">{{ pageState() }}</div>
         <div class="column tiny-spacer"></div>
         <div class="column text-button" v-on:click="nextPage()">Next</div>
       </div>
@@ -69,14 +68,14 @@ export default {
     ...mapMutations('storage', ['changeFilter', 'resetPage']),
     ...mapActions('storage',['archiveStorage','restoreStorage','previousPage','nextPage']),
     filterIsActive: function(filterButton) {
-      if (filterButton === this.filter) return true;
-      else return false;
+      if (filterButton === this.filter) return true
+      else return false
     },
     archiveStorageAction: async function() {
       try {
         const confirm = window.confirm('Are you sure you want to archive this storage?')
         if (confirm) {
-          await this.archiveStorage({ storageId: this.selectedStorageId })
+          const storage = await this.archiveStorage({ storageId: this.selectedStorageId })
         }
       } catch(err) {
         console.log('Table toolbar error', err.message)
@@ -86,7 +85,7 @@ export default {
       try {
         const confirm = window.confirm('Are you sure you want to restore this storage?')
         if (confirm) {
-          await this.restoreStorage({ storageId: this.selectedStorageId })
+          const storage = await this.restoreStorage({ storageId: this.selectedStorageId })
         }
       } catch(err) {
         console.log('Table toolbar error', err.message)

@@ -38,11 +38,11 @@ export default {
   },
   methods: {
     ...mapActions('billing', ['billingInformation','listTokens']),
-    ...mapActions('project', ['getProjects']),
+    ...mapActions('project', ['listProjects']),
     init: async function () {
       try {
         await this.billingInformation()
-        await this.getProjects()
+        await this.listProjects()
         await this.listTokens()
       } catch(err) {
         console.log('Account error: ', err.message)

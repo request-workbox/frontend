@@ -15,7 +15,7 @@
           <div class="column column-data column-header-text column-20">Date Created</div>
         </div>
 
-        <div class="row row-border-bottom project-row" v-bind:class="{'project-row-selected':shouldBeSelected(project._id)}" v-for="(project) in visibleProjects()" :key="project._id" v-on:click="editSelectedProjectIdAction(project._id)">
+        <div class="row row-border-bottom project-row" v-bind:class="{'project-row-selected':shouldBeSelected(project._id)}" v-for="(project) in visibleProjects()" :key="project._id" v-on:click="selectOrDeselectRowAction(project)">
           <div class="column column-data column-grow">{{ project.name }}</div>
           <div class="column column-data column-20">{{ project._id }}</div>
           <div class="column column-data column-20">{{ projectCreatedAt(project.createdAt) }}</div>
@@ -33,7 +33,7 @@
           <div class="column column-data column-header-text column-20">Date Created</div>
         </div>
 
-        <div class="row row-border-bottom project-row" v-bind:class="{'project-row-selected':shouldBeSelected(project._id)}" v-for="(project) in visibleProjects()" :key="project._id" v-on:click="editSelectedProjectIdAction(project._id)">
+        <div class="row row-border-bottom project-row" v-bind:class="{'project-row-selected':shouldBeSelected(project._id)}" v-for="(project) in visibleProjects()" :key="project._id" v-on:click="selectOrDeselectRowAction(project)">
           <div class="column column-data column-grow">{{ project.name }}</div>
           <div class="column column-data column-20">{{ project._id }}</div>
           <div class="column column-data column-20">{{ projectCreatedAt(project.createdAt) }}</div>
@@ -55,7 +55,6 @@
                   <span>Accept Invitation</span>
               </div>
               <div class="column text-button action"
-                v-if="invite.status === 'accepted'"
                 v-on:click="removeInviteAction(invite)">
                   <span>Leave project</span>
               </div>
@@ -86,8 +85,8 @@ export default {
     ...mapGetters('invites', ['visibleInvites']),
   },
   methods: {
-    ...mapMutations('project', ['editSelectedProjectId']),
-    ...mapActions('project',['removeInvite','acceptInvite']),
+    ...mapActions('project', ['selectOrDeselectRow']),
+    ...mapActions('invites', ['removeInvite','acceptInvite']),
     removeInviteAction: async function(invite) {
       try {
         const confirm = window.confirm('Are you sure you want to remove this invite?')
@@ -108,9 +107,8 @@ export default {
         console.log('Project list error', err.message)
       }
     },
-    editSelectedProjectIdAction: function(projectId) {
-      if (projectId === this.projectId) return this.editSelectedProjectId('')
-      else return this.editSelectedProjectId(projectId)
+    selectOrDeselectRowAction: function(project) {
+      this.selectOrDeselectRow(project)
     },
     shouldBeSelected: function(projectId) {
       if (projectId === this.selectedProjectId) return true

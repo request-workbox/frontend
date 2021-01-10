@@ -4,6 +4,8 @@ import _ from 'lodash'
 import moment from 'moment-timezone'
 
 function sendResponse(response, message) {
+    console.log('response', JSON.parse(JSON.stringify(response)))
+    console.log('message', message)
     if (message && message !== '') Vue.$toast.open({ message, })
     return response
 }

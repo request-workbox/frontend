@@ -14,7 +14,7 @@
 
 <script>
 import Vue from 'vue'
-import { mapMutations, mapActions } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 
 import ProjectInfo from './ProjectInfo'
 import StorageMenu from './StorageMenu'

@@ -71,7 +71,6 @@ export default {
         const workflow = await this.saveWorkflowChanges(this.selectedWorkflow())
       } catch(err) {
         console.log('Workflow options actions error', err.message)
-        Vue.$toast.open({ message: err.message })
       }
     },
   },

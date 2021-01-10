@@ -45,13 +45,15 @@ import _ from 'lodash'
 export default {
   name: 'Queues',
   computed: {
-    ...mapGetters('queue', ['visibleQueues','selectedQueueId']),
+    ...mapState('project', ['selectedProjectId']),
+    ...mapState('queue', ['selectedQueueId']),
+    ...mapGetters('queue', ['visibleQueues']),
 
     ...mapGetters('request', ['selectedRequest']),
     ...mapGetters('workflow', ['selectedWorkflow']),
     activeSelectionId: function() {
-      if (this.$route.name === 'Requests') return this.selectedRequest._id
-      if (this.$route.name === 'Workflows') return this.selectedWorkflow._id
+      if (this.$route.name === 'Requests') return this.selectedRequest().workflowId
+      if (this.$route.name === 'Workflows') return this.selectedWorkflow()._id
     },
   },
   methods: {
@@ -59,6 +61,7 @@ export default {
     ...mapMutations('instance', ['editSelectedInstanceId', 'editSelectedInstanceStatId']),
 
     ...mapActions('queue', ['archiveQueue']),
+    ...mapActions('instance', ['getInstance']),
     formattedQueueType: (queueType) => {
       if (queueType === 'return') return 'Return'
       if (queueType === 'queue') return 'Queue'
@@ -81,10 +84,12 @@ export default {
         console.log('Queues error', err.message)
       }
     },
-    selectQueueAction: function(queue) {
+    selectQueueAction: async function(queue) {
       this.editSelectedQueueId(queue._id)
       this.editSelectedInstanceId(queue.instanceId)
       this.editSelectedInstanceStatId('')
+
+      await this.getInstance({ projectId: this.selectedProjectId, instanceId: queue.instanceId })
     },
     shouldBeSelected: function(statId) {
       if (statId === this.selectedQueueId) return true

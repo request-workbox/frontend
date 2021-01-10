@@ -107,15 +107,6 @@ export default {
   computed: {
     ...mapState('workflow',['apiUrl']),
     ...mapGetters('workflow', ['selectedWorkflow']),
-    triggerUrl: function() {
-      if (!this.selectedWorkflow() || !this.selectedWorkflow()._id) return ''
-
-      if (queueType === 'schedule') {
-        return `${this.apiUrl}/schedule-workflow/${this.selectedWorkflow()._id}?date=[ISO 8601]`
-      } else {
-        return `${this.apiUrl}/${queueType}-workflow/${this.selectedWorkflow()._id}`
-      }
-    },
   },
   methods: {
     ...mapMutations('workflow', ['editWorkflowDetail']),
@@ -137,6 +128,15 @@ export default {
       document.execCommand("copy");
 
       Vue.$toast.open({ message: 'Copied text to clipboard!', type: 'success', })
+    },
+    triggerUrl: function(queueType) {
+      if (!this.selectedWorkflow() || !this.selectedWorkflow()._id) return ''
+
+      if (queueType === 'schedule') {
+        return `${this.apiUrl}/schedule-workflow/${this.selectedWorkflow()._id}?date=[ISO 8601]`
+      } else {
+        return `${this.apiUrl}/${queueType}-workflow/${this.selectedWorkflow()._id}`
+      }
     },
   }
 };

@@ -54,6 +54,12 @@ const getters = {
 
         return foundData[0]
     },
+    ownerProjects: (state, getters) => () => {
+        return _.filter(state.projects, (data) => {
+            if (data.owner) return true
+            else return false
+        })
+    },
 }
 
 const actions = {
@@ -104,17 +110,24 @@ const mutations = {
         state.page = 0
         state.selectedProjectId = ''
     },
-    // Option methods
-    editOption(state, payload) {
-        if (state.editing) return
-        
-        state.option = payload
-    },
     // Change selected method
     editSelectedProjectId(state, payload) {
         if (state.editing) return
         
         state.selectedProjectId = payload
+    },
+    editProjectOption(state, payload) {
+        if (state.editing) return
+
+        state.projectOption = payload
+        state.page = 0
+        state.selectedProjectId = ''
+    },
+    // Option methods
+    editOption(state, payload) {
+        if (state.editing) return
+        
+        state.option = payload
     },
     // Order direction methods
     updateProjectOrderDirection(state, payload) {

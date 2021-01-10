@@ -23,7 +23,8 @@ export default {
     ...mapActions('workflow', ['createWorkflow']),
     createWorkflowAction: async function() {
       try {
-        const workflow = ({ projectId: this.selectedProjectId })
+        const payload = ({ projectId: this.selectedProjectId })
+        const workflow = await this.createWorkflow(payload)
       } catch(err) {
         console.log('Workflow menu error', err.message)
       }

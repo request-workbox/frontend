@@ -7,22 +7,35 @@
           <div class="column text-button" v-bind:class="{'text-button-selected':optionIsSelected('team')}" v-on:click="editOption('team')">Team</div>
         </div>
 
-        <div class="row row-border-bottom">
+        <div class="row row-border-bottom" v-if="this.option === 'settings'">
           <div
             class="column text-button action"
-            v-bind:class="{ disabled: !this.editing }"
+            v-bind:class="{ disabled: !this.projectEditing }"
             v-on:click="cancelProjectChangesAction"
           >Cancel</div>
           <div
             class="column text-button action"
-            v-bind:class="{ disabled: !this.editing }"
+            v-bind:class="{ disabled: !this.projectEditing }"
             v-on:click="saveProjectChangesAction"
+          >Save Changes</div>
+        </div>
+
+        <div class="row row-border-bottom" v-if="this.option === 'team'">
+          <div
+            class="column text-button action"
+            v-bind:class="{ disabled: !this.teamEditing }"
+            v-on:click="cancelTeamChangesAction"
+          >Cancel</div>
+          <div
+            class="column text-button action"
+            v-bind:class="{ disabled: !this.teamEditing }"
+            v-on:click="saveTeamChangesAction"
           >Save Changes</div>
           <div class="spacer"></div>
           <div
             class="column text-button action"
             v-if="this.option === 'team'"
-            v-bind:class="{ disabled: this.editing }"
+            v-bind:class="{ disabled: this.teamEditing }"
             v-on:click="listTeamAction"
           >List Team</div>
         </div>
@@ -51,7 +64,13 @@ export default {
     ProjectSettingsTeam,
   },
   computed: {
-    ...mapState('project', ['option','editing']),
+    ...mapState('project', {
+      option: 'option',
+      projectEditing: 'editing',
+    }),
+    ...mapState('team', {
+      teamEditing: 'editing',
+    }),
     ...mapGetters('project', ['selectedProject']),
     upperFirstOption: function() {
       return _.upperFirst(this.option)
@@ -74,25 +93,30 @@ export default {
     },
     cancelProjectChangesAction: async function() {
       try {
-        if (this.option === 'settings') {
-          await this.cancelProjectChanges({ _id: this.selectedProject()._id })
-        } else if (this.option === 'team') {
-          await this.listTeam(this.selectedProject()._id)
-        }
+        await this.cancelProjectChanges({ _id: this.selectedProject()._id })
       } catch(err) {
         console.log('Project settings error', err.message)
       }
     },
     saveProjectChangesAction: async function() {
       try {
-        if (this.option === 'settings') {
-          await this.saveProjectChanges(this.selectedProject())
-        } else if (this.option === 'team') {
-          await this.updateTeam(this.selectedProject()._id)
-        }
+        await this.saveProjectChanges(this.selectedProject())
       } catch(err) {
         console.log('Project settings error', err.message)
-        Vue.$toast.open({ message: err.message })
+      }
+    },
+    cancelTeamChangesAction: async function() {
+      try {
+        await this.listTeam(this.selectedProject()._id)
+      } catch(err) {
+        console.log('Project settings error', err.message)
+      }
+    },
+    saveTeamChangesAction: async function() {
+      try {
+        await this.updateTeam(this.selectedProject()._id)
+      } catch(err) {
+        console.log('Project settings error', err.message)
       }
     },
   }

@@ -81,14 +81,13 @@ export default {
       username: ''
     }
   },
-
   computed: {
     ...mapState('project', ['selectedProjectId']),
     ...mapGetters('team', ['visibleTeam']),
   },
   methods: {
     ...mapMutations('team', ['updateIncludeSensitive', 'updatePermission']),
-    ...mapActions('team', ['createInvite','removeInvite']),
+    ...mapActions('invites', ['createInvite','removeInvite']),
     createInviteAction: async function() {
       try {
         await this.createInvite({ projectId: this.selectedProjectId, username: this.username })

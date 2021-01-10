@@ -3,6 +3,7 @@
       <div class="column column-full-width">
         <div class="row row-justify-between table-detail-row">
           <div class="column section-header">{{ workflowName() }}</div>
+          <div class="column text">{{ workflowLastEdited() }}</div>
         </div>
       </div>
     </div>
@@ -19,7 +20,13 @@ export default {
   },
   methods: {
     workflowName: function() {
-      return this.selectedWorkflow.name
+      return this.selectedWorkflow().name
+    },
+    workflowLastEdited: function() {
+      if (!this.selectedWorkflow()._id) return ''
+
+      const updatedAt = this.selectedWorkflow().updatedAt
+      return `Last edited: ${moment(updatedAt).format('MMMM Do YYYY, h:mm:ss a')}`
     },
   }
 }

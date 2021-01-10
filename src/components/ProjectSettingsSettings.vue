@@ -169,7 +169,6 @@ export default {
   name: 'ProjectSettingsSettings',
   methods: {
     ...mapMutations('project',['editProjectName','editPermissions']),
-    ...mapMutations('team',['editPermissions']),
     editProjectNameAction: function(event) {
       this.editProjectName({value: event.target.value, projectId: this.selectedProject()._id})
     },

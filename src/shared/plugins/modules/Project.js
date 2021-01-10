@@ -6,7 +6,7 @@ import moment from 'moment-timezone'
 const pagination = require('./ProjectPagination')
 
 function sendResponse(response, message) {
-    console.log('response', response)
+    console.log('response', JSON.parse(JSON.stringify(response)))
     console.log('message', message)
     if (message && message !== '') Vue.$toast.open({ message, })
     return response
@@ -30,7 +30,7 @@ const state = () => ({
     
     searchTerm: '',
     filter: 'active',
-    numberOfRows: 10,
+    numberOfRows: 7,
     page: 0,
     editing: false,
     option: 'settings',
@@ -46,6 +46,7 @@ const getters = {
 }
 
 const actions = {
+    ...pagination.actions,
     async createProject({ commit, state, rootState }) {
         try {
             const requestUrl = `${state.apiUrl}/create-project`
@@ -120,7 +121,7 @@ const actions = {
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
             commit('editProjectToArchive', { projectId })
-            commit('changeFilter', { filter: 'active' })
+            commit('changeFilter', 'active')
 
             return sendResponse(request.data, 'Project archived.')
         } catch(err) {
@@ -134,7 +135,7 @@ const actions = {
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
             commit('editProjectToRestore', { projectId })
-            commit('changeFilter', { filter: 'archived' })
+            commit('changeFilter', 'archived')
 
             return sendResponse(request.data, 'Project restored.')
         } catch(err) {
@@ -147,8 +148,13 @@ const mutations = {
     updateField,
     ...pagination.mutations,
     
-    addProject(state, project) {
-        state.projects.push(project)
+    addProject(state, payload) {
+        const found = _.filter(state.projects, (data) => {
+            if (data._id === payload._id) return true
+            else return false
+        })
+
+        if (!_.size(found)) state.projects.push(payload)
     },
     replaceProjects(state, payload) {
         if (!payload || !_.size(payload)) return
@@ -162,15 +168,13 @@ const mutations = {
         })
     },
     editProjectName(state, payload) {
+        state.editing = true
         state.projects = _.map(state.projects, (project) => {
-            if (project._id === payload.projectId) project.name = payload.value
+            if (project._id === payload.projectId) {
+                project.name = payload.value
+            }
             return project
         })
-    },
-    editProjectOption(state, payload) {
-        if (state.editing) return
-
-        state.projectOption = payload
     },
     editProjectToArchive(state, payload) {
         _.each(state.projects, (data) => {
@@ -186,12 +190,14 @@ const mutations = {
             }
         })
     },
-    editSelectedProjectId(state, payload) {
-        if (state.selectedProjectId === payload) {
-            state.selectedProjectId = ''
-        } else {
-            state.selectedProjectId = payload
-        }
+    editPermissions(state, { permissionKey, projectId, value }) {
+        state.editing = true
+        state.projects = _.map(state.projects, (project) => {
+            if (project._id === projectId) {
+                project[permissionKey] = value
+            }
+            return project;
+        })
     },
 }
 

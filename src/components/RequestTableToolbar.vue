@@ -8,8 +8,7 @@
             type="text"
             placeholder="Search"
             v-model="searchTerm"
-            v-on:input="resetPage()"
-          />
+            v-on:input="resetPage()" />
         </div>
       </div>
     </div>
@@ -18,7 +17,7 @@
       <div class="row">
         <div class="column text-button" v-on:click="previousPage()">Prev</div>
         <div class="column tiny-spacer"></div>
-        <div class="column text">{{ pagination() }}</div>
+        <div class="column text">{{ pageState() }}</div>
         <div class="column tiny-spacer"></div>
         <div class="column text-button" v-on:click="nextPage()">Next</div>
       </div>
@@ -66,17 +65,17 @@ export default {
     ...mapFields('request', ['searchTerm']),
   },
   methods: {
-    ...mapMutations('request', ['changeFilter', 'resetPage']),
-    ...mapActions('request',['archiveRequest','restoreRequest','previousPage', 'nextPage']),
+    ...mapMutations('request', ['changeFilter']),
+    ...mapActions('request',['archiveRequest','restoreRequest','previousPage', 'nextPage','resetPage']),
     filterIsActive: function(filterButton) {
-      if (filterButton === this.filter) return true;
-      else return false;
+      if (filterButton === this.filter) return true
+      else return false
     },
     archiveRequestAction: async function() {
       try {
         const confirm = window.confirm('Are you sure you want to archive this request?')
         if (confirm) {
-          await this.archiveRequest({ requestId: this.selectedRequestId })
+          const request = await this.archiveRequest({ requestId: this.selectedRequestId })
         }
       } catch(err) {
         console.log('Request table toolbar error', err.message)
@@ -86,7 +85,7 @@ export default {
       try {
         const confirm = window.confirm('Are you sure you want to restore this request?')
         if (confirm) {
-          await this.restoreRequest({ requestId: this.selectedRequestId })
+          const request = await this.restoreRequest({ requestId: this.selectedRequestId })
         }
       } catch(err) {
         console.log('Request table toolbar error', err.message)

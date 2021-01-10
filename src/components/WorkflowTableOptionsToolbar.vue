@@ -19,7 +19,8 @@ import { mapState, mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'WorkflowTableOptionsToolbar',
   computed: {
-    ...mapState('workflow', ['option','editing']),
+    ...mapState('workflow', ['option']),
+
     ...mapGetters('queue', ['pendingQueues']),
     ...mapGetters('workflow', ['selectedWorkflow']),
   },
@@ -28,23 +29,19 @@ export default {
     optionIsSelected: function(option) { 
       return (option === this.option) ? true : false
     },
-    pendingQueuesToolbar: function() {
-      const pendingQueues = this.pendingQueues()
-      if (!pendingQueues || pendingQueues.total === 0) {
-        return ''
-      } else {
-        return `${pendingQueues.total} Pending Instances`
-      }
-    },
     editOptionAction: function(option) {
-      if (this.editing) return
+      this.editOption(option)
 
-      if (this.selectedWorkflow._id) {
-        this.$router.replace({ path: this.$route.name, query: { id: this.selectedWorkflow._id, option: option }}).catch((err) => err)
+      if (this.selectedWorkflow()._id) {
+        this.$router.replace({ path: this.$route.name, query: { id: this.selectedWorkflow()._id, option: option }}).catch((err) => err)
       } else {
         this.$router.replace({ path: this.$route.name, query: { option: option }}).catch((err) => err)
       }
-      this.editOption(option)
+    },
+    pendingQueuesToolbar: function() {
+      const pendingQueues = this.pendingQueues()
+      if (!pendingQueues || pendingQueues.total === 0) return ''
+      else return `${pendingQueues.total} Pending Instances`
     },
   }
 }

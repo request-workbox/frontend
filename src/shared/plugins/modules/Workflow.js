@@ -6,6 +6,8 @@ import moment from 'moment-timezone'
 const pagination = require('./WorkflowPagination')
 
 function sendResponse(response, message) {
+    console.log('response', JSON.parse(JSON.stringify(response)))
+    console.log('message', message)
     if (message && message !== '') Vue.$toast.open({ message, })
     return response
 }
@@ -23,12 +25,12 @@ function throwError(err) {
 const state = () => ({
     apiUrl: process.env.VUE_APP_API_URL,
 
-    storages: [],
+    workflows: [],
     selectedWorkflowId: '',
     
     searchTerm: '',
     filter: 'active',
-    numberOfRows: 10,
+    numberOfRows: 7,
     page: 0,
     editing: false,
     option: 'instance',
@@ -52,7 +54,7 @@ const actions = {
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
             commit('addWorkflow', request.data)
-            commit('editSelectedId', { selectedId: request.data._id })
+            commit('editSelectedWorkflowId', request.data._id)
 
             return sendResponse(request.data, 'Workflow created.')
         } catch(err) {
@@ -66,7 +68,7 @@ const actions = {
             const requestBody = { projectId }
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
-            commit('replaceWorkflows', { data: request.data })
+            commit('replaceWorkflows', request.data)
             commit('resetPage')
 
             return sendResponse(request.data, 'Workflows loaded.')
@@ -80,9 +82,9 @@ const actions = {
             const requestBody = { projectId: payload.projectId, workflowId: payload.workflowId }
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
-            commit('replaceWorkflows', { data: [request.data] })
+            commit('addWorkflow', request.data)
             commit('resetPage')
-            commit('editSelectedId', { selectedId: request.data._id })
+            commit('editSelectedWorkflowId', request.data._id)
 
             return sendResponse(request.data, 'Workflow found.')
         } catch(err) {
@@ -187,7 +189,7 @@ const actions = {
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
             commit('editWorkflowToArchive', { workflowId: payload.workflowId })
-            commit('editSelectedId', { selectedId: '' })
+            commit('editSelectedWorkflowId', '')
 
             return sendResponse(request.data, 'Workflow archived.')
         } catch(err) {
@@ -201,7 +203,7 @@ const actions = {
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
             commit('editWorkflowToRestore', { workflowId: payload.workflowId })
-            commit('editSelectedId', { selectedId: '' })
+            commit('editSelectedWorkflowId', '')
 
             return sendResponse(request.data, 'Workflow restored.')
         } catch(err) {
@@ -219,7 +221,17 @@ const mutations = {
     ...pagination.mutations,
     
     addWorkflow(state, payload) {
-        state.workflows.push(payload)
+        const found = _.filter(state.workflows, (data) => {
+            if (data._id === payload._id) return true
+            else return false
+        })
+
+        if (!_.size(found)) state.workflows.push(payload)
+    },
+    replaceWorkflows(state, payload) {
+        if (!payload || !_.size(payload)) return
+
+        state.workflows = payload
     },
     updateForceComputedForWebhookCancelChanges(state, payload) {
         state.forceComputedForWebhookCancelChanges = state.forceComputedForWebhookCancelChanges + 1
@@ -364,13 +376,6 @@ const mutations = {
                 }
             }
         })
-    },
-    editSelectedWorkflowId(state, payload) {
-        if (state.selectedWorkflowId === payload) {
-            state.selectedWorkflowId = ''
-        } else {
-            state.selectedWorkflowId = payload
-        }
     },
 }
 

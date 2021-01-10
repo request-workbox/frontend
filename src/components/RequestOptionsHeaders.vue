@@ -54,7 +54,7 @@
             :value="detailItem.value" 
             v-on:input="editValue('headers', detailItem._id, $event)">
               <option
-                v-for="(storage) in storagesForSelect()"
+                v-for="(storage) in visibleStorages()"
                 :key="storage._id"
                 :value="storage._id">{{ storage.name }}</option>
             </select>
@@ -92,6 +92,7 @@ export default {
   name: 'RequestOptionsHeaders',
   computed: {
     ...mapGetters('request', ['selectedRequest']),
+    ...mapGetters('storage', ['visibleStorages']),
   },
   methods: {
     ...mapMutations('request', ['editRequestDetailKey', 'editRequestDetailValue','editRequestDetailValueType','editRequestDetailActive','editRequestDetailActive']),

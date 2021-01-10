@@ -7,8 +7,6 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
-
 import WorkflowOptionsTasksPayload from './WorkflowOptionsTasksPayload'
 import WorkflowOptionsTasksList from './WorkflowOptionsTasksList'
 import WorkflowOptionsTasksWebhook from './WorkflowOptionsTasksWebhook'

@@ -52,11 +52,11 @@
             v-on:click="listInvitesAction"
           >List Invites</div>
 
-          <div class="column text-button text-button-and-logo" v-on:click="archiveProjectAction" v-if="!this.editing && filterIsActive('active') && projectIsSelected()">
+          <div class="column text-button text-button-and-logo" v-on:click="archiveProjectAction" v-if="!this.editing && projectOption !== 'invites' && filterIsActive('active') && projectIsSelected()">
             <img src="/box.svg" alt="">
             <span>Archive Project</span>
           </div>
-          <div class="column text-button text-button-and-logo" v-on:click="restoreProjectAction" v-if="!this.editing && filterIsActive('archived') && projectIsSelected()">
+          <div class="column text-button text-button-and-logo" v-on:click="restoreProjectAction" v-if="!this.editing && projectOption !== 'invites' && filterIsActive('archived') && projectIsSelected()">
             <img src="/file-1.svg" alt="">
             <span>Restore Project</span>
           </div>
@@ -76,7 +76,7 @@ export default {
   methods: {
     ...mapMutations('project', ['changeFilter','editProjectOption']),
     ...mapActions('project',['archiveProject','restoreProject']),
-    ...mapActions('team', ['listInvites']),
+    ...mapActions('invites', ['listInvites']),
     filterIsActive: function(filterButton) {
       if (filterButton === this.filter) return true;
       else return false;

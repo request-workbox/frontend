@@ -8,8 +8,7 @@
             type="text"
             placeholder="Search"
             v-model="searchTerm"
-            v-on:input="resetPage()"
-          />
+            v-on:input="resetPage" />
         </div>
       </div>
     </div>
@@ -18,7 +17,7 @@
       <div class="row">
         <div class="column text-button" v-on:click="previousPage()">Prev</div>
         <div class="column tiny-spacer"></div>
-        <div class="column text">{{ pagination() }}</div>
+        <div class="column text">{{ pageState() }}</div>
         <div class="column tiny-spacer"></div>
         <div class="column text-button" v-on:click="nextPage()">Next</div>
       </div>
@@ -76,7 +75,7 @@ export default {
       try {
         const confirm = window.confirm('Are you sure you want to archive this workflow?')
         if (confirm) {
-          await this.archiveWorkflow({ workflowId: this.selectedWorkflowId })
+          const workflow = await this.archiveWorkflow({ workflowId: this.selectedWorkflowId })
         }
       } catch(err) {
         console.log('Table toolbar error', err.message)
@@ -86,7 +85,7 @@ export default {
       try {
         const confirm = window.confirm('Are you sure you want to restore this workflow?')
         if (confirm) {
-          await this.restoreWorkflow({ workflowId: this.selectedWorkflowId })
+          const workflow = await this.restoreWorkflow({ workflowId: this.selectedWorkflowId })
         }
       } catch(err) {
         console.log('Table toolbar error', err.message)

@@ -6,6 +6,8 @@ import moment from 'moment-timezone'
 const pagination = require('./QueuePagination')
 
 function sendResponse(response, message) {
+    console.log('response', JSON.parse(JSON.stringify(response)))
+    console.log('message', message)
     if (message && message !== '') Vue.$toast.open({ message, })
     return response
 }
@@ -32,7 +34,7 @@ const state = () => ({
 
     searchTerm: '',
     filter: 'active',
-    numberOfRows: 10,
+    numberOfRows: 7,
     page: 0,
     editing: false,
     option: 'results',
@@ -126,13 +128,6 @@ const mutations = {
     },
     editCurrentTime(state, payload) {
         state.currentTime = `${moment().format('h:mm:ss a')}`
-    },
-    editSelectedQueueId(state, payload) {
-        if (state.selectedQueueId === payload) {
-            state.selectedQueueId = ''
-        } else {
-            state.selectedQueueId = payload
-        }
     },
 }
 

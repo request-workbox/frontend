@@ -107,6 +107,7 @@
             placeholder="Key"
             class="column-input-text"
             :value="triggerUrl('return')"
+            ref="returnUrl"
           />
         </div>
       </div>
@@ -121,6 +122,7 @@
             placeholder="Key"
             class="column-input-text"
             :value="triggerUrl('queue')"
+            ref="queueUrl"
           />
         </div>
       </div>
@@ -135,6 +137,7 @@
             placeholder="Key"
             class="column-input-text"
             :value="triggerUrl('schedule')"
+            ref="scheduleUrl"
           />
         </div>
       </div>
@@ -152,15 +155,6 @@ export default {
   computed: {
     ...mapState('request',['apiUrl']),
     ...mapGetters('request', ['selectedRequest']),
-    triggerUrl: function() {
-      if (!this.selectedRequest() || !this.selectedRequest()._id) return ''
-
-      if (queueType === 'schedule') {
-        return `${this.apiUrl}/schedule-request/${this.selectedRequest()._id}?date=[ISO 8601]`
-      } else {
-        return `${this.apiUrl}/${queueType}-request/${this.selectedRequest()._id}`
-      }
-    },
   },
   methods: {
     ...mapMutations('request', ['editRequestKey']),
@@ -182,6 +176,15 @@ export default {
       document.execCommand("copy");
 
       Vue.$toast.open({ message: 'Copied text to clipboard!', type: 'success', })
+    },
+    triggerUrl: function(queueType) {
+      if (!this.selectedRequest() || !this.selectedRequest()._id) return ''
+
+      if (queueType === 'schedule') {
+        return `${this.apiUrl}/schedule-request/${this.selectedRequest()._id}?date=[ISO 8601]`
+      } else {
+        return `${this.apiUrl}/${queueType}-request/${this.selectedRequest()._id}`
+      }
     },
   },
 };

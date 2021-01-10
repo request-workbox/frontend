@@ -49,7 +49,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('project', ['projectId']),
+    ...mapState('project', ['selectedProjectId']),
   },
   methods: {
     ...mapActions('authentication', [
@@ -88,17 +88,17 @@ export default {
       if (route === 'projects' || route === 'account') {
         return true
       } else {
-        if (this.projectId !== '') return true;
+        if (this.selectedProjectId !== '') return true;
         else return false;
       }
     },
     navigateToRoute: function(route) {
       if (route === 'requests') {
-        location.assign(`/projects/${this.projectId}/requests`)
+        location.assign(`/projects/${this.selectedProjectId}/requests`)
       } else if (route === 'workflows') {
-        location.assign(`/projects/${this.projectId}/workflows`)
+        location.assign(`/projects/${this.selectedProjectId}/workflows`)
       } else if (route === 'storage') {
-        location.assign(`/projects/${this.projectId}/storage`)
+        location.assign(`/projects/${this.selectedProjectId}/storage`)
       } else if (route === 'projects') {
         location.assign(`/projects`)
       } else if (route === 'account') {

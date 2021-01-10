@@ -30,14 +30,25 @@ export default {
     QueueStats,
     QueueStatsInstance,
   },
+  mounted: function() {
+    this.init()
+  },
   computed: {
     ...mapState('request', ['selectedRequestId']),
     ...mapState('workflow', ['selectedWorkflowId']),
+    ...mapState('queue', ['queueOrderDirection']),
     showQueue: function() {
       if (this.$route.name === 'Requests' && this.selectedRequestId) return true
       else if (this.$route.name === 'Workflows' && this.selectedWorkflowId) return true
       else return false
     },
   },
+  methods: {
+    ...mapMutations('queue', ['updateQueueOrderDirection']),
+    init: function() {
+      const queueOrderDirection = localStorage.getItem('queueOrderDirection') || this.queueOrderDirection
+      this.updateQueueOrderDirection({ queueOrderDirection, })
+    }
+  }
 }
 </script>

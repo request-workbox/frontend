@@ -65,7 +65,7 @@ const getters = {
         if (state.selectedStorageId === '') return {}
 
        const foundData = _.filter(state.storages, (data) => {
-            if (data._id === state.selectedId) return true
+            if (data._id === state.selectedStorageId) return true
             else return false
         })
 
@@ -87,7 +87,7 @@ const actions = {
     async selectOrDeselectRow({ commit, state, getters, dispatch, rootState }, payload) {
         if (state.editing) return
 
-        if (state.selectedId === payload._id) {
+        if (state.selectedStorageId === payload._id) {
             commit('editSelectedStorageId', '')
         } else {
             commit('editSelectedStorageId', payload._id)
@@ -146,7 +146,7 @@ const mutations = {
         if (state.editing) return
 
         state.page = 0
-        state.selectedId = ''
+        state.selectedStorageId = ''
 
         if (state.storageOrderDirection === 'ascending') {
             state.storageOrderDirection = 'descending'

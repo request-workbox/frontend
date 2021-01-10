@@ -45,10 +45,10 @@ export default {
   name: 'StorageTable',
   computed: {
     ...mapState('storage', ['option','editing']),
-    ...mapGetters('storage', ['visible','selectedStorage']),
+    ...mapGetters('storage', ['visibleStorages','selectedStorage']),
 
     leftoverRows: function() {
-      const leftover = 10 - _.size(this.visibleStorages())
+      const leftover = 7 - _.size(this.visibleStorages())
       return leftover
     }
   },

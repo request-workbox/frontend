@@ -117,30 +117,37 @@ const router = new VueRouter({
 * Install vuex
 * **/
 import authenticationModule from './shared/plugins/modules/Authentication'
-import projectModule from './shared/plugins/modules/Project'
-import teamModule from './shared/plugins/modules/Team'
-import invitesModule from './shared/plugins/modules/Invites'
-import accountModule from './shared/plugins/modules/AccountSettings'
+
 import billingModule from './shared/plugins/modules/AccountBilling'
-import headerModule from './shared/plugins/modules/Header'
-import queueModule from './shared/plugins/modules/Queue'
-import instanceModule from './shared/plugins/modules/Instance'
+import accountModule from './shared/plugins/modules/AccountSettings'
 import checkoutModule from './shared/plugins/modules/Checkout'
+import headerModule from './shared/plugins/modules/Header'
+import instanceModule from './shared/plugins/modules/Instance'
+import invitesModule from './shared/plugins/modules/Invites'
+import projectModule from './shared/plugins/modules/Project'
+import queueModule from './shared/plugins/modules/Queue'
+import requestModule from './shared/plugins/modules/Request'
+import storageModule from './shared/plugins/modules/Storage'
+import teamModule from './shared/plugins/modules/Team'
+import workflowModule from './shared/plugins/modules/Workflow'
 
 Vue.use(vuex)
 const store = new vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   modules: {
     authentication: authenticationModule,
-    project: projectModule,
-    team: teamModule,
-    invites: invitesModule,
-    account: accountModule,
     billing: billingModule,
-    header: headerModule,
-    queue: queueModule,
-    instance: instanceModule,
+    account: accountModule,
     checkout: checkoutModule,
+    header: headerModule,
+    instance: instanceModule,
+    invites: invitesModule,
+    project: projectModule,
+    queue: queueModule,
+    request: requestModule,
+    storage: storageModule,
+    team: teamModule,
+    workflow: workflowModule,
   }
 })
 /**

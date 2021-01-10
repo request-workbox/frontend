@@ -20,10 +20,12 @@ export default {
   },
   methods: {
     storageName: function() {
-      return this.selectedStorage.name
+      return this.selectedStorage().name
     },
     storageLastEdited: function() {
-      const updatedAt = this.selectedStorage.updatedAt
+      if (!this.selectedStorage()._id) return ''
+
+      const updatedAt = this.selectedStorage().updatedAt
       return `Last edited: ${moment(updatedAt).format('MMMM Do YYYY, h:mm:ss a')}`
     },
   }

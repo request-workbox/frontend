@@ -49,10 +49,9 @@ export default {
   },
   computed: {
     ...mapState('request', ['requestOrderDirection']),
-    ...mapState('queue', ['queueOrderDirection']),
   },
   methods: {
-    ...mapMutations('queue', ['addToQueues','editCurrentTime','updateQueueOrderDirection']),
+    ...mapMutations('queue', ['addToQueues','editCurrentTime']),
     ...mapMutations('instance', ['addToInstances']),
     ...mapMutations('request',['editOption','updateRequestOrderDirection']),
 
@@ -73,9 +72,6 @@ export default {
 
         const requestOrderDirection = localStorage.getItem('requestOrderDirection') || this.requestOrderDirection
         this.updateRequestOrderDirection({ requestOrderDirection, })
-
-        const queueOrderDirection = localStorage.getItem('queueOrderDirection') || this.queueOrderDirection
-        this.updateQueueOrderDirection({ queueOrderDirection, })
         
         if (this.$route.query && this.$route.query.option) {
           this.editOption(this.$route.query.option)

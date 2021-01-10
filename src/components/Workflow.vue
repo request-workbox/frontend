@@ -14,7 +14,7 @@
 
 <script>
 import Vue from 'vue'
-import { mapMutations, mapActions } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 
 import ProjectInfo from './ProjectInfo'
 import WorkflowMenu from './WorkflowMenu'
@@ -49,16 +49,15 @@ export default {
   },
   computed: {
     ...mapState('workflow', ['workflowOrderDirection']),
-    ...mapState('queue', ['queueOrderDirection']),
   },
   methods: {
-    ...mapMutations('queue', ['addToQueues','editCurrentTime','updateQueueOrderDirection']),
+    ...mapMutations('queue', ['addToQueues','editCurrentTime']),
     ...mapMutations('instance', ['addToInstances']),
     ...mapMutations('workflow',['editOption','updateWorkflowOrderDirection']),
 
     ...mapActions('project', ['getProject']),
     ...mapActions('request', ['listRequests']),
-    ...mapActions('workflow', ['listWorkflows']),
+    ...mapActions('workflow', ['listWorkflows','getWorkflow']),
 
     addToSchedule: function(socketStat) {
       if (socketStat.queueDoc) this.addToQueues(socketStat.queueDoc)
@@ -75,11 +74,11 @@ export default {
         const workflowOrderDirection = localStorage.getItem('workflowOrderDirection') || this.workflowOrderDirection
         this.updateWorkflowOrderDirection({ workflowOrderDirection, })
 
-        const queueOrderDirection = localStorage.getItem('queueOrderDirection') || this.queueOrderDirection
-        this.updateQueueOrderDirection({ queueOrderDirection, })
-        
         if (this.$route.query && this.$route.query.option) {
           this.editOption(this.$route.query.option)
+        }
+        if (this.$route.query && this.$route.query.id) {
+          const request = await this.getWorkflow({ projectId: this.projectId, workflowId: this.$route.query.id })
         }
 
         const session = await this.$store.dispatch('cognito/fetchSession')

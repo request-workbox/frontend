@@ -5,7 +5,7 @@
         <div class="column column-data column-header-text column-grow column-group-header">Projects</div>
       </div>
 
-      <div class="row row-border-bottom" v-for="(project) in ownerData()" :key="project._id">
+      <div class="row row-border-bottom" v-for="(project) in ownerProjects()" :key="project._id">
         <div class="column column-data column-15">
           <input
             type="text"
@@ -45,7 +45,7 @@ export default {
   name: 'AccountSettingsProjects',
   computed: {
     ...mapState('billing', ['stripeCardBrand','stripeCardLast4']),
-    ...mapGetters('project', ['ownerData']),
+    ...mapGetters('project', ['ownerProjects']),
   },
   methods: {
     goToCheckout: async function(intentType, projectId, projectName, product, currentProjectType) {

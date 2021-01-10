@@ -4,6 +4,8 @@ import _ from 'lodash'
 import moment from 'moment-timezone'
 
 function sendResponse(response, message) {
+    console.log('response', JSON.parse(JSON.stringify(response)))
+    console.log('message', message)
     if (message && message !== '') Vue.$toast.open({ message, })
     return response
 }
@@ -30,7 +32,7 @@ const state = () => ({
     numberOfRows: 10,
     page: 0,
     editing: false,
-    option: '',
+    option: 'results',
     instanceOrderDirection: 'descending',
     instanceOrderBy: 'createdAt',
 })
@@ -38,26 +40,21 @@ const state = () => ({
 const getters = {
     getField,
 
-    usageTotals: (state, getters, rootState) => (instanceId) => {
-        const totals = { 'kb down': 0, 'kb up': 0, 'time': 0, }
+    visibleInstances: (state, getters) => () => {
+        return state.instances
+    },
 
-        if (!instanceId) return totals
+    selectedInstance: (state, getters, rootState) => () => {
+        if (state.selectedInstanceId === '') return {}
 
-        let instance = _.filter(state.instances, (data) => {
-           if (data._id === instanceId) return true
-           else return false
+       const foundData = _.filter(state.instances, (data) => {
+            if (data._id === state.selectedInstanceId) return true
+            else return false
         })
 
-        if (!_.size(instance)) return totals
-        if (!instance.usage || !_.size(instance.usage)) return totals
+        if (!_.size(foundData)) return {}
 
-        instance = instance[0]
-
-        totals['kb down'] = String((((instance.totalBytesDown || 0) / 1000) || 0).toFixed(2)) + ' kb'
-        totals['kb up'] = String((((instance.totalBytesUp || 0) / 1000) || 0).toFixed(2)) + ' kb'
-        totals['time'] = String((((instance.totalMs || 0) / 1000) || 0).toFixed(2)) + ' seconds'
-
-        return totals
+        return foundData[0]
     },
     getInstanceByQueueId: (state, getters, rootState) => (queueId) => {
         if (!queueId) return {}
@@ -75,7 +72,7 @@ const getters = {
         if (!instanceId) return {}
 
         const instances = _.filter(state.instances, (data) => {
-            if (data._id === instanceId) return true
+            if (String(data._id) === String(instanceId)) return true
             else return false
         })
 
@@ -93,8 +90,8 @@ const getters = {
 
         if (!_.size(instances)) return {}
 
-        const stat = _.filter(instances, (instance) => {
-            if (data._id === instanceStatId) return true
+        const stat = _.filter(instances[0].stats, (stat) => {
+            if (stat._id === instanceStatId) return true
             else return false
         })
 
@@ -105,15 +102,42 @@ const getters = {
 }
 
 const actions = {
+    usageTotals({ commit, state, getters, rootState }, payload) {
+        const totals = { 'kb down': 0, 'kb up': 0, 'time': 0, }
+
+        if (!state.selectedInstanceId) return totals
+
+        let instance = _.filter(state.instances, (data) => {
+           if (data._id === state.selectedInstanceId) return true
+           else return false
+        })
+
+        console.log(instance)
+
+        if (!_.size(instance)) return totals
+        if (!instance[0].usage || !_.size(instance.usage)) return totals
+
+        console.log(instance)
+
+        instance = instance[0]
+        
+        console.log(instance)
+
+        totals['kb down'] = String((((instance.totalBytesDown || 0) / 1000) || 0).toFixed(2)) + ' kb'
+        totals['kb up'] = String((((instance.totalBytesUp || 0) / 1000) || 0).toFixed(2)) + ' kb'
+        totals['time'] = String((((instance.totalMs || 0) / 1000) || 0).toFixed(2)) + ' seconds'
+
+        return totals
+    },
+
     async getInstance({ commit, state, getters, rootState }, payload) {
         try {
             const requestUrl = `${state.apiUrl}/get-instance`
             const requestBody = { projectId: payload.projectId, instanceId: payload.instanceId }
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
-            commit('replaceAllData', { data: [request.data] })
-            commit('resetPage')
-            commit('editSelectedId', { selectedId: request.data._id })
+            commit('addToInstances', request.data)
+            commit('editSelectedInstanceId', request.data._id)
 
             return sendResponse(request.data, 'Instance found.')
         } catch(err) {
@@ -144,6 +168,7 @@ const actions = {
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
             commit('updateInstanceUsage', { data: request.data, instanceId: instanceId })
+            commit('editSelectedInstanceId', instanceId)
 
             return sendResponse(request.data, 'Instance usage loaded.')
         } catch(err) {
@@ -166,6 +191,11 @@ const actions = {
 const mutations = {
     updateField,
 
+    editOption(state, payload) {
+        if (state.editing) return
+        
+        state.option = payload
+    },
     addToInstances(state, instanceDoc) {
         const instancesFound = _.filter(state.instances, (data) => {
             if (data._id === instanceDoc._id) return true;
@@ -215,11 +245,7 @@ const mutations = {
         })
     },
     editSelectedInstanceId(state, payload) {
-        if (state.selectedInstanceId === payload) {
-            state.selectedInstanceId = ''
-        } else {
-            state.selectedInstanceId = payload
-        }
+        state.selectedInstanceId = payload
     },
     editSelectedInstanceStatId(state, payload) {
         if (state.selectedInstanceStatId === payload) {

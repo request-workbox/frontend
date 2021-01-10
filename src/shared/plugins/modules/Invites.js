@@ -4,6 +4,8 @@ import _ from 'lodash'
 import moment from 'moment-timezone'
 
 function sendResponse(response, message) {
+    console.log('response', JSON.parse(JSON.stringify(response)))
+    console.log('message', message)
     if (message && message !== '') Vue.$toast.open({ message, })
     return response
 }
@@ -84,6 +86,8 @@ const actions = {
             const requestBody = { projectId, username }
             const request = await Vue.$axios.post(requestUrl, requestBody)
 
+            commit('removeInvite', projectId)
+
             return sendResponse(request.data, 'Invite removed.')
         } catch(err) {
             return throwError(err)
@@ -95,6 +99,12 @@ const mutations = {
     updateInvites(state, payload) {
         state.invites = payload
     },
+    removeInvite(state, payload) {
+        state.invites = _.filter(state.invites, (data) => {
+            if (data.projectId === payload) return false
+            else return true
+        })
+    }
 }
 
 export default {

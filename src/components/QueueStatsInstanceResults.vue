@@ -38,17 +38,22 @@ export default {
   name: 'QueueStatsInstanceResults',
   computed: {
     ...mapState('instance', ['selectedInstanceId','selectedInstanceStatId']),
-    ...mapGetters('instance', ['getInstanceById','getInstanceStatById']),
+    ...mapGetters('instance', ['getInstanceById','getInstanceStatById','visibleInstances']),
+    ...mapGetters('queue', ['selectedQueue']),
   },
   methods: {
-    ...mapMutations('instance', ['editSelectedInstanceStatId']),
+    ...mapMutations('instance', ['editSelectedInstanceId','editSelectedInstanceStatId']),
     selectInstanceStatAction: function(stat) {
       this.editSelectedInstanceStatId(stat._id)
     },
     selectedInstanceStats: function() {
-      if (this.selectedInstanceId === '') return []
+      const instances = _.filter(this.visibleInstances(), (data) => {
+        if (data.queueId === this.selectedQueue()._id) return true
+        else return false
+      })
 
-      return this.getInstanceById(this.selectedInstanceId).stats
+      if (_.size(instances)) return instances[0].stats
+      else return {}
     },
     selectedInstanceStat: function(stats, statId) {
       if (this.selectedInstanceId === '') return {}
