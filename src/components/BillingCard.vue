@@ -2,15 +2,9 @@
   <div class="row">
     <div class="column column-full-width">
 
-      <div class="row row-border-bottom">
-        <div class="column column-data column-15">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            value="Payment Card"
-            disabled
-          />
+      <div class="row row-border-bottom-light">
+        <div class="column account-column-data column-15">
+          <p class="text-12">Payment Card</p>
         </div>
         <span class="tiny-text tiny-text-spaced" v-if="stripeCardBrand">{{ stripeCardBrand }} {{ stripeCardLast4 }}</span>
         <div class="column text-button action" v-on:click="updateCardAction" v-if="stripeCardBrand">
@@ -33,7 +27,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 import Vue from 'vue'
 
 export default {
-  name: 'AccountBillingCard',
+  name: 'BillingCard',
   computed: {
     ...mapState('billing', ['stripeCardBrand','stripeCardLast4']),
   },

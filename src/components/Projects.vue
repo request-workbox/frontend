@@ -1,9 +1,9 @@
 <template>
-  <div id="project-container">
-    <ProjectMenu />
-    <ProjectList />
-    <ProjectDetails />
-    <ProjectSettings />
+  <div id="projects-container">
+    <ProjectsMenu />
+    <ProjectsList />
+    <ProjectsDetails />
+    <ProjectsSettings />
     <Footer />
   </div>
 </template>
@@ -11,19 +11,19 @@
 <script>
 import { mapMutations, mapActions } from 'vuex'
 
-import ProjectMenu from './ProjectMenu'
-import ProjectList from './ProjectList'
-import ProjectDetails from './ProjectDetails'
-import ProjectSettings from './ProjectSettings'
+import ProjectsMenu from './ProjectsMenu'
+import ProjectsList from './ProjectsList'
+import ProjectsDetails from './ProjectsDetails'
+import ProjectsSettings from './ProjectsSettings'
 import Footer from './Footer'
 
 export default {
-  name: 'Project',
+  name: 'Projects',
   components: {
-    ProjectMenu,
-    ProjectList,
-    ProjectDetails,
-    ProjectSettings,
+    ProjectsMenu,
+    ProjectsList,
+    ProjectsDetails,
+    ProjectsSettings,
     Footer,
   },
   mounted: function () {
@@ -47,11 +47,13 @@ export default {
 </script>
 
 <style lang="scss">
-#project-container {
+#projects-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
 
-  overflow-x: hidden;
+  // align-items: flex-start;
+  // overflow-x: hidden;
+
+  margin: 0 15px;
 }
 </style>

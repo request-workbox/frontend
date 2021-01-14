@@ -29,12 +29,14 @@ import attachCognitoModule from '@vuetify/vuex-cognito-module'
 /**
  * Install vue-router
  * **/
-import Project from './components/Project'
-import Request from './components/Request'
-import Workflow from './components/Workflow'
-import Storage from './components/Storage'
-import Account from './components/Account'
+import Projects from './components/Projects'
+import TeamProjects from './components/TeamProjects'
+import Invites from './components/Invites'
+import Tokens from './components/Tokens'
+import Billing from './components/Billing'
+import Upgrades from './components/Upgrades'
 import Checkout from './components/Checkout'
+import Workflow from './components/Workflow'
 
 import Register from './components/UserRegister'
 import Confirm from './components/UserConfirm'
@@ -47,70 +49,85 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
+
+    // Settings
     {
       path: '/projects',
-      name: 'Projects',
-      component: Project,
+      name: 'projects',
+      component: Projects,
     },
     {
-      path: '/account',
-      name: 'Account',
-      component: Account,
+      path: '/team-projects',
+      name: 'team-projects',
+      component: TeamProjects,
+    },
+    {
+      path: '/invites',
+      name: 'invites',
+      component: Invites,
+    },
+    {
+      path: '/tokens',
+      name: 'tokens',
+      component: Tokens,
+    },
+    {
+      path: '/billing',
+      name: 'billing',
+      component: Billing,
+    },
+    {
+      path: '/upgrades',
+      name: 'upgrades',
+      component: Upgrades,
     },
     {
       path: '/checkout',
-      name: 'Checkout',
+      name: 'checkout',
       component: Checkout,
       props: true,
     },
+
+    // Workflow
     {
-      path: '/projects/:projectId/requests',
-      name: 'Requests',
-      component: Request,
-      props: true,
-    },
-    {
-      path: '/projects/:projectId/workflows',
-      name: 'Workflows',
+      path: '/projects/:projectId/workflow',
+      name: 'workflow',
       component: Workflow,
       props: true,
     },
-    {
-      path: '/projects/:projectId/storage',
-      name: 'Storage',
-      component: Storage,
-      props: true,
-    },
+
+    // Auth
     {
       path: '/register',
-      name: 'Register',
+      name: 'register',
       component: Register,
       props: true,
     },
     {
       path: '/confirm',
-      name: 'Confirm',
+      name: 'confirm',
       component: Confirm,
       props: true,
     },
     {
       path: '/send-reset-password',
-      name: 'SendReset',
+      name: 'send-reset-password',
       component: SendReset,
       props: true,
     },
     {
       path: '/reset-password',
-      name: 'Reset',
+      name: 'reset-password',
       component: Reset,
       props: true,
     },
     {
       path: '/login',
-      name: 'Login',
+      name: 'login',
       component: Login,
       props: true,
     },
+
   ],
 })
 /**
@@ -118,8 +135,7 @@ const router = new VueRouter({
 * **/
 import authenticationModule from './shared/plugins/modules/Authentication'
 
-import billingModule from './shared/plugins/modules/AccountBilling'
-import accountModule from './shared/plugins/modules/AccountSettings'
+import billingModule from './shared/plugins/modules/Billing'
 import checkoutModule from './shared/plugins/modules/Checkout'
 import headerModule from './shared/plugins/modules/Header'
 import instanceModule from './shared/plugins/modules/Instance'
@@ -137,7 +153,6 @@ const store = new vuex.Store({
   modules: {
     authentication: authenticationModule,
     billing: billingModule,
-    account: accountModule,
     checkout: checkoutModule,
     header: headerModule,
     instance: instanceModule,

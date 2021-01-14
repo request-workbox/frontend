@@ -238,10 +238,10 @@ export default {
     ...mapActions('billing',['billingInformation']),
     ...mapActions('checkout', ['createSetupIntent','updatePaymentMethod']),
     goBackAction: function() {
-      if (this.$route.name === 'Account') {
+      if (this.$route.name === 'account') {
         this.toggleUpdateCardView()
-      } else if (this.$route.name === 'Checkout') {
-        this.$router.replace({ path: 'Account', query: { option: 'settings' }}).catch((err) => err)
+      } else if (this.$route.name === 'checkout') {
+        this.$router.replace({ path: 'account', query: { option: 'settings' }}).catch((err) => err)
       }
     },
     mountStripeElement: function() {
@@ -270,7 +270,7 @@ export default {
       this.mountStripeElement()
     },
     saveCardAction: async function() {
-      if (this.saving && this.$route.name === 'Account') return
+      if (this.saving && this.$route.name === 'account') return
 
       try {
 

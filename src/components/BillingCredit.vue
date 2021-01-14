@@ -2,15 +2,9 @@
   <div class="row" v-if="this.balance !== 0">
     <div class="column column-full-width">
 
-      <div class="row row-border-bottom">
+      <div class="row row-border-bottom-light">
         <div class="column column-data column-15">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            value="Credit Remaining"
-            disabled
-          />
+          <p class="text-12">Credit Remaining</p>
         </div>
         <span class="tiny-text tiny-text-spaced">{{ balanceCurrency }}</span>
         <div class="column column-grow"></div>
@@ -25,7 +19,7 @@
 import { mapState, mapActions, mapMutations } from 'vuex'
 
 export default {
-  name: 'AccountBillingCredit',
+  name: 'BillingCredit',
   computed: {
     ...mapState('billing', ['balance']),
     balanceCurrency: function() {

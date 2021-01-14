@@ -38,8 +38,8 @@ export default {
     ...mapState('workflow', ['selectedWorkflowId']),
     ...mapState('queue', ['queueOrderDirection']),
     showQueue: function() {
-      if (this.$route.name === 'Requests' && this.selectedRequestId) return true
-      else if (this.$route.name === 'Workflows' && this.selectedWorkflowId) return true
+      if (this.$route.name === 'requests' && this.selectedRequestId) return true
+      else if (this.$route.name === 'workflows' && this.selectedWorkflowId) return true
       else return false
     },
   },

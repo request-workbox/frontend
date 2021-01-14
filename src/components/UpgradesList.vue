@@ -1,19 +1,15 @@
 <template>
   <div class="row">
     <div class="column column-full-width">
-      <div class="row row-border-bottom">
-        <div class="column column-data column-header-text column-grow column-group-header">Projects</div>
+
+      <div class="row row-border-bottom-light">
+        <div class="column column-15 account-column-data-header">Project Name</div>
+        <div class="column column-grow account-column-data-header">Upgrade Options</div>
       </div>
 
-      <div class="row row-border-bottom" v-for="(project) in ownerProjects()" :key="project._id">
+      <div class="row row-border-bottom-light" v-for="(project) in ownerProjects()" :key="project._id">
         <div class="column column-data column-15">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            :value="project.name"
-            disabled
-          />
+          <p class="text-12">{{ project.name }}</p>
         </div>
         <span class="tiny-text tiny-text-spaced">{{ project.usage.toFixed(2) }} MB / {{ project.usageTotal }} MB ({{ (project.usage / project.usageTotal).toFixed(2) }}%)</span>
         <div class="column text-button action" v-on:click="goToCheckout('datatransfer', project._id, project.name, 'gb')">
@@ -42,7 +38,7 @@
 import { mapState, mapActions, mapMutations, mapGetters } from 'vuex'
 
 export default {
-  name: 'AccountSettingsProjects',
+  name: 'UpgradesList',
   computed: {
     ...mapState('billing', ['stripeCardBrand','stripeCardLast4']),
     ...mapGetters('project', ['ownerProjects']),

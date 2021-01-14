@@ -1,38 +1,31 @@
 <template>
-    <div class="row row-border-bottom">
+    <div class="row" v-if="$store.getters['cognito/isLoggedIn']">
       <div class="column column-full-width">
         <div class="column text-button" id="site-header" v-on:click="assignHome">
           Request Workbox
         </div>
-        <div class="row" id="nav-row">
-          <div class="column text-button-nav">
-            <p class="text-button-nav-text-header">Workbox</p>
+        <div class="row" id="nav-row" v-if="$route.name !== 'checkout'">
+          <div class="column column-full-width">
+            <p class="text-button-nav-text-header">Account</p>
           </div>
-          <div class="column text-button-nav" v-if="shouldBeShown('projects') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('projects') }" v-on:click="navigateToRoute('projects')">
+          <div class="column text-button-nav" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('projects') }" v-on:click="navigateToRoute('projects')">
             <p class="text-button-nav-text">Projects</p>
           </div>
-          <div class="column text-button-nav" v-if="shouldBeShown('requests') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('requests') }" v-on:click="navigateToRoute('requests')">
-            <p class="text-button-nav-text">Requests</p>
+          <div class="column text-button-nav" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('team-projects') }" v-on:click="navigateToRoute('team-projects')">
+            <p class="text-button-nav-text">Team Projects</p>
           </div>
-          <div class="column text-button-nav" v-if="shouldBeShown('workflows') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('workflows') }" v-on:click="navigateToRoute('workflows')">
-            <p class="text-button-nav-text">Workflows</p>
+          <div class="column text-button-nav" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('invites') }" v-on:click="navigateToRoute('invites')">
+            <p class="text-button-nav-text">Invites</p>
           </div>
-          <div class="column text-button-nav" v-if="shouldBeShown('storage') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('storage') }" v-on:click="navigateToRoute('storage')">
-            <p class="text-button-nav-text">Storage</p>
+          <div class="column text-button-nav" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('tokens') }" v-on:click="navigateToRoute('tokens')">
+            <p class="text-button-nav-text">API Keys</p>
           </div>
-          <div class="column text-button-nav">
-            <p class="text-button-nav-text-header">Settings</p>
+          <div class="column text-button-nav" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('billing') }" v-on:click="navigateToRoute('billing')">
+            <p class="text-button-nav-text">Billing</p>
           </div>
-          <div class="column text-button-nav" v-if="shouldBeShown('account') && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('account') }" v-on:click="navigateToRoute('account')">
-            <p class="text-button-nav-text">Account</p>
+          <div class="column text-button-nav" v-bind:class="{ 'text-button-nav-selected':shouldBeSelected('upgrades') }" v-on:click="navigateToRoute('upgrades')">
+            <p class="text-button-nav-text">Upgrades</p>
           </div>
-          <div class="column text-button-nav" v-if="this.$route.name === 'Checkout' && this.$store.getters['cognito/isLoggedIn']" v-bind:class="{ 'text-button-nav-selected': this.$route.name === 'Checkout' }">
-            <p class="text-button-nav-text">Checkout</p>
-          </div>
-          <div class="column text-button-nav text-button-and-logo" v-if="!loading && this.$store.getters['cognito/isLoggedIn']" v-on:click="logoutUserAction">
-            <p class="text-button-nav-text">Logout</p>
-          </div>
-          <div class="column text-button-nav" v-if="loading && this.$store.getters['cognito/isLoggedIn']">Logging out...</div>
         </div>
       </div>
     </div>
@@ -40,78 +33,25 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import _ from 'lodash'
 
 export default {
   name: 'Nav',
-  data: function() {
-    return {
-      loading: false
-    }
-  },
   computed: {
     ...mapState('project', ['selectedProjectId']),
   },
   methods: {
-    ...mapActions('authentication', [
-      'logoutUser'
-    ]),
     assignHome: function() {
       location.assign('/')
     },
-    logoutUserAction: async function() {
-      try {
-        this.loading = true
-        await this.logoutUser()
-        location.assign('/login')
-      } catch(err) {
-        // console.log(err)
-      } finally {
-        this.loading = false
-      }
-    },
     shouldBeSelected: function(route) {
-      if (this.$route.name === 'Requests' && route === 'requests') {
-        return true
-      } else if (this.$route.name === 'Workflows' && route === 'workflows') {
-        return true
-      } else if (this.$route.name === 'Storage' && route === 'storage') {
-        return true
-      } else if (this.$route.name === 'Projects' && route == 'projects') {
-        return true
-      } else if (this.$route.name === 'Account' && route == 'account') {
-        return true
-      } else {
-        return false
-      }
-    },
-    shouldBeShown: function(route) {
-      if (route === 'projects' || route === 'account') {
-        return true
-      } else {
-        if (this.selectedProjectId !== '') return true;
-        else return false;
-      }
+      if (this.$route.name === route) return true
+      else return false
     },
     navigateToRoute: function(route) {
-      if (route === 'requests') {
-        location.assign(`/projects/${this.selectedProjectId}/requests`)
-      } else if (route === 'workflows') {
-        location.assign(`/projects/${this.selectedProjectId}/workflows`)
-      } else if (route === 'storage') {
-        location.assign(`/projects/${this.selectedProjectId}/storage`)
-      } else if (route === 'projects') {
-        location.assign(`/projects`)
-      } else if (route === 'account') {
-        location.assign(`/account`)
-      }
+      if (route === 'workflow') return location.assign(`/projects/${this.selectedProjectId}/workflow`)
+      else return location.assign(`/${route}`)
     }
   }
 }
 </script>
-
-<style lang="scss">
-.beta {
-  margin-left: 5px;
-  color: #5cc549;
-}
-</style>

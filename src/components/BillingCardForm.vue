@@ -151,7 +151,7 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 import Vue from 'vue'
 
 export default {
-  name: "AccountBillingCardForm",
+  name: "BillingCardForm",
   data: function() {
     return {
       saving: false,

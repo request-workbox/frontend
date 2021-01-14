@@ -4,9 +4,9 @@
       <div class="column column-full-width">
 
         <div class="row row-border-bottom row-align-start padding-bottom-150" id="checkout-row">
-          <div class="column column-5 column-min-width-0"></div>
+          <div class="column column-20 column-min-width-0"></div>
 
-          <div class="column column-40 column-padding-20 column-min-width-0">
+          <div class="column column-30 column-padding-20 column-min-width-0">
             <CheckoutFormAccountSummary />
             <CheckoutFormCardForm />
           </div>

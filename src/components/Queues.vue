@@ -52,8 +52,8 @@ export default {
     ...mapGetters('request', ['selectedRequest']),
     ...mapGetters('workflow', ['selectedWorkflow']),
     activeSelectionId: function() {
-      if (this.$route.name === 'Requests') return this.selectedRequest().workflowId
-      if (this.$route.name === 'Workflows') return this.selectedWorkflow()._id
+      if (this.$route.name === 'requests') return this.selectedRequest().workflowId
+      if (this.$route.name === 'workflows') return this.selectedWorkflow()._id
     },
   },
   methods: {

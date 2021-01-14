@@ -1,6 +1,6 @@
 <template>
     <div class="row row-border-bottom row-dark">
-      <div class="column column-full-width margin-top-100">
+      <div class="column column-full-width">
         <div class="row row-justify-between table-detail-row" v-if="this.selectedProject()._id">
           <div class="column section-header">{{ this.selectedProject().name }}</div>
           <div class="column text">{{ projectLastEdited }}</div>
@@ -14,7 +14,7 @@ import moment from 'moment-timezone'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'ProjectDetails',
+  name: 'TeamProjectsDetails',
   computed: {
     ...mapGetters('project', ['selectedProject']),
     projectLastEdited: function() {

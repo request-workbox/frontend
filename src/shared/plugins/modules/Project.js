@@ -53,6 +53,7 @@ const actions = {
             const request = await Vue.$axios.post(requestUrl)
 
             commit('addProject', request.data)
+            commit('editSelectedProjectId', request.data._id)
 
             return sendResponse(request.data, 'Project created.')
         } catch(err) {
@@ -67,6 +68,18 @@ const actions = {
             commit('replaceProjects', request.data)
 
             return sendResponse(request.data, 'Projects loaded.')
+        } catch(err) {
+            return throwError(err)
+        }
+    },
+    async listTeamProjects({ commit, state, getters, rootState }, payload) {
+        try {
+            const requestUrl = `${state.apiUrl}/list-team-projects`
+            const request = await Vue.$axios.post(requestUrl)
+
+            commit('replaceProjects', request.data)
+
+            return sendResponse(request.data, 'Team projects loaded.')
         } catch(err) {
             return throwError(err)
         }

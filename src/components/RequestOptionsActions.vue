@@ -52,7 +52,7 @@ export default {
         projectId = this.selectedRequest().projectId,
         workflowId = this.selectedRequest().workflowId;
 
-      window.open(`/projects/${projectId}/workflows?id=${workflowId}`)
+      window.open(`/projects/${projectId}/workflow?id=${workflowId}`)
     },
     allowAddingRequestItem: function() {
       if (!this.selectedRequest()._id) return false

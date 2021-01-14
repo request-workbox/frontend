@@ -15,9 +15,9 @@
             <div class="column text-button" id="support-button" v-if="!displaySupportEmail" v-on:click="displaySupportEmailAction">Support</div>
             <div class="column text-button" id="support-button-email" v-if="displaySupportEmail">support@requestworkbox.com</div>
             <div class="column text-button" id="feedback-button" v-on:click="changeDisplayFormAction(true)" v-if="this.$store.getters['cognito/isLoggedIn']">Feedback</div>
-            <div class="column text-button" id="docs-button" v-on:click="openDocs">Docs</div>
+            <!-- <div class="column text-button" id="docs-button" v-on:click="openDocs">Docs</div> -->
             <div class="column text-button" id="docs-button" v-on:click="openAPI">API</div>
-            <!-- <div class="column text-button" id="docs-button" v-on:click="openDiscord">Discord</div> -->
+            <div class="column text-button" id="docs-button" v-if="this.$store.getters['cognito/isLoggedIn']" v-on:click="logoutUserAction">Logout</div>
           </div>
         </div>
       </div>
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations, mapActions } from 'vuex';
 import HeaderFeedback from './HeaderFeedback'
 
 export default {
@@ -43,6 +43,8 @@ export default {
   },
   methods: {
       ...mapMutations('header', ['changeDisplayForm']),
+      ...mapActions('authentication', ['logoutUser']),
+
       changeDisplayFormAction: function(displayForm) {
           this.changeDisplayForm(displayForm)
       },
@@ -61,6 +63,14 @@ export default {
       openAPI: function() {
         window.open('https://www.npmjs.com/package/request-workbox')
       },
+      logoutUserAction: async function() {
+      try {
+        await this.logoutUser()
+        location.assign('/login')
+      } catch(err) {
+        // console.log(err)
+      }
+    },
   }
 };
 </script>

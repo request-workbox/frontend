@@ -42,14 +42,14 @@
             <div class="large-spacer" v-if="this.activeSelection()._id"></div>
 
             <!-- Schedule Request -->
-            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'Requests'" v-on:click="startRequest('return')">Return Request</div>
-            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'Requests'" v-on:click="startRequest('queue')">Queue Request</div>
-            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'Requests'" v-on:click="startRequest('schedule')">Schedule Request</div>
+            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'requests'" v-on:click="startRequest('return')">Return Request</div>
+            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'requests'" v-on:click="startRequest('queue')">Queue Request</div>
+            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'requests'" v-on:click="startRequest('schedule')">Schedule Request</div>
 
             <!-- Schedule Workflow -->
-            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'Workflows'" v-on:click="startWorkflow('return')">Return Workflow</div>
-            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'Workflows'" v-on:click="startWorkflow('queue')">Queue Workflow</div>
-            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'Workflows'" v-on:click="startWorkflow('schedule')">Schedule Workflow</div>
+            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'workflows'" v-on:click="startWorkflow('return')">Return Workflow</div>
+            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'workflows'" v-on:click="startWorkflow('queue')">Queue Workflow</div>
+            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'workflows'" v-on:click="startWorkflow('schedule')">Schedule Workflow</div>
 
           </div>
         </div>
@@ -85,12 +85,12 @@ export default {
     ...mapActions('request', ['returnRequest','queueRequest','scheduleRequest',]),
     ...mapActions('workflow', ['returnWorkflow','queueWorkflow','scheduleWorkflow',]),
     activeSelection: function() {
-      if (this.$route.name === 'Requests') return this.selectedRequest()
-      if (this.$route.name === 'Workflows') return this.selectedWorkflow()
+      if (this.$route.name === 'requests') return this.selectedRequest()
+      if (this.$route.name === 'workflows') return this.selectedWorkflow()
     },
     activeSelectionWorkflowId: function() {
-      if (this.$route.name === 'Requests') return this.selectedRequest().workflowId
-      if (this.$route.name === 'Workflows') return this.selectedWorkflow()._id
+      if (this.$route.name === 'requests') return this.selectedRequest().workflowId
+      if (this.$route.name === 'workflows') return this.selectedWorkflow()._id
     },
     editQueueDateAction: function(event) {
       this.editSelectedQueueId('')

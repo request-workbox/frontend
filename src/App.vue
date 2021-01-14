@@ -1,12 +1,27 @@
 <template>
   <div id="app">
-    <div id="left-sidebar" v-if="this.$store.getters['cognito/isLoggedIn']">
-      <Nav />
-    </div>
-    <div id="main-view">
+
+    <!-- Register/Login Container -->
+    <div id="main-view" v-if="!this.$store.getters['cognito/isLoggedIn']">
       <Header />
       <router-view />
     </div>
+
+    <!-- Workflow Container -->
+    <div id="main-view" v-if="this.$store.getters['cognito/isLoggedIn'] && $route.name === 'workflow'">
+      <Header />
+      <router-view />
+    </div>
+
+    <!-- Projects/Settings/Billing Container -->
+    <div id="left-sidebar" v-if="this.$store.getters['cognito/isLoggedIn'] && $route.name !== 'workflow'">
+      <Nav />
+    </div>
+    <div id="main-view" v-if="this.$store.getters['cognito/isLoggedIn'] && $route.name !== 'workflow'">
+      <Header />
+      <router-view />
+    </div>
+
   </div>
 </template>
 
@@ -14,7 +29,6 @@
 import Vue from 'vue'
 import Header from './components/Header'
 import Nav from './components/Nav'
-
 
 export default {
   name: "App",
@@ -26,15 +40,10 @@ export default {
     try {
       await this.$store.dispatch('cognito/fetchSession')
 
-      if (!this.$route.name) {
-        return location.assign('/projects')
-      }
+      if (!this.$route.name) return location.assign('/projects')
     } catch(err) {
-      if (location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/confirm' || location.pathname === '/reset-password' || location.pathname === '/send-reset-password') {
-        return;
-      } else {
-        location.assign('/register')
-      }
+      if (location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/confirm' || location.pathname === '/reset-password' || location.pathname === '/send-reset-password') return
+      else location.assign('/register')
     }
   }
 };
@@ -58,8 +67,27 @@ body {
 }
 
 #left-sidebar {
-  background:#edeff1;
+  // background:#edeff1;
   
+}
+
+.v-notices {
+  top: 5px !important;
+}
+
+.v-toast {
+  opacity: 0.9 !important;
+  min-height: 3em !important;
+}
+
+.v-toast-default {
+    background: #2197f3 !important;
+    color: white !important;
+}
+
+.v-toast-text {
+  font-family: "Open Sans", sans-serif;
+  padding: 0 1em !important;
 }
 
 #main-view {
@@ -82,11 +110,8 @@ body {
   }
 }
 
-.v-toast-text {
-  font-family: "Open Sans", sans-serif;
-}
-
 @import './src/styles/main';
+@import './src/styles/account';
 
 
 </style>

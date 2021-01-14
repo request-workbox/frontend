@@ -1,46 +1,33 @@
 <template>
   <div class="row">
     <div class="column column-full-width">
-      <div class="row row-border-bottom">
-        <div class="column column-data column-header-text column-grow column-group-header">Invite</div>
+      <div class="row row-border-bottom-light">
+        <div class="column account-column-data column-grow account-table-header text-light-grey margin-top-bottom-5">Invite</div>
       </div>
 
-      <div class="row row-border-bottom">
-        <div class="column column-data column-10">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            value="Enter Username"
-            disabled
-          />
+      <div class="row row-border-bottom-light">
+        <div class="column account-column-data column-10">
+          <p class="text-12">Enter username</p>
         </div>
-        <div class="column column-data column-15">
+        <div class="column account-column-data column-15">
           <input
             type="text"
             class="column-input-text"
-            placeholder="username"
             v-model="username"
           />
         </div>
         <div class="column text-button action" v-on:click="createInviteAction">Send Invite</div>
       </div>
 
-      <div class="row row-border-bottom">
-        <div class="column column-data column-header-text column-grow column-group-header">Users</div>
+      <div class="row row-border-bottom-light">
+        <div class="column account-column-data column-grow account-table-header text-light-grey margin-top-bottom-5">Users</div>
       </div>
 
-      <div class="row row-border-bottom" v-for="(member) in visibleTeam()" :key="member._id">
-        <div class="column column-data column-10">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            :value="member.username"
-            disabled
-          />
+      <div class="row row-border-bottom-light" v-for="(member) in visibleTeam()" :key="member._id">
+        <div class="column account-column-data column-10">
+          <p class="text-12"> {{ member.username }}</p>
         </div>
-        <div class="column column-data column-15">
+        <div class="column account-column-data column-15">
           <select class="column-input-select border-hidden column-input-select-stretch"
             :value="member.permission"
             :disabled="member.owner"
@@ -49,7 +36,7 @@
               <option value="write">Read/Write</option>
             </select>
         </div>
-        <div class="column column-data column-10" >
+        <div class="column account-column-data column-10" >
           <input 
             :disabled="member.owner"
             type="checkbox"
@@ -58,7 +45,7 @@
             @change="updateIncludeSensitiveAction(member._id, $event)">
           <label :for="member._id">Include sensitive</label>
         </div>
-        <div class="column column-data column-grow" v-if="!member.owner">
+        <div class="column account-column-data column-grow" v-if="!member.owner">
           {{ upperFirst(member.status) }}
         </div>
         <div class="column text-button action" v-if="!member.owner" v-on:click="removeInviteAction(member.username)">Remove</div>
@@ -75,7 +62,7 @@ import moment from 'moment-timezone'
 import _ from 'lodash'
 
 export default {
-  name: 'ProjectSettingsTeam',
+  name: 'ProjectsSettingsTeam',
   data: function() {
     return {
       username: ''

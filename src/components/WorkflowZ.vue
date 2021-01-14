@@ -1,26 +1,14 @@
 <template>
-  <div id="workflowz-container">
-    <div class="full-topbar-fixed">
-
-    </div>
-    <div class="full-sidebar-fixed">
-
-    </div>
-    <div class="left-sidebar-fixed">
-
-    </div>
-    <div class="right-sidebar-fixed">
-
-    </div>
-    <div class="bottombar-fixed">
-      
-    </div>
-    <div class="topbar-fixed">
-
-    </div>
-    <div class="tabbar-fixed">
-
-    </div>
+  <div id="workflow-container">
+    <ProjectInfo />
+    <WorkflowMenu />
+    <WorkflowTableToolbar />
+    <WorkflowTable />
+    <WorkflowTableDetails />
+    <WorkflowTableOptionsToolbar />
+    <WorkflowOptionsActions />
+    <WorkflowOptions />
+    <Footer />
   </div>
 </template>
 
@@ -28,29 +16,29 @@
 import Vue from 'vue'
 import { mapState, mapMutations, mapActions } from 'vuex'
 
-// import ProjectInfo from './ProjectInfo'
-// import WorkflowMenu from './WorkflowMenu'
-// import WorkflowTableToolbar from './WorkflowTableToolbar'
-// import WorkflowTable from './WorkflowTable'
-// import WorkflowTableDetails from './WorkflowTableDetails'
-// import WorkflowTableOptionsToolbar from './WorkflowTableOptionsToolbar'
-// import WorkflowOptionsActions from './WorkflowOptionsActions'
-// import WorkflowOptions from './WorkflowOptions'
-// import Footer from './Footer'
+import ProjectInfo from './ProjectInfo'
+import WorkflowMenu from './WorkflowMenu'
+import WorkflowTableToolbar from './WorkflowTableToolbar'
+import WorkflowTable from './WorkflowTable'
+import WorkflowTableDetails from './WorkflowTableDetails'
+import WorkflowTableOptionsToolbar from './WorkflowTableOptionsToolbar'
+import WorkflowOptionsActions from './WorkflowOptionsActions'
+import WorkflowOptions from './WorkflowOptions'
+import Footer from './Footer'
 
 export default {
   name: 'Workflow',
   props: ['projectId'],
   components: {
-    // ProjectInfo,
-    // WorkflowMenu,
-    // WorkflowTableToolbar,
-    // WorkflowTable,
-    // WorkflowTableDetails,
-    // WorkflowTableOptionsToolbar,
-    // WorkflowOptionsActions,
-    // WorkflowOptions,
-    // Footer,
+    ProjectInfo,
+    WorkflowMenu,
+    WorkflowTableToolbar,
+    WorkflowTable,
+    WorkflowTableDetails,
+    WorkflowTableOptionsToolbar,
+    WorkflowOptionsActions,
+    WorkflowOptions,
+    Footer,
   },
   mounted: function () {
     this.init()
@@ -114,71 +102,13 @@ export default {
 </script>
 
 <style lang="scss">
-#workflowz-container {
-  position: fixed;
-  top: 39px;
-  bottom: 0;
-  left:0;
-  right: 0;
-  background: red;
-}
+#workflow-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 
-.full-topbar-fixed {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 30px;
-  background: violet;
-}
+  overflow-x: hidden;
 
-.full-sidebar-fixed {
-  position: absolute;
-  left: 0;
-  top: 30px;
-  width: 450px;
-  height: 200px;
-  background: pink;
-}
-.left-sidebar-fixed {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 225px;
-  top: 230px;
-  background: green;
-}
-.right-sidebar-fixed {
-  position: absolute;
-  left: 225px;
-  bottom: 0;
-  width: 225px;
-  top: 230px;
-  background: orange;
-}
-.bottombar-fixed {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 450px;
-  height: 300px;
-  background: blue;
-}
-.topbar-fixed {
-  position: absolute;
-  top: 70px;
-  right: 0;
-  left: 450px;
-  bottom: 300px;
-  background: yellow;
-  overflow: auto;
-}
-.tabbar-fixed {
-  position: absolute;
-  top: 30px;
-  right: 0;
-  left: 450px;
-  height: 40px;
-  background: purple;
+  min-width: 700px;
 }
 </style>
