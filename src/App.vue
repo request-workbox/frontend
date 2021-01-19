@@ -1,26 +1,30 @@
 <template>
   <div id="app">
 
-    <!-- Register/Login Container -->
-    <div id="main-view" v-if="!this.$store.getters['cognito/isLoggedIn']">
-      <Header />
-      <router-view />
+    <Header />
+
+    <div id="content-row">
+
+      <!-- Register/Login Container -->
+      <div id="main-view" v-if="!this.$store.getters['cognito/isLoggedIn']">
+        <router-view />
+      </div>
+
+      <!-- Workflow Container -->
+      <div id="main-view" v-if="this.$store.getters['cognito/isLoggedIn'] && $route.name === 'workflow'">
+        <router-view />
+      </div>
+
+      <!-- Projects/Settings/Billing Container -->
+      <div id="left-sidebar" v-if="this.$store.getters['cognito/isLoggedIn'] && $route.name !== 'workflow'">
+        <Nav />
+      </div>
+      <div id="main-view" v-if="this.$store.getters['cognito/isLoggedIn'] && $route.name !== 'workflow'">
+        <router-view />
+      </div>
+
     </div>
 
-    <!-- Workflow Container -->
-    <div id="main-view" v-if="this.$store.getters['cognito/isLoggedIn'] && $route.name === 'workflow'">
-      <Header />
-      <router-view />
-    </div>
-
-    <!-- Projects/Settings/Billing Container -->
-    <div id="left-sidebar" v-if="this.$store.getters['cognito/isLoggedIn'] && $route.name !== 'workflow'">
-      <Nav />
-    </div>
-    <div id="main-view" v-if="this.$store.getters['cognito/isLoggedIn'] && $route.name !== 'workflow'">
-      <Header />
-      <router-view />
-    </div>
 
   </div>
 </template>
@@ -64,11 +68,20 @@ body {
   font-family: "Open Sans", sans-serif;
 
   display:flex;
+  flex-direction: column;
 }
 
 #left-sidebar {
   // background:#edeff1;
   
+}
+
+#content-row {
+  width: 100%;
+  width: fit-content;
+  width: -webkit-fill-available;
+  display:flex;
+  flex-direction: row;
 }
 
 .v-notices {
@@ -99,6 +112,7 @@ body {
    /* tablet, landscape iPad, lo-res laptops ands desktops */ 
    #main-view {
     width: fit-content;
+    width: -webkit-fill-available;
   }
 }
 

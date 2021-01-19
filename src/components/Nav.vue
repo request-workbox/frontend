@@ -1,9 +1,7 @@
 <template>
     <div class="row" v-if="$store.getters['cognito/isLoggedIn']">
       <div class="column column-full-width">
-        <div class="column text-button" id="site-header" v-on:click="assignHome">
-          Request Workbox
-        </div>
+        
         <div class="row" id="nav-row" v-if="$route.name !== 'checkout'">
           <div class="column column-full-width">
             <p class="text-button-nav-text-header">Account</p>
@@ -27,6 +25,7 @@
             <p class="text-button-nav-text">Upgrades</p>
           </div>
         </div>
+        
       </div>
     </div>
 </template>
@@ -41,9 +40,6 @@ export default {
     ...mapState('project', ['selectedProjectId']),
   },
   methods: {
-    assignHome: function() {
-      location.assign('/')
-    },
     shouldBeSelected: function(route) {
       if (this.$route.name === route) return true
       else return false
