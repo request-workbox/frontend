@@ -10,7 +10,6 @@
           <img class="width-10 margin-right-5" src="/back-arrow.svg">
           <span class="text-11">Back to projects</span>
         </div>
-
         
       </div>
 

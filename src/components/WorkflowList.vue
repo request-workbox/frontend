@@ -4,7 +4,13 @@
 
       <div class="row row-border-bottom-light">
         <div class="column column-grow account-column-data-header text-11">WORKFLOWS</div>
-        <Spinner />
+        <div class="column cursor-pointer" v-if="!loading" @mouseover="showTooltip" @mouseout="hideTooltip">
+          <img class="width-13 margin-right-10" src="/add.svg" alt="">
+          <div class="tooltip" v-if="tooltip">
+            New Workflow
+          </div>
+        </div>
+        <Spinner v-if="loading"/>
       </div>
 
       <div
@@ -32,6 +38,12 @@ import Spinner from './Spinner'
 
 export default {
   name: 'WorkflowList',
+  data: function() {
+    return {
+      loading: false,
+      tooltip: false,
+    }
+  },
   components: {
     Spinner,
   },
@@ -41,6 +53,12 @@ export default {
   },
   methods: {
     ...mapActions('workflow', ['selectOrDeselectRow']),
+    showTooltip: function() {
+      this.tooltip = true
+    },
+    hideTooltip: function() {
+      this.tooltip = false
+    },
     rowIsActive: function (workflow) {
       if (workflow._id === this.selectedWorkflow()._id) return true
       else return false
@@ -65,3 +83,22 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.tooltip {
+    position: absolute;
+    top: -22px;
+    right: -53px;
+    font-size: 9px;
+    background: #011321;
+    z-index: 2;
+    padding: 4px;
+    /* border-radius: 2px; */
+    color: #cee9ff;
+    border-color: #42596b;
+    border-style: solid;
+    border-radius: 2px;
+    border-width: 1px;
+    transition: 1s;
+}
+</style>
