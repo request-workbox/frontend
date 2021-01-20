@@ -3,7 +3,8 @@
     <div class="column column-full-width table-row-data-light">
 
       <div class="row row-border-bottom-light">
-        <div class="column account-column-data-header text-11">WORKFLOWS</div>
+        <div class="column column-grow account-column-data-header text-11">WORKFLOWS</div>
+        <Spinner />
       </div>
 
       <div
@@ -27,8 +28,13 @@ import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 import moment from 'moment-timezone'
 import _ from 'lodash'
 
+import Spinner from './Spinner'
+
 export default {
   name: 'WorkflowList',
+  components: {
+    Spinner,
+  },
   computed: {
     ...mapState('workflow', ['option','editing']),
     ...mapGetters('workflow', ['visibleWorkflows','selectedWorkflow']),
