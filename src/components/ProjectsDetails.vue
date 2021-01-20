@@ -7,6 +7,13 @@
           </div>
         </div>
 
+        <div class="row margin-bottom-25 text-12 text-weight-600 text-light-blue">
+          <div class="column column-flex go-to-link" v-on:click="goToProject">
+            <span>Go to project workflows</span>
+            <img class="width-13 margin-left-5" src="/share-link.svg">
+          </div>
+        </div>
+
         <div class="row row-border-bottom">
           <div class="column column-full-width text-13 text-light-grey">
             Workflow Details
@@ -125,6 +132,11 @@ export default {
       return `${this.selectedProject().usageTotal.toFixed(2)} MB`
     },
   },
+  methods: {
+    goToProject: function(projectId) {
+      location.assign(`/projects/${this.selectedProject()._id}/workflow`)
+    }
+  }
 }
 </script>
 

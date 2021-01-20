@@ -1,24 +1,21 @@
 <template>
   <div id="workflowz-container">
     <div class="full-topbar-fixed">
-
+      <WorkflowMenu />
     </div>
     <div class="full-sidebar-fixed">
-
+      <WorkflowList />
     </div>
     <div class="left-sidebar-fixed">
-
+      <WorkflowRequestList />
     </div>
-    <div class="right-sidebar-fixed">
+    <div class="tabbar-fixed">
 
-    </div>
-    <div class="bottombar-fixed">
-      
     </div>
     <div class="topbar-fixed">
 
     </div>
-    <div class="tabbar-fixed">
+    <div class="right-sidebar-fixed">
 
     </div>
   </div>
@@ -28,29 +25,17 @@
 import Vue from 'vue'
 import { mapState, mapMutations, mapActions } from 'vuex'
 
-// import ProjectInfo from './ProjectInfo'
-// import WorkflowMenu from './WorkflowMenu'
-// import WorkflowTableToolbar from './WorkflowTableToolbar'
-// import WorkflowTable from './WorkflowTable'
-// import WorkflowTableDetails from './WorkflowTableDetails'
-// import WorkflowTableOptionsToolbar from './WorkflowTableOptionsToolbar'
-// import WorkflowOptionsActions from './WorkflowOptionsActions'
-// import WorkflowOptions from './WorkflowOptions'
-// import Footer from './Footer'
+import WorkflowMenu from './WorkflowMenu'
+import WorkflowList from './WorkflowList'
+import WorkflowRequestList from './WorkflowRequestList'
 
 export default {
   name: 'Workflow',
   props: ['projectId'],
   components: {
-    // ProjectInfo,
-    // WorkflowMenu,
-    // WorkflowTableToolbar,
-    // WorkflowTable,
-    // WorkflowTableDetails,
-    // WorkflowTableOptionsToolbar,
-    // WorkflowOptionsActions,
-    // WorkflowOptions,
-    // Footer,
+    WorkflowMenu,
+    WorkflowList,
+    WorkflowRequestList,
   },
   mounted: function () {
     this.init()
@@ -65,7 +50,7 @@ export default {
   methods: {
     ...mapMutations('queue', ['addToQueues','editCurrentTime']),
     ...mapMutations('instance', ['addToInstances']),
-    ...mapMutations('workflow',['editOption','updateWorkflowOrderDirection']),
+    ...mapMutations('workflow',['updateWorkflowOrderDirection']),
 
     ...mapActions('project', ['getProject']),
     ...mapActions('request', ['listRequests']),
@@ -85,13 +70,6 @@ export default {
 
         const workflowOrderDirection = localStorage.getItem('workflowOrderDirection') || this.workflowOrderDirection
         this.updateWorkflowOrderDirection({ workflowOrderDirection, })
-
-        if (this.$route.query && this.$route.query.option) {
-          this.editOption(this.$route.query.option)
-        }
-        if (this.$route.query && this.$route.query.id) {
-          const request = await this.getWorkflow({ projectId: this.projectId, workflowId: this.$route.query.id })
-        }
 
         const session = await this.$store.dispatch('cognito/fetchSession')
         const userSub = this.$store.getters['cognito/userSub']
@@ -120,7 +98,7 @@ export default {
   bottom: 0;
   left:0;
   right: 0;
-  background: red;
+  background: white;
 }
 
 .full-topbar-fixed {
@@ -128,57 +106,49 @@ export default {
   left: 0;
   right: 0;
   top: 0;
-  height: 30px;
-  background: violet;
+  height: 24px;
+  background: #599bf1;
 }
 
 .full-sidebar-fixed {
   position: absolute;
   left: 0;
-  top: 30px;
-  width: 450px;
-  height: 200px;
+  top: 24px;
+  width: 315px;
+  height: 150px;
   background: pink;
 }
 .left-sidebar-fixed {
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 225px;
-  top: 230px;
+  width: 315px;
+  top: 174px;
   background: green;
-}
-.right-sidebar-fixed {
-  position: absolute;
-  left: 225px;
-  bottom: 0;
-  width: 225px;
-  top: 230px;
-  background: orange;
-}
-.bottombar-fixed {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 450px;
-  height: 300px;
-  background: blue;
-}
-.topbar-fixed {
-  position: absolute;
-  top: 70px;
-  right: 0;
-  left: 450px;
-  bottom: 300px;
-  background: yellow;
-  overflow: auto;
 }
 .tabbar-fixed {
   position: absolute;
-  top: 30px;
-  right: 0;
-  left: 450px;
+  top: 24px;
+  right: 305px;
+  left: 315px;
   height: 40px;
   background: purple;
+}
+.topbar-fixed {
+  position: absolute;
+  top: 64px;
+  right: 305px;
+  left: 315px;
+  bottom: 0;
+  background: yellow;
+  overflow: auto;
+}
+.right-sidebar-fixed {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 305px;
+  top: 24px;
+  background: red;
 }
 </style>

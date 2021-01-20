@@ -458,6 +458,21 @@
     color: #9c9fa0;
   }
 
+  .text-underline {
+    text-decoration: underline;
+  }
+
+  .column-flex {
+    display:flex;
+  }
+
+  .width-13 {
+    width: 13px;
+  }
+  .width-10 {
+    width: 10px;
+  }
+
   .grey-background {
     background: #f1f1f1;
   }
@@ -746,18 +761,27 @@
     padding: 15px;
   }
 
+  .go-to-link {
+    font-weight: 500 !important;
+  }
+  .go-to-link:hover {
+    text-decoration: underline;
+    font-weight: 600 !important;
+    cursor: pointer;
+    transition: 1s;
+  }
+
   .margin-left-5 {
     margin-left: 5px;
+  }
+  .margin-right-5 {
+    margin-right: 5px;
   }
   .margin-left-15 {
     margin-left: 15px;
   }
   .margin-right-15 {
     margin-right: 15px !important;
-  }
-
-  .height-30 {
-    height: 30px !important;
   }
 
 
