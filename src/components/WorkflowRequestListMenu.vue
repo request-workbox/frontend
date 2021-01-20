@@ -3,21 +3,21 @@
     <div class="column column-full-width table-row-data-light padding-left-right-15">
 
       <div class="row row-border-bottom-light">
-        <div class="column column-grow workflow-column-data-header text-11">
-          WORKFLOWS
+        <div class="column column-grow request-column-data-header text-11">
+          REQUESTS
           <span class="text-9 margin-left-5" v-if="filter === 'active'">(Active)</span>
           <span class="text-9 margin-left-5" v-if="filter === 'archived'">(Archived)</span>
         </div>
-        <div class="column cursor-pointer" v-if="!loading" @mouseover="showAddTooltip" @mouseout="hideAddTooltip" v-on:click="createWorkflowAction()">
+        <div class="column cursor-pointer" v-if="!loading" @mouseover="showAddTooltip" @mouseout="hideAddTooltip" v-on:click="createRequestAction()">
           <img class="width-13 margin-right-10" src="/add.svg">
           <div class="add-tooltip" v-if="addTooltip">
-            New Workflow
+            New Request
           </div>
         </div>
         <div class="column cursor-pointer" @mouseover="showEditTooltip" @mouseout="hideEditTooltip" v-on:click="showDropdown">
           <img class="width-13 margin-right-10" src="/elipsis.svg">
           <div class="edit-tooltip" v-if="editTooltip">
-            Workflow Status
+            Request Status
           </div>
         </div>
         <div class="edit-dropdown" v-if="dropdown">
@@ -49,7 +49,7 @@ import _ from 'lodash'
 import Spinner from './Spinner'
 
 export default {
-  name: 'WorkflowList',
+  name: 'WorkflowRequestListMenu',
   data: function() {
     return {
       loading: false,
@@ -63,20 +63,20 @@ export default {
   },
   computed: {
     ...mapState('project', ['selectedProjectId']),
-    ...mapState('workflow', ['option','editing','filter']),
-    ...mapGetters('workflow', ['selectedWorkflow']),
+    ...mapState('request', ['option','editing','filter']),
+    ...mapGetters('request', ['selectedRequest']),
   },
   methods: {
-    ...mapMutations('workflow', ['changeFilter']),
-    ...mapActions('workflow', ['selectOrDeselectRow','createWorkflow']),
-    createWorkflowAction: async function() {
+    ...mapMutations('request', ['changeFilter']),
+    ...mapActions('request', ['selectOrDeselectRow','createRequest']),
+    createRequestAction: async function() {
       try {
         this.loading = true
         this.addTooltip = false
         const payload = ({ projectId: this.selectedProjectId })
-        const workflow = await this.createWorkflow(payload)
+        const request = await this.createRequest(payload)
       } catch(err) {
-        console.log('Workflow menu error', err.message)
+        console.log('Request menu error', err.message)
       } finally {
         this.loading = false
       }
@@ -102,10 +102,6 @@ export default {
     },
     hideDropdown: function() {
       this.dropdown = false
-    },
-    numberOfWorkflowTasks: function(data) {
-      if (!data.tasks || !_.size(data.tasks)) return '0 Tasks'
-      return `${_.size(data.tasks)} Tasks`
     },
     dateCreated: function(createdAt) {
       if (!createdAt) return ''
@@ -190,7 +186,7 @@ export default {
   padding-left: 10px !important;
 }
 
-.workflow-column-data-header {
+.request-column-data-header {
   white-space: nowrap;
   overflow: auto;
   font-size: 10px;

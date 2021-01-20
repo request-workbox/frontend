@@ -1,20 +1,26 @@
 <template>
-  <div class="row row-border-bottom">
-    <div class="column column-full-width">
+  <div class="row">
+    <div class="column column-full-width padding-left-right-15">
       <div class="row row-justify-between">
         <div class="column">
-          <div class="row">
+          <div class="row margin-top-bottom-15">
+
+            <div
+            class="column workflow-tab">
+              {{ this.selectedStorage().name}}
+          </div>
+
+            <div
+              class="column account-button action"
+              v-bind:class="{ 'account-button-disabled': !this.editing }"
+              v-on:click="saveStorageChangesAction">
+                Save Storage Changes
+              </div>
             <div
               class="column text-button action"
               v-bind:class="{ disabled: !this.editing }"
               v-on:click="cancelStorageChangesAction">
                 Cancel
-              </div>
-            <div
-              class="column text-button action"
-              v-bind:class="{ disabled: !this.editing }"
-              v-on:click="saveStorageChangesAction">
-                Save Changes
               </div>
           </div>
         </div>

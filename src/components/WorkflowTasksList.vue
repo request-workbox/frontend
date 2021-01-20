@@ -1,12 +1,20 @@
 <template>
-  <div class="row">
-    <div class="column column-full-width">
+  <div class="row tasks-container">
+    <div class="column column-full-width table-row-data-light">
 
-      <div class="row row-border-bottom column-group-header">
-        <div class="column column-data column-header-text column-grow">Request Tasks</div>
+      <div class="column account-column-data-header text-11">Tasks</div>
+
+      <div class="row">
+        <div class="column column-full-width">
+          <WorkflowOptionsTasksList />
+        </div>
       </div>
 
-      <div class="row row-border-bottom"
+      <!-- <div class="row row-border-bottom column-group-header">
+        <div class="column column-data column-header-text column-grow">Request Tasks</div>
+      </div> -->
+
+      <!-- <div class="row row-border-bottom"
         v-for="task in this.selectedWorkflow().tasks"
         :key="task._id">
         <div class="column column-data">
@@ -51,7 +59,8 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
+
     </div>
   </div>
 </template>
@@ -59,11 +68,16 @@
 <script>
 import { mapState, mapMutations, mapGetters, mapActions } from 'vuex';
 
+import WorkflowOptionsTasksList from './WorkflowOptionsTasksList'
+
 export default {
-  name: 'WorkflowOptionsTasksList',
+  name: 'WorkflowTasksList',
   computed: {
     ...mapGetters('workflow', ['selectedWorkflow']),
     ...mapGetters('request', ['visibleRequests']),
+  },
+  components: {
+    WorkflowOptionsTasksList,
   },
   methods: {
     ...mapMutations('workflow', ['editWorkflowTask', 'changeTaskPosition']),
@@ -90,3 +104,31 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.tasks-container {
+  width: 100%;
+  width: -webkit-fill-available !important;
+  height: 50px;
+  background:#f4f6f6;
+  border-radius:3px;
+  border: solid 1px #c1c1c1;
+
+  padding: 7px 15px 15px 15px !important;
+}
+.tasks-container:hover {
+  box-shadow: 0 3px 5px #e0e0e0;
+  border: solid 1px #a5a5a5;
+}
+.tasks-task-container {
+  border: dashed 1px #a5a5a5;
+  padding: 5px;
+  background: white;
+}
+.small-vertical-line {
+  width: 1px;
+  height: 25px;
+  background: #b9b9b9;
+  margin-left: 17px;
+}
+</style>

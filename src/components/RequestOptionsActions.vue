@@ -1,21 +1,22 @@
 <template>
-  <div class="row row-border-bottom" v-if="this.selectedRequest()._id && this.option !== 'queue'">
+  <div class="row row-border-bottom-light padding-top-bottom-5" v-if="this.selectedRequest()._id && this.option !== 'queue'">
     <div class="column column-full-width">
       <div class="row row-justify-between">
         <div class="column">
           <div class="row">
             <div
               class="column text-button action"
+              v-bind:class="{ 'disabled': !this.editing }"
+              v-on:click="saveRequestChangesAction">
+              Save Request Changes
+            </div>
+            <div
+              class="column text-button action"
               v-bind:class="{ disabled: !this.editing }"
               v-on:click="cancelRequestChangesAction">
                 Cancel
               </div>
-            <div
-              class="column text-button action"
-              v-bind:class="{ disabled: !this.editing }"
-              v-on:click="saveRequestChangesAction">
-              Save Changes
-            </div>
+            
             <div class="spacer"></div>
             <div
               v-if="allowAddingRequestItem()"
@@ -23,11 +24,11 @@
               v-on:click="addRequestDetailItemAction">
                 Add Item
               </div>
-            <div
+            <!-- <div
               class="column text-button action"
               v-on:click="viewWorkflowAction">
                 View workflow
-              </div>
+              </div> -->
           </div>
         </div>
       </div>

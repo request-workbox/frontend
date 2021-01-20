@@ -1,31 +1,31 @@
 <template>
   <div class="row row-border-bottom">
     <div class="column column-full-width">
+
+      <div class="row margin-top-bottom-5">
+        <div class="column">
+          <span class="tiny-text tiny-text-spaced">{{ currentTime }}</span>
+        </div>
+        <div class="column margin-left-28">
+          <input type="date" name="" id="" :value="queueDate" v-on:change="editQueueDateAction"/>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="column text-button action action-text-center text-11" v-if="this.activeSelection()._id" v-on:click="startWorkflow('return')">Return Workflow</div>
+        <div class="column text-button action action-text-center text-11" v-if="this.activeSelection()._id" v-on:click="startWorkflow('queue')">Queue Workflow</div>
+        <div class="column text-button action action-text-center text-11" v-if="this.activeSelection()._id" v-on:click="startWorkflow('schedule')">Schedule Workflow</div>
+      </div>
+
       <div class="row row-justify-between">
         <div class="column">
           <div class="row">
             
-            <div class="column">
-              <span class="tiny-text tiny-text-spaced">{{ currentTime }}</span>
-            </div>
-            <div class="column">
-              <input type="date" name="" id="" :value="queueDate" v-on:change="editQueueDateAction"/>
-            </div>
+            
 
-            <div class="spacer"></div>
+            <!-- <div class="spacer"></div>
 
-            <div
-              class="column text-button action"
-              v-if="!loading"
-              v-bind:class="{ disabled: !this.activeSelection()._id }"
-              v-on:click="listQueuesAction">
-              Reload
-            </div>
-            <div
-              class="column text-button action"
-              v-if="loading">
-              Loading...
-            </div>
+
             <div
               class="column text-button action"
               v-if="!archiving"
@@ -39,17 +39,17 @@
               Archiving...
             </div>
 
-            <div class="large-spacer" v-if="this.activeSelection()._id"></div>
+            <div class="large-spacer" v-if="this.activeSelection()._id"></div> -->
 
             <!-- Schedule Request -->
-            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'requests'" v-on:click="startRequest('return')">Return Request</div>
-            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'requests'" v-on:click="startRequest('queue')">Queue Request</div>
-            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'requests'" v-on:click="startRequest('schedule')">Schedule Request</div>
+            <!-- <div class="column text-button action action-text-center" v-if="this.activeSelection()._id" v-on:click="startRequest('return')">Return Request</div>
+            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id" v-on:click="startRequest('queue')">Queue Request</div>
+            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id" v-on:click="startRequest('schedule')">Schedule Request</div> -->
 
             <!-- Schedule Workflow -->
-            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'workflows'" v-on:click="startWorkflow('return')">Return Workflow</div>
-            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'workflows'" v-on:click="startWorkflow('queue')">Queue Workflow</div>
-            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id && this.$route.name === 'workflows'" v-on:click="startWorkflow('schedule')">Schedule Workflow</div>
+            <!-- <div class="column text-button action action-text-center" v-if="this.activeSelection()._id" v-on:click="startWorkflow('return')">Return Workflow</div>
+            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id" v-on:click="startWorkflow('queue')">Queue Workflow</div>
+            <div class="column text-button action action-text-center" v-if="this.activeSelection()._id" v-on:click="startWorkflow('schedule')">Schedule Workflow</div> -->
 
           </div>
         </div>
@@ -85,12 +85,10 @@ export default {
     ...mapActions('request', ['returnRequest','queueRequest','scheduleRequest',]),
     ...mapActions('workflow', ['returnWorkflow','queueWorkflow','scheduleWorkflow',]),
     activeSelection: function() {
-      if (this.$route.name === 'requests') return this.selectedRequest()
-      if (this.$route.name === 'workflows') return this.selectedWorkflow()
+      return this.selectedWorkflow()
     },
     activeSelectionWorkflowId: function() {
-      if (this.$route.name === 'requests') return this.selectedRequest().workflowId
-      if (this.$route.name === 'workflows') return this.selectedWorkflow()._id
+      return this.selectedWorkflow()._id
     },
     editQueueDateAction: function(event) {
       this.editSelectedQueueId('')
@@ -160,3 +158,10 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.margin-left-28 {
+  margin-left: 28px;
+}
+
+</style>

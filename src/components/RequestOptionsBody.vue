@@ -1,25 +1,25 @@
 <template>
   <div class="row">
     <div class="column column-full-width">
-      <div class="row row-border-bottom row-border-bottom-tall">
-        <div class="column column-data column-uparrow-hidden">
+      <div class="row row-border-bottom">
+        <div class="column account-column-data column-uparrow-hidden">
           <input type="checkbox" class="visibility-hidden">
         </div>
-        <div class="column column-data column-header-text column-10">Key</div>
-        <div class="column column-data column-header-text column-20">Type</div>
-        <div class="column column-data column-header-text column-20">Value</div>
+        <div class="column account-column-data column-header-text column-10">Key</div>
+        <div class="column account-column-data column-header-text column-10">Type</div>
+        <div class="column account-column-data column-header-text column-10">Value</div>
       </div>
 
       <div class="row row-border-bottom"
         v-for="detailItem in this.selectedRequest().body"
         :key="detailItem._id">
-        <div class="column column-data column-uparrow-hidden">
+        <div class="column account-column-data column-uparrow-hidden">
           <input 
             type="checkbox"
             :checked="detailItem.active"
             @change="editActive('body', detailItem._id, $event)">
         </div>
-        <div class="column column-data column-10">
+        <div class="column account-column-data column-10">
           <input
             type="text"
             placeholder="Key"
@@ -28,7 +28,7 @@
             v-on:input="editKey('body', detailItem._id, $event)"
           />
         </div>
-        <div class="column column-data column-20">
+        <div class="column account-column-data column-10">
           <select class="column-input-select border-hidden column-input-select-stretch"
             :value="detailItem.valueType"
             v-on:input="editValueType('body', detailItem._id, $event)">
@@ -38,7 +38,7 @@
               <option value="incomingField">Incoming Field</option>
             </select>
         </div>
-        <div class="column column-data column-20" v-if="detailItem.valueType === 'textInput'">
+        <div class="column account-column-data column-10" v-if="detailItem.valueType === 'textInput'">
           <input
             type="text"
             placeholder="Text Input Value"
@@ -47,7 +47,7 @@
             v-on:input="editValue('body', detailItem._id, $event)"
           />
         </div>
-        <div class="column column-data column-20" v-if="detailItem.valueType === 'storage'">
+        <div class="column account-column-data column-10" v-if="detailItem.valueType === 'storage'">
           <select class="column-input-select border-hidden column-input-select-stretch"
             :value="detailItem.value" 
             v-on:input="editValue('body', detailItem._id, $event)">
@@ -58,7 +58,7 @@
                 >{{ storage.name }}</option>
             </select>
         </div>
-        <div class="column column-data column-20" v-if="detailItem.valueType === 'runtimeResult'">
+        <div class="column account-column-data column-10" v-if="detailItem.valueType === 'runtimeResult'">
           <input
             type="text"
             placeholder="Request result name"
@@ -67,7 +67,7 @@
             v-on:input="editValue('body', detailItem._id, $event)"
           />
         </div>
-        <div class="column column-data column-20" v-if="detailItem.valueType === 'incomingField'">
+        <div class="column account-column-data column-10" v-if="detailItem.valueType === 'incomingField'">
           <input
             type="text"
             placeholder="Field Name"

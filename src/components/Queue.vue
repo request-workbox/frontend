@@ -1,9 +1,9 @@
 <template>
-  <div class="row" v-if="showQueue">
+  <div class="row" v-if="workflowId">
 
-    <div class="column column-full-width">
+    <div class="column column-full-width padding-left-right-15">
       <QueueActions />
-      <QueueFilters />
+      <!-- <QueueFilters /> -->
       <Queues />
       <QueueStats />
       <QueueStatsInstance />
@@ -37,18 +37,24 @@ export default {
     ...mapState('request', ['selectedRequestId']),
     ...mapState('workflow', ['selectedWorkflowId']),
     ...mapState('queue', ['queueOrderDirection']),
-    showQueue: function() {
-      if (this.$route.name === 'requests' && this.selectedRequestId) return true
-      else if (this.$route.name === 'workflows' && this.selectedWorkflowId) return true
-      else return false
-    },
+
+    ...mapGetters('workflow', ['selectedWorkflow']),
+    // showQueue: function() {
+    //   if (this.$route.name === 'requests' && this.selectedRequestId) return true
+    //   else if (this.$route.name === 'workflows' && this.selectedWorkflowId) return true
+    //   else return false
+    // },
+    workflowId: function() {
+      if (!this.selectedWorkflow()) return ''
+      return this.selectedWorkflow()._id
+    }
   },
   methods: {
     ...mapMutations('queue', ['updateQueueOrderDirection']),
     init: function() {
       const queueOrderDirection = localStorage.getItem('queueOrderDirection') || this.queueOrderDirection
       this.updateQueueOrderDirection({ queueOrderDirection, })
-    }
+    },
   }
 }
 </script>

@@ -3,27 +3,27 @@
     <div class="column column-full-width padding-left-right-15">
 
       <div
-        v-for="(workflow) in visibleWorkflows()"
-        v-bind:key="workflow._id"
-        class="row workflow-row"
-        v-on:click="selectOrDeselectRowAction(workflow)">
+        v-for="(storage) in visibleStorages()"
+        v-bind:key="storage._id"
+        class="row storage-row"
+        v-on:click="selectOrDeselectRowAction(storage)">
 
         <div 
-          v-bind:class="{'workflow-button-nav-selected':rowIsActive(workflow)}"
-          class="column column-full-width workflow-button-nav">
+          v-bind:class="{'storage-button-nav-selected':rowIsActive(storage)}"
+          class="column column-full-width storage-button-nav">
             <div class="row">
               <div class="column column-grow">
-                <p class="workflow-button-nav-text">{{ workflow.name }}</p>
+                <p class="storage-button-nav-text">{{ storage.name }}</p>
               </div>
-              <div class="column text-light-blue text-22 padding-right-13" v-if="rowIsActive(workflow)">•</div>
-          <div class="column text-white text-22 padding-right-13" v-if="!rowIsActive(workflow)">•</div>
+              <div class="column text-light-blue text-22 padding-right-13" v-if="rowIsActive(storage)">•</div>
+          <div class="column text-white text-22 padding-right-13" v-if="!rowIsActive(storage)">•</div>
             </div>
           </div>
 
       </div>
 
-      <div class="row row-border-bottom-light padding-top-bottom-5" v-if="!numberOfWorkflows">
-        <div class="column column-grow text-center text-12 text-light-grey">You don't have any workflows here.</div>
+      <div class="row row-border-bottom-light padding-top-bottom-5" v-if="!numberOfStorages">
+        <div class="column column-grow text-center text-12 text-light-grey">You don't have any storages here.</div>
       </div>
 
     </div>
@@ -36,33 +36,37 @@ import moment from 'moment-timezone'
 import _ from 'lodash'
 
 export default {
-  name: 'WorkflowList',
+  name: 'WorkflowStorageList',
   computed: {
-    ...mapState('workflow', ['option']),
-    ...mapGetters('workflow', ['visibleWorkflows','selectedWorkflow']),
-    numberOfWorkflows: function() {
-      if (!this.visibleWorkflows()) return 0
-      else return _.size(this.visibleWorkflows())
+    ...mapState('storage', ['option','editing']),
+    ...mapGetters('storage', ['visibleStorages','selectedStorage']),
+
+    numberOfStorages: function() {
+      if (!this.visibleStorages()) return 0
+      else return _.size(this.visibleStorages())
     }
   },
   methods: {
-    ...mapActions('workflow', ['selectOrDeselectRow']),
-    
-    rowIsActive: function (workflow) {
-      if (workflow._id === this.selectedWorkflow()._id) return true
+    ...mapActions('storage', ['selectOrDeselectRow']),
+    rowIsActive: function (data) {
+      if (data._id === this.selectedStorage()._id) return true
       else return false
+    },
+    storageType: function(storage) {
+      if (storage.storageType === 'file') return 'File'
+      if (storage.storageType === 'text') return 'Text'
     },
     dateCreated: function(createdAt) {
       if (!createdAt) return ''
       return `${moment(createdAt).format('M-D-YYYY, h:mm a')}`
     },
-    selectOrDeselectRowAction: function(workflow) {
-      this.selectOrDeselectRow(workflow)
+    selectOrDeselectRowAction: function(storage) {
+      this.selectOrDeselectRow(storage)
 
-      // if (this.selectedWorkflow()._id === workflow._id) {
+      // if (this.selectedStorage()._id === storage._id) {
       //   this.$router.replace({ path: this.$route.name, query: { option: this.option, }}).catch((err) => err)
       // } else {
-      //   this.$router.replace({ path: this.$route.name, query: { id: workflow._id, option: this.option, }}).catch((err) => err)
+      //   this.$router.replace({ path: this.$route.name, query: { id: storage._id, option: this.option, }}).catch((err) => err)
       // }
     },
   },
@@ -70,11 +74,11 @@ export default {
 </script>
 
 <style lang="scss">
-.workflow-row-selectable {
+.storage-row-selectable {
   cursor: pointer;
   background:white;
 }
-.workflow-row-selectable:hover {
+.storage-row-selectable:hover {
   background: #dcf0ff !important;
   // border-top: #2196f3 solid 1px !important;
   // border-bottom: #2196f3 solid 1px !important;
@@ -85,10 +89,8 @@ export default {
     color: #dcf0ff !important;
   }
 }
-.workflow-row-selected {
+.storage-row-selected {
     background: #dcf0ff;
-    border-top: #018eff solid 1px !important;
-    border-bottom: #018eff solid 1px !important;
     font-weight: 600;
   }
 
@@ -104,7 +106,7 @@ export default {
   }
 
 
-  .workflow-row {
+  .storage-row {
     .text-button-selected {
       background: #e3f5e2;
     }
@@ -120,7 +122,7 @@ export default {
     padding: 0 15px
   }
 
- .workflow-button-nav {
+ .storage-button-nav {
     background: white;
     color: #395b75;
     cursor: pointer;
@@ -134,10 +136,10 @@ export default {
 
     transition: 0.7s;
 
-    border: solid 1px #82aed2;
+    border: solid 1px #9bce9a;
   }
 
-  .workflow-button-nav-off {
+  .storage-button-nav-off {
     background: white;
     color: #395b75;
     font-size: 12px;
@@ -145,31 +147,30 @@ export default {
     width: 100%;
   }
 
-  .workflow-button-nav-text {
+  .storage-button-nav-text {
     padding-left: 7px;
     margin: 7px;
   }
 
-  .workflow-button-nav-selected {
-    .workflow-button-nav-text {
+  .storage-button-nav-selected {
+    .storage-button-nav-text {
       color: #060b3e;
       font-weight: 600;
     }
-    background: #addbff;
   }
 
-  .workflow-button-nav:hover {
+  .storage-button-nav:hover {
 
-    .workflow-button-nav-text {
+    .storage-button-nav-text {
       color: #0c5894;
       color: #060b3e;
       font-weight: 600;
     }
 
-    background: #d7ebfc;
+    background: #d1f5e0;
   }
 
-  .workflow-button-nav-text-header {
+  .storage-button-nav-text-header {
     padding-left: 7px;
     font-weight: 700;
     cursor: default;

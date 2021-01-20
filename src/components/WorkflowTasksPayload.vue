@@ -1,25 +1,14 @@
 <template>
   <div class="row payload-container">
-    <div class="column column-full-width">
+    <div class="column column-full-width table-row-data-light">
+
+      <div class="column account-column-data-header text-11">Incoming Payload</div>
 
       <div class="row">
-        <div class="column column-full-width height-100 task-container">
-          123
+        <div class="column column-full-width payload-task-container">
+          <WorkflowOptionsTasksPayload />
         </div>
       </div>
-
-      <div class="row">
-        <div class="column column-full-width height-100 task-container">
-          123
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="column column-full-width height-100 task-container">
-          123
-        </div>
-      </div>
-
 
       <!-- <div class="row row-border-bottom column-group-header">
         <div class="column column-data column-header-text column-grow">Body Payload</div>
@@ -57,9 +46,13 @@
 
 <script>
 import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
+import WorkflowOptionsTasksPayload from './WorkflowOptionsTasksPayload'
 
 export default {
   name: 'WorkflowTasksPayload',
+  components: {
+    WorkflowOptionsTasksPayload,
+  },
   computed: {
     ...mapGetters('workflow', ['selectedWorkflow']),
     
@@ -87,18 +80,15 @@ export default {
   border-radius:3px;
   border: solid 1px #c1c1c1;
 
-  padding: 15px !important;
-
-  margin: 15px 0 !important;
+  padding: 7px 15px 15px 15px !important;
 }
 .payload-container:hover {
   box-shadow: 0 3px 5px #e0e0e0;
   border: solid 1px #a5a5a5;
 }
-.task-container {
+.payload-task-container {
   border: dashed 1px #a5a5a5;
   padding: 5px;
   background: white;
-  margin-bottom: 15px;
 }
 </style>

@@ -4,20 +4,20 @@
 
       <div class="row row-border-bottom-light">
         <div class="column column-grow workflow-column-data-header text-11">
-          WORKFLOWS
+          STORAGES
           <span class="text-9 margin-left-5" v-if="filter === 'active'">(Active)</span>
           <span class="text-9 margin-left-5" v-if="filter === 'archived'">(Archived)</span>
         </div>
-        <div class="column cursor-pointer" v-if="!loading" @mouseover="showAddTooltip" @mouseout="hideAddTooltip" v-on:click="createWorkflowAction()">
+        <div class="column cursor-pointer" v-if="!loading" @mouseover="showAddTooltip" @mouseout="hideAddTooltip" v-on:click="createStorageAction()">
           <img class="width-13 margin-right-10" src="/add.svg">
           <div class="add-tooltip" v-if="addTooltip">
-            New Workflow
+            New Storage
           </div>
         </div>
         <div class="column cursor-pointer" @mouseover="showEditTooltip" @mouseout="hideEditTooltip" v-on:click="showDropdown">
           <img class="width-13 margin-right-10" src="/elipsis.svg">
           <div class="edit-tooltip" v-if="editTooltip">
-            Workflow Status
+            Storage Status
           </div>
         </div>
         <div class="edit-dropdown" v-if="dropdown">
@@ -49,7 +49,7 @@ import _ from 'lodash'
 import Spinner from './Spinner'
 
 export default {
-  name: 'WorkflowList',
+  name: 'WorkflowStorageListMenu',
   data: function() {
     return {
       loading: false,
@@ -63,20 +63,20 @@ export default {
   },
   computed: {
     ...mapState('project', ['selectedProjectId']),
-    ...mapState('workflow', ['option','editing','filter']),
-    ...mapGetters('workflow', ['selectedWorkflow']),
+    ...mapState('storage', ['option','editing','filter']),
+    ...mapGetters('storage', ['selectedStorage']),
   },
   methods: {
-    ...mapMutations('workflow', ['changeFilter']),
-    ...mapActions('workflow', ['selectOrDeselectRow','createWorkflow']),
-    createWorkflowAction: async function() {
+    ...mapMutations('storage', ['changeFilter']),
+    ...mapActions('storage', ['selectOrDeselectRow','createStorage']),
+    createStorageAction: async function() {
       try {
         this.loading = true
         this.addTooltip = false
-        const payload = ({ projectId: this.selectedProjectId })
-        const workflow = await this.createWorkflow(payload)
+        const payload = ({ projectId: this.selectedProjectId, storageType: 'text' })
+        const storage = await this.createStorage(payload)
       } catch(err) {
-        console.log('Workflow menu error', err.message)
+        console.log('Storage menu error', err.message)
       } finally {
         this.loading = false
       }
@@ -103,10 +103,6 @@ export default {
     hideDropdown: function() {
       this.dropdown = false
     },
-    numberOfWorkflowTasks: function(data) {
-      if (!data.tasks || !_.size(data.tasks)) return '0 Tasks'
-      return `${_.size(data.tasks)} Tasks`
-    },
     dateCreated: function(createdAt) {
       if (!createdAt) return ''
       return `${moment(createdAt).format('M-D-YYYY, h:mm a')}`
@@ -115,11 +111,12 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .add-tooltip {
     position: absolute;
     top: -22px;
     right: -17px;
+    
     font-size: 9px;
     background: #011321;
     z-index: 2;

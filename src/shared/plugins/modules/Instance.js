@@ -139,7 +139,7 @@ const actions = {
             commit('addToInstances', request.data)
             commit('editSelectedInstanceId', request.data._id)
 
-            return sendResponse(request.data, 'Instance found.')
+            return sendResponse(request.data)
         } catch(err) {
             return throwError(err)
         }

@@ -2,14 +2,14 @@
   <div class="row">
     <div class="column column-full-width">
 
-    <div class="row row-border-bottom">
-      <div class="column column-data column-header-text column-grow column-group-header">Instance Stats</div>
-    </div>
+    <div class="row row-border-bottom-light">
+        <div class="column column-grow account-column-data-header">Instance Stats</div>
+      </div>
 
-    <div class="row row-border-bottom">
+    <!-- <div class="row row-border-bottom">
       <div class="column text-button" v-bind:class="{'text-button-selected':this.option === 'results'}" v-on:click="editOptionAction('results')">Results</div>
-      <!-- <div class="column text-button" v-bind:class="{'text-button-selected':this.option === 'usage'}" v-on:click="editOptionAction('usage')">Usage</div> -->
-    </div>
+      <div class="column text-button" v-bind:class="{'text-button-selected':this.option === 'usage'}" v-on:click="editOptionAction('usage')">Usage</div>
+    </div> -->
 
     <div class="row row-border-bottom" v-if="this.selectedInstanceId !== '' && this.selectedInstanceStatId !== ''">
       <div class="column text-button action" v-if="this.option === 'results' && !loading" v-on:click="getInstanceDetailAction()">Load Requests / Responses</div>

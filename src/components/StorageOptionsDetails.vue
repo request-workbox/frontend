@@ -1,21 +1,16 @@
 <template>
   <div class="row" v-if="this.selectedStorage()._id">
-    <div class="column column-full-width">
+    <div class="column column-full-width padding-left-right-15">
+
       <div class="row row-border-bottom">
-        <div class="column column-data column-header-text column-grow column-group-header">Description</div>
+        <div class="column column-grow account-column-data-header">Storage Information</div>
       </div>
 
-      <div class="row row-border-bottom" v-if="this.selectedStorage()._id">
-        <div class="column column-data column-20">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            value="Name"
-            disabled
-          />
+      <div class="row row-border-bottom-light" v-if="this.selectedStorage()._id">
+        <div class="column account-column-data column-20">
+          <p class="text-12">Name</p>
         </div>
-        <div class="column column-data column-grow">
+        <div class="column account-column-data column-grow">
           <input
             type="text"
             placeholder="Value"
@@ -28,17 +23,11 @@
 
       <!-- TEXT -->
 
-      <div class="row row-border-bottom" v-if="this.selectedStorage().storageType === 'text'">
-        <div class="column column-data column-20">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            value="Text"
-            disabled
-          />
+      <div class="row row-border-bottom-light" v-if="this.selectedStorage().storageType === 'text'">
+        <div class="column account-column-data column-20">
+          <p class="text-12">Storage Value</p>
         </div>
-        <div class="column column-data column-20">
+        <div class="column account-column-data column-20">
           <input
             type="text"
             placeholder="Storage Value"
@@ -59,8 +48,8 @@
 
       <!-- FILE -->
 
-      <div class="row row-border-bottom" v-if="this.selectedStorage().storageType === 'file'">
-        <div class="column column-data column-20">
+      <div class="row row-border-bottom-light" v-if="this.selectedStorage().storageType === 'file'">
+        <div class="column account-column-data column-20">
           <input
             type="text"
             placeholder="Key"
@@ -81,8 +70,8 @@
       </div>
 
       <!-- Locked / Sensitive -->
-      <div class="row row-border-bottom row-border-bottom-tall">
-        <div class="column column-data column-grow">
+      <div class="row row-border-bottom-light row-border-bottom-light-tall">
+        <div class="column account-column-data column-grow">
           <input 
             id="team"
             type="checkbox"

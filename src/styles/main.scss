@@ -312,6 +312,9 @@
   .text-17 {
     font-size:17px !important;
   }
+  .text-22 {
+    font-size:22px !important;
+  }
 
   .text-weight-500 {
     font-weight: 500 !important;
@@ -459,6 +462,9 @@
   }
   .text-light-grey {
     color: #9c9fa0;
+  }
+  .text-white {
+    color: white;
   }
 
   .text-underline {
@@ -1154,6 +1160,10 @@ max-width: 270px;
 .padding-top-bottom-5 {
   padding-top: 5px;
   padding-bottom: 5px;
+}
+
+.padding-0-15 {
+  padding: 0 15px !important;
 }
 
 .column-right-border {
