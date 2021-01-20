@@ -25,7 +25,7 @@ export default {
   margin: 0;
   position: absolute;
   top: 8px;
-  right: 15px;
+  right: 38px;
   font-size: 2px;
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);

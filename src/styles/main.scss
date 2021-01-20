@@ -294,6 +294,9 @@
     margin-right: 9px;
     margin-left: 9px;
   }
+  .text-9 {
+    font-size:9px !important;
+  }
   .text-11 {
     font-size:11px !important;
   }
@@ -466,11 +469,18 @@
     display:flex;
   }
 
+  .width-35 {
+    width: 35px;
+  }
   .width-13 {
     width: 13px;
   }
   .width-10 {
     width: 10px;
+  }
+
+  .height-13 {
+    height: 13px;
   }
 
   .grey-background {

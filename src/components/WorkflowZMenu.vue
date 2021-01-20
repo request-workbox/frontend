@@ -2,7 +2,7 @@
     <div class="row row-border-bottom">
       <div class="column">
         <div class="row">
-          <div class="column text-button text-button-and-logo" v-on:click="createWorkflowAction()">
+          <div class="column text-button text-button-and-logo" >
             <img src="/layers.svg" alt="">
             <span>New Workflow</span>
           </div>
@@ -17,18 +17,10 @@ import { mapState, mapActions } from 'vuex'
 export default {
   name: 'WorkflowMenu',
   computed: {
-    ...mapState('project', ['selectedProjectId'])
+    
   },
   methods: {
-    ...mapActions('workflow', ['createWorkflow']),
-    createWorkflowAction: async function() {
-      try {
-        const payload = ({ projectId: this.selectedProjectId })
-        const workflow = await this.createWorkflow(payload)
-      } catch(err) {
-        console.log('Workflow menu error', err.message)
-      }
-    },
+    
   }
 }
 </script>

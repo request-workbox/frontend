@@ -4,6 +4,9 @@
       <WorkflowMenu />
     </div>
     <div class="full-sidebar-fixed">
+      <WorkflowListMenu />
+    </div>
+    <div class="full-sidebar-fixed-detail">
       <WorkflowList />
     </div>
     <div class="left-sidebar-fixed">
@@ -27,6 +30,7 @@ import { mapState, mapMutations, mapActions } from 'vuex'
 
 import WorkflowMenu from './WorkflowMenu'
 import WorkflowList from './WorkflowList'
+import WorkflowListMenu from './WorkflowListMenu'
 import WorkflowRequestList from './WorkflowRequestList'
 
 export default {
@@ -35,6 +39,7 @@ export default {
   components: {
     WorkflowMenu,
     WorkflowList,
+    WorkflowListMenu,
     WorkflowRequestList,
   },
   mounted: function () {
@@ -115,15 +120,26 @@ export default {
   left: 0;
   top: 24px;
   width: 315px;
+  height: auto;
+  background: pink;
+  z-index: 2;
+  box-shadow: 0px 4px 3px 0px #e6e8ea;
+}
+.full-sidebar-fixed-detail {
+  position: absolute;
+  left: 0;
+  top: 48px;
+  width: 315px;
   height: 150px;
   background: pink;
+  overflow: scroll;
 }
 .left-sidebar-fixed {
   position: absolute;
   left: 0;
   bottom: 0;
   width: 315px;
-  top: 174px;
+  top: 198px;
   background: green;
 }
 .tabbar-fixed {
