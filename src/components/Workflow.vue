@@ -16,7 +16,8 @@
 
     </div>
     <div class="topbar-fixed">
-
+      <WorkflowTasksPayload />
+      <WorkflowTasksPayload />
     </div>
     <div class="right-sidebar-fixed">
 
@@ -33,6 +34,8 @@ import WorkflowList from './WorkflowList'
 import WorkflowListMenu from './WorkflowListMenu'
 import WorkflowRequestList from './WorkflowRequestList'
 
+import WorkflowTasksPayload from './WorkflowTasksPayload'
+
 export default {
   name: 'Workflow',
   props: ['projectId'],
@@ -41,6 +44,7 @@ export default {
     WorkflowList,
     WorkflowListMenu,
     WorkflowRequestList,
+    WorkflowTasksPayload
   },
   mounted: function () {
     this.init()
@@ -147,17 +151,17 @@ export default {
   top: 24px;
   right: 305px;
   left: 315px;
-  height: 40px;
+  height: 35px;
   background: purple;
 }
 .topbar-fixed {
   position: absolute;
-  top: 64px;
+  top: 59px;
   right: 305px;
   left: 315px;
   bottom: 0;
-  background: yellow;
   overflow: auto;
+  padding: 15px;
 }
 .right-sidebar-fixed {
   position: absolute;
