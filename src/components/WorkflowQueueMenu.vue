@@ -262,15 +262,6 @@ export default {
 .edit-dropdown-row:hover {
   background: #d8dce6;
 }
-.padding-left-right-15 {
-  padding: 0 15px !important;
-}
-.padding-left-5 {
-  padding-left: 5px !important;
-}
-.padding-left-10 {
-  padding-left: 10px !important;
-}
 
 .workflow-column-data-header {
   white-space: nowrap;

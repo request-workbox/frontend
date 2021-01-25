@@ -10,6 +10,24 @@
           <img class="width-10 margin-right-5" src="/back-arrow.svg">
           <span class="text-11">Back to projects</span>
         </div>
+
+        <div class="column-grow"></div>
+
+        <div class="column go-to-link" v-on:click="$emit('singleWindow')">
+          <img class="width-10 margin-right-5" src="/window.svg">
+        </div>
+        <div class="spacer"></div>
+        <div class="column go-to-link" v-on:click="$emit('splitHorizontal')">
+          <img class="width-10 margin-right-5" src="/window-split-horizontal.svg">
+        </div>
+        <div class="spacer"></div>
+        <div class="column go-to-link" v-on:click="$emit('splitVertical')">
+          <img class="width-10 margin-right-5" src="/window-split-vertical.svg">
+        </div>
+        <div class="spacer"></div>
+        <div class="column go-to-link">
+          <img class="width-10 margin-right-5" src="/window-split-panes.svg">
+        </div>
         
       </div>
 
@@ -22,14 +40,14 @@ import moment from 'moment-timezone'
 import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: 'WorkflowMenu',
+  name: 'DashboardMenu',
   computed: {
     ...mapGetters('project', ['selectedProject'])
   },
   methods: {
     goToProjects: function() {
       location.assign('/projects')
-    }
+    },
   }
 };
 </script>

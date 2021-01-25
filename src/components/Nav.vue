@@ -45,7 +45,7 @@ export default {
       else return false
     },
     navigateToRoute: function(route) {
-      if (route === 'workflow') return location.assign(`/projects/${this.selectedProjectId}/workflow`)
+      if (route === 'workflow') return location.assign(`/projects/${this.selectedProjectId}`)
       else return location.assign(`/${route}`)
     }
   }

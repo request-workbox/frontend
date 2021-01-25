@@ -134,7 +134,7 @@ export default {
   },
   methods: {
     goToProject: function(projectId) {
-      location.assign(`/projects/${this.selectedProject()._id}/workflow`)
+      location.assign(`/projects/${this.selectedProject()._id}`)
     }
   }
 }

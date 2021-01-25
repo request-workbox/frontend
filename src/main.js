@@ -36,7 +36,9 @@ import Tokens from './components/Tokens'
 import Billing from './components/Billing'
 import Upgrades from './components/Upgrades'
 import Checkout from './components/Checkout'
-import Workflow from './components/Workflow'
+// import Workflow from './components/Workflow'
+
+import Dashboard from './components/Dashboard'
 
 import Register from './components/UserRegister'
 import Confirm from './components/UserConfirm'
@@ -88,11 +90,11 @@ const router = new VueRouter({
       props: true,
     },
 
-    // Workflow
+    // Dashboard
     {
-      path: '/projects/:projectId/workflow',
-      name: 'workflow',
-      component: Workflow,
+      path: '/projects/:projectId',
+      name: 'dashboard',
+      component: Dashboard,
       props: true,
     },
 

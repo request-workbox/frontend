@@ -11,15 +11,15 @@
       </div>
 
       <!-- Workflow Container -->
-      <div id="main-view" v-if="this.$store.getters['cognito/isLoggedIn'] && $route.name === 'workflow'">
+      <div id="main-view" v-if="this.$store.getters['cognito/isLoggedIn'] && $route.name === 'dashboard'">
         <router-view />
       </div>
 
       <!-- Projects/Settings/Billing Container -->
-      <div id="left-sidebar" v-if="this.$store.getters['cognito/isLoggedIn'] && $route.name !== 'workflow'">
+      <div id="left-sidebar" v-if="this.$store.getters['cognito/isLoggedIn'] && $route.name !== 'dashboard'">
         <Nav />
       </div>
-      <div id="main-view" v-if="this.$store.getters['cognito/isLoggedIn'] && $route.name !== 'workflow'">
+      <div id="main-view" v-if="this.$store.getters['cognito/isLoggedIn'] && $route.name !== 'dashboard'">
         <router-view />
       </div>
 
