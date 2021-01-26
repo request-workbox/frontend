@@ -20,14 +20,6 @@
         <div class="column go-to-link" v-on:click="$emit('splitHorizontal')">
           <img class="width-10 margin-right-5" src="/window-split-horizontal.svg">
         </div>
-        <div class="spacer"></div>
-        <div class="column go-to-link" v-on:click="$emit('splitVertical')">
-          <img class="width-10 margin-right-5" src="/window-split-vertical.svg">
-        </div>
-        <div class="spacer"></div>
-        <div class="column go-to-link">
-          <img class="width-10 margin-right-5" src="/window-split-panes.svg">
-        </div>
         
       </div>
 
