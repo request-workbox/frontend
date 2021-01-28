@@ -1,7 +1,9 @@
 <template>
   <div class="resource-menu">
     <div class="row flex-direction-column">
-      
+      <div class="column">Untitled Folder</div>
+      <div class="column">Apple</div>
+      <div class="column">Stripe</div>
     </div>
   </div>
 </template>
