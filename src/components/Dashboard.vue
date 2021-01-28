@@ -7,7 +7,7 @@
 
     <DashboardResourcePicker />
 
-    <DashboardResourceMenu />
+    <DashboardResourceMenuWorkflow />
 
     <DashboardWindows ref="dashboardWindows" />
 
@@ -20,7 +20,7 @@ import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 
 import DashboardMenu from './DashboardMenu'
 import DashboardResourcePicker from './DashboardResourcePicker'
-import DashboardResourceMenu from './DashboardResourceMenu'
+import DashboardResourceMenuWorkflow from './DashboardResourceMenuWorkflow'
 import DashboardWindows from './DashboardWindows'
 
 export default {
@@ -29,7 +29,7 @@ export default {
   components: {
     DashboardMenu,
     DashboardResourcePicker,
-    DashboardResourceMenu,
+    DashboardResourceMenuWorkflow,
     DashboardWindows,
   },
   mounted: function () {
@@ -165,15 +165,6 @@ export default {
 
 .resource:hover {
   background: #d1d1d1;
-}
-
-.resource-menu {
-  position: absolute;
-  top: 25px;
-  left: 50px;
-  bottom: 0;
-  width: 275px;
-  background: blue;
 }
 
 .windows {

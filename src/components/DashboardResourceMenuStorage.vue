@@ -1,55 +1,63 @@
 <template>
-  <div class="row">
-    <div class="column column-full-width table-row-data-light padding-left-right-15">
-
-      <div class="row row-border-bottom-light">
-        <div class="column column-grow workflow-column-data-header text-11">
-          STORAGES
-          <span class="text-9 margin-left-5" v-if="filter === 'active'">(Active)</span>
-          <span class="text-9 margin-left-5" v-if="filter === 'archived'">(Archived)</span>
-        </div>
-        <div class="column cursor-pointer" v-if="!loading" @mouseover="showAddTooltip" @mouseout="hideAddTooltip" v-on:click="createStorageAction()">
-          <img class="width-13 margin-right-10" src="/add.svg">
-          <div class="add-tooltip" v-if="addTooltip">
-            New Storage
-          </div>
-        </div>
-        <div class="column cursor-pointer" @mouseover="showEditTooltip" @mouseout="hideEditTooltip" v-on:click="showDropdown">
-          <img class="width-13 margin-right-10" src="/elipsis.svg">
-          <div class="edit-tooltip" v-if="editTooltip">
-            Storage Status
-          </div>
-        </div>
-        <div class="edit-dropdown" v-if="dropdown">
-          <div class="row edit-dropdown-row" v-on:click="changeFilterAction('active')">
-            <div class="column padding-10 width-35 height-13">
-              <img class="width-13 margin-left-10" src="/check.svg" v-if="filter === 'active'">
-            </div>
-            <div class="column column-grow edit-dropdown-button">Active</div>
-          </div>
-          <div class="row edit-dropdown-row" v-on:click="changeFilterAction('archived')">
-            <div class="column padding-10 width-35 height-13">
-              <img class="width-13 margin-left-10" src="/check.svg" v-if="filter === 'archived'">
-            </div>
-            <div class="column column-grow edit-dropdown-button">Archived</div>
-          </div>
-        </div>
-        <Spinner v-if="loading"/>
+  <div class="resource-menu">
+    <div class="row row-border-bottom-light">
+      <div class="column column-grow workflow-column-data-header text-11">
+        STORAGES
+        <span class="text-9 margin-left-5" v-if="filter === 'active'">(Active)</span>
+        <span class="text-9 margin-left-5" v-if="filter === 'archived'">(Archived)</span>
       </div>
+      <div class="column cursor-pointer" v-if="!loading" @mouseover="showAddTooltip" @mouseout="hideAddTooltip" v-on:click="createStorageAction()">
+        <img class="width-13 margin-right-10" src="/add.svg">
+        <div class="add-tooltip" v-if="addTooltip">
+          New Storage
+        </div>
+      </div>
+      <div class="column cursor-pointer" @mouseover="showEditTooltip" @mouseout="hideEditTooltip" v-on:click="showDropdown">
+        <img class="width-13 margin-right-10" src="/elipsis.svg">
+        <div class="edit-tooltip" v-if="editTooltip">
+          Storage Status
+        </div>
+      </div>
+      <div class="edit-dropdown" v-if="dropdown">
+        <div class="row edit-dropdown-row" v-on:click="changeFilterAction('active')">
+          <div class="column padding-10 width-35 height-13">
+            <img class="width-13 margin-left-10" src="/check.svg" v-if="filter === 'active'">
+          </div>
+          <div class="column column-grow edit-dropdown-button">Active</div>
+        </div>
+        <div class="row edit-dropdown-row" v-on:click="changeFilterAction('archived')">
+          <div class="column padding-10 width-35 height-13">
+            <img class="width-13 margin-left-10" src="/check.svg" v-if="filter === 'archived'">
+          </div>
+          <div class="column column-grow edit-dropdown-button">Archived</div>
+        </div>
+      </div>
+      <Spinner v-if="loading"/>
+    </div>
 
+
+    <div class="row flex-direction-column row-align-start">
+      <div class="column column-full-width row-border-bottom-light">
+        <p class="resource-label">Untitled Folder</p>
+      </div>
+      <div class="column column-full-width row-border-bottom-light">
+        <p class="resource-detail">Apple</p>
+      </div>
+      <div class="column column-full-width row-border-bottom-light">
+        <p class="resource-detail">Stripe</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 import moment from 'moment-timezone'
-import _ from 'lodash'
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 
 import Spinner from './Spinner'
 
 export default {
-  name: 'WorkflowStorageListMenu',
+  name: 'DashboardResourceMenuStorage',
   data: function() {
     return {
       loading: false,
@@ -112,6 +120,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.resource-menu {
+  position: absolute;
+  top: 25px;
+  left: 50px;
+  bottom: 0;
+  width: 275px;
+  background: white;
+}
+.resource-menu-header {
+  margin: 3px;
+  padding: 0;
+  font-weight: 600;
+  font-size: 13px;
+}
+.resource-label {
+  margin: 3px;
+  padding: 0;
+  font-size: 12px;
+}
+.resource-detail {
+  margin: 3px;
+  padding: 0;
+  font-size: 14px;
+}
+
+
 .add-tooltip {
     position: absolute;
     top: -22px;

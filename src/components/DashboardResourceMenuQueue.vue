@@ -1,96 +1,104 @@
 <template>
-  <div class="row">
-    <div class="column column-full-width table-row-data-light padding-left-right-15">
-
-      <div class="row row-border-bottom-light">
-        <div class="column column-grow workflow-column-data-header text-11">
-          QUEUE
-        </div>
-        <div class="column cursor-pointer" v-if="!loading" @mouseover="showAddTooltip" @mouseout="hideAddTooltip" v-on:click="listQueuesAction()">
-          <img class="width-13 margin-right-10" src="/refresh.svg">
-          <div class="add-tooltip" v-if="addTooltip">
-            Reload History
-          </div>
-        </div>
-        <div class="column cursor-pointer" @mouseover="showEditTooltip" @mouseout="hideEditTooltip" v-on:click="toggleDropdown">
-          <img class="width-13 margin-right-10" src="/elipsis.svg">
-          <div class="edit-tooltip" v-if="editTooltip">
-            Workflow API
-          </div>
-        </div>
-        <div class="edit-dropdown" v-if="dropdown">
-          <div class="row edit-dropdown-row" v-on:click="copyToClipboard('return')">
-            <div class="column edit-dropdown-button">Copy Return URL</div>
-          </div>
-          <div class="row edit-dropdown-row" v-on:click="copyToClipboard('queue')">
-            <div class="column edit-dropdown-button">Copy Queue URL</div>
-          </div>
-          <div class="row edit-dropdown-row" v-on:click="copyToClipboard('schedule')">
-            <div class="column edit-dropdown-button">Copy Schedule URL</div>
-          </div>
-        </div>
-        <Spinner v-if="loading"/>
+  <div class="resource-menu">
+    <div class="row row-border-bottom-light">
+      <div class="column column-grow workflow-column-data-header text-11">
+        QUEUE
       </div>
-
-      <div class="row row-border-bottom-light display-hide width-0" v-if="this.selectedWorkflow()._id">
-        <div class="column account-column-data column-20">
-          <div class="column text-button action action-text-center">Copy Return URL</div>
-        </div>
-        <div class="column account-column-data">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            :value="triggerUrl('return')"
-            ref="returnUrl"
-          />
+      <div class="column cursor-pointer" v-if="!loading" @mouseover="showAddTooltip" @mouseout="hideAddTooltip" v-on:click="listQueuesAction()">
+        <img class="width-13 margin-right-10" src="/refresh.svg">
+        <div class="add-tooltip" v-if="addTooltip">
+          Reload History
         </div>
       </div>
-
-      <div class="row row-border-bottom-light display-hide width-0" v-if="this.selectedWorkflow()._id">
-        <div class="column account-column-data column-20">
-          <div class="column text-button action action-text-center">Copy Queue URL</div>
-        </div>
-        <div class="column account-column-data">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            :value="triggerUrl('queue')"
-            ref="queueUrl"
-          />
+      <div class="column cursor-pointer" @mouseover="showEditTooltip" @mouseout="hideEditTooltip" v-on:click="toggleDropdown">
+        <img class="width-13 margin-right-10" src="/elipsis.svg">
+        <div class="edit-tooltip" v-if="editTooltip">
+          Workflow API
         </div>
       </div>
-
-      <div class="row row-border-bottom-light display-hide width-0" v-if="this.selectedWorkflow()._id">
-        <div class="column account-column-data column-20">
-          <div class="column text-button action action-text-center">Copy Schedule URL</div>
+      <div class="edit-dropdown" v-if="dropdown">
+        <div class="row edit-dropdown-row" v-on:click="copyToClipboard('return')">
+          <div class="column edit-dropdown-button">Copy Return URL</div>
         </div>
-        <div class="column account-column-data">
-          <input
-            type="text"
-            placeholder="Key"
-            class="column-input-text"
-            :value="triggerUrl('schedule')"
-            ref="scheduleUrl"
-          />
+        <div class="row edit-dropdown-row" v-on:click="copyToClipboard('queue')">
+          <div class="column edit-dropdown-button">Copy Queue URL</div>
+        </div>
+        <div class="row edit-dropdown-row" v-on:click="copyToClipboard('schedule')">
+          <div class="column edit-dropdown-button">Copy Schedule URL</div>
         </div>
       </div>
+      <Spinner v-if="loading"/>
+    </div>
 
+    <div class="row row-border-bottom-light display-hide width-0" v-if="this.selectedWorkflow()._id">
+      <div class="column account-column-data column-20">
+        <div class="column text-button action action-text-center">Copy Return URL</div>
+      </div>
+      <div class="column account-column-data">
+        <input
+          type="text"
+          placeholder="Key"
+          class="column-input-text"
+          :value="triggerUrl('return')"
+          ref="returnUrl"
+        />
+      </div>
+    </div>
+
+    <div class="row row-border-bottom-light display-hide width-0" v-if="this.selectedWorkflow()._id">
+      <div class="column account-column-data column-20">
+        <div class="column text-button action action-text-center">Copy Queue URL</div>
+      </div>
+      <div class="column account-column-data">
+        <input
+          type="text"
+          placeholder="Key"
+          class="column-input-text"
+          :value="triggerUrl('queue')"
+          ref="queueUrl"
+        />
+      </div>
+    </div>
+
+    <div class="row row-border-bottom-light display-hide width-0" v-if="this.selectedWorkflow()._id">
+      <div class="column account-column-data column-20">
+        <div class="column text-button action action-text-center">Copy Schedule URL</div>
+      </div>
+      <div class="column account-column-data">
+        <input
+          type="text"
+          placeholder="Key"
+          class="column-input-text"
+          :value="triggerUrl('schedule')"
+          ref="scheduleUrl"
+        />
+      </div>
+    </div>
+
+
+    <div class="row flex-direction-column row-align-start">
+      <div class="column column-full-width row-border-bottom-light">
+        <p class="resource-label">Untitled Folder</p>
+      </div>
+      <div class="column column-full-width row-border-bottom-light">
+        <p class="resource-detail">Apple</p>
+      </div>
+      <div class="column column-full-width row-border-bottom-light">
+        <p class="resource-detail">Stripe</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 import moment from 'moment-timezone'
 import _ from 'lodash'
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 
 import Spinner from './Spinner'
 
 export default {
-  name: 'WorkflowQueueMenu',
+  name: 'DashboardResourceMenuWorkflow',
   data: function() {
     return {
       loading: false,
@@ -192,6 +200,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.resource-menu {
+  position: absolute;
+  top: 25px;
+  left: 50px;
+  bottom: 0;
+  width: 275px;
+  background: white;
+}
+.resource-menu-header {
+  margin: 3px;
+  padding: 0;
+  font-weight: 600;
+  font-size: 13px;
+}
+.resource-label {
+  margin: 3px;
+  padding: 0;
+  font-size: 12px;
+}
+.resource-detail {
+  margin: 3px;
+  padding: 0;
+  font-size: 14px;
+}
+
+
 .display-hide {
   visibility: hidden;
 }
