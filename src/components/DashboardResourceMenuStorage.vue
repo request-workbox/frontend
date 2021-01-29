@@ -37,7 +37,10 @@
 
 
     <div class="row flex-direction-column row-align-start">
-      <div class="column column-full-width row-border-bottom-light">
+
+      <DashboardResourceListStorage />
+
+      <!-- <div class="column column-full-width row-border-bottom-light">
         <p class="resource-label">Untitled Folder</p>
       </div>
       <div class="column column-full-width row-border-bottom-light">
@@ -45,7 +48,7 @@
       </div>
       <div class="column column-full-width row-border-bottom-light">
         <p class="resource-detail">Stripe</p>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -53,6 +56,8 @@
 <script>
 import moment from 'moment-timezone'
 import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
+
+import DashboardResourceListStorage from './DashboardResourceListStorage'
 
 import Spinner from './Spinner'
 
@@ -68,6 +73,7 @@ export default {
   },
   components: {
     Spinner,
+    DashboardResourceListStorage,
   },
   computed: {
     ...mapState('project', ['selectedProjectId']),
@@ -137,7 +143,7 @@ export default {
 .resource-label {
   margin: 3px;
   padding: 0;
-  font-size: 12px;
+  font-size: 11px;
 }
 .resource-detail {
   margin: 3px;

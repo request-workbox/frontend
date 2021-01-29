@@ -217,7 +217,7 @@ export default {
 .resource-label {
   margin: 3px;
   padding: 0;
-  font-size: 12px;
+  font-size: 11px;
 }
 .resource-detail {
   margin: 3px;

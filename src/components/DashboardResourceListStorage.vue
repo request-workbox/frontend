@@ -1,25 +1,23 @@
 <template>
   <div class="row">
-    <div class="column column-full-width padding-left-right-15">
+    <div class="column column-full-width">
 
       <div
         v-for="(storage) in visibleStorages()"
         v-bind:key="storage._id"
-        class="row storage-row"
+        class="row resource-row row-border-bottom-light"
         v-on:click="selectOrDeselectRowAction(storage)">
-
         <div 
-          v-bind:class="{'storage-button-nav-selected':rowIsActive(storage)}"
-          class="column column-full-width storage-button-nav">
-            <div class="row">
-              <div class="column column-grow">
-                <p class="storage-button-nav-text">{{ storage.name }}</p>
-              </div>
-              <div class="column text-light-blue text-22 padding-right-13" v-if="rowIsActive(storage)">•</div>
-          <div class="column text-white text-22 padding-right-13" v-if="!rowIsActive(storage)">•</div>
+          class="column column-full-width resource-button-nav"
+          v-bind:class="{'resource-button-nav-selected':rowIsActive(storage)}">
+          <div class="row">
+            <div class="column column-grow">
+              <p class="resource-button-nav-text">{{ storage.name }}</p>
             </div>
+            <div class="column text-dark-blue text-22 padding-right-13" v-if="rowIsActive(storage)">•</div>
+            <div class="column text-white text-22 padding-right-13" v-if="!rowIsActive(storage)">•</div>
           </div>
-
+        </div>
       </div>
 
       <div class="row row-border-bottom-light padding-top-bottom-5" v-if="!numberOfStorages">
@@ -36,7 +34,7 @@ import moment from 'moment-timezone'
 import _ from 'lodash'
 
 export default {
-  name: 'WorkflowStorageList',
+  name: 'DashboardResourceListStorage',
   computed: {
     ...mapState('storage', ['option','editing']),
     ...mapGetters('storage', ['visibleStorages','selectedStorage']),
@@ -62,34 +60,25 @@ export default {
     },
     selectOrDeselectRowAction: function(storage) {
       this.selectOrDeselectRow(storage)
-
-      // if (this.selectedStorage()._id === storage._id) {
-      //   this.$router.replace({ path: this.$route.name, query: { option: this.option, }}).catch((err) => err)
-      // } else {
-      //   this.$router.replace({ path: this.$route.name, query: { id: storage._id, option: this.option, }}).catch((err) => err)
-      // }
     },
   },
 };
 </script>
 
 <style lang="scss">
-.storage-row-selectable {
+.resource-row-selectable {
   cursor: pointer;
   background:white;
 }
-.storage-row-selectable:hover {
+.resource-row-selectable:hover {
   background: #dcf0ff !important;
-  // border-top: #2196f3 solid 1px !important;
-  // border-bottom: #2196f3 solid 1px !important;
-
   
 
   .text-white {
     color: #dcf0ff !important;
   }
 }
-.storage-row-selected {
+.resource-row-selected {
     background: #dcf0ff;
     font-weight: 600;
   }
@@ -106,7 +95,7 @@ export default {
   }
 
 
-  .storage-row {
+  .resource-row {
     .text-button-selected {
       background: #e3f5e2;
     }
@@ -122,7 +111,7 @@ export default {
     padding: 0 15px
   }
 
- .storage-button-nav {
+ .resource-button-nav {
     background: white;
     color: #395b75;
     cursor: pointer;
@@ -134,12 +123,12 @@ export default {
 
     border-radius: 3px;
 
-    transition: 0.7s;
+    // transition: 0.1s;
 
     border: solid 1px #9bce9a;
   }
 
-  .storage-button-nav-off {
+  .resource-button-nav-off {
     background: white;
     color: #395b75;
     font-size: 12px;
@@ -147,30 +136,29 @@ export default {
     width: 100%;
   }
 
-  .storage-button-nav-text {
+  .resource-button-nav-text {
     padding-left: 7px;
     margin: 7px;
   }
 
-  .storage-button-nav-selected {
-    .storage-button-nav-text {
+  .resource-button-nav-selected {
+    .resource-button-nav-text {
       color: #060b3e;
       font-weight: 600;
     }
   }
 
-  .storage-button-nav:hover {
+  .resource-button-nav:hover {
 
-    .storage-button-nav-text {
+    .resource-button-nav-text {
       color: #0c5894;
       color: #060b3e;
-      font-weight: 600;
     }
 
-    background: #d1f5e0;
+    background: #fbf9f9;
   }
 
-  .storage-button-nav-text-header {
+  .resource-button-nav-text-header {
     padding-left: 7px;
     font-weight: 700;
     cursor: default;

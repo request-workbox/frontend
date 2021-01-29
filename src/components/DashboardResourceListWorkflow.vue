@@ -1,25 +1,23 @@
 <template>
   <div class="row">
-    <div class="column column-full-width padding-left-right-15">
+    <div class="column column-full-width">
 
       <div
         v-for="(workflow) in visibleWorkflows()"
         v-bind:key="workflow._id"
-        class="row workflow-row"
+        class="row resource-row row-border-bottom-light"
         v-on:click="selectOrDeselectRowAction(workflow)">
-
         <div 
-          v-bind:class="{'workflow-button-nav-selected':rowIsActive(workflow)}"
-          class="column column-full-width workflow-button-nav">
-            <div class="row">
-              <div class="column column-grow">
-                <p class="workflow-button-nav-text">{{ workflow.name }}</p>
-              </div>
-              <div class="column text-light-blue text-22 padding-right-13" v-if="rowIsActive(workflow)">•</div>
-          <div class="column text-white text-22 padding-right-13" v-if="!rowIsActive(workflow)">•</div>
+          class="column column-full-width resource-button-nav"
+          v-bind:class="{'resource-button-nav-selected':rowIsActive(workflow)}">
+          <div class="row">
+            <div class="column column-grow">
+              <p class="resource-button-nav-text">{{ workflow.name }}</p>
             </div>
+            <div class="column text-dark-blue text-22 padding-right-13" v-if="rowIsActive(workflow)">•</div>
+            <div class="column text-white text-22 padding-right-13" v-if="!rowIsActive(workflow)">•</div>
           </div>
-
+        </div>
       </div>
 
       <div class="row row-border-bottom-light padding-top-bottom-5" v-if="!numberOfWorkflows">
@@ -36,7 +34,7 @@ import moment from 'moment-timezone'
 import _ from 'lodash'
 
 export default {
-  name: 'WorkflowList',
+  name: 'DashboardResourceListWorkflow',
   computed: {
     ...mapState('workflow', ['option']),
     ...mapGetters('workflow', ['visibleWorkflows','selectedWorkflow']),
@@ -58,34 +56,24 @@ export default {
     },
     selectOrDeselectRowAction: function(workflow) {
       this.selectOrDeselectRow(workflow)
-
-      // if (this.selectedWorkflow()._id === workflow._id) {
-      //   this.$router.replace({ path: this.$route.name, query: { option: this.option, }}).catch((err) => err)
-      // } else {
-      //   this.$router.replace({ path: this.$route.name, query: { id: workflow._id, option: this.option, }}).catch((err) => err)
-      // }
     },
   },
 };
 </script>
 
 <style lang="scss">
-.workflow-row-selectable {
+.resource-row-selectable {
   cursor: pointer;
   background:white;
 }
-.workflow-row-selectable:hover {
+.resource-row-selectable:hover {
   background: #dcf0ff !important;
-  // border-top: #2196f3 solid 1px !important;
-  // border-bottom: #2196f3 solid 1px !important;
-
-  
 
   .text-white {
     color: #dcf0ff !important;
   }
 }
-.workflow-row-selected {
+.resource-row-selected {
     background: #dcf0ff;
     border-top: #018eff solid 1px !important;
     border-bottom: #018eff solid 1px !important;
@@ -104,7 +92,7 @@ export default {
   }
 
 
-  .workflow-row {
+  .resource-row {
     .text-button-selected {
       background: #e3f5e2;
     }
@@ -113,14 +101,14 @@ export default {
     flex-direction: column;
     width: 175px;
 
-    padding-bottom:25px;
+    // padding-bottom:25px;
 
     background:white;
 
-    padding: 0 15px
+    // padding: 0 15px
   }
 
- .workflow-button-nav {
+ .resource-button-nav {
     background: white;
     color: #395b75;
     cursor: pointer;
@@ -128,16 +116,16 @@ export default {
 
     width: 100%;
 
-    margin: 2px 2px;
+    // margin: 3px;
 
-    border-radius: 3px;
+    // border-radius: 3px;
 
-    transition: 0.7s;
+    // transition: 0.1s;
 
-    border: solid 1px #82aed2;
+    // border: solid 1px #82aed2;
   }
 
-  .workflow-button-nav-off {
+  .resource-button-nav-off {
     background: white;
     color: #395b75;
     font-size: 12px;
@@ -145,31 +133,30 @@ export default {
     width: 100%;
   }
 
-  .workflow-button-nav-text {
-    padding-left: 7px;
-    margin: 7px;
+  .resource-button-nav-text {
+    padding-left: 3px;
+    margin: 0;
   }
 
-  .workflow-button-nav-selected {
-    .workflow-button-nav-text {
+  .resource-button-nav-selected {
+    .resource-button-nav-text {
       color: #060b3e;
       font-weight: 600;
     }
-    background: #addbff;
+    background: #f5f5f5;
   }
 
-  .workflow-button-nav:hover {
+  .resource-button-nav:hover {
 
-    .workflow-button-nav-text {
+    .resource-button-nav-text {
       color: #0c5894;
       color: #060b3e;
-      font-weight: 600;
     }
 
-    background: #d7ebfc;
+    background: #fbf9f9;
   }
 
-  .workflow-button-nav-text-header {
+  .resource-button-nav-text-header {
     padding-left: 7px;
     font-weight: 700;
     cursor: default;

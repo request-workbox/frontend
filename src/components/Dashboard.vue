@@ -69,7 +69,7 @@ export default {
 
         const project = await this.getProject({ projectId: this.projectId })
         // const requests = await this.listRequests({ projectId: this.projectId })
-        // const workflows = await this.listWorkflows({ projectId: this.projectId })
+        const workflows = await this.listWorkflows({ projectId: this.projectId })
         // const storages = await this.listStorages({ projectId: this.projectId })
 
         // const workflowOrderDirection = localStorage.getItem('workflowOrderDirection') || this.workflowOrderDirection

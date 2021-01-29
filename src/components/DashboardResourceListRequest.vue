@@ -1,25 +1,23 @@
 <template>
   <div class="row">
-    <div class="column column-full-width padding-left-right-15">
+    <div class="column column-full-width">
 
       <div
         v-for="(request) in visibleRequests()"
         v-bind:key="request._id"
-        class="row request-row"
+        class="row resource-row row-border-bottom-light"
         v-on:click="selectOrDeselectRowAction(request)">
-          <!-- <div class="column column-data column-20">{{ dateCreated(request.createdAt) }}</div> -->
-          <div class="column column-full-width request-button-nav">
-            <div class="row">
-              <div class="column column-grow">
-                <p class="request-button-nav-text">{{ request.name }}</p>
-              </div>
-              <div class="column padding-right-7">
-                <img class="width-11" src="/drag.svg" alt="">
-              </div>
+        <div 
+          class="column column-full-width resource-button-nav"
+          v-bind:class="{'resource-button-nav-selected':rowIsActive(request)}">
+          <div class="row">
+            <div class="column column-grow">
+              <p class="resource-button-nav-text">{{ request.name }}</p>
             </div>
+            <div class="column text-dark-blue text-22 padding-right-13" v-if="rowIsActive(request)">•</div>
+            <div class="column text-white text-22 padding-right-13" v-if="!rowIsActive(request)">•</div>
           </div>
-          <!-- <div class="column column-data column-grow">{{ request.url }}</div>
-          <div class="column column-data column-20">{{ request._id }}</div> -->
+        </div>
       </div>
 
       <div class="row row-border-bottom-light padding-top-bottom-5" v-if="!numberOfRequests">
@@ -36,7 +34,7 @@ import moment from 'moment-timezone'
 import _ from 'lodash'
 
 export default {
-  name: 'WorkflowRequestList',
+  name: 'DashboardResourceListRequest',
   computed: {
     ...mapState('request', ['option','editing']),
     ...mapGetters('request', ['visibleRequests','selectedRequest']),
@@ -57,12 +55,6 @@ export default {
     },
     selectOrDeselectRowAction: function(request) {
       this.selectOrDeselectRow(request)
-
-      // if (this.selectedRequest()._id === request._id) {
-      //   this.$router.replace({ path: this.$route.name, query: { option: this.option, }}).catch((err) => err)
-      // } else {
-      //   this.$router.replace({ path: this.$route.name, query: { id: request._id, option: this.option, }}).catch((err) => err)
-      // }
     },
   },
 };
@@ -70,7 +62,7 @@ export default {
 
 <style lang="scss">
 
-  .request-row {
+  .resource-row {
     .text-button-selected {
       background: #e3f5e2;
     }
@@ -86,7 +78,7 @@ export default {
     padding: 0 15px
   }
 
- .request-button-nav {
+ .resource-button-nav {
     background: white;
     color: #395b75;
     cursor: pointer;
@@ -98,12 +90,12 @@ export default {
 
     border-radius: 3px;
 
-    transition: 0.7s;
+    // transition: 0.1s;
 
     border: solid 1px #a5adff;
   }
 
-  .request-button-nav-off {
+  .resource-button-nav-off {
     background: white;
     color: #395b75;
     font-size: 12px;
@@ -111,34 +103,31 @@ export default {
     width: 100%;
   }
 
-  .request-button-nav-text {
+  .resource-button-nav-text {
     padding-left: 7px;
     margin: 7px;
   }
 
-  .request-button-nav-selected {
-    .request-button-nav-text {
+  .resource-button-nav-selected {
+    .resource-button-nav-text {
       color: #060b3e;
       font-weight: 600;
       font-size: 12px;
     }
-    background: #addbff;
+    background: #f5f5f5;
   }
 
-  .request-button-nav:hover {
+  .resource-button-nav:hover {
 
-    cursor: move;
-
-    .request-button-nav-text {
+    .resource-button-nav-text {
       color: #0c5894;
       color: #060b3e;
-      font-weight: 600;
     }
 
-    background: #d9dcff;
+    background: #fbf9f9;
   }
 
-  .request-button-nav-text-header {
+  .resource-button-nav-text-header {
     padding-left: 7px;
     font-weight: 700;
     cursor: default;

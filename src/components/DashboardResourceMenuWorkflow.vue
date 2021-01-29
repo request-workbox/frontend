@@ -38,14 +38,18 @@
 
     <div class="row flex-direction-column row-align-start">
       <div class="column column-full-width row-border-bottom-light">
-        <p class="resource-label">Untitled Folder</p>
+        <p class="resource-label">Untitled</p>
       </div>
-      <div class="column column-full-width row-border-bottom-light">
+
+      <DashboardResourceListWorkflow />
+
+      <!-- <div class="column column-full-width row-border-bottom-light">
         <p class="resource-detail">Apple</p>
       </div>
       <div class="column column-full-width row-border-bottom-light">
         <p class="resource-detail">Stripe</p>
-      </div>
+      </div> -->
+
     </div>
   </div>
 </template>
@@ -53,6 +57,8 @@
 <script>
 import moment from 'moment-timezone'
 import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
+
+import DashboardResourceListWorkflow from './DashboardResourceListWorkflow'
 
 import Spinner from './Spinner'
 
@@ -68,6 +74,7 @@ export default {
   },
   components: {
     Spinner,
+    DashboardResourceListWorkflow,
   },
   computed: {
     ...mapState('project', ['selectedProjectId']),
@@ -141,7 +148,7 @@ export default {
 .resource-label {
   margin: 3px;
   padding: 0;
-  font-size: 12px;
+  font-size: 11px;
 }
 .resource-detail {
   margin: 3px;
