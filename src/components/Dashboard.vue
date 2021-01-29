@@ -26,6 +26,11 @@ import DashboardWindows from './DashboardWindows'
 export default {
   name: 'Dashboard',
   props: ['projectId'],
+  data: function() {
+    return {
+      windowView: 'single', // horizontal
+    }
+  },
   components: {
     DashboardMenu,
     DashboardResourcePicker,
@@ -38,6 +43,12 @@ export default {
   beforeRouteUpdate(to, from, next) {
     // this.init()
     return next()
+  },
+  created() {
+    window.addEventListener('resize', this.resizeWindowAction)
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.resizeWindowAction)
   },
   computed: {
     ...mapState('workflow', ['workflowOrderDirection']),
@@ -86,13 +97,19 @@ export default {
       if (socketStat.queueDoc) this.addToQueues(socketStat.queueDoc)
       else if (socketStat.instanceDoc) this.addToInstances(socketStat.instanceDoc)
     },
+    resizeWindowAction: function() {
+      if (this.windowView === 'single') return this.$refs.dashboardWindows.singleWindow()
+      else if (this.windowView === 'horizontal') return this.$refs.dashboardWindows.splitHorizontal()
+    },
     mouseUpAction: function() {
       this.$refs.dashboardWindows.mouseUp()
     },
     singleWindowAction: function() {
+      this.windowView = 'single'
       this.$refs.dashboardWindows.singleWindow()
     },
     splitHoriziontalAction: function() {
+      this.windowView = 'horizontal'
       this.$refs.dashboardWindows.splitHorizontal()
     },
   },
