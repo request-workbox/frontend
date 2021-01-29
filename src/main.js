@@ -148,6 +148,7 @@ import requestModule from './shared/plugins/modules/Request'
 import storageModule from './shared/plugins/modules/Storage'
 import teamModule from './shared/plugins/modules/Team'
 import workflowModule from './shared/plugins/modules/Workflow'
+import dashboardModule from './shared/plugins/modules/Dashboard'
 
 Vue.use(vuex)
 const store = new vuex.Store({
@@ -165,6 +166,7 @@ const store = new vuex.Store({
     storage: storageModule,
     team: teamModule,
     workflow: workflowModule,
+    dashboard: dashboardModule,
   }
 })
 /**

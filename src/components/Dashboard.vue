@@ -7,7 +7,9 @@
 
     <DashboardResourcePicker />
 
-    <DashboardResourceMenuWorkflow />
+    <keep-alive>
+      <component :is="dashboardResource" />
+    </keep-alive>
 
     <DashboardWindows ref="dashboardWindows" />
 
@@ -16,6 +18,7 @@
 
 <script>
 import Vue from 'vue'
+import _ from 'lodash'
 import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 
 import DashboardMenu from './DashboardMenu'
@@ -51,8 +54,13 @@ export default {
     window.removeEventListener('resize', this.resizeWindowAction)
   },
   computed: {
+    ...mapState('dashboard',['selectedResource']),
     ...mapState('workflow', ['workflowOrderDirection']),
     ...mapGetters('storage', ['selectedStorage']),
+    dashboardResource: function() {
+      console.log(this.selectedResource)
+      return `DashboardResourceMenu${_.upperFirst(this.selectedResource)}`
+    },
   },
   methods: {
     ...mapMutations('queue', ['addToQueues','editCurrentTime']),

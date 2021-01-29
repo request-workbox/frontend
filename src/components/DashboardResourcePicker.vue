@@ -35,6 +35,9 @@ export default {
       queueTooltip: false,
     }
   },
+  computed: {
+    ...mapState('dashboard',['selectedResource'])
+  },
   methods: {
     showTooltip: function(type) {
       const tooltipType = `${type}Tooltip`
