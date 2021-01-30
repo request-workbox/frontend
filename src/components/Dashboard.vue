@@ -23,8 +23,12 @@ import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 
 import DashboardMenu from './DashboardMenu'
 import DashboardResourcePicker from './DashboardResourcePicker'
-import DashboardResourceMenuWorkflow from './DashboardResourceMenuWorkflow'
 import DashboardWindows from './DashboardWindows'
+
+import DashboardResourceMenuWorkflow from './DashboardResourceMenuWorkflow'
+import DashboardResourceMenuRequest from './DashboardResourceMenuRequest'
+import DashboardResourceMenuStorage from './DashboardResourceMenuStorage'
+import DashboardResourceMenuQueue from './DashboardResourceMenuQueue'
 
 export default {
   name: 'Dashboard',
@@ -37,8 +41,11 @@ export default {
   components: {
     DashboardMenu,
     DashboardResourcePicker,
-    DashboardResourceMenuWorkflow,
     DashboardWindows,
+    DashboardResourceMenuWorkflow,
+    DashboardResourceMenuRequest,
+    DashboardResourceMenuStorage,
+    DashboardResourceMenuQueue,
   },
   mounted: function () {
     this.init()
@@ -76,9 +83,9 @@ export default {
       try {
 
         const project = await this.getProject({ projectId: this.projectId })
-        // const requests = await this.listRequests({ projectId: this.projectId })
+        const requests = await this.listRequests({ projectId: this.projectId })
         const workflows = await this.listWorkflows({ projectId: this.projectId })
-        // const storages = await this.listStorages({ projectId: this.projectId })
+        const storages = await this.listStorages({ projectId: this.projectId })
 
         // const workflowOrderDirection = localStorage.getItem('workflowOrderDirection') || this.workflowOrderDirection
         // this.updateWorkflowOrderDirection({ workflowOrderDirection, })
@@ -190,6 +197,9 @@ export default {
 
 .resource:hover {
   background: #d1d1d1;
+}
+.resource-selected {
+  background: #d1d1d1 !important;
 }
 
 .windows {
@@ -322,6 +332,43 @@ export default {
   left: 0;
   right: 0;
   height: 30px;
+}
+
+.panel-1-view {
+  position: relative;
+  background: lightblue;
+  top: 30px;
+  left: 0;
+  right: 0;
+  height: 100%;
+  overflow: auto;
+}
+.panel-2-view {
+  position: relative;
+  background:lightcoral;
+  top: 30px;
+  left: 0;
+  right: 0;
+  height: 100%;
+  overflow: auto;
+}
+.panel-3-view {
+  position: relative;
+  background:lightgreen;
+  top: 30px;
+  left: 0;
+  right: 0;
+  height: 100%;
+  overflow: auto;
+}
+.panel-4-view {
+  position: relative;
+  background:lightseagreen;
+  top: 30px;
+  left: 0;
+  right: 0;
+  height: 100%;
+  overflow: auto;
 }
 
 

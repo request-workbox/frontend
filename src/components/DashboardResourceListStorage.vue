@@ -5,7 +5,7 @@
       <div
         v-for="(storage) in visibleStorages()"
         v-bind:key="storage._id"
-        class="row resource-row row-border-bottom-light"
+        class="row resource-row"
         v-on:click="selectOrDeselectRowAction(storage)">
         <div 
           class="column column-full-width resource-button-nav"
@@ -14,13 +14,13 @@
             <div class="column column-grow">
               <p class="resource-button-nav-text">{{ storage.name }}</p>
             </div>
-            <div class="column text-dark-blue text-22 padding-right-13" v-if="rowIsActive(storage)">•</div>
-            <div class="column text-white text-22 padding-right-13" v-if="!rowIsActive(storage)">•</div>
+            <div class="column text-dark-blue text-22" v-if="rowIsActive(storage)">•</div>
+            <div class="column text-white text-22" v-if="!rowIsActive(storage)">•</div>
           </div>
         </div>
       </div>
 
-      <div class="row row-border-bottom-light padding-top-bottom-5" v-if="!numberOfStorages">
+      <div class="row padding-top-bottom-5" v-if="!numberOfStorages">
         <div class="column column-grow text-center text-12 text-light-grey">You don't have any storages here.</div>
       </div>
 
@@ -116,16 +116,8 @@ export default {
     color: #395b75;
     cursor: pointer;
     font-size: 11px;
-
     width: 100%;
-
-    margin: 2px 2px;
-
-    border-radius: 3px;
-
-    // transition: 0.1s;
-
-    border: solid 1px #9bce9a;
+    padding: 0 3px;
   }
 
   .resource-button-nav-off {
@@ -137,32 +129,22 @@ export default {
   }
 
   .resource-button-nav-text {
-    padding-left: 7px;
-    margin: 7px;
+    padding: 0;
+    margin: 0;
   }
 
   .resource-button-nav-selected {
     .resource-button-nav-text {
       color: #060b3e;
-      font-weight: 600;
     }
   }
 
   .resource-button-nav:hover {
 
     .resource-button-nav-text {
-      color: #0c5894;
       color: #060b3e;
     }
 
     background: #fbf9f9;
-  }
-
-  .resource-button-nav-text-header {
-    padding-left: 7px;
-    font-weight: 700;
-    cursor: default;
-    font-size: 10px !important;
-    text-transform: uppercase;
   }
 </style>

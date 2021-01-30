@@ -1,7 +1,7 @@
 <template>
   <div class="resource-menu">
     <div class="row row-border-bottom-light">
-      <div class="column column-grow workflow-column-data-header text-11">
+      <div class="column column-grow resource-column-data-header text-11">
         QUEUE
       </div>
       <div class="column cursor-pointer" v-if="!loading" @mouseover="showAddTooltip" @mouseout="hideAddTooltip" v-on:click="listQueuesAction()">
@@ -75,18 +75,6 @@
       </div>
     </div>
 
-
-    <div class="row flex-direction-column row-align-start">
-      <div class="column column-full-width row-border-bottom-light">
-        <p class="resource-label">Untitled Folder</p>
-      </div>
-      <div class="column column-full-width row-border-bottom-light">
-        <p class="resource-detail">Apple</p>
-      </div>
-      <div class="column column-full-width row-border-bottom-light">
-        <p class="resource-detail">Stripe</p>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -215,14 +203,9 @@ export default {
   font-size: 13px;
 }
 .resource-label {
-  margin: 3px;
-  padding: 0;
+  margin: 0;
+  padding: 0 3px;
   font-size: 11px;
-}
-.resource-detail {
-  margin: 3px;
-  padding: 0;
-  font-size: 14px;
 }
 
 
@@ -297,10 +280,11 @@ export default {
   background: #d8dce6;
 }
 
-.workflow-column-data-header {
+.resource-column-data-header {
   white-space: nowrap;
   overflow: auto;
   font-size: 10px;
   font-weight: 600;
+  padding: 0 3px;
 }
 </style>

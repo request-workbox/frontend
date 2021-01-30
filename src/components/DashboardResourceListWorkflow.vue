@@ -5,7 +5,7 @@
       <div
         v-for="(workflow) in visibleWorkflows()"
         v-bind:key="workflow._id"
-        class="row resource-row row-border-bottom-light"
+        class="row resource-row"
         v-on:click="selectOrDeselectRowAction(workflow)">
         <div 
           class="column column-full-width resource-button-nav"
@@ -14,13 +14,13 @@
             <div class="column column-grow">
               <p class="resource-button-nav-text">{{ workflow.name }}</p>
             </div>
-            <div class="column text-dark-blue text-22 padding-right-13" v-if="rowIsActive(workflow)">•</div>
-            <div class="column text-white text-22 padding-right-13" v-if="!rowIsActive(workflow)">•</div>
+            <div class="column text-dark-blue text-22" v-if="rowIsActive(workflow)">•</div>
+            <div class="column text-white text-22" v-if="!rowIsActive(workflow)">•</div>
           </div>
         </div>
       </div>
 
-      <div class="row row-border-bottom-light padding-top-bottom-5" v-if="!numberOfWorkflows">
+      <div class="row padding-top-bottom-5" v-if="!numberOfWorkflows">
         <div class="column column-grow text-center text-12 text-light-grey">You don't have any workflows here.</div>
       </div>
 
@@ -113,16 +113,8 @@ export default {
     color: #395b75;
     cursor: pointer;
     font-size: 11px;
-
     width: 100%;
-
-    // margin: 3px;
-
-    // border-radius: 3px;
-
-    // transition: 0.1s;
-
-    // border: solid 1px #82aed2;
+    padding: 0 3px;
   }
 
   .resource-button-nav-off {
@@ -134,7 +126,7 @@ export default {
   }
 
   .resource-button-nav-text {
-    padding-left: 3px;
+    padding: 0;
     margin: 0;
   }
 
@@ -149,18 +141,9 @@ export default {
   .resource-button-nav:hover {
 
     .resource-button-nav-text {
-      color: #0c5894;
       color: #060b3e;
     }
 
     background: #fbf9f9;
-  }
-
-  .resource-button-nav-text-header {
-    padding-left: 7px;
-    font-weight: 700;
-    cursor: default;
-    font-size: 10px !important;
-    text-transform: uppercase;
   }
 </style>

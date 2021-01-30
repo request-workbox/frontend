@@ -3,10 +3,12 @@
     <div ref="window1" class="window-1">
       <div ref="panel1" class="panel-1">
         <div ref="panel1menu" class="panel-1-menu"></div>
+        <div class="panel-1-view">ABCD</div>
       </div>
       <div ref="panel2" class="panel-2">
         <div ref="panel2slider" class="panel-2-slider" v-on:mousedown="panel2MouseDown"></div>
         <div ref="panel2menu" class="panel-2-menu"></div>
+        <div class="panel-2-view">ABCD</div>
       </div>
     </div>
 
@@ -14,10 +16,12 @@
       <div ref="windowSlider" class="window-slider" v-on:mousedown="windowDown"></div>
       <div ref="panel3" class="panel-3">
         <div ref="panel3menu" class="panel-3-menu"></div>
+        <div class="panel-3-view">ABCD</div>
       </div>
       <div ref="panel4" class="panel-4">
         <div ref="panel4slider" class="panel-4-slider" v-on:mousedown="panel4MouseDown"></div>
         <div ref="panel4menu" class="panel-4-menu"></div>
+        <div class="panel-4-view">ABCD</div>
       </div>
     </div>
   </div>

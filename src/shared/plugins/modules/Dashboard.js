@@ -35,7 +35,9 @@ const actions = {
 }
 
 const mutations = {
-
+    updateSelectedResource(state, payload) {
+        state.selectedResource = payload
+    },
 }
 
 export default {
